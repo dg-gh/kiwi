@@ -182,8 +182,8 @@ namespace kiwi
 		friend class _load_basic_2d_proxy;
 		friend class _load_basic_3d_proxy;
 
-		friend class picker_2d_proxy;
-		friend class picker_3d_proxy;
+		friend class _picker_2d_proxy;
+		friend class _picker_3d_proxy;
 
 		kiwi::_draw_basic_proxy& using_indices(const kiwi::index_buffer& index_buffer) noexcept;
 		kiwi::_draw_basic_proxy& using_indices(const kiwi::index_buffer& index_buffer, std::size_t index_count) noexcept;
@@ -239,8 +239,8 @@ namespace kiwi
 		friend class _load_basic_2d_proxy;
 		friend class _load_basic_3d_proxy;
 
-		friend class picker_2d_proxy;
-		friend class picker_3d_proxy;
+		friend class _picker_2d_proxy;
+		friend class _picker_3d_proxy;
 
 		kiwi::_draw_instanced_basic_proxy& using_indices(const kiwi::index_buffer& index_buffer) noexcept;
 		kiwi::_draw_instanced_basic_proxy& using_indices(const kiwi::index_buffer& index_buffer, std::size_t index_count) noexcept;

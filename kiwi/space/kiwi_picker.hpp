@@ -11,8 +11,8 @@
 namespace kiwi
 {
 	class scoped_picker;
-	class picker_2d_proxy;
-	class picker_3d_proxy;
+	class _picker_2d_proxy;
+	class _picker_3d_proxy;
 
 	class picker
 	{
@@ -20,8 +20,8 @@ namespace kiwi
 	public:
 
 		friend class scoped_picker;
-		friend class picker_2d_proxy;
-		friend class picker_3d_proxy;
+		friend class _picker_2d_proxy;
+		friend class _picker_3d_proxy;
 
 		picker() = default;
 		picker(const kiwi::picker&) = delete;
@@ -63,9 +63,9 @@ namespace kiwi
 		kiwi::scoped_picker& operator=(kiwi::scoped_picker&&) = delete;
 		~scoped_picker();
 
-		kiwi::picker_2d_proxy assign_id_2d_with();
-		kiwi::picker_2d_proxy assign_id_2d_with(const GLfloat* const mvp_matrix_ptr);
-		kiwi::picker_3d_proxy assign_id_3d_with(const GLfloat* const mvp_matrix_ptr);
+		kiwi::_picker_2d_proxy assign_id_2d_with();
+		kiwi::_picker_2d_proxy assign_id_2d_with(const GLfloat* const mvp_matrix_ptr);
+		kiwi::_picker_3d_proxy assign_id_3d_with(const GLfloat* const mvp_matrix_ptr);
 
 		kiwi::scoped_picker& clear_on_exit() noexcept;
 		kiwi::scoped_picker& save_on_exit() noexcept;
@@ -78,7 +78,7 @@ namespace kiwi
 		bool m_clear_on_exit;
 	};
 
-	class picker_2d_proxy
+	class _picker_2d_proxy
 	{
 
 	private:
@@ -97,7 +97,7 @@ namespace kiwi
 			const GLfloat* const mvp_matrix_2d_ptr = nullptr) noexcept;
 	};
 
-	class picker_3d_proxy
+	class _picker_3d_proxy
 	{
 
 	private:

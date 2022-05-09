@@ -131,25 +131,25 @@ kiwi::scoped_picker::~scoped_picker()
 	m_picker_ptr->m_frame_buffer.exit_frame();
 }
 
-kiwi::picker_2d_proxy kiwi::scoped_picker::assign_id_2d_with()
+kiwi::_picker_2d_proxy kiwi::scoped_picker::assign_id_2d_with()
 {
-	kiwi::picker_2d_proxy proxy;
+	kiwi::_picker_2d_proxy proxy;
 	proxy.m_picker_ptr = m_picker_ptr;
 	proxy.m_transformation_matrix_ptr = nullptr;
 	return proxy;
 }
 
-kiwi::picker_2d_proxy kiwi::scoped_picker::assign_id_2d_with(const GLfloat* const mvp_matrix_ptr)
+kiwi::_picker_2d_proxy kiwi::scoped_picker::assign_id_2d_with(const GLfloat* const mvp_matrix_ptr)
 {
-	kiwi::picker_2d_proxy proxy;
+	kiwi::_picker_2d_proxy proxy;
 	proxy.m_picker_ptr = m_picker_ptr;
 	proxy.m_transformation_matrix_ptr = mvp_matrix_ptr;
 	return proxy;
 }
 
-kiwi::picker_3d_proxy kiwi::scoped_picker::assign_id_3d_with(const GLfloat* const mvp_matrix_ptr)
+kiwi::_picker_3d_proxy kiwi::scoped_picker::assign_id_3d_with(const GLfloat* const mvp_matrix_ptr)
 {
-	kiwi::picker_3d_proxy proxy;
+	kiwi::_picker_3d_proxy proxy;
 	proxy.m_picker_ptr = m_picker_ptr;
 	proxy.m_transformation_matrix_ptr = mvp_matrix_ptr;
 	return proxy;
@@ -173,7 +173,7 @@ GLushort kiwi::scoped_picker::pick_id(std::size_t pixel_X, std::size_t pixel_Y) 
 }
 
 
-kiwi::_draw_basic_proxy kiwi::picker_2d_proxy::using_vertex(const kiwi::vertex_buffer& vertex_buffer, GLushort entity_id) noexcept
+kiwi::_draw_basic_proxy kiwi::_picker_2d_proxy::using_vertex(const kiwi::vertex_buffer& vertex_buffer, GLushort entity_id) noexcept
 {
 	vertex_buffer.to_location(0);
 
@@ -194,7 +194,7 @@ kiwi::_draw_basic_proxy kiwi::picker_2d_proxy::using_vertex(const kiwi::vertex_b
 	return proxy;
 }
 
-kiwi::_draw_instanced_basic_proxy kiwi::picker_2d_proxy::using_vertex(const kiwi::vertex_buffer& vertex_buffer, const kiwi::XY_id_set& XY_id_set,
+kiwi::_draw_instanced_basic_proxy kiwi::_picker_2d_proxy::using_vertex(const kiwi::vertex_buffer& vertex_buffer, const kiwi::XY_id_set& XY_id_set,
 	const GLfloat* const mvp_matrix_2d_ptr) noexcept
 {
 	vertex_buffer.to_location(0);
@@ -217,7 +217,7 @@ kiwi::_draw_instanced_basic_proxy kiwi::picker_2d_proxy::using_vertex(const kiwi
 	return proxy;
 }
 
-kiwi::_draw_instanced_basic_proxy kiwi::picker_2d_proxy::using_vertex(const kiwi::vertex_buffer& vertex_buffer, const kiwi::XYZ_id_set& XYZ_id_set, 
+kiwi::_draw_instanced_basic_proxy kiwi::_picker_2d_proxy::using_vertex(const kiwi::vertex_buffer& vertex_buffer, const kiwi::XYZ_id_set& XYZ_id_set, 
 	const GLfloat* const mvp_matrix_2d_ptr) noexcept
 {
 	vertex_buffer.to_location(0);
@@ -240,7 +240,7 @@ kiwi::_draw_instanced_basic_proxy kiwi::picker_2d_proxy::using_vertex(const kiwi
 	return proxy;
 }
 
-kiwi::_draw_basic_proxy kiwi::picker_3d_proxy::using_vertex(const kiwi::vertex_buffer& vertex_buffer, GLushort entity_id) noexcept
+kiwi::_draw_basic_proxy kiwi::_picker_3d_proxy::using_vertex(const kiwi::vertex_buffer& vertex_buffer, GLushort entity_id) noexcept
 {
 	vertex_buffer.to_location(0);
 
