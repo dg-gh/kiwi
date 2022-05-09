@@ -102,10 +102,10 @@ namespace kiwi
 
 		kiwi::texture_buffer& to_binding(GLenum binding) noexcept;
 		const kiwi::texture_buffer& to_binding(GLenum binding) const noexcept;
-		kiwi::texture_buffer& to_binding_for_invocation(GLuint binding) noexcept;
-		const kiwi::texture_buffer& to_binding_for_invocation(GLuint binding) const noexcept;
-		kiwi::texture_buffer& unbind_for_invocation(GLuint binding) noexcept;
-		const kiwi::texture_buffer& unbind_for_invocation(GLuint binding) const noexcept;
+		kiwi::texture_buffer& to_binding_for_compute(GLuint binding) noexcept;
+		const kiwi::texture_buffer& to_binding_for_compute(GLuint binding) const noexcept;
+		kiwi::texture_buffer& unbind_for_compute(GLuint binding) noexcept;
+		const kiwi::texture_buffer& unbind_for_compute(GLuint binding) const noexcept;
 
 		std::size_t pixel_dim() const noexcept;
 		std::size_t width() const noexcept;
