@@ -82,15 +82,15 @@ namespace kiwi
 			kiwi::texture_mapping mapping, kiwi::texture_borders borders) noexcept;
 
 
-		kiwi::texture_buffer& load_i8u(const unsigned char* const texture_data_ptr,
+		kiwi::texture_buffer& load_i8u(const char* const texture_data_ptr,
 			kiwi::size size_2d, std::size_t pixel_dim,
 			kiwi::texture_mapping mapping, kiwi::texture_borders borders) noexcept;
 
-		kiwi::texture_buffer& load_i16u(const unsigned char* const texture_data_ptr,
+		kiwi::texture_buffer& load_i16u(const GLshort* const texture_data_ptr,
 			kiwi::size size_2d, std::size_t pixel_dim,
 			kiwi::texture_mapping mapping, kiwi::texture_borders borders) noexcept;
 
-		kiwi::texture_buffer& load_i32u(const unsigned char* const texture_data_ptr,
+		kiwi::texture_buffer& load_i32u(const GLint* const texture_data_ptr,
 			kiwi::size size_2d, std::size_t pixel_dim,
 			kiwi::texture_mapping mapping, kiwi::texture_borders borders) noexcept;
 

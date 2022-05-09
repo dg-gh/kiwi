@@ -712,7 +712,7 @@ kiwi::texture_buffer& kiwi::texture_buffer::load_u32u(const GLuint* const textur
 }
 
 
-kiwi::texture_buffer& kiwi::texture_buffer::load_i8u(const unsigned char* const texture_data_ptr, kiwi::size size_2d,
+kiwi::texture_buffer& kiwi::texture_buffer::load_i8u(const char* const texture_data_ptr, kiwi::size size_2d,
 	std::size_t pixel_dimension, kiwi::texture_mapping mapping, kiwi::texture_borders borders) noexcept
 {
 	if (m_buffer_index != 0)
@@ -795,7 +795,7 @@ kiwi::texture_buffer& kiwi::texture_buffer::load_i8u(const unsigned char* const 
 	return *this;
 }
 
-kiwi::texture_buffer& kiwi::texture_buffer::load_i16u(const unsigned char* const texture_data_ptr, kiwi::size size_2d,
+kiwi::texture_buffer& kiwi::texture_buffer::load_i16u(const GLshort* const texture_data_ptr, kiwi::size size_2d,
 	std::size_t pixel_dimension, kiwi::texture_mapping mapping, kiwi::texture_borders borders) noexcept
 {
 	if (m_buffer_index != 0)
@@ -878,7 +878,7 @@ kiwi::texture_buffer& kiwi::texture_buffer::load_i16u(const unsigned char* const
 	return *this;
 }
 
-kiwi::texture_buffer& kiwi::texture_buffer::load_i32u(const unsigned char* const texture_data_ptr, kiwi::size size_2d,
+kiwi::texture_buffer& kiwi::texture_buffer::load_i32u(const GLint* const texture_data_ptr, kiwi::size size_2d,
 	std::size_t pixel_dimension, kiwi::texture_mapping mapping, kiwi::texture_borders borders) noexcept
 {
 	if (m_buffer_index != 0)
