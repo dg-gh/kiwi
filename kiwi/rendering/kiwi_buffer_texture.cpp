@@ -1,6 +1,5 @@
 #include "rendering/kiwi_buffer_texture.hpp"
 
-
 kiwi::texture_buffer::texture_buffer() noexcept
 {
 	m_buffer_index = 0;

@@ -3,7 +3,6 @@
 
 #include "context/kiwi_context.hpp"
 
-
 namespace kiwi
 {
 	enum class texture_mapping {
