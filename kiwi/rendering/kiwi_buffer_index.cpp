@@ -101,18 +101,10 @@ const kiwi::index_buffer& kiwi::index_buffer::bind() const noexcept
 	return *this;
 }
 
-kiwi::index_buffer& kiwi::index_buffer::unbind() noexcept
+void kiwi::index_buffer::unbind() noexcept
 {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	kiwi::context::current_buffer() = nullptr;
-	return *this;
-}
-
-const kiwi::index_buffer& kiwi::index_buffer::unbind() const noexcept
-{
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	kiwi::context::current_buffer() = nullptr;
-	return *this;
 }
 
 kiwi::index_buffer& kiwi::index_buffer::load(const GLuint* const index_data_ptr, std::size_t new_index_count) noexcept

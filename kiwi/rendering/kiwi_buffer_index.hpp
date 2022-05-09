@@ -30,8 +30,7 @@ namespace kiwi
 
 		kiwi::index_buffer& bind() noexcept;
 		const kiwi::index_buffer& bind() const noexcept;
-		kiwi::index_buffer& unbind() noexcept;
-		const kiwi::index_buffer& unbind() const noexcept;
+		static void unbind() noexcept;
 
 		kiwi::index_buffer& load(const GLuint* const index_data_ptr, std::size_t new_index_count) noexcept;
 		std::size_t index_count() const noexcept;
