@@ -29,7 +29,7 @@ namespace kiwi
 
 		kiwi::storage_buffer& bind() noexcept;
 		const kiwi::storage_buffer& bind() const noexcept;
-		void unbind() noexcept;
+		static void unbind() noexcept;
 
 		kiwi::storage_buffer& load(const void* const storage_data_ptr, std::size_t number_of_bytes) noexcept;
 		kiwi::storage_buffer& allocate(std::size_t number_of_bytes) noexcept;
