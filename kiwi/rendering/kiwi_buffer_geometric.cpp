@@ -43,6 +43,78 @@ kiwi::geometric_buffer_2d& kiwi::geometric_buffer_2d::draw(const GLfloat* const 
 	return *this;
 }
 
+kiwi::geometric_buffer_2d& kiwi::geometric_buffer_2d::draw_to_current(const GLfloat* const view_right_up_XY_ptr, GLfloat view_Z, const kiwi::lightset& lights, const kiwi::light_selection& selection, bool blit_depth_buffer) noexcept
+{
+	kiwi::mode::disable_depth();
+
+	m_albedo_RGB.to_binding(0);
+	m_N.to_binding(1);
+	m_RMEC.to_binding(2);
+	m_lightmap_RGB.to_binding(3);
+
+	lights.to_binding(0, 1, 2);
+	selection.to_binding(3, 4, 5);
+
+	m_deferred_2d_lighting.set_uniform_3x3f(m_view_left_up_XY_location, view_right_up_XY_ptr)
+		.set_uniform_1f(m_view_Z_location, view_Z)
+		.set_uniform_3ui(m_light_count_location, selection.number_of_lights_data())
+		.set_uniform_3f(m_ambient_light_RGB_location, lights.ambient_RGB_data());
+
+	glDrawArrays(GL_QUADS, 0, 4);
+
+	if (blit_depth_buffer)
+	{
+		const kiwi::frame_buffer* ptr = static_cast<const kiwi::frame_buffer*>(kiwi::context::current_frame_buffer());
+		GLuint draw_id;
+		if (ptr != nullptr)
+		{
+			draw_id = ptr->get_id();
+		}
+		else
+		{
+			draw_id = 0;
+		}
+
+		glBindFramebuffer(GL_READ_FRAMEBUFFER, m_frame_buffer.get_id());
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, draw_id);
+		glBlitFramebuffer(0, 0, m_width, m_height, 0, 0, m_width, m_height, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+	}
+
+	return *this;
+}
+
+kiwi::geometric_buffer_2d& kiwi::geometric_buffer_2d::draw(const GLfloat* const view_right_up_XY_ptr, GLfloat view_Z, const kiwi::lightset& lights, const kiwi::light_selection& selection,
+	kiwi::frame_buffer& frame_buffer, std::size_t color_attachment, bool blit_depth_buffer) noexcept
+{
+	frame_buffer.use_with_texture(color_attachment);
+
+	kiwi::mode::disable_depth();
+
+	m_albedo_RGB.to_binding(0);
+	m_N.to_binding(1);
+	m_RMEC.to_binding(2);
+	m_lightmap_RGB.to_binding(3);
+
+	lights.to_binding(0, 1, 2);
+	selection.to_binding(3, 4, 5);
+
+	m_deferred_2d_lighting.set_uniform_3x3f(m_view_left_up_XY_location, view_right_up_XY_ptr)
+		.set_uniform_1f(m_view_Z_location, view_Z)
+		.set_uniform_3ui(m_light_count_location, selection.number_of_lights_data())
+		.set_uniform_3f(m_ambient_light_RGB_location, lights.ambient_RGB_data());
+
+	glDrawArrays(GL_QUADS, 0, 4);
+
+	if (blit_depth_buffer)
+	{
+		glBindFramebuffer(GL_READ_FRAMEBUFFER, m_frame_buffer.get_id());
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+		glBlitFramebuffer(0, 0, m_width, m_height, 0, 0, m_width, m_height, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+	}
+
+	return *this;
+}
+
 bool kiwi::geometric_buffer_2d::init(std::size_t width, std::size_t height) noexcept
 {
 	m_width = width;
@@ -258,9 +330,9 @@ kiwi::geometric_buffer_3d& kiwi::geometric_buffer_3d::draw_to_current(const GLfl
 }
 
 kiwi::geometric_buffer_3d& kiwi::geometric_buffer_3d::draw(const GLfloat* const view_front_left_up_XYZ_ptr, const kiwi::lightset& lights, const kiwi::light_selection& selection,
-	kiwi::frame_buffer& frame_buffer, std::size_t color_attachmaent, bool blit_depth_buffer) noexcept
+	kiwi::frame_buffer& frame_buffer, std::size_t color_attachment, bool blit_depth_buffer) noexcept
 {
-	frame_buffer.use_with_texture(color_attachmaent);
+	frame_buffer.use_with_texture(color_attachment);
 
 	kiwi::mode::disable_depth();
 
