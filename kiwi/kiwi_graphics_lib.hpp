@@ -24,6 +24,8 @@
 
 #include "shader_sources/kiwi_sources_basic_2d.hpp"
 #include "shader_sources/kiwi_sources_basic_3d.hpp"
+#include "shader_sources/kiwi_sources_deferred_2d.hpp"
+#include "shader_sources/kiwi_sources_deferred_3d.hpp"
 #include "shader_sources/kiwi_sources_forward_2d.hpp"
 #include "shader_sources/kiwi_sources_forward_3d.hpp"
 
