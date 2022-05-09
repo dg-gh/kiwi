@@ -618,7 +618,7 @@ kiwi::_load_forward_3d_proxy kiwi::draw_forward_3d_with(const kiwi::lightset& li
 
 // 2D
 
-kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_solid_color(const kiwi::vertex_buffer& vertex_buffer, const kiwi::RGBA& solid_color, const kiwi::RMEC& RMEC) noexcept
+kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_solid_color(const kiwi::vertex_buffer& vertex_buffer, const kiwi::RGBA& solid_color, const kiwi::RMEC& RMEC) noexcept
 {
 	kiwi::global_type<kiwi::forward_buffers> buffers = kiwi::get_global_type<kiwi::forward_buffers>();
 
@@ -635,12 +635,12 @@ kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_solid_color(const k
 		.set_uniform_4f(buffers.m_program_solid_color_2d.RMEC_location, RMEC.data())
 		.set_uniform_4f(buffers.m_program_solid_color_2d.RGBA_location, solid_color.data());
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
-kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_color_gradient(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& color_vertex_buffer, const kiwi::RMEC& RMEC) noexcept
+kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_color_gradient(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& color_vertex_buffer, const kiwi::RMEC& RMEC) noexcept
 {
 	kiwi::global_type<kiwi::forward_buffers> buffers = kiwi::get_global_type<kiwi::forward_buffers>();
 
@@ -657,12 +657,12 @@ kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_color_gradient(cons
 		.set_uniform_3ui(buffers.m_program_color_gradient_sRMEC_2d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_4f(buffers.m_program_color_gradient_sRMEC_2d.RMEC_location, RMEC.data());
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
-kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_color_gradient(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& color_vertex_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_color_gradient(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& color_vertex_buffer,
 	const kiwi::vertex_buffer& RMEC_vertex_buffer) noexcept
 {
 	kiwi::global_type<kiwi::forward_buffers> buffers = kiwi::get_global_type<kiwi::forward_buffers>();
@@ -681,12 +681,12 @@ kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_color_gradient(cons
 		.set_uniform_3ui(buffers.m_program_color_gradient_vRMEC_2d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_1f(buffers.m_program_color_gradient_vRMEC_2d.C_location, static_cast<GLfloat>(1));
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
-kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_color_gradient(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& color_vertex_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_color_gradient(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& color_vertex_buffer,
 	const kiwi::vertex_buffer& RMEC_vertex_buffer, GLfloat color_ceiling) noexcept
 {
 	kiwi::global_type<kiwi::forward_buffers> buffers = kiwi::get_global_type<kiwi::forward_buffers>();
@@ -705,7 +705,7 @@ kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_color_gradient(cons
 		.set_uniform_3ui(buffers.m_program_color_gradient_vRMEC_2d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_1f(buffers.m_program_color_gradient_vRMEC_2d.C_location, color_ceiling);
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
@@ -713,7 +713,7 @@ kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_color_gradient(cons
 
 // TEXTURE 2D
 
-kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer,
 	const kiwi::texture_buffer& texture, const kiwi::RMEC& RMEC) noexcept
 {
 	kiwi::global_type<kiwi::forward_buffers> buffers = kiwi::get_global_type<kiwi::forward_buffers>();
@@ -735,12 +735,12 @@ kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture(const kiwi:
 		.set_uniform_3ui(buffers.m_program_texture_sRMEC_2d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_4f(buffers.m_program_texture_sRMEC_2d.RMEC_location, RMEC.data());
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
-kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer,
 	const kiwi::texture_buffer& texture, const kiwi::RMEC& RMEC, const kiwi::vertex_buffer& UV_lightmap_buffer, const kiwi::texture_buffer& lightmap) noexcept
 {
 	kiwi::global_type<kiwi::forward_buffers> buffers = kiwi::get_global_type<kiwi::forward_buffers>();
@@ -762,13 +762,13 @@ kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture_lightmapped
 		.set_uniform_3ui(buffers.m_program_texture_sRMEC_2d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_4f(buffers.m_program_texture_sRMEC_2d.RMEC_location, RMEC.data());
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
 
-kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture,
+kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture,
 	const kiwi::vertex_buffer& RMEC_vertex_buffer) noexcept
 {
 	kiwi::global_type<kiwi::forward_buffers> buffers = kiwi::get_global_type<kiwi::forward_buffers>();
@@ -791,12 +791,12 @@ kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture(const kiwi:
 		.set_uniform_3ui(buffers.m_program_texture_vRMEC_2d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_1f(buffers.m_program_texture_vRMEC_2d.C_location, static_cast<GLfloat>(1));
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
-kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture,
+kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture,
 	const kiwi::vertex_buffer& RMEC_vertex_buffer, GLfloat color_ceiling) noexcept
 {
 	kiwi::global_type<kiwi::forward_buffers> buffers = kiwi::get_global_type<kiwi::forward_buffers>();
@@ -819,12 +819,12 @@ kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture(const kiwi:
 		.set_uniform_3ui(buffers.m_program_texture_vRMEC_2d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_1f(buffers.m_program_texture_vRMEC_2d.C_location, color_ceiling);
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
-kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::vertex_buffer& RMEC_vertex_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::vertex_buffer& RMEC_vertex_buffer,
 	const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
 {
 	kiwi::global_type<kiwi::forward_buffers> buffers = kiwi::get_global_type<kiwi::forward_buffers>();
@@ -847,12 +847,12 @@ kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture_lightmapped
 		.set_uniform_3ui(buffers.m_program_texture_vRMEC_2d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_1f(buffers.m_program_texture_vRMEC_2d.C_location, static_cast<GLfloat>(1));
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
-kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture,
+kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture,
 	const kiwi::vertex_buffer& RMEC_vertex_buffer, GLfloat color_ceiling, const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
 {
 	kiwi::global_type<kiwi::forward_buffers> buffers = kiwi::get_global_type<kiwi::forward_buffers>();
@@ -875,13 +875,13 @@ kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture_lightmapped
 		.set_uniform_3ui(buffers.m_program_texture_vRMEC_2d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_1f(buffers.m_program_texture_vRMEC_2d.C_location, color_ceiling);
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
 
-kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture,
+kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture,
 	const kiwi::texture_buffer& RMEC_texture_buffer) noexcept
 {
 	kiwi::global_type<kiwi::forward_buffers> buffers = kiwi::get_global_type<kiwi::forward_buffers>();
@@ -904,12 +904,12 @@ kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture(const kiwi:
 		.set_uniform_3ui(buffers.m_program_texture_mRMEC_2d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_1f(buffers.m_program_texture_mRMEC_2d.C_location, static_cast<GLfloat>(1));
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
-kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture,
+kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture,
 	const kiwi::texture_buffer& RMEC_texture_buffer, GLfloat color_ceiling) noexcept
 {
 	kiwi::global_type<kiwi::forward_buffers> buffers = kiwi::get_global_type<kiwi::forward_buffers>();
@@ -932,12 +932,12 @@ kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture(const kiwi:
 		.set_uniform_3ui(buffers.m_program_texture_mRMEC_2d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_1f(buffers.m_program_texture_mRMEC_2d.C_location, color_ceiling);
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
-kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture,
+kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture,
 	const kiwi::texture_buffer& RMEC_texture_buffer, const kiwi::texture_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
 {
 	kiwi::global_type<kiwi::forward_buffers> buffers = kiwi::get_global_type<kiwi::forward_buffers>();
@@ -960,12 +960,12 @@ kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture_lightmapped
 		.set_uniform_3ui(buffers.m_program_texture_mRMEC_2d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_1f(buffers.m_program_texture_mRMEC_2d.C_location, static_cast<GLfloat>(1));
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
-kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture,
+kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture,
 	const kiwi::texture_buffer& RMEC_texture_buffer, GLfloat color_ceiling, const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
 {
 	kiwi::global_type<kiwi::forward_buffers> buffers = kiwi::get_global_type<kiwi::forward_buffers>();
@@ -988,7 +988,7 @@ kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture_lightmapped
 		.set_uniform_3ui(buffers.m_program_texture_mRMEC_2d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_1f(buffers.m_program_texture_mRMEC_2d.C_location, color_ceiling);
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
@@ -996,7 +996,7 @@ kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture_lightmapped
 
 // NORMAL 2D
 
-kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TB_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TB_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& normal_map, const kiwi::RMEC& RMEC) noexcept
 {
 	kiwi::global_type<kiwi::forward_buffers> buffers = kiwi::get_global_type<kiwi::forward_buffers>();
@@ -1021,12 +1021,12 @@ kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal(const kiwi::
 		.set_uniform_3ui(buffers.m_program_normal_sRMEC_2d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_4f(buffers.m_program_normal_sRMEC_2d.RMEC_location, RMEC.data());
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
-kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TB_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TB_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& normal_map, const kiwi::RMEC& RMEC,
 	const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
 {
@@ -1052,13 +1052,13 @@ kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal_lightmapped(
 		.set_uniform_3ui(buffers.m_program_normal_sRMEC_2d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_4f(buffers.m_program_normal_sRMEC_2d.RMEC_location, RMEC.data());
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
 
-kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TB_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TB_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& normal_map,
 	const kiwi::vertex_buffer& RMEC_vertex_buffer) noexcept
 {
@@ -1085,12 +1085,12 @@ kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal(const kiwi::
 		.set_uniform_3ui(buffers.m_program_normal_vRMEC_2d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_1f(buffers.m_program_normal_vRMEC_2d.C_location, static_cast<GLfloat>(1));
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
-kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TB_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TB_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& normal_map,
 	const kiwi::vertex_buffer& RMEC_vertex_buffer, GLfloat color_ceiling) noexcept
 {
@@ -1117,12 +1117,12 @@ kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal(const kiwi::
 		.set_uniform_3ui(buffers.m_program_normal_vRMEC_2d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_1f(buffers.m_program_normal_vRMEC_2d.C_location, color_ceiling);
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
-kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TB_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TB_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& normal_map, const kiwi::vertex_buffer& RMEC_vertex_buffer,
 	const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
 {
@@ -1149,12 +1149,12 @@ kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal_lightmapped(
 		.set_uniform_3ui(buffers.m_program_normal_vRMEC_2d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_1f(buffers.m_program_normal_vRMEC_2d.C_location, static_cast<GLfloat>(1));
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
-kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TB_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TB_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& normal_map, const kiwi::vertex_buffer& RMEC_vertex_buffer, GLfloat color_ceiling,
 	const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
 {
@@ -1181,13 +1181,13 @@ kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal_lightmapped(
 		.set_uniform_3ui(buffers.m_program_normal_vRMEC_2d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_1f(buffers.m_program_normal_vRMEC_2d.C_location, color_ceiling);
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
 
-kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TB_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TB_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& normal_map,
 	const kiwi::texture_buffer& RMEC_texture_buffer) noexcept
 {
@@ -1214,12 +1214,12 @@ kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal(const kiwi::
 		.set_uniform_3ui(buffers.m_program_normal_mRMEC_2d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_1f(buffers.m_program_normal_mRMEC_2d.C_location, static_cast<GLfloat>(1));
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
-kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TB_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TB_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& normal_map,
 	const kiwi::texture_buffer& RMEC_texture_buffer, GLfloat color_ceiling) noexcept
 {
@@ -1246,12 +1246,12 @@ kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal(const kiwi::
 		.set_uniform_3ui(buffers.m_program_normal_mRMEC_2d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_1f(buffers.m_program_normal_mRMEC_2d.C_location, color_ceiling);
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
-kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TB_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TB_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& normal_map, const kiwi::texture_buffer& RMEC_texture_buffer,
 	const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
 {
@@ -1278,12 +1278,12 @@ kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal_lightmapped(
 		.set_uniform_3ui(buffers.m_program_normal_mRMEC_2d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_1f(buffers.m_program_normal_mRMEC_2d.C_location, static_cast<GLfloat>(1));
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
-kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TB_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TB_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& normal_map, const kiwi::texture_buffer& RMEC_texture_buffer,
 	GLfloat color_ceiling, const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
 {
@@ -1310,7 +1310,7 @@ kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal_lightmapped(
 		.set_uniform_3ui(buffers.m_program_normal_mRMEC_2d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_1f(buffers.m_program_normal_mRMEC_2d.C_location, color_ceiling);
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
@@ -1319,7 +1319,7 @@ kiwi::draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal_lightmapped(
 
 // 3D
 
-kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_solid_color(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_solid_color(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
 	const kiwi::RGBA& solid_color, const kiwi::RMEC& RMEC) noexcept
 {
 	kiwi::global_type<kiwi::forward_buffers> buffers = kiwi::get_global_type<kiwi::forward_buffers>();
@@ -1338,13 +1338,13 @@ kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_solid_color(const k
 		.set_uniform_4f(buffers.m_program_solid_color_3d.RMEC_location, RMEC.data())
 		.set_uniform_4f(buffers.m_program_solid_color_3d.RGBA_location, solid_color.data());
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
 
-kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_color_gradient(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_color_gradient(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
 	const kiwi::vertex_buffer& color_vertex_buffer, const kiwi::RMEC& RMEC) noexcept
 {
 	kiwi::global_type<kiwi::forward_buffers> buffers = kiwi::get_global_type<kiwi::forward_buffers>();
@@ -1363,12 +1363,12 @@ kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_color_gradient(cons
 		.set_uniform_3ui(buffers.m_program_color_gradient_sRMEC_3d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_4f(buffers.m_program_color_gradient_sRMEC_3d.RMEC_location, RMEC.data());
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
-kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_color_gradient(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_color_gradient(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
 	const kiwi::vertex_buffer& color_vertex_buffer, const kiwi::vertex_buffer& RMEC_vertex_buffer) noexcept
 {
 	kiwi::global_type<kiwi::forward_buffers> buffers = kiwi::get_global_type<kiwi::forward_buffers>();
@@ -1388,12 +1388,12 @@ kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_color_gradient(cons
 		.set_uniform_3ui(buffers.m_program_color_gradient_vRMEC_3d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_1f(buffers.m_program_color_gradient_vRMEC_3d.C_location, static_cast<GLfloat>(1));
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
-kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_color_gradient(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_color_gradient(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
 	const kiwi::vertex_buffer& color_vertex_buffer, const kiwi::vertex_buffer& RMEC_vertex_buffer, GLfloat color_ceiling) noexcept
 {
 	kiwi::global_type<kiwi::forward_buffers> buffers = kiwi::get_global_type<kiwi::forward_buffers>();
@@ -1413,7 +1413,7 @@ kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_color_gradient(cons
 		.set_uniform_3ui(buffers.m_program_color_gradient_vRMEC_3d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_1f(buffers.m_program_color_gradient_vRMEC_3d.C_location, color_ceiling);
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
@@ -1421,7 +1421,7 @@ kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_color_gradient(cons
 
 // TEXTURE 3D
 
-kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::RMEC& RMEC) noexcept
 {
 	kiwi::global_type<kiwi::forward_buffers> buffers = kiwi::get_global_type<kiwi::forward_buffers>();
@@ -1444,12 +1444,12 @@ kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture(const kiwi:
 		.set_uniform_3ui(buffers.m_program_texture_sRMEC_3d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_4f(buffers.m_program_texture_sRMEC_3d.RMEC_location, RMEC.data());
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
-kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::RMEC& RMEC,
 	const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
 {
@@ -1473,13 +1473,13 @@ kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture_lightmapped
 		.set_uniform_3ui(buffers.m_program_texture_sRMEC_3d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_4f(buffers.m_program_texture_sRMEC_3d.RMEC_location, RMEC.data());
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
 
-kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::vertex_buffer& RMEC_vertex_buffer) noexcept
 {
 	kiwi::global_type<kiwi::forward_buffers> buffers = kiwi::get_global_type<kiwi::forward_buffers>();
@@ -1503,12 +1503,12 @@ kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture(const kiwi:
 		.set_uniform_3ui(buffers.m_program_texture_vRMEC_3d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_1f(buffers.m_program_texture_vRMEC_3d.C_location, static_cast<GLfloat>(1));
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
-kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::vertex_buffer& RMEC_vertex_buffer, GLfloat color_ceiling) noexcept
 {
 	kiwi::global_type<kiwi::forward_buffers> buffers = kiwi::get_global_type<kiwi::forward_buffers>();
@@ -1532,12 +1532,12 @@ kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture(const kiwi:
 		.set_uniform_3ui(buffers.m_program_texture_vRMEC_3d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_1f(buffers.m_program_texture_vRMEC_3d.C_location, color_ceiling);
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
-kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::vertex_buffer& RMEC_vertex_buffer,
 	const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
 {
@@ -1562,12 +1562,12 @@ kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture_lightmapped
 		.set_uniform_3ui(buffers.m_program_texture_vRMEC_3d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_1f(buffers.m_program_texture_vRMEC_3d.C_location, static_cast<GLfloat>(1));
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
-kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::vertex_buffer& RMEC_vertex_buffer, GLfloat color_ceiling,
 	const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
 {
@@ -1592,13 +1592,13 @@ kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture_lightmapped
 		.set_uniform_3ui(buffers.m_program_texture_vRMEC_3d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_1f(buffers.m_program_texture_vRMEC_3d.C_location, color_ceiling);
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
 
-kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer) noexcept
 {
 	kiwi::global_type<kiwi::forward_buffers> buffers = kiwi::get_global_type<kiwi::forward_buffers>();
@@ -1622,12 +1622,12 @@ kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture(const kiwi:
 		.set_uniform_3ui(buffers.m_program_texture_mRMEC_3d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_1f(buffers.m_program_texture_mRMEC_3d.C_location, static_cast<GLfloat>(1));
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
-kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer, GLfloat color_ceiling) noexcept
 {
 	kiwi::global_type<kiwi::forward_buffers> buffers = kiwi::get_global_type<kiwi::forward_buffers>();
@@ -1651,12 +1651,12 @@ kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture(const kiwi:
 		.set_uniform_3ui(buffers.m_program_texture_mRMEC_3d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_1f(buffers.m_program_texture_mRMEC_3d.C_location, color_ceiling);
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
-kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer,
 	const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
 {
@@ -1681,12 +1681,12 @@ kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture_lightmapped
 		.set_uniform_3ui(buffers.m_program_texture_mRMEC_3d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_1f(buffers.m_program_texture_mRMEC_3d.C_location, static_cast<GLfloat>(1));
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
-kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer, GLfloat color_ceiling,
 	const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
 {
@@ -1711,7 +1711,7 @@ kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture_lightmapped
 		.set_uniform_3ui(buffers.m_program_texture_mRMEC_3d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_1f(buffers.m_program_texture_mRMEC_3d.C_location, color_ceiling);
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
@@ -1719,7 +1719,7 @@ kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture_lightmapped
 
 // NORMAL 3D
 
-kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::RMEC& RMEC,
 	const kiwi::texture_buffer& normal_map) noexcept
 {
@@ -1746,12 +1746,12 @@ kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal(const kiwi::
 		.set_uniform_3ui(buffers.m_program_normal_sRMEC_3d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_4f(buffers.m_program_normal_sRMEC_3d.RMEC_location, RMEC.data());
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
-kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::RMEC& RMEC,
 	const kiwi::texture_buffer& normal_map, const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
 {
@@ -1778,13 +1778,13 @@ kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal_lightmapped(
 		.set_uniform_3ui(buffers.m_program_normal_sRMEC_3d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_4f(buffers.m_program_normal_sRMEC_3d.RMEC_location, RMEC.data());
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
 
-kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::vertex_buffer& RMEC_vertex_buffer,
 	const kiwi::texture_buffer& normal_map) noexcept
 {
@@ -1812,12 +1812,12 @@ kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal(const kiwi::
 		.set_uniform_3ui(buffers.m_program_normal_vRMEC_3d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_1f(buffers.m_program_normal_vRMEC_3d.C_location, static_cast<GLfloat>(1));
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
-kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::vertex_buffer& RMEC_vertex_buffer, GLfloat color_ceiling,
 	const kiwi::texture_buffer& normal_map) noexcept
 {
@@ -1845,12 +1845,12 @@ kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal(const kiwi::
 		.set_uniform_3ui(buffers.m_program_normal_vRMEC_3d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_1f(buffers.m_program_normal_vRMEC_3d.C_location, color_ceiling);
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
-kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::vertex_buffer& RMEC_vertex_buffer,
 	const kiwi::texture_buffer& normal_map, const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
 {
@@ -1878,12 +1878,12 @@ kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal_lightmapped(
 		.set_uniform_3ui(buffers.m_program_normal_vRMEC_3d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_1f(buffers.m_program_normal_vRMEC_3d.C_location, static_cast<GLfloat>(1));
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
-kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::vertex_buffer& RMEC_vertex_buffer, GLfloat color_ceiling,
 	const kiwi::texture_buffer& normal_map, const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
 {
@@ -1911,13 +1911,13 @@ kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal_lightmapped(
 		.set_uniform_3ui(buffers.m_program_normal_vRMEC_3d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_1f(buffers.m_program_normal_vRMEC_3d.C_location, static_cast<GLfloat>(1));
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
 
-kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer,
 	const kiwi::texture_buffer& normal_map) noexcept
 {
@@ -1945,12 +1945,12 @@ kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal(const kiwi::
 		.set_uniform_3ui(buffers.m_program_normal_mRMEC_3d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_1f(buffers.m_program_normal_mRMEC_3d.C_location, static_cast<GLfloat>(1));
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
-kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer, GLfloat color_ceiling,
 	const kiwi::texture_buffer& normal_map) noexcept
 {
@@ -1978,12 +1978,12 @@ kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal(const kiwi::
 		.set_uniform_3ui(buffers.m_program_normal_mRMEC_3d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_1f(buffers.m_program_normal_mRMEC_3d.C_location, color_ceiling);
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
-kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer,
 	const kiwi::texture_buffer& normal_map, const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
 {
@@ -2011,12 +2011,12 @@ kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal_lightmapped(
 		.set_uniform_3ui(buffers.m_program_normal_mRMEC_3d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_1f(buffers.m_program_normal_mRMEC_3d.C_location, static_cast<GLfloat>(1));
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
-kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer, GLfloat color_ceiling,
 	const kiwi::texture_buffer& normal_map, const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
 {
@@ -2044,7 +2044,7 @@ kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal_lightmapped(
 		.set_uniform_3ui(buffers.m_program_normal_mRMEC_3d.light_count_location, m_light_selection_ptr->number_of_lights_data())
 		.set_uniform_1f(buffers.m_program_normal_mRMEC_3d.C_location, static_cast<GLfloat>(1));
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
@@ -2052,7 +2052,7 @@ kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal_lightmapped(
 
 // PARALLAX 3D
 
-kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::RMEC& RMEC,
 	const kiwi::texture_buffer& normal_parallax_map, GLfloat parallax_shift_factor) noexcept
 {
@@ -2080,12 +2080,12 @@ kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax(const kiwi
 		.set_uniform_4f(buffers.m_program_parallax_sRMEC_3d.RMEC_location, RMEC.data())
 		.set_uniform_1f(buffers.m_program_parallax_sRMEC_3d.parallax_shift_location, parallax_shift_factor);
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
-kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::RMEC& RMEC,
 	const kiwi::texture_buffer& normal_parallax_map, GLfloat parallax_shift_factor,
 	const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
@@ -2114,13 +2114,13 @@ kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax_lightmappe
 		.set_uniform_4f(buffers.m_program_parallax_sRMEC_3d.RMEC_location, RMEC.data())
 		.set_uniform_1f(buffers.m_program_parallax_sRMEC_3d.parallax_shift_location, parallax_shift_factor);
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
 
-kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::vertex_buffer& RMEC_vertex_buffer,
 	const kiwi::texture_buffer& normal_parallax_map, GLfloat parallax_shift_factor) noexcept
 {
@@ -2149,12 +2149,12 @@ kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax(const kiwi
 		.set_uniform_1f(buffers.m_program_parallax_vRMEC_3d.C_location, static_cast<GLfloat>(1))
 		.set_uniform_1f(buffers.m_program_parallax_vRMEC_3d.parallax_shift_location, parallax_shift_factor);
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
-kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::vertex_buffer& RMEC_vertex_buffer, GLfloat color_ceiling,
 	const kiwi::texture_buffer& normal_parallax_map, GLfloat parallax_shift_factor) noexcept
 {
@@ -2183,12 +2183,12 @@ kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax(const kiwi
 		.set_uniform_1f(buffers.m_program_parallax_vRMEC_3d.C_location, color_ceiling)
 		.set_uniform_1f(buffers.m_program_parallax_vRMEC_3d.parallax_shift_location, parallax_shift_factor);
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
-kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::vertex_buffer& RMEC_vertex_buffer,
 	const kiwi::texture_buffer& normal_parallax_map, GLfloat parallax_shift_factor,
 	const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
@@ -2218,12 +2218,12 @@ kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax_lightmappe
 		.set_uniform_1f(buffers.m_program_parallax_vRMEC_3d.C_location, static_cast<GLfloat>(1))
 		.set_uniform_1f(buffers.m_program_parallax_vRMEC_3d.parallax_shift_location, parallax_shift_factor);
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
-kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::vertex_buffer& RMEC_vertex_buffer, GLfloat color_ceiling,
 	const kiwi::texture_buffer& normal_parallax_map, GLfloat parallax_shift_factor,
 	const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
@@ -2253,13 +2253,13 @@ kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax_lightmappe
 		.set_uniform_1f(buffers.m_program_parallax_vRMEC_3d.C_location, color_ceiling)
 		.set_uniform_1f(buffers.m_program_parallax_vRMEC_3d.parallax_shift_location, parallax_shift_factor);
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
 
-kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer,
 	const kiwi::texture_buffer& normal_parallax_map, GLfloat parallax_shift_factor) noexcept
 {
@@ -2288,12 +2288,12 @@ kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax(const kiwi
 		.set_uniform_1f(buffers.m_program_parallax_mRMEC_3d.C_location, static_cast<GLfloat>(1))
 		.set_uniform_1f(buffers.m_program_parallax_mRMEC_3d.parallax_shift_location, parallax_shift_factor);
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
-kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer, GLfloat color_ceiling,
 	const kiwi::texture_buffer& normal_parallax_map, GLfloat parallax_shift_factor) noexcept
 {
@@ -2322,12 +2322,12 @@ kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax(const kiwi
 		.set_uniform_1f(buffers.m_program_parallax_mRMEC_3d.C_location, color_ceiling)
 		.set_uniform_1f(buffers.m_program_parallax_mRMEC_3d.parallax_shift_location, parallax_shift_factor);
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
-kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer,
 	const kiwi::texture_buffer& normal_parallax_map, GLfloat parallax_shift_factor,
 	const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
@@ -2357,12 +2357,12 @@ kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax_lightmappe
 		.set_uniform_1f(buffers.m_program_parallax_mRMEC_3d.C_location, static_cast<GLfloat>(1))
 		.set_uniform_1f(buffers.m_program_parallax_mRMEC_3d.parallax_shift_location, parallax_shift_factor);
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
-kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
+kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer, GLfloat color_ceiling,
 	const kiwi::texture_buffer& normal_parallax_map, GLfloat parallax_shift_factor,
 	const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
@@ -2392,33 +2392,33 @@ kiwi::draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax_lightmappe
 		.set_uniform_1f(buffers.m_program_parallax_mRMEC_3d.C_location, color_ceiling)
 		.set_uniform_1f(buffers.m_program_parallax_mRMEC_3d.parallax_shift_location, parallax_shift_factor);
 
-	kiwi::draw_forward_proxy proxy;
+	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
 	return proxy;
 }
 
 
-void kiwi::draw_forward_proxy::triangles() noexcept
+void kiwi::_draw_forward_proxy::triangles() noexcept
 {
 	glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(m_vertex_count));
 }
-void kiwi::draw_forward_proxy::quads() noexcept
+void kiwi::_draw_forward_proxy::quads() noexcept
 {
 	glDrawArrays(GL_QUADS, 0, static_cast<GLsizei>(m_vertex_count));
 }
-void kiwi::draw_forward_proxy::triangles(std::size_t vertex_count) noexcept
+void kiwi::_draw_forward_proxy::triangles(std::size_t vertex_count) noexcept
 {
 	glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(vertex_count));
 }
-void kiwi::draw_forward_proxy::quads(std::size_t vertex_count) noexcept
+void kiwi::_draw_forward_proxy::quads(std::size_t vertex_count) noexcept
 {
 	glDrawArrays(GL_QUADS, 0, static_cast<GLsizei>(vertex_count));
 }
-void kiwi::draw_forward_proxy::triangles(std::size_t begin_vertex, std::size_t vertex_count) noexcept
+void kiwi::_draw_forward_proxy::triangles(std::size_t begin_vertex, std::size_t vertex_count) noexcept
 {
 	glDrawArrays(GL_TRIANGLES, static_cast<GLsizei>(begin_vertex), static_cast<GLsizei>(vertex_count));
 }
-void kiwi::draw_forward_proxy::quads(std::size_t begin_vertex, std::size_t vertex_count) noexcept
+void kiwi::_draw_forward_proxy::quads(std::size_t begin_vertex, std::size_t vertex_count) noexcept
 {
 	glDrawArrays(GL_QUADS, static_cast<GLsizei>(begin_vertex), static_cast<GLsizei>(vertex_count));
 }
