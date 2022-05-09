@@ -1,5 +1,5 @@
-#ifndef KIWI_TILES_HPP
-#define KIWI_TILES_HPP
+#ifndef KIWI_GLYPH_2D_HPP
+#define KIWI_GLYPH_2D_HPP
 
 #include "rendering/kiwi_program.hpp"
 #include "rendering/kiwi_buffer_vertex.hpp"
@@ -98,4 +98,4 @@ namespace kiwi
 	};
 }
 
-#endif // KIWI_TILES_HPP
+#endif // KIWI_GLYPH_2D_HPP
