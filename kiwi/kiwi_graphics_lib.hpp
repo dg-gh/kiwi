@@ -15,7 +15,6 @@
 #include "rendering/kiwi_draw.hpp"
 #include "rendering/kiwi_draw_forward.hpp"
 #include "rendering/kiwi_draw_deferred.hpp"
-#include "rendering/kiwi_lightset_3d.hpp"
 #include "rendering/kiwi_program.hpp"
 #include "rendering/kiwi_program_compute.hpp"
 #include "rendering/kiwi_sets.hpp"
