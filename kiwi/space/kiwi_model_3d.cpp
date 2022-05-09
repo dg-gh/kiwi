@@ -6,7 +6,6 @@
 #endif // _KIWI_AVX2_FMA
 #include <immintrin.h>
 #endif
-#include <immintrin.h>
 
 GLfloat* kiwi::model_3d::data() noexcept
 {
