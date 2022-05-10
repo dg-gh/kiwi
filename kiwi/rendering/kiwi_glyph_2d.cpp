@@ -3,7 +3,6 @@
 
 thread_local unsigned int kiwi::glyph_2d::m_static_instance_count = 0;
 thread_local kiwi::program kiwi::glyph_2d::m_text_program = kiwi::program();
-thread_local kiwi::vertex_buffer kiwi::glyph_2d::m_XY = kiwi::vertex_buffer();
 thread_local kiwi::texture_buffer kiwi::glyph_2d::m_default_atlas_texture = kiwi::texture_buffer();
 
 thread_local GLint kiwi::glyph_2d::m_uniform_XY_UV_size = -1;
@@ -30,7 +29,6 @@ kiwi::glyph_2d::~glyph_2d()
 	{
 		m_default_atlas_texture.delete_id();
 		m_text_program.delete_program();
-		m_XY.delete_id();
 
 		m_uniform_XY_UV_size = -1;
 		m_uniform_RGBA = -1;
@@ -38,58 +36,62 @@ kiwi::glyph_2d::~glyph_2d()
 	}
 }
 
-kiwi::glyph_2d& kiwi::glyph_2d::init(std::size_t char_capacity)
+bool kiwi::glyph_2d::init(std::size_t char_capacity)
 {
+	bool success = false;
 
 	if (m_text_program.get_id() == 0)
 	{
-		m_text_program.new_program(
+		success = m_text_program.new_program(
 
-			"	#version 430 core																	\n"
-			"	layout (location = 0) in vec2 in_XY;												\n"
-			"	layout (std430, binding = 0) buffer s_XY_UV_shift { vec2[][2] u_XY_UV_shift; };		\n"
-			"	uniform vec4 u_XY_UV_size;															\n"
-			"	uniform mat3 u_mvp_M;																\n"
-			"	out vec2 UV;																		\n"
+			"	#version 430 core																		\n"
+			"	struct XY_UV_shift_t { vec2 XY; vec2 UV; };												\n"
+			"	layout (std430, binding = 0) buffer s_XY_UV_shift { XY_UV_shift_t[] u_XY_UV_shift; };	\n"
+			"	uniform vec4 u_XY_UV_size;																\n"
+			"	uniform mat3 u_mvp_M;																	\n"
+			"	out vec2 UV;																			\n"
 
-			"	void main()																			\n"
-			"	{																					\n"
-			"		vec3 in_XYh = u_mvp_M * vec3(u_XY_UV_shift[gl_InstanceID][0]					\n"
-			"			+ in_XY * u_XY_UV_size.xy, 1.0);											\n"
+			"	vec2 square[4] = { vec2(0.0, 0.0), vec2(1.0, 0.0), vec2(1.0, 1.0), vec2(0.0, 1.0) };	\n"
 
-			"		gl_Position = vec4(in_XYh[0], in_XYh[1], 0.0, 1.0);								\n"
+			"	void main()																				\n"
+			"	{																						\n"
+			"		vec3 in_XYh = u_mvp_M * vec3(u_XY_UV_shift[gl_InstanceID].XY						\n"
+			"			+ square[gl_VertexID] * u_XY_UV_size.xy, 1.0);									\n"
 
-			"		UV = u_XY_UV_shift[gl_InstanceID][1] + in_XY * u_XY_UV_size.zw;					\n"
-			"	}																					\n"
+			"		gl_Position = vec4(in_XYh[0], in_XYh[1], 0.0, 1.0);									\n"
+
+			"		UV = u_XY_UV_shift[gl_InstanceID].UV + square[gl_VertexID] * u_XY_UV_size.zw;		\n"
+			"	}																						\n"
 
 			,
 
-			"	#version 330 core																	\n"
-			"	in vec2 UV;																			\n"
-			"	uniform vec4 u_color;																\n"
-			"	out vec4 color;																		\n"
-			"	uniform sampler2D Tx;																\n"
-			"	void main()																			\n"
-			"	{																					\n"
-			"		color = u_color * texture(Tx, UV);												\n"
-			"	}																					\n"
+			"	#version 430 core																		\n"
+			"	in vec2 UV;																				\n"
+			"	uniform vec4 u_RGBA;																	\n"
+			"	out vec4 color;																			\n"
+			"	uniform sampler2D Tx;																	\n"
+			"	void main()																				\n"
+			"	{																						\n"
+			"		color = u_RGBA * texture(Tx, UV);													\n"
+			"	}																						\n"
 		);
 
 		m_uniform_XY_UV_size = m_text_program.new_uniform_location("u_XY_UV_size");
-		m_uniform_RGBA = m_text_program.new_uniform_location("u_color");
+		m_uniform_RGBA = m_text_program.new_uniform_location("u_RGBA");
 		m_text_program.set_uniform_4f(m_uniform_RGBA, GL1, GL1, GL1, GL1);
 		m_uniform_mvp_matrix = m_text_program.new_uniform_location("u_mvp_M");
 	}
 
-	if (m_XY.get_id() == 0)
+	try
 	{
-		GLfloat arr[8] = { GL0, GL0, GL1, GL0, GL1, GL1, GL0, GL1 };
-		m_XY.load(static_cast<GLfloat*>(arr), 4, 2);
+		if (m_default_atlas_texture.get_id() == 0)
+		{
+			generate_default_atlas_texture();
+		}
 	}
-
-	if (m_default_atlas_texture.get_id() == 0)
+	catch (...)
 	{
-		generate_default_atlas_texture();
+		success = false;
 	}
 
 	m_XY_UV_coordinates.allocate(char_capacity * (4 * sizeof(GLfloat)));
@@ -99,7 +101,7 @@ kiwi::glyph_2d& kiwi::glyph_2d::init(std::size_t char_capacity)
 	m_capacity = char_capacity;
 	m_glyph_count = 0;
 
-	return *this;
+	return success;
 }
 
 kiwi::glyph_2d& kiwi::glyph_2d::use_default_atlas()
@@ -347,7 +349,6 @@ kiwi::glyph_2d& kiwi::glyph_2d::jump_to(GLfloat X, GLfloat Y) noexcept
 kiwi::glyph_2d& kiwi::glyph_2d::draw_with() noexcept
 {
 	m_XY_UV_coordinates.to_binding(0);
-	m_XY.to_location(0);
 	m_atlas_texture->bind();
 
 	m_text_program.set_uniform_4f(m_uniform_XY_UV_size, static_cast<GLfloat*>(m_XY_UV_size))
@@ -361,7 +362,6 @@ kiwi::glyph_2d& kiwi::glyph_2d::draw_with() noexcept
 kiwi::glyph_2d& kiwi::glyph_2d::draw_with(const GLfloat* const mvp_matrix_ptr) noexcept
 {
 	m_XY_UV_coordinates.to_binding(0);
-	m_XY.to_location(0);
 	m_atlas_texture->bind();
 
 	m_text_program.set_uniform_4f(m_uniform_XY_UV_size, static_cast<GLfloat*>(m_XY_UV_size))

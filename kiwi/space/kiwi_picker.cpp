@@ -16,7 +16,7 @@ kiwi::picker& kiwi::picker::init(std::size_t width, std::size_t height)
 
 	{
 		m_program_2d.new_program(
-			"	#version 330 core									\n"
+			"	#version 430 core									\n"
 			"	layout (location = 0) in vec3 in_XY;				\n"
 			"	uniform mat3 u_mvp_M;								\n"
 
@@ -45,7 +45,7 @@ kiwi::picker& kiwi::picker::init(std::size_t width, std::size_t height)
 
 	{
 		m_program_3d.new_program(
-			"	#version 330 core									\n"
+			"	#version 430 core									\n"
 			"	layout (location = 0) in vec3 in_XYZ;				\n"
 			"	uniform mat4 u_mvp_M;								\n"
 

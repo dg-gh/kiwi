@@ -22,7 +22,7 @@ namespace kiwi
 		kiwi::glyph_2d& operator=(kiwi::glyph_2d&&) = delete;
 		~glyph_2d();
 
-		kiwi::glyph_2d& init(std::size_t char_capacity);
+		bool init(std::size_t char_capacity);
 
 		kiwi::glyph_2d& use_default_atlas();
 		kiwi::glyph_2d& set_atlas(const kiwi::texture_buffer* const atlas_texture_ptr, std::function<void(const int, GLfloat* ptr)> atlas_function);
@@ -69,7 +69,6 @@ namespace kiwi
 		thread_local static unsigned int m_static_instance_count;
 
 		thread_local static kiwi::program m_text_program;
-		thread_local static kiwi::vertex_buffer m_XY;
 		thread_local static kiwi::texture_buffer m_default_atlas_texture;
 
 		thread_local static GLint m_uniform_XY_UV_size;
