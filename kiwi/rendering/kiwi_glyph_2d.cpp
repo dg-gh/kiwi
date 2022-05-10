@@ -5,9 +5,9 @@ thread_local unsigned int kiwi::glyph_2d::m_static_instance_count = 0;
 thread_local kiwi::program kiwi::glyph_2d::m_text_program = kiwi::program();
 thread_local kiwi::texture_buffer kiwi::glyph_2d::m_default_atlas_texture = kiwi::texture_buffer();
 
-thread_local GLint kiwi::glyph_2d::m_uniform_XY_UV_size = -1;
-thread_local GLint kiwi::glyph_2d::m_uniform_RGBA = -1;
-thread_local GLint kiwi::glyph_2d::m_uniform_mvp_matrix = -1;
+thread_local GLint kiwi::glyph_2d::m_XY_UV_size_location = -1;
+thread_local GLint kiwi::glyph_2d::m_RGBA_location = -1;
+thread_local GLint kiwi::glyph_2d::m_mvp_matrix_location = -1;
 
 thread_local GLfloat kiwi::glyph_2d::m_XY_UV_shift[4] = {
 	static_cast<GLfloat>(0),
@@ -30,9 +30,9 @@ kiwi::glyph_2d::~glyph_2d()
 		m_default_atlas_texture.delete_id();
 		m_text_program.delete_program();
 
-		m_uniform_XY_UV_size = -1;
-		m_uniform_RGBA = -1;
-		m_uniform_mvp_matrix = -1;
+		m_XY_UV_size_location = -1;
+		m_RGBA_location = -1;
+		m_mvp_matrix_location = -1;
 	}
 }
 
@@ -76,10 +76,10 @@ bool kiwi::glyph_2d::init(std::size_t char_capacity)
 			"	}																						\n"
 		);
 
-		m_uniform_XY_UV_size = m_text_program.new_uniform_location("u_XY_UV_size");
-		m_uniform_RGBA = m_text_program.new_uniform_location("u_RGBA");
-		m_text_program.set_uniform_4f(m_uniform_RGBA, GL1, GL1, GL1, GL1);
-		m_uniform_mvp_matrix = m_text_program.new_uniform_location("u_mvp_M");
+		m_XY_UV_size_location = m_text_program.new_uniform_location("u_XY_UV_size");
+		m_RGBA_location = m_text_program.new_uniform_location("u_RGBA");
+		m_text_program.set_uniform_4f(m_RGBA_location, GL1, GL1, GL1, GL1);
+		m_mvp_matrix_location = m_text_program.new_uniform_location("u_mvp_M");
 	}
 
 	try
@@ -358,11 +358,11 @@ kiwi::glyph_2d& kiwi::glyph_2d::jump_to(GLfloat X, GLfloat Y) noexcept
 kiwi::glyph_2d& kiwi::glyph_2d::draw_with() noexcept
 {
 	m_XY_UV_coordinates.to_binding(0);
-	m_atlas_texture->bind();
+	m_atlas_texture->to_binding(0);
 
-	m_text_program.set_uniform_4f(m_uniform_XY_UV_size, static_cast<GLfloat*>(m_XY_UV_size))
-		.set_uniform_4f(m_uniform_RGBA, static_cast<GLfloat*>(m_RGBA))
-		.set_uniform_3x3f(m_uniform_mvp_matrix, kiwi::window_matrix_data());
+	m_text_program.set_uniform_4f(m_XY_UV_size_location, static_cast<GLfloat*>(m_XY_UV_size))
+		.set_uniform_4f(m_RGBA_location, static_cast<GLfloat*>(m_RGBA))
+		.set_uniform_3x3f(m_mvp_matrix_location, kiwi::window_matrix_data());
 
 	glDrawArraysInstanced(GL_QUADS, 0, 4, static_cast<GLsizei>(m_glyph_count));
 	return *this;
@@ -371,11 +371,11 @@ kiwi::glyph_2d& kiwi::glyph_2d::draw_with() noexcept
 kiwi::glyph_2d& kiwi::glyph_2d::draw_with(const GLfloat* const mvp_matrix_ptr) noexcept
 {
 	m_XY_UV_coordinates.to_binding(0);
-	m_atlas_texture->bind();
+	m_atlas_texture->to_binding(0);
 
-	m_text_program.set_uniform_4f(m_uniform_XY_UV_size, static_cast<GLfloat*>(m_XY_UV_size))
-		.set_uniform_4f(m_uniform_RGBA, static_cast<GLfloat*>(m_RGBA))
-		.set_uniform_3x3f(m_uniform_mvp_matrix, mvp_matrix_ptr);
+	m_text_program.set_uniform_4f(m_XY_UV_size_location, static_cast<GLfloat*>(m_XY_UV_size))
+		.set_uniform_4f(m_RGBA_location, static_cast<GLfloat*>(m_RGBA))
+		.set_uniform_3x3f(m_mvp_matrix_location, mvp_matrix_ptr);
 
 	glDrawArraysInstanced(GL_QUADS, 0, 4, static_cast<GLsizei>(m_glyph_count));
 	return *this;

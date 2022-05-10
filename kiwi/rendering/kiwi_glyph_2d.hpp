@@ -72,9 +72,9 @@ namespace kiwi
 		thread_local static kiwi::program m_text_program;
 		thread_local static kiwi::texture_buffer m_default_atlas_texture;
 
-		thread_local static GLint m_uniform_XY_UV_size;
-		thread_local static GLint m_uniform_RGBA;
-		thread_local static GLint m_uniform_mvp_matrix;
+		thread_local static GLint m_XY_UV_size_location;
+		thread_local static GLint m_RGBA_location;
+		thread_local static GLint m_mvp_matrix_location;
 
 		thread_local static GLfloat m_XY_UV_shift[4];
 
