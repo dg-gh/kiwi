@@ -50,13 +50,12 @@ const char* const kiwi::source::deferred_3d_lighting_pass::vertex_shader() noexc
 		"	#version 430 core																					\n"
 		"	out vec2 screen_XY;																					\n"
 
-		"	float XY[8] = { -1.0, -1.0, 1.0, -1.0, 1.0, 1.0, -1.0, 1.0 };										\n"
+		"	vec2 square[4] = { vec2(-1.0, -1.0), vec2(1.0, -1.0), vec2(1.0, 1.0), vec2(-1.0, 1.0) };			\n"
 
 		"	void main()																							\n"
 		"	{																									\n"
-		"		screen_XY[0] = XY[2 * gl_VertexID];																\n"
-		"		screen_XY[1] = XY[2 * gl_VertexID + 1];															\n"
-		"		gl_Position = vec4(screen_XY, 0.0, 1.0);														\n"
+		"		screen_XY = square[gl_VertexID];																\n"
+		"		gl_Position = vec4(square[gl_VertexID], 0.0, 1.0);												\n"
 		"	}																									\n"
 		;
 }
@@ -249,13 +248,12 @@ const char* const kiwi::source::deferred_3d_lighting_pass_ortho::vertex_shader()
 		"	#version 430 core																					\n"
 		"	out vec2 screen_XY;																					\n"
 
-		"	float XY[8] = { -1.0, -1.0, 1.0, -1.0, 1.0, 1.0, -1.0, 1.0 };										\n"
+		"	vec2 square[4] = { vec2(-1.0, -1.0), vec2(1.0, -1.0), vec2(1.0, 1.0), vec2(-1.0, 1.0) };			\n"
 
 		"	void main()																							\n"
 		"	{																									\n"
-		"		screen_XY[0] = XY[2 * gl_VertexID];																\n"
-		"		screen_XY[1] = XY[2 * gl_VertexID + 1];															\n"
-		"		gl_Position = vec4(screen_XY, 0.0, 1.0);														\n"
+		"		screen_XY = square[gl_VertexID];																\n"
+		"		gl_Position = vec4(square[gl_VertexID], 0.0, 1.0);												\n"
 		"	}																									\n"
 		;
 }
