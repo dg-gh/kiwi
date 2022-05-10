@@ -141,6 +141,15 @@ kiwi::glyph_2d& kiwi::glyph_2d::set_origin(GLfloat X, GLfloat Y) noexcept
 	return *this;
 }
 
+kiwi::glyph_2d& kiwi::glyph_2d::set_origin(const GLfloat* const XY_ptr) noexcept
+{
+	m_origin[0] = *XY_ptr;
+	m_origin[1] = *(XY_ptr + 1);
+	m_XY_UV_shift[0] = *XY_ptr;
+	m_XY_UV_shift[1] = *(XY_ptr + 1);
+	return *this;
+}
+
 kiwi::glyph_2d& kiwi::glyph_2d::set_tile_size(GLfloat width, GLfloat height, GLfloat horizontal_offset, GLfloat vertical_offset) noexcept
 {
 	m_XY_UV_size[0] = width;
