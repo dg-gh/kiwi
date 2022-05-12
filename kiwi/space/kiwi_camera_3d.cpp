@@ -1,6 +1,9 @@
 #include "space/kiwi_camera_3d.hpp"
 
 #if defined(__AVX2__) && defined(__FMA__)
+#ifndef _KIWI_AVX2_FMA
+#define _KIWI_AVX2_FMA
+#endif // _KIWI_AVX2_FMA
 #include <immintrin.h>
 #endif
 
@@ -1387,7 +1390,7 @@ void kiwi::camera_3d::eval() noexcept
 
 void kiwi::camera_3d::m44xm44(GLfloat* const _KIWI_RESTRICT pfC, const GLfloat* const pfA, const GLfloat* const pfB) const noexcept
 {
-#if defined(__AVX2__) && defined(__FMA__)
+#if defined(_KIWI_AVX2_FMA)
 	__m128 vregA0 = _mm_loadu_ps(pfA);
 	__m128 vregA1 = _mm_loadu_ps(pfA + 4);
 	__m128 vregA2 = _mm_loadu_ps(pfA + 8);
@@ -1447,7 +1450,7 @@ void kiwi::camera_3d::m44xm44(GLfloat* const _KIWI_RESTRICT pfC, const GLfloat* 
 
 void kiwi::camera_3d::m44xv4(GLfloat* const _KIWI_RESTRICT pfC, const GLfloat* const pfA, const GLfloat* const pfB) const noexcept
 {
-#if defined(__AVX2__) && defined(__FMA__)
+#if defined(_KIWI_AVX2_FMA)
 	__m128 vregC = _mm_mul_ps(_mm_loadu_ps(pfA), _mm_broadcast_ss(pfB));
 	vregC = _mm_fmadd_ps(_mm_loadu_ps(pfA + 4), _mm_broadcast_ss(pfB + 1), vregC);
 	vregC = _mm_fmadd_ps(_mm_loadu_ps(pfA + 8), _mm_broadcast_ss(pfB + 2), vregC);
@@ -1481,7 +1484,7 @@ void kiwi::camera_3d::m44xv4(GLfloat* const _KIWI_RESTRICT pfC, const GLfloat* c
 
 void kiwi::camera_3d::m33hxm44(GLfloat* const _KIWI_RESTRICT pfC, const GLfloat* const pfA, const GLfloat* pfB) const noexcept
 {
-#if defined(__AVX2__) && defined(__FMA__)
+#if defined(_KIWI_AVX2_FMA)
 	__m128 vregA0 = _mm_loadu_ps(pfA);
 	__m128 vregA1 = _mm_loadu_ps(pfA + 4);
 	__m128 vregA2 = _mm_loadu_ps(pfA + 8);
