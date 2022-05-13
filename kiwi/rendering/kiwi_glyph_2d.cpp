@@ -1,4 +1,5 @@
 #include "rendering/kiwi_glyph_2d.hpp"
+#include "shader_sources/kiwi_sources_glyph.hpp"
 
 
 thread_local unsigned int kiwi::glyph_2d::m_static_instance_count = 0;
@@ -43,37 +44,8 @@ bool kiwi::glyph_2d::init(std::size_t char_capacity)
 	if (m_text_program.get_id() == 0)
 	{
 		success = m_text_program.new_program(
-
-			"	#version 430 core																		\n"
-			"	struct XY_UV_shift_t { vec2 XY; vec2 UV; };												\n"
-			"	layout (std430, binding = 0) buffer s_XY_UV_shift { XY_UV_shift_t[] u_XY_UV_shift; };	\n"
-			"	uniform vec4 u_XY_UV_size;																\n"
-			"	uniform mat3 u_mvp_M;																	\n"
-			"	out vec2 UV;																			\n"
-
-			"	vec2 square[4] = { vec2(0.0, 0.0), vec2(1.0, 0.0), vec2(1.0, 1.0), vec2(0.0, 1.0) };	\n"
-
-			"	void main()																				\n"
-			"	{																						\n"
-			"		vec3 in_XYh = u_mvp_M * vec3(u_XY_UV_shift[gl_InstanceID].XY						\n"
-			"			+ square[gl_VertexID] * u_XY_UV_size.xy, 1.0);									\n"
-
-			"		gl_Position = vec4(in_XYh[0], in_XYh[1], 0.0, 1.0);									\n"
-
-			"		UV = u_XY_UV_shift[gl_InstanceID].UV + square[gl_VertexID] * u_XY_UV_size.zw;		\n"
-			"	}																						\n"
-
-			,
-
-			"	#version 430 core																		\n"
-			"	in vec2 UV;																				\n"
-			"	uniform vec4 u_RGBA;																	\n"
-			"	out vec4 color;																			\n"
-			"	uniform sampler2D Tx;																	\n"
-			"	void main()																				\n"
-			"	{																						\n"
-			"		color = u_RGBA * texture(Tx, UV);													\n"
-			"	}																						\n"
+			kiwi::source::glyph_2d::vertex_shader(),
+			kiwi::source::glyph_2d::fragment_shader()
 		);
 
 		m_XY_UV_size_location = m_text_program.new_uniform_location("u_XY_UV_size");

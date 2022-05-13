@@ -1,4 +1,5 @@
 #include "space/kiwi_picker.hpp"
+#include "shader_sources/kiwi_sources_picker.hpp"
 
 
 kiwi::picker& kiwi::picker::init(std::size_t width, std::size_t height)
@@ -15,92 +16,41 @@ kiwi::picker& kiwi::picker::init(std::size_t width, std::size_t height)
 	}
 
 	{
-		m_program_2d.new_program(
-			"	#version 430 core									\n"
-			"	layout (location = 0) in vec3 in_XY;				\n"
-			"	uniform mat3 u_mvp_M;								\n"
-
-			"	void main()											\n"
-			"	{													\n"
-			"		vec3 in_XYh = u_mvp_M * vec3(vec2(in_XY), 1.0);	\n"
-
-			"		gl_Position = vec4(in_XYh[0], in_XYh[1],		\n"
-			"			in_XY[2], 1.0);								\n"
-			"	}													\n"
-			,
-
-			"	#version 430 core									\n"
-			"	layout (binding = 0) out uint entity_id;			\n"
-			"	uniform uint u_entity_id;							\n"
-
-			"	void main()											\n"
-			"	{													\n"
-			"		entity_id = u_entity_id;						\n"
-			"	}													\n"
+		m_program_picker_2d.new_program(
+			kiwi::source::picker_2d::vertex_shader(),
+			kiwi::source::picker_2d::fragment_shader()
 		);
 
-		m_uniform_mvp_matrix_2d = m_program_2d.new_uniform_location("u_mvp_M");
-		m_uniform_id_2d = m_program_2d.new_uniform_location("u_entity_id");
+		m_uniform_mvp_matrix_2d = m_program_picker_2d.new_uniform_location("u_mvp_M");
+		m_uniform_id_2d = m_program_picker_2d.new_uniform_location("u_entity_id");
 	}
 
 	{
-		m_program_3d.new_program(
-			"	#version 430 core									\n"
-			"	layout (location = 0) in vec3 in_XYZ;				\n"
-			"	uniform mat4 u_mvp_M;								\n"
-
-			"	void main()											\n"
-			"	{													\n"
-			"		gl_Position = u_mvp_M * vec4(in_XYZ, 1.0);		\n"
-			"	}													\n"
-			,
-
-			"	#version 430 core									\n"
-			"	layout (binding = 0) out uint entity_id;			\n"
-			"	uniform uint u_entity_id;							\n"
-
-			"	void main()											\n"
-			"	{													\n"
-			"		entity_id = u_entity_id;						\n"
-			"	}													\n"
+		m_program_picker_3d.new_program(
+			kiwi::source::picker_3d::vertex_shader(),
+			kiwi::source::picker_3d::fragment_shader()
 		);
 
-		m_uniform_mvp_matrix_3d = m_program_3d.new_uniform_location("u_mvp_M");
-		m_uniform_id_3d = m_program_3d.new_uniform_location("u_entity_id");
+		m_uniform_mvp_matrix_3d = m_program_picker_3d.new_uniform_location("u_mvp_M");
+		m_uniform_id_3d = m_program_picker_3d.new_uniform_location("u_entity_id");
 	}
 
 	{
-		m_program_instanced_2d.new_program(
-			"	#version 430 core														\n"
-			"	layout (location = 0) in vec2 in_XY;									\n"
-			"	struct t_XY_id { vec3 m_XY; uint m_id; };								\n"
-			"	layout (std430, binding = 0) buffer s_XY_id { t_XY_id XY_id[]; };		\n"
-			"	flat out uint _entity_id;												\n"
-			"	uniform mat3 u_mvp_M;													\n"
-
-			"	void main()																\n"
-			"	{																		\n"
-			"		vec3 in_XYh = u_mvp_M * vec3(in_XY +								\n"
-			"			vec2(XY_id[gl_InstanceID].m_XY), 1.0);							\n"
-
-			"		gl_Position = vec4(in_XYh[0], in_XYh[1],							\n"
-			"			XY_id[gl_InstanceID].m_XY[2], 1.0);								\n"
-
-			"		_entity_id = XY_id[gl_InstanceID].m_id;								\n"
-			"	}																		\n"
-			,
-
-			"	#version 430 core														\n"
-			"	flat in uint _entity_id;												\n"
-			"	layout (binding = 0) out uint entity_id;								\n"
-
-			"	void main()																\n"
-			"	{																		\n"
-			"		entity_id = _entity_id;												\n"
-			"	}																		\n"
+		m_program_instanced_XY_id_2d.new_program(
+			kiwi::source::picker_XY_id_2d::vertex_shader(),
+			kiwi::source::picker_XY_id_2d::fragment_shader()
 		);
 
-		m_uniform_mvp_matrix_instanced_2d = m_program_2d.new_uniform_location("u_mvp_M");
+		m_uniform_mvp_matrix_instanced_2d = m_program_picker_2d.new_uniform_location("u_mvp_M");
+	}
+
+	{
+		m_program_instanced_XY_id_2d.new_program(
+			kiwi::source::picker_XYZ_id_3d::vertex_shader(),
+			kiwi::source::picker_XYZ_id_3d::fragment_shader()
+		);
+
+		m_uniform_mvp_matrix_instanced_3d = m_program_picker_2d.new_uniform_location("u_mvp_M");
 	}
 
 	return *this;
@@ -179,13 +129,13 @@ kiwi::_draw_basic_proxy kiwi::_picker_2d_proxy::using_vertex(const kiwi::vertex_
 
 	if (m_transformation_matrix_ptr == nullptr)
 	{
-		m_picker_ptr->m_program_2d.set_uniform_3x3f(m_picker_ptr->m_uniform_mvp_matrix_2d, kiwi::window_matrix_data());
+		m_picker_ptr->m_program_picker_2d.set_uniform_3x3f(m_picker_ptr->m_uniform_mvp_matrix_2d, kiwi::window_matrix_data());
 	}
 	else
 	{
-		m_picker_ptr->m_program_2d.set_uniform_3x3f(m_picker_ptr->m_uniform_mvp_matrix_2d, m_transformation_matrix_ptr);
+		m_picker_ptr->m_program_picker_2d.set_uniform_3x3f(m_picker_ptr->m_uniform_mvp_matrix_2d, m_transformation_matrix_ptr);
 	}
-	m_picker_ptr->m_program_2d.set_uniform_1ui(m_picker_ptr->m_uniform_id_2d, static_cast<GLuint>(entity_id));
+	m_picker_ptr->m_program_picker_2d.set_uniform_1ui(m_picker_ptr->m_uniform_id_2d, static_cast<GLuint>(entity_id));
 
 	kiwi::_draw_basic_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -202,11 +152,11 @@ kiwi::_draw_instanced_basic_proxy kiwi::_picker_2d_proxy::using_vertex(const kiw
 
 	if (m_transformation_matrix_ptr == nullptr)
 	{
-		m_picker_ptr->m_program_instanced_2d.set_uniform_3x3f(m_picker_ptr->m_uniform_mvp_matrix_instanced_2d, kiwi::window_matrix_data());
+		m_picker_ptr->m_program_instanced_XY_id_2d.set_uniform_3x3f(m_picker_ptr->m_uniform_mvp_matrix_instanced_2d, kiwi::window_matrix_data());
 	}
 	else
 	{
-		m_picker_ptr->m_program_instanced_2d.set_uniform_3x3f(m_picker_ptr->m_uniform_mvp_matrix_instanced_2d, m_transformation_matrix_ptr);
+		m_picker_ptr->m_program_instanced_XY_id_2d.set_uniform_3x3f(m_picker_ptr->m_uniform_mvp_matrix_instanced_2d, m_transformation_matrix_ptr);
 	}
 
 	kiwi::_draw_instanced_basic_proxy proxy;
@@ -225,11 +175,11 @@ kiwi::_draw_instanced_basic_proxy kiwi::_picker_2d_proxy::using_vertex(const kiw
 
 	if (m_transformation_matrix_ptr == nullptr)
 	{
-		m_picker_ptr->m_program_instanced_2d.set_uniform_3x3f(m_picker_ptr->m_uniform_mvp_matrix_instanced_2d, kiwi::window_matrix_data());
+		m_picker_ptr->m_program_instanced_XY_id_2d.set_uniform_3x3f(m_picker_ptr->m_uniform_mvp_matrix_instanced_2d, kiwi::window_matrix_data());
 	}
 	else
 	{
-		m_picker_ptr->m_program_instanced_2d.set_uniform_3x3f(m_picker_ptr->m_uniform_mvp_matrix_instanced_2d, m_transformation_matrix_ptr);
+		m_picker_ptr->m_program_instanced_XY_id_2d.set_uniform_3x3f(m_picker_ptr->m_uniform_mvp_matrix_instanced_2d, m_transformation_matrix_ptr);
 	}
 
 	kiwi::_draw_instanced_basic_proxy proxy;
@@ -244,7 +194,7 @@ kiwi::_draw_basic_proxy kiwi::_picker_3d_proxy::using_vertex(const kiwi::vertex_
 {
 	vertex_buffer.to_location(0);
 
-	m_picker_ptr->m_program_3d.set_uniform_4x4f(m_picker_ptr->m_uniform_mvp_matrix_3d, m_transformation_matrix_ptr)
+	m_picker_ptr->m_program_picker_3d.set_uniform_4x4f(m_picker_ptr->m_uniform_mvp_matrix_3d, m_transformation_matrix_ptr)
 		.set_uniform_1ui(m_picker_ptr->m_uniform_id_3d, static_cast<GLuint>(entity_id));
 
 	kiwi::_draw_basic_proxy proxy;

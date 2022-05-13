@@ -39,14 +39,16 @@ namespace kiwi
 		kiwi::texture_buffer m_texture_buffer;
 		kiwi::render_buffer m_render_buffer;
 
-		kiwi::program m_program_2d;
-		kiwi::program m_program_3d;
-		kiwi::program m_program_instanced_2d;
+		kiwi::program m_program_picker_2d;
+		kiwi::program m_program_picker_3d;
+		kiwi::program m_program_instanced_XY_id_2d;
+		kiwi::program m_program_instanced_XYZ_id_3d;
 		GLint m_uniform_mvp_matrix_2d = -1;
 		GLint m_uniform_mvp_matrix_3d = -1;
 		GLint m_uniform_id_2d = -1;
 		GLint m_uniform_id_3d = -1;
 		GLint m_uniform_mvp_matrix_instanced_2d = -1;
+		GLint m_uniform_mvp_matrix_instanced_3d = -1;
 	};
 
 	class scoped_picker
