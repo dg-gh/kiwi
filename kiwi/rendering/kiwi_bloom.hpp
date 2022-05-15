@@ -66,63 +66,6 @@ namespace kiwi
 		bool m_redraw = false;
 		bool m_extended = true;
 	};
-
-	class scoped_bloom_redraw_pass;
-
-	class scoped_bloom_pass
-	{
-
-	public:
-
-		friend class scoped_bloom_redraw_pass;
-
-		scoped_bloom_pass(kiwi::bloom& rhs) noexcept
-		{
-			rhs.collect();
-			m_bloom_ptr = &rhs;
-			m_bloom_processed = false;
-		}
-
-		scoped_bloom_pass() = delete;
-		scoped_bloom_pass(const kiwi::scoped_bloom_pass&) = delete;
-		kiwi::scoped_bloom_pass& operator=(const kiwi::scoped_bloom_pass&) = delete;
-		scoped_bloom_pass(kiwi::scoped_bloom_pass&&) = delete;
-		kiwi::scoped_bloom_pass& operator=(kiwi::scoped_bloom_pass&&) = delete;
-		~scoped_bloom_pass()
-		{
-			if (!m_bloom_processed)
-			{
-				m_bloom_ptr->process();
-			}
-
-			m_bloom_ptr->draw();
-		}
-
-	private:
-
-		kiwi::bloom* m_bloom_ptr;
-		bool m_bloom_processed;
-	};
-
-	class scoped_bloom_redraw_pass
-	{
-
-	public:
-
-		scoped_bloom_redraw_pass(kiwi::scoped_bloom_pass& rhs) noexcept
-		{
-			rhs.m_bloom_ptr->process();
-			rhs.m_bloom_processed = true;
-			rhs.m_bloom_ptr->recollect_ground_layer();	
-		}
-
-		scoped_bloom_redraw_pass() = delete;
-		scoped_bloom_redraw_pass(const kiwi::scoped_bloom_redraw_pass&) = delete;
-		kiwi::scoped_bloom_redraw_pass& operator=(const kiwi::scoped_bloom_redraw_pass&) = delete;
-		scoped_bloom_redraw_pass(kiwi::scoped_bloom_redraw_pass&&) = delete;
-		kiwi::scoped_bloom_redraw_pass& operator=(kiwi::scoped_bloom_redraw_pass&&) = delete;
-		~scoped_bloom_redraw_pass() {}
-	};
 }
 
 #endif // KIWI_BLOOM_HPP

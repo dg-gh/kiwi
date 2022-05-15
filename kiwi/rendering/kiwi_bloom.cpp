@@ -359,8 +359,6 @@ kiwi::bloom& kiwi::bloom::process() noexcept
 kiwi::bloom& kiwi::bloom::recollect_ground_layer() noexcept
 {
 	m_multisampled_frame_buffer.use_with_texture(0);
-	kiwi::clear_frame_buffer();
-	kiwi::clear_depth_buffer();
 	m_redraw = true;
 	return *this;
 }
@@ -384,12 +382,18 @@ kiwi::bloom& kiwi::bloom::draw() noexcept
 		m_textures[3].to_binding(6);
 		m_textures[5].to_binding(5);
 		m_textures[7].to_binding(4);
+		m_textures[9].to_binding(3);
+		m_textures[11].to_binding(2);
+		m_textures[13].to_binding(1);
+		m_textures[15].to_binding(0);
 	}
-
-	m_textures[9].to_binding(3);
-	m_textures[11].to_binding(2);
-	m_textures[13].to_binding(1);
-	m_textures[15].to_binding(0);
+	else
+	{
+		m_textures[0].to_binding(3);
+		m_textures[3].to_binding(2);
+		m_textures[5].to_binding(1);
+		m_textures[7].to_binding(0);
+	}
 
 	m_blend_program.use();
 	glDrawArrays(GL_QUADS, 0, 4);
