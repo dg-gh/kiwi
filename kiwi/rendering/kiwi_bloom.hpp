@@ -47,7 +47,7 @@ namespace kiwi
 		kiwi::render_buffer m_multisampled_render_buffer;
 
 		kiwi::program m_threshold_program;
-		kiwi::program m_blur_program;
+		kiwi::program m_gaussian_filter_program;
 		kiwi::program m_blend_program;
 		GLint m_threshold_location = -1;
 		GLint m_distance_location = -1;
