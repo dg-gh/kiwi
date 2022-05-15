@@ -7,6 +7,12 @@
 #include "rendering/kiwi_sets.hpp"
 #include "rendering/kiwi_draw.hpp"
 
+namespace kiwi
+{
+	bool draw_id_init();
+	void draw_id_terminate() noexcept;
+}
+
 
 namespace kiwi
 {
@@ -33,52 +39,19 @@ namespace kiwi
 		kiwi::picker& init(std::size_t width, std::size_t height);
 		kiwi::picker& resize(std::size_t width, std::size_t height);
 
+		kiwi::picker& collect() noexcept;
+		GLushort pick_id(std::size_t pixel_X, std::size_t pixel_Y) const noexcept;
+
 	private:
 
 		kiwi::frame_buffer m_frame_buffer;
 		kiwi::texture_buffer m_texture_buffer;
 		kiwi::render_buffer m_render_buffer;
-
-		kiwi::program m_program_picker_2d;
-		kiwi::program m_program_picker_3d;
-		kiwi::program m_program_instanced_XY_id_2d;
-		kiwi::program m_program_instanced_XYZ_id_3d;
-		GLint m_uniform_mvp_matrix_2d = -1;
-		GLint m_uniform_mvp_matrix_3d = -1;
-		GLint m_uniform_id_2d = -1;
-		GLint m_uniform_id_3d = -1;
-		GLint m_uniform_mvp_matrix_instanced_2d = -1;
-		GLint m_uniform_mvp_matrix_instanced_3d = -1;
 	};
 
-	class scoped_picker
-	{
-
-	public:
-
-		scoped_picker(kiwi::picker& rhs);
-
-		scoped_picker() = delete;
-		scoped_picker(const kiwi::scoped_picker&) = delete;
-		kiwi::scoped_picker& operator=(const kiwi::scoped_picker&) = delete;
-		scoped_picker(kiwi::scoped_picker&&) = delete;
-		kiwi::scoped_picker& operator=(kiwi::scoped_picker&&) = delete;
-		~scoped_picker();
-
-		kiwi::_picker_2d_proxy assign_id_2d_with();
-		kiwi::_picker_2d_proxy assign_id_2d_with(const GLfloat* const mvp_matrix_ptr);
-		kiwi::_picker_3d_proxy assign_id_3d_with(const GLfloat* const mvp_matrix_ptr);
-
-		kiwi::scoped_picker& clear_on_exit() noexcept;
-		kiwi::scoped_picker& save_on_exit() noexcept;
-
-		GLushort pick_id(std::size_t pixel_X, std::size_t pixel_Y) const;
-
-	private:
-
-		kiwi::picker* m_picker_ptr;
-		bool m_clear_on_exit;
-	};
+	kiwi::_picker_2d_proxy draw_id_2d_with() noexcept;
+	kiwi::_picker_2d_proxy draw_id_2d_with(const GLfloat* const mvp_matrix_ptr) noexcept;
+	kiwi::_picker_3d_proxy draw_id_3d_with(const GLfloat* const mvp_matrix_ptr) noexcept;
 
 	class _picker_2d_proxy
 	{
@@ -90,6 +63,8 @@ namespace kiwi
 
 	public:
 
+		friend kiwi::_picker_2d_proxy draw_id_2d_with() noexcept;
+		friend kiwi::_picker_2d_proxy draw_id_2d_with(const GLfloat* const mvp_matrix_ptr) noexcept;
 		friend class scoped_picker;
 
 		kiwi::_draw_basic_proxy using_vertex(const kiwi::vertex_buffer& vertex_buffer, GLushort entity_id) noexcept;
@@ -109,6 +84,7 @@ namespace kiwi
 
 	public:
 
+		friend kiwi::_picker_3d_proxy draw_id_3d_with(const GLfloat* const mvp_matrix_ptr) noexcept;
 		friend class scoped_picker;
 
 		kiwi::_draw_basic_proxy using_vertex(const kiwi::vertex_buffer& vertex_buffer, GLushort entity_id) noexcept;

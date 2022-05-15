@@ -4,9 +4,28 @@
 
 namespace kiwi
 {
+	class deferred_2d_solid_color;
+	class deferred_2d_color_gradient_sRMEC;
+	class deferred_2d_color_gradient_vRMEC;
+	class deferred_2d_texture_sRMEC;
+	class deferred_2d_texture_vRMEC;
+	class deferred_2d_texture_mRMEC;
+	class deferred_2d_normal_sRMEC;
+	class deferred_2d_normal_vRMEC;
+	class deferred_2d_normal_mRMEC;
+
 	class deferred_3d_solid_color;
 	class deferred_3d_color_gradient_sRMEC;
 	class deferred_3d_color_gradient_vRMEC;
+	class deferred_3d_texture_sRMEC;
+	class deferred_3d_texture_vRMEC;
+	class deferred_3d_texture_mRMEC;
+	class deferred_3d_normal_sRMEC;
+	class deferred_3d_normal_vRMEC;
+	class deferred_3d_normal_mRMEC;
+	class deferred_3d_normal_sRMEC;
+	class deferred_3d_normal_vRMEC;
+	class deferred_3d_normal_mRMEC;
 
 
 	class deferred_2d_solid_color

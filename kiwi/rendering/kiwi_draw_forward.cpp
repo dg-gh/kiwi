@@ -11,6 +11,8 @@ namespace kiwi
 	class forward_2d_texture_vRMEC;
 	class forward_2d_texture_mRMEC;
 	class forward_2d_normal_sRMEC;
+	class forward_2d_normal_vRMEC;
+	class forward_2d_normal_mRMEC;
 
 	class forward_3d_solid_color;
 	class forward_3d_color_gradient_sRMEC;
