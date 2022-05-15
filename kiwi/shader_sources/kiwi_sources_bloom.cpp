@@ -4,21 +4,17 @@ const char* const kiwi::source::bloom_threshold::vertex_shader() noexcept
 {
 	return
 
-		"	#version 430 core																	\n"
-		"	out vec2 UV;																		\n"
+		"	#version 430 core																			\n"
+		"	out vec2 UV;																				\n"
 
-		"	float in_XY[8] = { -1.0, -1.0, 1.0, -1.0, 1.0, 1.0, -1.0, 1.0 };					\n"
-		"	float in_UV[8] = { 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0 };						\n"
+		"	vec2 square_XY[4] = { vec2(-1.0, -1.0), vec2(1.0, -1.0), vec2(1.0, 1.0), vec2(-1.0, 1.0) };	\n"
+		"	vec2 square_UV[4] = { vec2(0.0, 0.0), vec2(1.0, 0.0), vec2(1.0, 1.0), vec2(0.0, 1.0) };		\n"
 
-		"	void main()																			\n"
-		"	{																					\n"
-		"		gl_Position[0] = in_XY[2 * gl_VertexID];										\n"
-		"		gl_Position[1] = in_XY[2 * gl_VertexID + 1];									\n"
-		"		gl_Position[2] = 0.0;															\n"
-		"		gl_Position[3] = 1.0;															\n"
-		"		UV[0] = in_UV[2 * gl_VertexID];													\n"
-		"		UV[1] = in_UV[2 * gl_VertexID + 1];												\n"
-		"	}																					\n"
+		"	void main()																					\n"
+		"	{																							\n"
+		"		gl_Position = vec4(square_XY[gl_VertexID], 0.0, 1.0);									\n"
+		"		UV = square_UV[gl_VertexID];															\n"
+		"	}																							\n"
 		;
 }
 const char* const kiwi::source::bloom_threshold::fragment_shader() noexcept
