@@ -20,9 +20,6 @@ namespace kiwi
 		kiwi::texture_buffer* m_texture_buffer_ptr[m_max_number_of_attachments];
 
 		mutable GLenum m_textures_in_use[m_max_number_of_attachments];
-		mutable GLsizei m_number_of_textures_in_use;
-		mutable GLsizei m_width;
-		mutable GLsizei m_height;
 
 		kiwi::render_buffer* m_render_buffer_ptr;
 
@@ -43,34 +40,19 @@ namespace kiwi
 		const kiwi::frame_buffer& bind() const noexcept;
 		static void unbind() noexcept;
 
-		kiwi::frame_buffer& use() noexcept;
-		const kiwi::frame_buffer& use() const noexcept;
+		kiwi::frame_buffer& use_with_texture(std::size_t color_attachment) noexcept;
+		const kiwi::frame_buffer& use_with_texture(std::size_t color_attachment) const noexcept;
 
-		kiwi::frame_buffer& use_with_all_textures() noexcept;
-		const kiwi::frame_buffer& use_with_all_textures() const noexcept;
-
-		kiwi::frame_buffer& use_with_texture(std::size_t texture_number) noexcept;
-		const kiwi::frame_buffer& use_with_texture(std::size_t texture_number) const noexcept;
-
-		kiwi::frame_buffer& reserve_texture(std::size_t texture_number) noexcept;
-		const kiwi::frame_buffer& reserve_texture(std::size_t texture_number) const noexcept;
-
-		kiwi::frame_buffer& use_with_textures(GLenum* texture_locations_ptr, std::size_t location_count) noexcept;
-		const kiwi::frame_buffer& use_with_textures(GLenum* texture_locations_ptr, std::size_t location_count) const noexcept;
-
-		kiwi::frame_buffer& reserve_textures(GLenum* texture_locations_ptr, std::size_t location_count) noexcept;
-		const kiwi::frame_buffer& reserve_textures(GLenum* texture_locations_ptr, std::size_t location_count) const noexcept;
+		kiwi::frame_buffer& use_with_textures(const GLenum* const color_attachments_ptr, std::size_t number_of_color_attachments) noexcept;
+		const kiwi::frame_buffer& use_with_textures(const GLenum* const color_attachments_ptr, std::size_t number_of_color_attachments) const noexcept;
 
 		static void exit_frame() noexcept;
 
-		kiwi::frame_buffer& attach_texture(kiwi::texture_buffer* texture_buffer_ptr, std::size_t location) noexcept;
-		kiwi::frame_buffer& detach_texture(std::size_t location) noexcept;
+		kiwi::frame_buffer& attach_texture(kiwi::texture_buffer* texture_buffer_ptr, std::size_t color_attachment) noexcept;
+		kiwi::frame_buffer& detach_texture(std::size_t color_attachment) noexcept;
 		kiwi::frame_buffer& detach_all_textures() noexcept;
 
-		kiwi::frame_buffer& textures_in_use(GLenum* arr8, std::size_t* number_of_textures_in_use) noexcept;
-		const kiwi::frame_buffer& textures_in_use(GLenum* arr8, std::size_t* number_of_textures_in_use) const noexcept;
-
-		kiwi::texture_buffer* get_texture(std::size_t location) const noexcept;
+		kiwi::texture_buffer* get_texture(std::size_t color_attachment) const noexcept;
 
 		kiwi::frame_buffer& attach_render_buffer(kiwi::render_buffer* render_buffer_ptr) noexcept;
 		kiwi::frame_buffer& detach_render_buffer() noexcept;
@@ -88,9 +70,12 @@ namespace kiwi
 
 	public:
 
-		scoped_frame(kiwi::frame_buffer& rhs);
-		scoped_frame(kiwi::frame_buffer& rhs, std::size_t texture_number);
-		scoped_frame(kiwi::frame_buffer& rhs, GLenum* texture_locations_ptr, std::size_t location_count);
+		scoped_frame(kiwi::frame_buffer& rhs) noexcept;
+		scoped_frame(kiwi::frame_buffer& rhs, std::size_t texture_number) noexcept;
+		scoped_frame(kiwi::frame_buffer& rhs, const GLenum* const texture_locations_ptr, std::size_t location_count) noexcept;
+
+		kiwi::scoped_frame& set_frame_buffer_on_exit(const kiwi::frame_buffer& exit_frame_buffer, std::size_t color_attachment) noexcept;
+		kiwi::scoped_frame& set_default_frame_buffer_on_exit() noexcept;
 
 		kiwi::frame_buffer& get_frame_buffer() noexcept;
 
@@ -111,63 +96,19 @@ namespace kiwi
 
 	public:
 
-		scoped_blit(kiwi::frame_buffer& draw_frame, kiwi::frame_buffer& read_frame) noexcept
-		{
-			glBindFramebuffer(GL_READ_FRAMEBUFFER, read_frame.get_id());
-			glBindFramebuffer(GL_DRAW_FRAMEBUFFER, draw_frame.get_id());
-			m_read_ptr = &read_frame;
-			m_draw_ptr = &draw_frame;
-			m_exit_frame_buffer_ptr = reinterpret_cast<const kiwi::frame_buffer*>(kiwi::context::current_frame_buffer());
-			m_exit_color_attachment = 0;
-			m_action_on_exit = true;
-		}
+		scoped_blit(kiwi::frame_buffer& draw_frame, kiwi::frame_buffer& read_frame) noexcept;
 
 		scoped_blit() = delete;
 		scoped_blit(const kiwi::scoped_blit&) = delete;
 		kiwi::scoped_blit& operator=(const kiwi::scoped_blit&) = delete;
 		scoped_blit(kiwi::scoped_blit&&) = delete;
 		kiwi::scoped_blit& operator=(kiwi::scoped_blit&&) = delete;
-		~scoped_blit()
-		{
-			if (true)
-			{
-				if (m_exit_frame_buffer_ptr == nullptr)
-				{
-					glBindFramebuffer(GL_FRAMEBUFFER, 0);
-				}
-				else
-				{
-					m_exit_frame_buffer_ptr->use_with_texture(m_exit_color_attachment);
-				}
-			}
-		}
+		~scoped_blit();
 
-		void no_action_on_exit() noexcept
-		{
-			m_action_on_exit = false;
-		}
-
-		void set_framebuffer_on_exit(const kiwi::frame_buffer& exit_framebuffer, std::size_t color_attachment) noexcept
-		{
-			m_exit_frame_buffer_ptr = &exit_framebuffer;
-			m_exit_color_attachment = color_attachment;
-		}
-
-		void set_default_framebuffer_on_exit() noexcept
-		{
-			m_exit_frame_buffer_ptr = nullptr;
-		}
-
-		kiwi::scoped_blit& blit(std::size_t draw_location, std::size_t read_location) noexcept
-		{
-			glReadBuffer(GL_COLOR_ATTACHMENT0 + static_cast<GLenum>(read_location));
-			GLenum location[1] = { GL_COLOR_ATTACHMENT0 + static_cast<GLenum>(draw_location) };
-			glDrawBuffers(1, static_cast<GLenum*>(location));
-			GLint width = static_cast<GLint>(m_read_ptr->get_texture(read_location)->width());
-			GLint height = static_cast<GLint>(m_read_ptr->get_texture(read_location)->height());
-			glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
-			return *this;
-		}
+		kiwi::scoped_blit& no_action_on_exit() noexcept;
+		kiwi::scoped_blit& set_frame_buffer_on_exit(const kiwi::frame_buffer& exit_frame_buffer, std::size_t color_attachment) noexcept;
+		kiwi::scoped_blit& set_default_frame_buffer_on_exit() noexcept;
+		kiwi::scoped_blit& blit(std::size_t draw_location, std::size_t read_location) noexcept;
 
 	private:
 

@@ -13,9 +13,6 @@ kiwi::frame_buffer::frame_buffer() noexcept
 	{
 		m_textures_in_use[n] = 0;
 	}
-	m_number_of_textures_in_use = 0;
-	m_width = 0;
-	m_height = 0;
 
 	m_render_buffer_ptr = nullptr;
 }
@@ -32,9 +29,6 @@ kiwi::frame_buffer::frame_buffer(kiwi::frame_buffer&& rhs) noexcept
 	{
 		m_textures_in_use[n] = rhs.m_textures_in_use[n];
 	}
-	m_number_of_textures_in_use = rhs.m_number_of_textures_in_use;
-	m_width = rhs.m_width;
-	m_height = rhs.m_height;
 
 	m_render_buffer_ptr = rhs.m_render_buffer_ptr;
 
@@ -49,9 +43,6 @@ kiwi::frame_buffer::frame_buffer(kiwi::frame_buffer&& rhs) noexcept
 	{
 		rhs.m_textures_in_use[n] = 0;
 	}
-	rhs.m_number_of_textures_in_use = 0;
-	rhs.m_width = 0;
-	rhs.m_height = 0;
 
 	m_render_buffer_ptr = nullptr;
 }
@@ -76,9 +67,6 @@ kiwi::frame_buffer& kiwi::frame_buffer::operator=(kiwi::frame_buffer&& rhs) noex
 	{
 		m_textures_in_use[n] = rhs.m_textures_in_use[n];
 	}
-	m_number_of_textures_in_use = rhs.m_number_of_textures_in_use;
-	m_width = rhs.m_width;
-	m_height = rhs.m_height;
 
 	m_render_buffer_ptr = rhs.m_render_buffer_ptr;
 
@@ -93,9 +81,6 @@ kiwi::frame_buffer& kiwi::frame_buffer::operator=(kiwi::frame_buffer&& rhs) noex
 	{
 		rhs.m_textures_in_use[n] = 0;
 	}
-	rhs.m_number_of_textures_in_use = 0;
-	rhs.m_width = 0;
-	rhs.m_height = 0;
 
 	rhs.m_render_buffer_ptr = nullptr;
 
@@ -179,7 +164,7 @@ void kiwi::frame_buffer::unbind() noexcept
 	kiwi::context::current_frame_buffer() = nullptr;
 }
 
-kiwi::frame_buffer& kiwi::frame_buffer::use() noexcept
+kiwi::frame_buffer& kiwi::frame_buffer::use_with_texture(std::size_t color_attachment) noexcept
 {
 	if (m_frame_buffer_index == 0)
 	{
@@ -192,16 +177,17 @@ kiwi::frame_buffer& kiwi::frame_buffer::use() noexcept
 		kiwi::context::current_frame_buffer() = static_cast<const void*>(this);
 	}
 
-	if (m_number_of_textures_in_use != 0)
-	{
-		glDrawBuffers(m_number_of_textures_in_use, static_cast<GLenum*>(m_textures_in_use));
-		glViewport(0, 0, m_width, m_height);
-	}
+	GLenum texture_in_use = GL_COLOR_ATTACHMENT0 + static_cast<GLenum>(color_attachment);
+
+	glDrawBuffers(1, &texture_in_use);
+
+	glViewport(0, 0, static_cast<GLsizei>(m_texture_buffer_ptr[color_attachment]->width()),
+		static_cast<GLsizei>(m_texture_buffer_ptr[color_attachment]->height()));
 
 	return *this;
 }
 
-const kiwi::frame_buffer& kiwi::frame_buffer::use() const noexcept
+const kiwi::frame_buffer& kiwi::frame_buffer::use_with_texture(std::size_t color_attachment) const noexcept
 {
 	if (kiwi::context::current_frame_buffer() != static_cast<const void*>(this))
 	{
@@ -209,123 +195,17 @@ const kiwi::frame_buffer& kiwi::frame_buffer::use() const noexcept
 		kiwi::context::current_frame_buffer() = static_cast<const void*>(this);
 	}
 
-	if (m_number_of_textures_in_use != 0)
-	{
-		glDrawBuffers(m_number_of_textures_in_use, static_cast<GLenum*>(m_textures_in_use));
-		glViewport(0, 0, m_width, m_height);
-	}
+	GLenum texture_in_use = GL_COLOR_ATTACHMENT0 + static_cast<GLenum>(color_attachment);
+
+	glDrawBuffers(1, &texture_in_use);
+
+	glViewport(0, 0, static_cast<GLsizei>(m_texture_buffer_ptr[color_attachment]->width()),
+		static_cast<GLsizei>(m_texture_buffer_ptr[color_attachment]->height()));
 
 	return *this;
 }
 
-kiwi::frame_buffer& kiwi::frame_buffer::use_with_all_textures() noexcept
-{
-	if (m_frame_buffer_index == 0)
-	{
-		glGenFramebuffers(1, &m_frame_buffer_index);
-	}
-
-	if (kiwi::context::current_frame_buffer() != static_cast<const void*>(this))
-	{
-		glBindFramebuffer(GL_FRAMEBUFFER, m_frame_buffer_index);
-		kiwi::context::current_frame_buffer() = static_cast<const void*>(this);
-	}
-
-	{
-		GLenum* textures_ptr = static_cast<GLenum*>(m_textures_in_use);
-
-		for (GLenum n = 0; n < m_max_number_of_attachments; n++)
-		{
-			if (m_texture_buffer_ptr[static_cast<std::size_t>(n)] != nullptr)
-			{
-				*textures_ptr++ = n;
-			}
-		}
-
-		m_number_of_textures_in_use = static_cast<GLsizei>(textures_ptr - static_cast<GLenum*>(m_textures_in_use));
-	}
-
-	if (m_number_of_textures_in_use != 0)
-	{
-		std::size_t width = m_texture_buffer_ptr[static_cast<std::size_t>(m_textures_in_use[0])]->width();
-		std::size_t height = m_texture_buffer_ptr[static_cast<std::size_t>(m_textures_in_use[0])]->height();
-		m_textures_in_use[0] += GL_COLOR_ATTACHMENT0;
-
-		for (std::size_t n = 1; n < static_cast<std::size_t>(m_number_of_textures_in_use); n++)
-		{
-			std::size_t temp_width = m_texture_buffer_ptr[static_cast<std::size_t>(m_textures_in_use[n])]->width();
-			width = (width < temp_width) ? width : temp_width;
-			std::size_t temp_height = m_texture_buffer_ptr[static_cast<std::size_t>(m_textures_in_use[n])]->height();
-			height = (height < temp_height) ? height : temp_height;
-			m_textures_in_use[n] += GL_COLOR_ATTACHMENT0;
-		}
-
-		glDrawBuffers(m_number_of_textures_in_use, static_cast<GLenum*>(m_textures_in_use));
-		m_width = static_cast<GLsizei>(width);
-		m_height = static_cast<GLsizei>(height);
-		glViewport(0, 0, m_width, m_height);
-	}
-	else
-	{
-		m_width = 0;
-		m_height = 0;
-	}
-
-	return *this;
-}
-
-const kiwi::frame_buffer& kiwi::frame_buffer::use_with_all_textures() const noexcept
-{
-	if (kiwi::context::current_frame_buffer() != static_cast<const void*>(this))
-	{
-		glBindFramebuffer(GL_FRAMEBUFFER, m_frame_buffer_index);
-		kiwi::context::current_frame_buffer() = static_cast<const void*>(this);
-	}
-
-	{
-		GLenum* textures_ptr = static_cast<GLenum*>(m_textures_in_use);
-
-		for (GLenum n = 0; n < m_max_number_of_attachments; n++)
-		{
-			if (m_texture_buffer_ptr[static_cast<std::size_t>(n)] != nullptr)
-			{
-				*textures_ptr++ = n;
-			}
-		}
-
-		m_number_of_textures_in_use = static_cast<GLsizei>(textures_ptr - static_cast<GLenum*>(m_textures_in_use));
-	}
-
-	if (m_number_of_textures_in_use != 0)
-	{
-		std::size_t width = m_texture_buffer_ptr[static_cast<std::size_t>(m_textures_in_use[0])]->width();
-		std::size_t height = m_texture_buffer_ptr[static_cast<std::size_t>(m_textures_in_use[0])]->height();
-		m_textures_in_use[0] += GL_COLOR_ATTACHMENT0;
-
-		for (std::size_t n = 1; n < static_cast<std::size_t>(m_number_of_textures_in_use); n++)
-		{
-			std::size_t temp_width = m_texture_buffer_ptr[static_cast<std::size_t>(m_textures_in_use[n])]->width();
-			width = (width < temp_width) ? width : temp_width;
-			std::size_t temp_height = m_texture_buffer_ptr[static_cast<std::size_t>(m_textures_in_use[n])]->height();
-			height = (height < temp_height) ? height : temp_height;
-			m_textures_in_use[n] += GL_COLOR_ATTACHMENT0;
-		}
-
-		glDrawBuffers(m_number_of_textures_in_use, static_cast<GLenum*>(m_textures_in_use));
-		m_width = static_cast<GLsizei>(width);
-		m_height = static_cast<GLsizei>(height);
-		glViewport(0, 0, m_width, m_height);
-	}
-	else
-	{
-		m_width = 0;
-		m_height = 0;
-	}
-
-	return *this;
-}
-
-kiwi::frame_buffer& kiwi::frame_buffer::use_with_texture(std::size_t texture_number) noexcept
+kiwi::frame_buffer& kiwi::frame_buffer::use_with_textures(const GLenum* const color_attachments_ptr, std::size_t number_of_color_attachments) noexcept
 {
 	if (m_frame_buffer_index == 0)
 	{
@@ -338,18 +218,24 @@ kiwi::frame_buffer& kiwi::frame_buffer::use_with_texture(std::size_t texture_num
 		kiwi::context::current_frame_buffer() = static_cast<const void*>(this);
 	}
 
-	m_textures_in_use[0] = GL_COLOR_ATTACHMENT0 + static_cast<GLenum>(texture_number);
-	m_number_of_textures_in_use = 1;
+	GLenum textures_in_use[8];
 
-	glDrawBuffers(1, static_cast<GLenum*>(m_textures_in_use));
-	m_width = static_cast<GLsizei>(m_texture_buffer_ptr[texture_number]->width());
-	m_height = static_cast<GLsizei>(m_texture_buffer_ptr[texture_number]->height());
-	glViewport(0, 0, m_width, m_height);
+	for (std::size_t n = 0; n < number_of_color_attachments; n++)
+	{
+		textures_in_use[n] = GL_COLOR_ATTACHMENT0 + *(color_attachments_ptr + n);
+	}
+
+	glDrawBuffers(static_cast<GLsizei>(number_of_color_attachments), static_cast<GLenum*>(textures_in_use));
+
+	std::size_t first_texture_number = static_cast<std::size_t>(*color_attachments_ptr);
+
+	glViewport(0, 0, static_cast<GLsizei>(m_texture_buffer_ptr[first_texture_number]->width()),
+		static_cast<GLsizei>(m_texture_buffer_ptr[first_texture_number]->height()));
 
 	return *this;
 }
 
-const kiwi::frame_buffer& kiwi::frame_buffer::use_with_texture(std::size_t texture_number) const noexcept
+const kiwi::frame_buffer& kiwi::frame_buffer::use_with_textures(const GLenum* const color_attachments_ptr, std::size_t number_of_color_attachments) const noexcept
 {
 	if (kiwi::context::current_frame_buffer() != static_cast<const void*>(this))
 	{
@@ -357,176 +243,19 @@ const kiwi::frame_buffer& kiwi::frame_buffer::use_with_texture(std::size_t textu
 		kiwi::context::current_frame_buffer() = static_cast<const void*>(this);
 	}
 
-	m_textures_in_use[0] = GL_COLOR_ATTACHMENT0 + static_cast<GLenum>(texture_number);
-	m_number_of_textures_in_use = 1;
+	GLenum textures_in_use[8];
 
-	glDrawBuffers(1, static_cast<GLenum*>(m_textures_in_use));
-	m_width = static_cast<GLsizei>(m_texture_buffer_ptr[texture_number]->width());
-	m_height = static_cast<GLsizei>(m_texture_buffer_ptr[texture_number]->height());
-	glViewport(0, 0, m_width, m_height);
-
-	return *this;
-}
-
-kiwi::frame_buffer& kiwi::frame_buffer::reserve_texture(std::size_t texture_number) noexcept
-{
-	if (m_frame_buffer_index == 0)
+	for (std::size_t n = 0; n < number_of_color_attachments; n++)
 	{
-		glGenFramebuffers(1, &m_frame_buffer_index);
+		textures_in_use[n] = GL_COLOR_ATTACHMENT0 + *(color_attachments_ptr + n);
 	}
 
-	if (kiwi::context::current_frame_buffer() != static_cast<const void*>(this))
-	{
-		glBindFramebuffer(GL_FRAMEBUFFER, m_frame_buffer_index);
-		kiwi::context::current_frame_buffer() = static_cast<const void*>(this);
-	}
+	glDrawBuffers(static_cast<GLsizei>(number_of_color_attachments), static_cast<GLenum*>(textures_in_use));
 
-	m_textures_in_use[0] = GL_COLOR_ATTACHMENT0 + static_cast<GLenum>(texture_number);
-	m_number_of_textures_in_use = 1;
+	std::size_t first_texture_number = static_cast<std::size_t>(*color_attachments_ptr);
 
-	m_width = static_cast<GLsizei>(m_texture_buffer_ptr[texture_number]->width());
-	m_height = static_cast<GLsizei>(m_texture_buffer_ptr[texture_number]->height());
-
-	return *this;
-}
-
-const kiwi::frame_buffer& kiwi::frame_buffer::reserve_texture(std::size_t texture_number) const noexcept
-{
-	if (kiwi::context::current_frame_buffer() != static_cast<const void*>(this))
-	{
-		glBindFramebuffer(GL_FRAMEBUFFER, m_frame_buffer_index);
-		kiwi::context::current_frame_buffer() = static_cast<const void*>(this);
-	}
-
-	m_textures_in_use[0] = GL_COLOR_ATTACHMENT0 + static_cast<GLenum>(texture_number);
-	m_number_of_textures_in_use = 1;
-
-	m_width = static_cast<GLsizei>(m_texture_buffer_ptr[texture_number]->width());
-	m_height = static_cast<GLsizei>(m_texture_buffer_ptr[texture_number]->height());
-
-	return *this;
-}
-
-kiwi::frame_buffer& kiwi::frame_buffer::use_with_textures(GLenum* texture_locations_ptr, std::size_t number_of_textures) noexcept
-{
-	if (m_frame_buffer_index == 0)
-	{
-		glGenFramebuffers(1, &m_frame_buffer_index);
-	}
-
-	if (kiwi::context::current_frame_buffer() != static_cast<const void*>(this))
-	{
-		glBindFramebuffer(GL_FRAMEBUFFER, m_frame_buffer_index);
-		kiwi::context::current_frame_buffer() = static_cast<const void*>(this);
-	}
-
-	std::size_t width = m_texture_buffer_ptr[static_cast<std::size_t>(*texture_locations_ptr)]->width();
-	std::size_t height = m_texture_buffer_ptr[static_cast<std::size_t>(*texture_locations_ptr)]->height();
-	m_textures_in_use[0] = GL_COLOR_ATTACHMENT0 + *texture_locations_ptr;
-	m_number_of_textures_in_use = static_cast<GLsizei>(number_of_textures);
-
-	for (std::size_t n = 1; n < number_of_textures; n++)
-	{
-		std::size_t temp_width = m_texture_buffer_ptr[static_cast<std::size_t>(*(texture_locations_ptr + n))]->width();
-		width = (width < temp_width) ? width : temp_width;
-		std::size_t temp_height = m_texture_buffer_ptr[static_cast<std::size_t>(*(texture_locations_ptr + n))]->height();
-		height = (height < temp_height) ? height : temp_height;
-		m_textures_in_use[n] = GL_COLOR_ATTACHMENT0 + *(texture_locations_ptr + n);
-	}
-	glDrawBuffers(m_number_of_textures_in_use, static_cast<GLenum*>(m_textures_in_use));
-	m_width = static_cast<GLsizei>(width);
-	m_height = static_cast<GLsizei>(height);
-	glViewport(0, 0, m_width, m_height);
-
-	return *this;
-}
-
-const kiwi::frame_buffer& kiwi::frame_buffer::use_with_textures(GLenum* texture_locations_ptr, std::size_t number_of_textures) const noexcept
-{
-	if (kiwi::context::current_frame_buffer() != static_cast<const void*>(this))
-	{
-		glBindFramebuffer(GL_FRAMEBUFFER, m_frame_buffer_index);
-		kiwi::context::current_frame_buffer() = static_cast<const void*>(this);
-	}
-
-	std::size_t width = m_texture_buffer_ptr[static_cast<std::size_t>(*texture_locations_ptr)]->width();
-	std::size_t height = m_texture_buffer_ptr[static_cast<std::size_t>(*texture_locations_ptr)]->height();
-	m_textures_in_use[0] = GL_COLOR_ATTACHMENT0 + *texture_locations_ptr;
-	m_number_of_textures_in_use = static_cast<GLsizei>(number_of_textures);
-
-	for (std::size_t n = 1; n < number_of_textures; n++)
-	{
-		std::size_t temp_width = m_texture_buffer_ptr[static_cast<std::size_t>(*(texture_locations_ptr + n))]->width();
-		width = (width < temp_width) ? width : temp_width;
-		std::size_t temp_height = m_texture_buffer_ptr[static_cast<std::size_t>(*(texture_locations_ptr + n))]->height();
-		height = (height < temp_height) ? height : temp_height;
-		m_textures_in_use[n] = GL_COLOR_ATTACHMENT0 + *(texture_locations_ptr + n);
-	}
-	glDrawBuffers(m_number_of_textures_in_use, static_cast<GLenum*>(m_textures_in_use));
-	m_width = static_cast<GLsizei>(width);
-	m_height = static_cast<GLsizei>(height);
-	glViewport(0, 0, m_width, m_height);
-
-	return *this;
-}
-
-kiwi::frame_buffer& kiwi::frame_buffer::reserve_textures(GLenum* texture_locations_ptr, std::size_t number_of_textures) noexcept
-{
-	if (m_frame_buffer_index == 0)
-	{
-		glGenFramebuffers(1, &m_frame_buffer_index);
-	}
-
-	if (kiwi::context::current_frame_buffer() != static_cast<const void*>(this))
-	{
-		glBindFramebuffer(GL_FRAMEBUFFER, m_frame_buffer_index);
-		kiwi::context::current_frame_buffer() = static_cast<const void*>(this);
-	}
-
-	std::size_t width = m_texture_buffer_ptr[static_cast<std::size_t>(*texture_locations_ptr)]->width();
-	std::size_t height = m_texture_buffer_ptr[static_cast<std::size_t>(*texture_locations_ptr)]->height();
-	m_textures_in_use[0] = GL_COLOR_ATTACHMENT0 + *texture_locations_ptr;
-	m_number_of_textures_in_use = static_cast<GLsizei>(number_of_textures);
-
-	for (std::size_t n = 1; n < number_of_textures; n++)
-	{
-		std::size_t temp_width = m_texture_buffer_ptr[static_cast<std::size_t>(*(texture_locations_ptr + n))]->width();
-		width = (width < temp_width) ? width : temp_width;
-		std::size_t temp_height = m_texture_buffer_ptr[static_cast<std::size_t>(*(texture_locations_ptr + n))]->height();
-		height = (height < temp_height) ? height : temp_height;
-		m_textures_in_use[n] = GL_COLOR_ATTACHMENT0 + *(texture_locations_ptr + n);
-	}
-
-	m_width = static_cast<GLsizei>(width);
-	m_height = static_cast<GLsizei>(height);
-
-	return *this;
-}
-
-const kiwi::frame_buffer& kiwi::frame_buffer::reserve_textures(GLenum* texture_locations_ptr, std::size_t number_of_textures) const noexcept
-{
-	if (kiwi::context::current_frame_buffer() != static_cast<const void*>(this))
-	{
-		glBindFramebuffer(GL_FRAMEBUFFER, m_frame_buffer_index);
-		kiwi::context::current_frame_buffer() = static_cast<const void*>(this);
-	}
-
-	std::size_t width = m_texture_buffer_ptr[static_cast<std::size_t>(*texture_locations_ptr)]->width();
-	std::size_t height = m_texture_buffer_ptr[static_cast<std::size_t>(*texture_locations_ptr)]->height();
-	m_textures_in_use[0] = GL_COLOR_ATTACHMENT0 + *texture_locations_ptr;
-	m_number_of_textures_in_use = static_cast<GLsizei>(number_of_textures);
-
-	for (std::size_t n = 1; n < number_of_textures; n++)
-	{
-		std::size_t temp_width = m_texture_buffer_ptr[static_cast<std::size_t>(*(texture_locations_ptr + n))]->width();
-		width = (width < temp_width) ? width : temp_width;
-		std::size_t temp_height = m_texture_buffer_ptr[static_cast<std::size_t>(*(texture_locations_ptr + n))]->height();
-		height = (height < temp_height) ? height : temp_height;
-		m_textures_in_use[n] = GL_COLOR_ATTACHMENT0 + *(texture_locations_ptr + n);
-	}
-
-	m_width = static_cast<GLsizei>(width);
-	m_height = static_cast<GLsizei>(height);
+	glViewport(0, 0, static_cast<GLsizei>(m_texture_buffer_ptr[first_texture_number]->width()),
+		static_cast<GLsizei>(m_texture_buffer_ptr[first_texture_number]->height()));
 
 	return *this;
 }
@@ -541,7 +270,7 @@ void kiwi::frame_buffer::exit_frame() noexcept
 	glViewport(0, 0, static_cast<GLint>(screen_width), static_cast<GLint>(screen_height));
 }
 
-kiwi::frame_buffer& kiwi::frame_buffer::attach_texture(kiwi::texture_buffer* texture_buffer_ptr, std::size_t location) noexcept
+kiwi::frame_buffer& kiwi::frame_buffer::attach_texture(kiwi::texture_buffer* texture_buffer_ptr, std::size_t color_attachment) noexcept
 {
 	if (m_frame_buffer_index == 0)
 	{
@@ -554,32 +283,32 @@ kiwi::frame_buffer& kiwi::frame_buffer::attach_texture(kiwi::texture_buffer* tex
 		kiwi::context::current_frame_buffer() = static_cast<const void*>(this);
 	}
 
-	if (m_texture_buffer_ptr[location] != texture_buffer_ptr)
+	if (m_texture_buffer_ptr[color_attachment] != texture_buffer_ptr)
 	{
-		m_texture_buffer_ptr[location] = texture_buffer_ptr;
+		m_texture_buffer_ptr[color_attachment] = texture_buffer_ptr;
 		if (texture_buffer_ptr->get_format() != kiwi::texture_format::depth)
 		{
 			switch (texture_buffer_ptr->get_sampling())
 			{
 
 			case kiwi::texture_sampling::unique:
-				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + static_cast<GLenum>(location), GL_TEXTURE_2D, texture_buffer_ptr->get_id(), 0);
+				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + static_cast<GLenum>(color_attachment), GL_TEXTURE_2D, texture_buffer_ptr->get_id(), 0);
 				break;
 
 			case kiwi::texture_sampling::multiple:
-				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + static_cast<GLenum>(location), GL_TEXTURE_2D_MULTISAMPLE, texture_buffer_ptr->get_id(), 0);
+				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + static_cast<GLenum>(color_attachment), GL_TEXTURE_2D_MULTISAMPLE, texture_buffer_ptr->get_id(), 0);
 				break;
 			}
 		}
 		else
 		{
-			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + static_cast<GLenum>(location), GL_DEPTH_COMPONENT, texture_buffer_ptr->get_id(), 0);
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + static_cast<GLenum>(color_attachment), GL_DEPTH_COMPONENT, texture_buffer_ptr->get_id(), 0);
 		}
 	}
 	return *this;
 }
 
-kiwi::frame_buffer& kiwi::frame_buffer::detach_texture(std::size_t location) noexcept
+kiwi::frame_buffer& kiwi::frame_buffer::detach_texture(std::size_t color_attachment) noexcept
 {
 	if (kiwi::context::current_frame_buffer() != static_cast<const void*>(this))
 	{
@@ -587,10 +316,10 @@ kiwi::frame_buffer& kiwi::frame_buffer::detach_texture(std::size_t location) noe
 		kiwi::context::current_frame_buffer() = static_cast<const void*>(this);
 	}
 
-	if (m_texture_buffer_ptr[location] != nullptr)
+	if (m_texture_buffer_ptr[color_attachment] != nullptr)
 	{
-		glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + static_cast<GLenum>(location), 0, 0);
-		m_texture_buffer_ptr[location] = nullptr;
+		glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + static_cast<GLenum>(color_attachment), 0, 0);
+		m_texture_buffer_ptr[color_attachment] = nullptr;
 		return *this;
 	}
 }
@@ -603,47 +332,21 @@ kiwi::frame_buffer& kiwi::frame_buffer::detach_all_textures() noexcept
 		kiwi::context::current_frame_buffer() = static_cast<const void*>(this);
 	}
 
-	for (std::size_t location = 0; location < m_max_number_of_attachments; location++)
+	for (std::size_t color_attachment = 0; color_attachment < m_max_number_of_attachments; color_attachment++)
 	{
-		if (m_texture_buffer_ptr[location] != nullptr)
+		if (m_texture_buffer_ptr[color_attachment] != nullptr)
 		{
-			glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + static_cast<GLenum>(location), 0, 0);
-			m_texture_buffer_ptr[location] = nullptr;
+			glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + static_cast<GLenum>(color_attachment), 0, 0);
+			m_texture_buffer_ptr[color_attachment] = nullptr;
 			return *this;
 		}
 	}
 	return *this;
 }
 
-kiwi::frame_buffer& kiwi::frame_buffer::textures_in_use(GLenum* arr, std::size_t* number_of_textures_in_use) noexcept
+kiwi::texture_buffer* kiwi::frame_buffer::get_texture(std::size_t color_attachment) const noexcept
 {
-	std::size_t number = static_cast<std::size_t>(m_number_of_textures_in_use);
-
-	for (std::size_t n = 0; n < number; n++)
-	{
-		arr[n] = static_cast<GLenum>(m_textures_in_use[n] - GL_COLOR_ATTACHMENT0);
-	}
-	*number_of_textures_in_use = number;
-
-	return *this;
-}
-
-const kiwi::frame_buffer& kiwi::frame_buffer::textures_in_use(GLenum* arr, std::size_t* number_of_textures_in_use) const noexcept
-{
-	std::size_t number = static_cast<std::size_t>(m_number_of_textures_in_use);
-
-	for (std::size_t n = 0; n < number; n++)
-	{
-		arr[n] = static_cast<GLenum>(m_textures_in_use[n] - GL_COLOR_ATTACHMENT0);
-	}
-	*number_of_textures_in_use = number;
-
-	return *this;
-}
-
-kiwi::texture_buffer* kiwi::frame_buffer::get_texture(std::size_t location) const noexcept
-{
-	return m_texture_buffer_ptr[location];
+	return m_texture_buffer_ptr[color_attachment];
 }
 
 kiwi::frame_buffer& kiwi::frame_buffer::attach_render_buffer(kiwi::render_buffer* render_buffer_ptr) noexcept
@@ -737,28 +440,44 @@ kiwi::frame_buffer& kiwi::frame_buffer::detach_render_buffer() noexcept
 }
 
 
-kiwi::scoped_frame::scoped_frame(kiwi::frame_buffer& rhs)
+kiwi::scoped_frame::scoped_frame(kiwi::frame_buffer& rhs) noexcept
 {
 	m_exit_frame_buffer_ptr = static_cast<const kiwi::frame_buffer*>(kiwi::context::current_frame_buffer());
-	rhs.use();
+	rhs.bind();
 	m_current_frame_buffer_ptr = &rhs;
+	m_exit_color_attachment = 0;
 	m_action_on_exit = true;
 }
 
-kiwi::scoped_frame::scoped_frame(kiwi::frame_buffer& rhs, std::size_t texture_number)
+kiwi::scoped_frame::scoped_frame(kiwi::frame_buffer& rhs, std::size_t color_attachment) noexcept
 {
 	m_exit_frame_buffer_ptr = static_cast<const kiwi::frame_buffer*>(kiwi::context::current_frame_buffer());
-	rhs.use_with_texture(texture_number);
+	rhs.use_with_texture(color_attachment);
 	m_current_frame_buffer_ptr = &rhs;
+	m_exit_color_attachment = 0;
 	m_action_on_exit = true;
 }
 
-kiwi::scoped_frame::scoped_frame(kiwi::frame_buffer& rhs, GLenum* texture_locations, std::size_t location_count)
+kiwi::scoped_frame::scoped_frame(kiwi::frame_buffer& rhs, const GLenum* const color_attachments_ptr, std::size_t color_attachment_count) noexcept
 {
 	m_exit_frame_buffer_ptr = static_cast<const kiwi::frame_buffer*>(kiwi::context::current_frame_buffer());
-	rhs.use_with_textures(texture_locations, location_count);
+	rhs.use_with_textures(color_attachments_ptr, color_attachment_count);
 	m_current_frame_buffer_ptr = &rhs;
+	m_exit_color_attachment = 0;
 	m_action_on_exit = true;
+}
+
+kiwi::scoped_frame& kiwi::scoped_frame::set_frame_buffer_on_exit(const kiwi::frame_buffer& exit_frame_buffer, std::size_t color_attachment) noexcept
+{
+	m_exit_frame_buffer_ptr = &exit_frame_buffer;
+	m_exit_color_attachment = color_attachment;
+	return *this;
+}
+
+kiwi::scoped_frame& kiwi::scoped_frame::set_default_frame_buffer_on_exit() noexcept
+{
+	m_exit_frame_buffer_ptr = nullptr;
+	return *this;
 }
 
 kiwi::frame_buffer& kiwi::scoped_frame::get_frame_buffer() noexcept
@@ -779,6 +498,63 @@ kiwi::scoped_frame::~scoped_frame()
 			m_exit_frame_buffer_ptr->use_with_texture(m_exit_color_attachment);
 		}
 	}
+}
+
+
+kiwi::scoped_blit::scoped_blit(kiwi::frame_buffer& draw_frame, kiwi::frame_buffer& read_frame) noexcept
+{
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, read_frame.get_id());
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, draw_frame.get_id());
+	m_read_ptr = &read_frame;
+	m_draw_ptr = &draw_frame;
+	m_exit_frame_buffer_ptr = reinterpret_cast<const kiwi::frame_buffer*>(kiwi::context::current_frame_buffer());
+	m_exit_color_attachment = 0;
+	m_action_on_exit = true;
+}
+
+kiwi::scoped_blit::~scoped_blit()
+{
+	if (true)
+	{
+		if (m_exit_frame_buffer_ptr == nullptr)
+		{
+			glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		}
+		else
+		{
+			m_exit_frame_buffer_ptr->use_with_texture(m_exit_color_attachment);
+		}
+	}
+}
+
+kiwi::scoped_blit& kiwi::scoped_blit::no_action_on_exit() noexcept
+{
+	m_action_on_exit = false;
+	return *this;
+}
+
+kiwi::scoped_blit& kiwi::scoped_blit::set_frame_buffer_on_exit(const kiwi::frame_buffer& exit_frame_buffer, std::size_t color_attachment) noexcept
+{
+	m_exit_frame_buffer_ptr = &exit_frame_buffer;
+	m_exit_color_attachment = color_attachment;
+	return *this;
+}
+
+kiwi::scoped_blit& kiwi::scoped_blit::set_default_frame_buffer_on_exit() noexcept
+{
+	m_exit_frame_buffer_ptr = nullptr;
+	return *this;
+}
+
+kiwi::scoped_blit& kiwi::scoped_blit::blit(std::size_t draw_location, std::size_t read_location) noexcept
+{
+	glReadBuffer(GL_COLOR_ATTACHMENT0 + static_cast<GLenum>(read_location));
+	GLenum location[1] = { GL_COLOR_ATTACHMENT0 + static_cast<GLenum>(draw_location) };
+	glDrawBuffers(1, static_cast<GLenum*>(location));
+	GLint width = static_cast<GLint>(m_read_ptr->get_texture(read_location)->width());
+	GLint height = static_cast<GLint>(m_read_ptr->get_texture(read_location)->height());
+	glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+	return *this;
 }
 
 

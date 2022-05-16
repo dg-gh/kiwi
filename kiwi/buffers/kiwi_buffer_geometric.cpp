@@ -109,7 +109,9 @@ kiwi::geometric_buffer_2d& kiwi::geometric_buffer_2d::draw(const GLfloat* const 
 	{
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, m_frame_buffer.get_id());
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-		glBlitFramebuffer(0, 0, m_width, m_height, 0, 0, m_width, m_height, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+		glBlitFramebuffer(0, 0, static_cast<GLint>(m_width), static_cast<GLint>(m_height),
+			0, 0, static_cast<GLint>(m_width), static_cast<GLint>(m_height),
+			GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 	}
 
 	return *this;
