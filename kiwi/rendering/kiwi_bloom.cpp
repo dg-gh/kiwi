@@ -33,9 +33,10 @@ kiwi::bloom& kiwi::bloom::set_layer_coefficients(GLfloat layer_1_coeff, GLfloat 
 	return *this;
 }
 
-kiwi::bloom& kiwi::bloom::init(std::size_t screen_width, std::size_t screen_height, bool extended) noexcept
+kiwi::bloom& kiwi::bloom::init(std::size_t screen_width, std::size_t screen_height, bool extended, kiwi::texture_sampling sampling) noexcept
 {
 	m_extended = extended;
+	m_sampling = sampling;
 
 	{
 		GLfloat screen_width_f = static_cast<GLfloat>(screen_width);
@@ -66,10 +67,21 @@ kiwi::bloom& kiwi::bloom::init(std::size_t screen_width, std::size_t screen_heig
 	{
 		kiwi::scoped_frame frame(m_multisampled_frame_buffer);
 
-		m_multisampled_render_buffer.set_sampling(kiwi::render_buffer_sampling::multiple).allocate(kiwi::render_buffer_type::f24_st8,
-			kiwi::size(screen_width, screen_height));
+		switch (m_sampling)
+		{
 
-		m_multisampled_texture.set_sampling(kiwi::texture_sampling::multiple).allocate(kiwi::texture_format::f16,
+		case kiwi::texture_sampling::unique:
+			m_multisampled_render_buffer.set_sampling(kiwi::render_buffer_sampling::unique).allocate(kiwi::render_buffer_type::f24_st8,
+				kiwi::size(screen_width, screen_height));
+			break;
+
+		case kiwi::texture_sampling::multiple:
+			m_multisampled_render_buffer.set_sampling(kiwi::render_buffer_sampling::multiple).allocate(kiwi::render_buffer_type::f24_st8,
+				kiwi::size(screen_width, screen_height));
+			break;
+		}
+
+		m_multisampled_texture.set_sampling(m_sampling).allocate(kiwi::texture_format::f16,
 			kiwi::size(screen_width, screen_height), 4, kiwi::texture_mapping::linear, kiwi::texture_borders::pad);
 
 		frame.get_frame_buffer().attach_render_buffer(&m_multisampled_render_buffer)
@@ -201,10 +213,21 @@ kiwi::bloom& kiwi::bloom::resize(std::size_t screen_width, std::size_t screen_he
 		}
 	}
 
-	m_multisampled_render_buffer.set_sampling(kiwi::render_buffer_sampling::multiple).allocate(kiwi::render_buffer_type::f24_st8,
-		kiwi::size(screen_width, screen_height));
+	switch (m_sampling)
+	{
 
-	m_multisampled_texture.set_sampling(kiwi::texture_sampling::multiple).allocate(kiwi::texture_format::f16,
+	case kiwi::texture_sampling::unique:
+		m_multisampled_render_buffer.set_sampling(kiwi::render_buffer_sampling::unique).allocate(kiwi::render_buffer_type::f24_st8,
+			kiwi::size(screen_width, screen_height));
+		break;
+
+	case kiwi::texture_sampling::multiple:
+		m_multisampled_render_buffer.set_sampling(kiwi::render_buffer_sampling::multiple).allocate(kiwi::render_buffer_type::f24_st8,
+			kiwi::size(screen_width, screen_height));
+		break;
+	}
+	
+	m_multisampled_texture.set_sampling(m_sampling).allocate(kiwi::texture_format::f16,
 		kiwi::size(screen_width, screen_height), 4, kiwi::texture_mapping::linear, kiwi::texture_borders::clamp);
 
 
