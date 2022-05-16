@@ -37,7 +37,9 @@ kiwi::geometric_buffer_2d& kiwi::geometric_buffer_2d::draw(const GLfloat* const 
 	{
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, m_frame_buffer.get_id());
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-		glBlitFramebuffer(0, 0, m_width, m_height, 0, 0, m_width, m_height, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+		GLint width = static_cast<GLint>(m_width);
+		GLint height = static_cast<GLint>(m_height);
+		glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 	}
 
 	return *this;
@@ -109,9 +111,9 @@ kiwi::geometric_buffer_2d& kiwi::geometric_buffer_2d::draw(const GLfloat* const 
 	{
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, m_frame_buffer.get_id());
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-		glBlitFramebuffer(0, 0, static_cast<GLint>(m_width), static_cast<GLint>(m_height),
-			0, 0, static_cast<GLint>(m_width), static_cast<GLint>(m_height),
-			GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+		GLint width = static_cast<GLint>(m_width);
+		GLint height = static_cast<GLint>(m_height);
+		glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 	}
 
 	return *this;
@@ -276,7 +278,9 @@ kiwi::geometric_buffer_3d& kiwi::geometric_buffer_3d::draw(const GLfloat* const 
 	{
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, m_frame_buffer.get_id());
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-		glBlitFramebuffer(0, 0, m_width, m_height, 0, 0, m_width, m_height, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+		GLint width = static_cast<GLint>(m_width);
+		GLint height = static_cast<GLint>(m_height);
+		glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 	}
 
 	return *this;
@@ -325,7 +329,9 @@ kiwi::geometric_buffer_3d& kiwi::geometric_buffer_3d::draw_to_current(const GLfl
 
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, m_frame_buffer.get_id());
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, draw_id);
-		glBlitFramebuffer(0, 0, m_width, m_height, 0, 0, m_width, m_height, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+		GLint width = static_cast<GLint>(m_width);
+		GLint height = static_cast<GLint>(m_height);
+		glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 	}
 
 	return *this;
@@ -366,7 +372,9 @@ kiwi::geometric_buffer_3d& kiwi::geometric_buffer_3d::draw(const GLfloat* const 
 	{
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, m_frame_buffer.get_id());
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frame_buffer.get_id());
-		glBlitFramebuffer(0, 0, m_width, m_height, 0, 0, m_width, m_height, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+		GLint width = static_cast<GLint>(m_width);
+		GLint height = static_cast<GLint>(m_height);
+		glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 	}
 
 	return *this;
