@@ -1,6 +1,6 @@
-#include "rendering/kiwi_buffer_vertex.hpp"
+#include "buffers/kiwi_buffer_vertex.hpp"
+#include "buffers/kiwi_buffer_frame.hpp"
 #include "rendering/kiwi_program.hpp"
-#include "rendering/kiwi_buffer_frame.hpp"
 #include "shader_sources/kiwi_sources_deferred_2d.hpp"
 #include "shader_sources/kiwi_sources_deferred_3d.hpp"
 #include "rendering/kiwi_sets.hpp"

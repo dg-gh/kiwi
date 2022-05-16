@@ -2,8 +2,8 @@
 #define KIWI_BLOOM_HPP
 
 #include "rendering/kiwi_program.hpp"
-#include "rendering/kiwi_buffer_vertex.hpp"
-#include "rendering/kiwi_buffer_frame.hpp"
+#include "buffers/kiwi_buffer_vertex.hpp"
+#include "buffers/kiwi_buffer_frame.hpp"
 
 
 namespace kiwi

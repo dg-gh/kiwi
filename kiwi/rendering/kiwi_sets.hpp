@@ -2,8 +2,8 @@
 #define KIWI_SETS_HPP
 
 #include "context/kiwi_context.hpp"
-#include "rendering/kiwi_buffer_texture.hpp"
-#include "rendering/kiwi_buffer_storage.hpp"
+#include "buffers/kiwi_buffer_texture.hpp"
+#include "buffers/kiwi_buffer_storage.hpp"
 
 
 namespace kiwi

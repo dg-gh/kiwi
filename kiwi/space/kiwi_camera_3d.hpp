@@ -2,7 +2,7 @@
 #define KIWI_CAMERA_3D_HPP
 
 #include "context/kiwi_context.hpp"
-#include "rendering/kiwi_buffer_frame.hpp"
+#include "buffers/kiwi_buffer_frame.hpp"
 #include "space/kiwi_model_3d.hpp"
 
 

@@ -1,4 +1,4 @@
-#include "rendering/kiwi_buffer_geometric.hpp"
+#include "buffers/kiwi_buffer_geometric.hpp"
 #include "shader_sources/kiwi_sources_basic_2d.hpp"
 
 

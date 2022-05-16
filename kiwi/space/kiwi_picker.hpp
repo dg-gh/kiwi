@@ -1,9 +1,9 @@
 #ifndef KIWI_PICKER_HPP
 #define KIWI_PICKER_HPP
 
-#include "rendering/kiwi_buffer_vertex.hpp"
+#include "buffers/kiwi_buffer_vertex.hpp"
+#include "buffers/kiwi_buffer_frame.hpp"
 #include "rendering/kiwi_program.hpp"
-#include "rendering/kiwi_buffer_frame.hpp"
 #include "rendering/kiwi_sets.hpp"
 #include "rendering/kiwi_draw.hpp"
 

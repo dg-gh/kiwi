@@ -1,4 +1,4 @@
-#include "rendering/kiwi_buffer_uniform.hpp"
+#include "buffers/kiwi_buffer_uniform.hpp"
 
 
 kiwi::uniform_buffer::uniform_buffer() noexcept

@@ -2,9 +2,9 @@
 #define KIWI_GLYPH_3D_HPP
 
 #include "rendering/kiwi_program.hpp"
-#include "rendering/kiwi_buffer_vertex.hpp"
-#include "rendering/kiwi_buffer_texture.hpp"
-#include "rendering/kiwi_buffer_storage.hpp"
+#include "buffers/kiwi_buffer_vertex.hpp"
+#include "buffers/kiwi_buffer_texture.hpp"
+#include "buffers/kiwi_buffer_storage.hpp"
 #include "context/kiwi_context.hpp"
 
 

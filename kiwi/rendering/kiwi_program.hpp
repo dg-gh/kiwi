@@ -2,7 +2,7 @@
 #define KIWI_PROGRAM_HPP
 
 #include "context/kiwi_context.hpp"
-#include "rendering/kiwi_buffer_uniform.hpp"
+#include "buffers/kiwi_buffer_uniform.hpp"
 
 namespace kiwi
 {

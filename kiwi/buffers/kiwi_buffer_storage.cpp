@@ -1,4 +1,4 @@
-#include "rendering/kiwi_buffer_storage.hpp"
+#include "buffers/kiwi_buffer_storage.hpp"
 
 
 kiwi::storage_buffer::storage_buffer() noexcept

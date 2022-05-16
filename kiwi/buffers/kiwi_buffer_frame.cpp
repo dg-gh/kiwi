@@ -1,4 +1,4 @@
-#include "rendering/kiwi_buffer_frame.hpp"
+#include "buffers/kiwi_buffer_frame.hpp"
 
 
 kiwi::frame_buffer::frame_buffer() noexcept

@@ -1,4 +1,4 @@
-#include "rendering/kiwi_buffer_index.hpp"
+#include "buffers/kiwi_buffer_index.hpp"
 
 
 kiwi::index_buffer::index_buffer() noexcept

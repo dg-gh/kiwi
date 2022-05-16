@@ -1,4 +1,4 @@
-#include "rendering/kiwi_buffer_texture.hpp"
+#include "buffers/kiwi_buffer_texture.hpp"
 
 kiwi::texture_buffer::texture_buffer() noexcept
 {

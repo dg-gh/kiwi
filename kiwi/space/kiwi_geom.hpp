@@ -2,7 +2,7 @@
 #define KIWI_GEOM_HPP
 
 #include "kiwi_includes.hpp"
-#include "rendering/kiwi_buffer_vertex.hpp"
+#include "buffers/kiwi_buffer_vertex.hpp"
 
 
 namespace kiwi

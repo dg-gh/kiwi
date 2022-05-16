@@ -2,10 +2,10 @@
 #define KIWI_DRAW_HPP
 
 #include "context/kiwi_context.hpp"
-#include "rendering/kiwi_buffer_vertex.hpp"
-#include "rendering/kiwi_buffer_index.hpp"
-#include "rendering/kiwi_buffer_storage.hpp"
-#include "rendering/kiwi_buffer_texture.hpp"
+#include "buffers/kiwi_buffer_vertex.hpp"
+#include "buffers/kiwi_buffer_index.hpp"
+#include "buffers/kiwi_buffer_storage.hpp"
+#include "buffers/kiwi_buffer_texture.hpp"
 #include "rendering/kiwi_program.hpp"
 #include "rendering/kiwi_sets.hpp"
 
