@@ -9,7 +9,7 @@ namespace kiwi
 	using current_buffer_pointer = const void*;
 	using current_texture_pointer = const void*;
 	using current_frame_pointer = const void*;
-	using current_color_attachment_uint = std::size_t&;
+	using current_color_attachment = std::size_t;
 	using current_program_pointer = const void*;
 }
 
@@ -92,7 +92,7 @@ namespace kiwi
 		kiwi::current_buffer_pointer& current_buffer() noexcept;
 		kiwi::current_texture_pointer& current_texture_buffer() noexcept;
 		kiwi::current_frame_pointer& current_frame_buffer() noexcept;
-		kiwi::current_color_attachment_uint current_color_attachment() noexcept;
+		kiwi::current_color_attachment& current_color_attachment() noexcept;
 		kiwi::current_program_pointer& current_program() noexcept;
 
 		void window_resize_callback(GLFWwindow* window, int screen_width, int screen_height);

@@ -329,7 +329,7 @@ kiwi::current_frame_pointer& kiwi::context::current_frame_buffer() noexcept
 	return kiwi::user_window_context.current_frame_ptr;
 }
 
-kiwi::current_color_attachment_uint current_color_attachment() noexcept
+kiwi::current_color_attachment& kiwi::context::current_color_attachment() noexcept
 {
 	return kiwi::user_window_context.current_color_attachment;
 }

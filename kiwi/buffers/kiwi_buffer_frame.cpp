@@ -177,6 +177,8 @@ kiwi::frame_buffer& kiwi::frame_buffer::use_with_texture(std::size_t color_attac
 		kiwi::context::current_frame_buffer() = static_cast<const void*>(this);
 	}
 
+	kiwi::context::current_color_attachment() = color_attachment;
+
 	GLenum texture_in_use = GL_COLOR_ATTACHMENT0 + static_cast<GLenum>(color_attachment);
 
 	glDrawBuffers(1, &texture_in_use);
@@ -194,6 +196,8 @@ const kiwi::frame_buffer& kiwi::frame_buffer::use_with_texture(std::size_t color
 		glBindFramebuffer(GL_FRAMEBUFFER, m_frame_buffer_index);
 		kiwi::context::current_frame_buffer() = static_cast<const void*>(this);
 	}
+
+	kiwi::context::current_color_attachment() = color_attachment;
 
 	GLenum texture_in_use = GL_COLOR_ATTACHMENT0 + static_cast<GLenum>(color_attachment);
 
@@ -217,6 +221,8 @@ kiwi::frame_buffer& kiwi::frame_buffer::use_with_textures(const GLenum* const co
 		glBindFramebuffer(GL_FRAMEBUFFER, m_frame_buffer_index);
 		kiwi::context::current_frame_buffer() = static_cast<const void*>(this);
 	}
+
+	kiwi::context::current_color_attachment() = static_cast<std::size_t>(*color_attachments_ptr);
 
 	GLenum textures_in_use[8];
 
@@ -242,6 +248,8 @@ const kiwi::frame_buffer& kiwi::frame_buffer::use_with_textures(const GLenum* co
 		glBindFramebuffer(GL_FRAMEBUFFER, m_frame_buffer_index);
 		kiwi::context::current_frame_buffer() = static_cast<const void*>(this);
 	}
+
+	kiwi::context::current_color_attachment() = static_cast<std::size_t>(*color_attachments_ptr);
 
 	GLenum textures_in_use[8];
 
@@ -445,7 +453,7 @@ kiwi::scoped_frame::scoped_frame(kiwi::frame_buffer& rhs) noexcept
 	m_exit_frame_buffer_ptr = static_cast<const kiwi::frame_buffer*>(kiwi::context::current_frame_buffer());
 	rhs.bind();
 	m_current_frame_buffer_ptr = &rhs;
-	m_exit_color_attachment = 0;
+	m_exit_color_attachment = kiwi::context::current_color_attachment();
 	m_action_on_exit = true;
 }
 
@@ -454,7 +462,7 @@ kiwi::scoped_frame::scoped_frame(kiwi::frame_buffer& rhs, std::size_t color_atta
 	m_exit_frame_buffer_ptr = static_cast<const kiwi::frame_buffer*>(kiwi::context::current_frame_buffer());
 	rhs.use_with_texture(color_attachment);
 	m_current_frame_buffer_ptr = &rhs;
-	m_exit_color_attachment = 0;
+	m_exit_color_attachment = kiwi::context::current_color_attachment();
 	m_action_on_exit = true;
 }
 
@@ -463,7 +471,7 @@ kiwi::scoped_frame::scoped_frame(kiwi::frame_buffer& rhs, const GLenum* const co
 	m_exit_frame_buffer_ptr = static_cast<const kiwi::frame_buffer*>(kiwi::context::current_frame_buffer());
 	rhs.use_with_textures(color_attachments_ptr, color_attachment_count);
 	m_current_frame_buffer_ptr = &rhs;
-	m_exit_color_attachment = 0;
+	m_exit_color_attachment = kiwi::context::current_color_attachment();
 	m_action_on_exit = true;
 }
 
@@ -508,7 +516,7 @@ kiwi::scoped_blit::scoped_blit(kiwi::frame_buffer& draw_frame, kiwi::frame_buffe
 	m_read_ptr = &read_frame;
 	m_draw_ptr = &draw_frame;
 	m_exit_frame_buffer_ptr = reinterpret_cast<const kiwi::frame_buffer*>(kiwi::context::current_frame_buffer());
-	m_exit_color_attachment = 0;
+	m_exit_color_attachment = kiwi::context::current_color_attachment();
 	m_action_on_exit = true;
 }
 
