@@ -33,7 +33,7 @@ kiwi::bloom& kiwi::bloom::set_layer_coefficients(GLfloat layer_1_coeff, GLfloat 
 	return *this;
 }
 
-kiwi::bloom& kiwi::bloom::init(std::size_t screen_width, std::size_t screen_height, bool extended, kiwi::texture_sampling sampling) noexcept
+bool kiwi::bloom::init(std::size_t screen_width, std::size_t screen_height, bool extended, kiwi::texture_sampling sampling) noexcept
 {
 	m_extended = extended;
 	m_sampling = sampling;
@@ -150,39 +150,47 @@ kiwi::bloom& kiwi::bloom::init(std::size_t screen_width, std::size_t screen_heig
 		}
 	}
 
-	m_threshold_program.new_program(
+	bool success = true;
+
+	success &= m_threshold_program.new_program(
 		kiwi::source::bloom_threshold::vertex_shader(),
 		kiwi::source::bloom_threshold::fragment_shader()
 	);
 
-	m_gaussian_filter_program.new_program(
+	success &= m_gaussian_filter_program.new_program(
 		kiwi::source::bloom_gaussian_filter::vertex_shader(),
 		kiwi::source::bloom_gaussian_filter::fragment_shader()
 	);
 
 	if (m_extended)
 	{
-		m_blend_program.new_program(
+		success &= m_blend_program.new_program(
 			kiwi::source::bloom_blend_8_layers::vertex_shader(),
 			kiwi::source::bloom_blend_8_layers::fragment_shader()
 		);
 	}
 	else
 	{
-		m_blend_program.new_program(
+		success &= m_blend_program.new_program(
 			kiwi::source::bloom_blend_4_layers::vertex_shader(),
 			kiwi::source::bloom_blend_4_layers::fragment_shader()
 		);
 	}
 
-	m_threshold_location = m_threshold_program.new_uniform_location("u_threshold");
-	m_distance_location = m_gaussian_filter_program.new_uniform_location("u_distance");
-	m_horizontal_location = m_gaussian_filter_program.new_uniform_location("u_horizontal");
-	m_blur_scale_location = m_gaussian_filter_program.new_uniform_location("u_scale");
-	m_blend_location = m_blend_program.new_uniform_location("u_blend");
-	if (m_extended) { m_blend_extended_location = m_blend_program.new_uniform_location("u_blend_extended"); }
+	if (success)
+	{
+		m_threshold_location = m_threshold_program.new_uniform_location("u_threshold");
+		m_distance_location = m_gaussian_filter_program.new_uniform_location("u_distance");
+		m_horizontal_location = m_gaussian_filter_program.new_uniform_location("u_horizontal");
+		m_blur_scale_location = m_gaussian_filter_program.new_uniform_location("u_scale");
+		m_blend_location = m_blend_program.new_uniform_location("u_blend");
+		if (m_extended)
+		{
+			m_blend_extended_location = m_blend_program.new_uniform_location("u_blend_extended");
+		}
+	}
 
-	return *this;
+	return success;
 }
 
 kiwi::bloom& kiwi::bloom::resize(std::size_t screen_width, std::size_t screen_height) noexcept
@@ -293,7 +301,6 @@ kiwi::bloom& kiwi::bloom::process() noexcept
 	m_threshold_program.set_uniform_1f(m_threshold_location, m_threshold);
 	glDrawArrays(GL_QUADS, 0, 4);
 
-	constexpr GLfloat GL2 = static_cast<GLfloat>(2);
 
 	m_frame_buffer.use_with_texture(2);
 	m_gaussian_filter_program.set_uniform_1f(m_distance_location, m_pixel_size)
@@ -441,12 +448,18 @@ kiwi::bloom& kiwi::bloom::draw_to_current() noexcept
 		m_textures[3].to_binding(6);
 		m_textures[5].to_binding(5);
 		m_textures[7].to_binding(4);
+		m_textures[9].to_binding(3);
+		m_textures[11].to_binding(2);
+		m_textures[13].to_binding(1);
+		m_textures[15].to_binding(0);
 	}
-
-	m_textures[9].to_binding(3);
-	m_textures[11].to_binding(2);
-	m_textures[13].to_binding(1);
-	m_textures[15].to_binding(0);
+	else
+	{
+		m_textures[0].to_binding(3);
+		m_textures[3].to_binding(2);
+		m_textures[5].to_binding(1);
+		m_textures[7].to_binding(0);
+	}
 
 	m_blend_program.use();
 	glDrawArrays(GL_QUADS, 0, 4);

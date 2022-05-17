@@ -18,7 +18,7 @@ namespace kiwi
 		kiwi::bloom& set_layer_coefficients(GLfloat layer_1_coeff, GLfloat layer_2_coeff, GLfloat layer_3_coeff,
 			GLfloat layer_4_coeff = 0.0f, GLfloat layer_5_coeff = 0.0f, GLfloat layer_6_coeff = 0.0f, GLfloat layer_7_coeff = 0.0f) noexcept;
 
-		kiwi::bloom& init(std::size_t screen_width, std::size_t screen_height, bool extended = true, kiwi::texture_sampling sampling = kiwi::texture_sampling::unique) noexcept;
+		bool init(std::size_t screen_width, std::size_t screen_height, bool extended = true, kiwi::texture_sampling sampling = kiwi::texture_sampling::unique) noexcept;
 		kiwi::bloom& resize(std::size_t screen_width, std::size_t screen_height) noexcept;
 
 		kiwi::bloom& collect() noexcept;
