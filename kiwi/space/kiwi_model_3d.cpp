@@ -71,6 +71,8 @@ kiwi::model_3d& kiwi::model_3d::set_base_model(kiwi::model_3d* base_model_ptr) n
 	m_angles_modified = true;
 
 	m_parent_model_ptr = base_model_ptr;
+
+	return *this;
 }
 
 kiwi::model_3d* kiwi::model_3d::get_base_model() const noexcept

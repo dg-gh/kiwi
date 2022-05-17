@@ -1,4 +1,4 @@
-#include "rendering/kiwi_buffer_vertex.hpp"
+#include "buffers/kiwi_buffer_vertex.hpp"
 
 
 kiwi::vertex_buffer::vertex_buffer() noexcept
