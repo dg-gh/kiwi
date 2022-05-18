@@ -2,6 +2,7 @@
 #define KIWI_DRAW_HPP
 
 #include "context/kiwi_context.hpp"
+#include "buffers/kiwi_buffer_cubemap.hpp"
 #include "buffers/kiwi_buffer_vertex.hpp"
 #include "buffers/kiwi_buffer_index.hpp"
 #include "buffers/kiwi_buffer_storage.hpp"
@@ -110,6 +111,7 @@ namespace kiwi
 		kiwi::_draw_basic_proxy using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture_buffer) noexcept;
 		kiwi::_draw_basic_proxy using_texture_alpha_test(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer,
 			const kiwi::texture_buffer& texture_buffer, GLfloat alpha_test_value) noexcept;
+		void using_skybox(const kiwi::cubemap_buffer& skybox_buffer) noexcept;
 		kiwi::_draw_basic_proxy using_no_shade(const kiwi::vertex_buffer& vertex_buffer, GLfloat depth_offset = static_cast<GLfloat>(0)) noexcept;
 
 		kiwi::_draw_basic_proxy using_color_sprite(const kiwi::vertex_buffer& vertex_buffer, const kiwi::RGBA& solid_color, const GLfloat* const XYZ_ptr,

@@ -29,6 +29,12 @@ namespace kiwi
 			const char* const fragment_shader() noexcept;
 		}
 
+		namespace basic_3d_skybox
+		{
+			const char* const vertex_shader() noexcept;
+			const char* const fragment_shader() noexcept;
+		}
+
 		namespace basic_3d_no_shade
 		{
 			const char* const vertex_shader() noexcept;

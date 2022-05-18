@@ -16,6 +16,7 @@ namespace kiwi
 	class basic_3d_color_gradient;
 	class basic_3d_texture;
 	class basic_3d_texture_alpha_test;
+	class basic_3d_skybox;
 	class basic_3d_no_shade;
 
 	class basic_3d_solid_color_sprite;
@@ -42,7 +43,7 @@ namespace kiwi
 		GLint mvp_matrix_location = -1;
 		GLint RGBA_location = -1;
 
-		void init();
+		bool init() noexcept;
 	};
 
 	class basic_2d_color_gradient
@@ -53,7 +54,7 @@ namespace kiwi
 		kiwi::program program;
 		GLint mvp_matrix_location = -1;
 
-		void init();
+		bool init() noexcept;
 	};
 
 	class basic_2d_texture
@@ -64,7 +65,7 @@ namespace kiwi
 		kiwi::program program;
 		GLint mvp_matrix_location = -1;
 
-		void init();
+		bool init() noexcept;
 	};
 
 	class basic_2d_texture_alpha_test
@@ -76,7 +77,7 @@ namespace kiwi
 		GLint mvp_matrix_location = -1;
 		GLint alpha_test_location = -1;
 
-		void init();
+		bool init() noexcept;
 	};
 
 	class basic_2d_no_shade
@@ -87,7 +88,7 @@ namespace kiwi
 		kiwi::program program;
 		GLint mvp_matrix_location = -1;
 
-		void init();
+		bool init() noexcept;
 	};
 
 	class basic_2d_solid_color_sprites
@@ -98,7 +99,7 @@ namespace kiwi
 		kiwi::program program;
 		GLint mvp_matrix_location = -1;
 
-		void init();
+		bool init() noexcept;
 	};
 
 	class basic_2d_texture_sprites
@@ -109,7 +110,7 @@ namespace kiwi
 		kiwi::program program;
 		GLint mvp_matrix_location = -1;
 
-		void init();
+		bool init() noexcept;
 	};
 
 	class basic_3d_solid_color
@@ -121,7 +122,7 @@ namespace kiwi
 		GLint mvp_matrix_location = -1;
 		GLint RGBA_location = -1;
 
-		void init();
+		bool init() noexcept;
 	};
 
 	class basic_3d_color_gradient
@@ -132,7 +133,7 @@ namespace kiwi
 		kiwi::program program;
 		GLint mvp_matrix_location = -1;
 
-		void init();
+		bool init() noexcept;
 	};
 
 	class basic_3d_texture
@@ -143,7 +144,7 @@ namespace kiwi
 		kiwi::program program;
 		GLint mvp_matrix_location = -1;
 
-		void init();
+		bool init() noexcept;
 	};
 
 	class basic_3d_texture_alpha_test
@@ -155,7 +156,18 @@ namespace kiwi
 		GLint mvp_matrix_location = -1;
 		GLint alpha_test_location = -1;
 
-		void init();
+		bool init() noexcept;
+	};
+
+	class basic_3d_skybox
+	{
+
+	public:
+
+		kiwi::program program;
+		GLint mvp_matrix_location = -1;
+
+		bool init() noexcept;
 	};
 
 	class basic_3d_no_shade
@@ -167,7 +179,7 @@ namespace kiwi
 		GLint mvp_matrix_location = -1;
 		GLint depth_offset_location = -1;
 
-		void init();
+		bool init() noexcept;
 	};
 
 	class basic_3d_solid_color_sprite
@@ -181,7 +193,7 @@ namespace kiwi
 		GLint XYZ_location = -1;
 		GLint RGBA_location = -1;
 
-		void init();
+		bool init() noexcept;
 	};
 
 	class basic_3d_texture_sprite
@@ -194,7 +206,7 @@ namespace kiwi
 		GLint mvp_matrix_3d_location = -1;
 		GLint XYZ_location = -1;
 
-		void init();
+		bool init() noexcept;
 	};
 
 	class basic_3d_solid_color_sprites
@@ -206,7 +218,7 @@ namespace kiwi
 		GLint mvp_matrix_2d_location = -1;
 		GLint mvp_matrix_3d_location = -1;
 
-		void init();
+		bool init() noexcept;
 	};
 
 	class basic_3d_solid_color_sprites_split
@@ -218,7 +230,7 @@ namespace kiwi
 		GLint mvp_matrix_2d_location = -1;
 		GLint mvp_matrix_3d_location = -1;
 
-		void init();
+		bool init() noexcept;
 	};
 
 	class basic_3d_solid_color_sprites_matrix
@@ -230,7 +242,7 @@ namespace kiwi
 		GLint vp_matrix_2d_location = -1;
 		GLint mvp_matrix_3d_location = -1;
 
-		void init();
+		bool init() noexcept;
 	};
 
 	class basic_3d_solid_color_sprites_matrix_split
@@ -242,7 +254,7 @@ namespace kiwi
 		GLint vp_matrix_2d_location = -1;
 		GLint mvp_matrix_3d_location = -1;
 
-		void init();
+		bool init() noexcept;
 	};
 
 	class basic_3d_texture_sprites
@@ -254,7 +266,7 @@ namespace kiwi
 		GLint mvp_matrix_2d_location = -1;
 		GLint mvp_matrix_3d_location = -1;
 
-		void init();
+		bool init() noexcept;
 	};
 
 	class basic_3d_texture_sprites_split
@@ -266,7 +278,7 @@ namespace kiwi
 		GLint mvp_matrix_2d_location = -1;
 		GLint mvp_matrix_3d_location = -1;
 
-		void init();
+		bool init() noexcept;
 	};
 
 	class basic_3d_texture_sprites_matrix
@@ -278,7 +290,7 @@ namespace kiwi
 		GLint vp_matrix_2d_location = -1;
 		GLint mvp_matrix_3d_location = -1;
 
-		void init();
+		bool init() noexcept;
 	};
 
 	class basic_3d_texture_sprites_matrix_split
@@ -290,7 +302,7 @@ namespace kiwi
 		GLint vp_matrix_2d_location = -1;
 		GLint mvp_matrix_3d_location = -1;
 
-		void init();
+		bool init() noexcept;
 	};
 
 
@@ -322,6 +334,7 @@ namespace kiwi
 		kiwi::basic_3d_color_gradient m_program_color_gradient_3d;
 		kiwi::basic_3d_texture m_program_texture_3d;
 		kiwi::basic_3d_texture_alpha_test m_program_texture_alpha_test_3d;
+		kiwi::basic_3d_skybox m_program_skybox_3d;
 		kiwi::basic_3d_no_shade m_program_no_shade_3d;
 
 		kiwi::basic_3d_solid_color_sprite m_program_solid_color_sprite_3d;
@@ -336,9 +349,6 @@ namespace kiwi
 		kiwi::basic_3d_texture_sprites_split m_program_texture_sprites_split_3d;
 		kiwi::basic_3d_texture_sprites_matrix m_program_texture_sprites_matrix_3d;
 		kiwi::basic_3d_texture_sprites_matrix_split m_program_texture_sprites_matrix_split_3d;
-
-		kiwi::vertex_buffer m_vertex_buffers[4];
-		std::size_t m_vb_in_use = 0;
 	};
 }
 
@@ -346,9 +356,10 @@ bool kiwi::draw_init()
 {
 	if (!kiwi::is_global_type_created<kiwi::default_buffers>())
 	{
+		bool success = true;
+
 		try
 		{
-
 			kiwi::make_global_type<kiwi::default_buffers>();
 
 			if (!kiwi::is_global_type_created<kiwi::default_buffers>())
@@ -358,38 +369,33 @@ bool kiwi::draw_init()
 
 			kiwi::global_type<kiwi::default_buffers> buffers = kiwi::get_global_type<kiwi::default_buffers>();
 
-			buffers.m_program_solid_color_2d.init();
-			buffers.m_program_color_gradient_2d.init();
-			buffers.m_program_texture_2d.init();
-			buffers.m_program_texture_alpha_test_2d.init();
-			buffers.m_program_no_shade_2d.init();
+			success &= buffers.m_program_solid_color_2d.init();
+			success &= buffers.m_program_color_gradient_2d.init();
+			success &= buffers.m_program_texture_2d.init();
+			success &= buffers.m_program_texture_alpha_test_2d.init();
+			success &= buffers.m_program_no_shade_2d.init();
 
-			buffers.m_program_solid_color_sprites_2d.init();
-			buffers.m_program_texture_sprites_2d.init();
+			success &= buffers.m_program_solid_color_sprites_2d.init();
+			success &= buffers.m_program_texture_sprites_2d.init();
 
-			buffers.m_program_solid_color_3d.init();
-			buffers.m_program_texture_3d.init();
-			buffers.m_program_texture_alpha_test_3d.init();
-			buffers.m_program_no_shade_3d.init();
+			success &= buffers.m_program_solid_color_3d.init();
+			success &= buffers.m_program_texture_3d.init();
+			success &= buffers.m_program_texture_alpha_test_3d.init();
+			success &= buffers.m_program_skybox_3d.init();
+			success &= buffers.m_program_no_shade_3d.init();
 
-			buffers.m_program_solid_color_sprite_3d.init();
-			buffers.m_program_texture_sprite_3d.init();
+			success &= buffers.m_program_solid_color_sprite_3d.init();
+			success &= buffers.m_program_texture_sprite_3d.init();
 
-			buffers.m_program_solid_color_sprites_3d.init();
-			buffers.m_program_solid_color_sprites_split_3d.init();
-			buffers.m_program_solid_color_sprites_matrix_3d.init();
-			buffers.m_program_solid_color_sprites_matrix_split_3d.init();
+			success &= buffers.m_program_solid_color_sprites_3d.init();
+			success &= buffers.m_program_solid_color_sprites_split_3d.init();
+			success &= buffers.m_program_solid_color_sprites_matrix_3d.init();
+			success &= buffers.m_program_solid_color_sprites_matrix_split_3d.init();
 
-			buffers.m_program_texture_sprites_3d.init();
-			buffers.m_program_texture_sprites_split_3d.init();
-			buffers.m_program_texture_sprites_matrix_3d.init();
-			buffers.m_program_texture_sprites_matrix_split_3d.init();
-
-
-			buffers.m_vertex_buffers[0].new_id();
-			buffers.m_vertex_buffers[1].new_id();
-			buffers.m_vertex_buffers[2].new_id();
-			buffers.m_vertex_buffers[3].new_id();
+			success &= buffers.m_program_texture_sprites_3d.init();
+			success &= buffers.m_program_texture_sprites_split_3d.init();
+			success &= buffers.m_program_texture_sprites_matrix_3d.init();
+			success &= buffers.m_program_texture_sprites_matrix_split_3d.init();
 		}
 
 		catch (...)
@@ -397,7 +403,7 @@ bool kiwi::draw_init()
 			return false;
 		}
 
-		return true;
+		return success;
 	}
 	else
 	{
@@ -852,6 +858,17 @@ kiwi::_draw_basic_proxy kiwi::_load_basic_3d_proxy::using_texture_alpha_test(con
 	proxy.m_index_count = -1;
 	proxy.m_index_data_ptr = nullptr;
 	return proxy;
+}
+
+void kiwi::_load_basic_3d_proxy::using_skybox(const kiwi::cubemap_buffer& skybox_buffer) noexcept
+{
+	kiwi::global_type<kiwi::default_buffers> buffers = kiwi::get_global_type<kiwi::default_buffers>();
+
+	skybox_buffer.unbind();
+
+	buffers.m_program_skybox_3d.program.set_uniform_4x4f(buffers.m_program_skybox_3d.mvp_matrix_location, m_transformation_matrix_ptr);
+
+	glDrawArrays(GL_QUADS, 0, 24);
 }
 kiwi::_draw_basic_proxy kiwi::_load_basic_3d_proxy::using_no_shade(const kiwi::vertex_buffer& vertex_buffer, GLfloat depth_offset) noexcept
 {
@@ -3204,61 +3221,86 @@ void kiwi::draw_call::triangle_fan_indexed_instanced(std::size_t instance_count,
 }
 
 
-void kiwi::basic_2d_solid_color::init()
+bool kiwi::basic_2d_solid_color::init() noexcept
 {
-	program.new_program(
+	bool success = program.new_program(
 		kiwi::source::basic_2d_solid_color::vertex_shader(),
 		kiwi::source::basic_2d_solid_color::fragment_shader()
 	);
 
-	mvp_matrix_location = program.new_uniform_location("u_mvp_M");
-	RGBA_location = program.new_uniform_location("u_RGBA");
+	if (success)
+	{
+		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
+		RGBA_location = program.new_uniform_location("u_RGBA");
+	}
+
+	return success;
 }
 
-void kiwi::basic_2d_color_gradient::init()
+bool kiwi::basic_2d_color_gradient::init() noexcept
 {
-	program.new_program(
+	bool success = program.new_program(
 		kiwi::source::basic_2d_color_gradient::vertex_shader(),
 		kiwi::source::basic_2d_color_gradient::fragment_shader()
 	);
 
-	mvp_matrix_location = program.new_uniform_location("u_mvp_M");
+	if (success)
+	{
+		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
+	}
+
+	return success;
 }
 
-void kiwi::basic_2d_texture::init()
+bool kiwi::basic_2d_texture::init() noexcept
 {
-	program.new_program(
+	bool success = program.new_program(
 		kiwi::source::basic_2d_texture::vertex_shader(),
 		kiwi::source::basic_2d_texture::fragment_shader()
 	);
 
-	mvp_matrix_location = program.new_uniform_location("u_mvp_M");
+	if (success)
+	{
+		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
+	}
+
+	return success;
 }
 
-void kiwi::basic_2d_texture_alpha_test::init()
+bool kiwi::basic_2d_texture_alpha_test::init() noexcept
 {
-	program.new_program(
+	bool success = program.new_program(
 		kiwi::source::basic_2d_texture_alpha_test::vertex_shader(),
 		kiwi::source::basic_2d_texture_alpha_test::fragment_shader()
 	);
 
-	mvp_matrix_location = program.new_uniform_location("u_mvp_M");
-	alpha_test_location = program.new_uniform_location("u_alpha_test");
+	if (success)
+	{
+		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
+		alpha_test_location = program.new_uniform_location("u_alpha_test");
+	}
+
+	return success;
 }
 
-void kiwi::basic_2d_no_shade::init()
+bool kiwi::basic_2d_no_shade::init() noexcept
 {
-	program.new_program(
+	bool success = program.new_program(
 		kiwi::source::basic_2d_no_shade::vertex_shader(),
 		kiwi::source::basic_2d_no_shade::fragment_shader()
 	);
 
-	mvp_matrix_location = program.new_uniform_location("u_mvp_M");
+	if (success)
+	{
+		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
+	}
+
+	return success;
 }
 
-void kiwi::basic_2d_solid_color_sprites::init()
+bool kiwi::basic_2d_solid_color_sprites::init() noexcept
 {
-	program.new_program(
+	bool success = program.new_program(
 
 		"	#version 430 core														\n"
 		"	layout (location = 0) in vec2 in_XY;									\n"
@@ -3288,12 +3330,17 @@ void kiwi::basic_2d_solid_color_sprites::init()
 		"	}																		\n"
 	);
 
-	mvp_matrix_location = program.new_uniform_location("u_mvp_M");
+	if (success)
+	{
+		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
+	}
+
+	return success;
 }
 
-void kiwi::basic_2d_texture_sprites::init()
+bool kiwi::basic_2d_texture_sprites::init() noexcept
 {
-	program.new_program(
+	bool success = program.new_program(
 
 		"	#version 430 core														\n"
 		"	layout (location = 0) in vec2 in_XY;									\n"
@@ -3325,66 +3372,111 @@ void kiwi::basic_2d_texture_sprites::init()
 		"	}																		\n"
 	);
 
-	mvp_matrix_location = program.new_uniform_location("u_mvp_M");
+	if (success)
+	{
+		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
+	}
+
+	return success;
 }
 
 
-void kiwi::basic_3d_solid_color::init()
+bool kiwi::basic_3d_solid_color::init() noexcept
 {
-	program.new_program(
+	bool success = program.new_program(
 		kiwi::source::basic_3d_solid_color::vertex_shader(),
 		kiwi::source::basic_3d_solid_color::fragment_shader()
 	);
 
-	mvp_matrix_location = program.new_uniform_location("u_mvp_M");
-	RGBA_location = program.new_uniform_location("u_RGBA");
+	if (success)
+	{
+		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
+		RGBA_location = program.new_uniform_location("u_RGBA");
+	}
+
+	return success;
 }
 
-void kiwi::basic_3d_color_gradient::init()
+bool kiwi::basic_3d_color_gradient::init() noexcept
 {
-	program.new_program(
+	bool success = program.new_program(
 		kiwi::source::basic_3d_color_gradient::vertex_shader(),
 		kiwi::source::basic_3d_color_gradient::fragment_shader()
 	);
 
-	mvp_matrix_location = program.new_uniform_location("u_mvp_M");
+	if (success)
+	{
+		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
+	}
+
+	return success;
 }
 
-void kiwi::basic_3d_texture::init()
+bool kiwi::basic_3d_texture::init() noexcept
 {
-	program.new_program(
+	bool success = program.new_program(
 		kiwi::source::basic_3d_texture::vertex_shader(),
 		kiwi::source::basic_3d_texture::fragment_shader()
 	);
 
-	mvp_matrix_location = program.new_uniform_location("u_mvp_M");
+	if (success)
+	{
+		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
+	}
+
+	return success;
 }
 
-void kiwi::basic_3d_texture_alpha_test::init()
+bool kiwi::basic_3d_texture_alpha_test::init() noexcept
 {
-	program.new_program(
+	bool success = program.new_program(
 		kiwi::source::basic_3d_texture_alpha_test::vertex_shader(),
 		kiwi::source::basic_3d_texture_alpha_test::fragment_shader()
 	);
 
-	mvp_matrix_location = program.new_uniform_location("u_mvp_M");
-	alpha_test_location = program.new_uniform_location("u_alpha_test");
+	if (success)
+	{
+		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
+		alpha_test_location = program.new_uniform_location("u_alpha_test");
+	}
+
+	return success;
 }
 
-void kiwi::basic_3d_no_shade::init()
+bool kiwi::basic_3d_skybox::init() noexcept
 {
-	program.new_program(
+	bool success = program.new_program(
+		kiwi::source::basic_3d_skybox::vertex_shader(),
+		kiwi::source::basic_3d_skybox::fragment_shader()
+	);
+
+	if (success)
+	{
+		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
+	}
+
+	return success;
+}
+
+bool kiwi::basic_3d_no_shade::init() noexcept
+{
+	bool success = program.new_program(
 		kiwi::source::basic_3d_no_shade::vertex_shader(),
 		kiwi::source::basic_3d_no_shade::fragment_shader()
 	);
 
-	mvp_matrix_location = program.new_uniform_location("u_mvp_M");
-	depth_offset_location = program.new_uniform_location("u_depth_offset");
+	if (success)
+	{
+		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
+		depth_offset_location = program.new_uniform_location("u_depth_offset");
+	}
+
+	return success;
 }
 
-void kiwi::basic_3d_solid_color_sprite::init()
+bool kiwi::basic_3d_solid_color_sprite::init() noexcept
 {
-	program.new_program(
+	bool success = program.new_program(
 
 		"	#version 330 core								\n"
 		"	layout (location = 0) in vec2 in_XY;			\n"
@@ -3412,15 +3504,20 @@ void kiwi::basic_3d_solid_color_sprite::init()
 		"	}												\n"
 	);
 
-	mvp_matrix_2d_location = program.new_uniform_location("u_mvp_M_2d");
-	mvp_matrix_3d_location = program.new_uniform_location("u_mvp_M_3d");
-	XYZ_location = program.new_uniform_location("u_XYZ");
-	RGBA_location = program.new_uniform_location("u_RGBA");
+	if (success)
+	{
+		mvp_matrix_2d_location = program.new_uniform_location("u_mvp_M_2d");
+		mvp_matrix_3d_location = program.new_uniform_location("u_mvp_M_3d");
+		XYZ_location = program.new_uniform_location("u_XYZ");
+		RGBA_location = program.new_uniform_location("u_RGBA");
+	}
+
+	return success;
 }
 
-void kiwi::basic_3d_solid_color_sprites::init()
+bool kiwi::basic_3d_solid_color_sprites::init() noexcept
 {
-	program.new_program(
+	bool success = program.new_program(
 
 		"	#version 430 core														\n"
 		"	layout (location = 0) in vec2 in_XY;									\n"
@@ -3450,13 +3547,18 @@ void kiwi::basic_3d_solid_color_sprites::init()
 		"	}																		\n"
 	);
 
-	mvp_matrix_2d_location = program.new_uniform_location("u_mvp_M_2d");
-	mvp_matrix_3d_location = program.new_uniform_location("u_mvp_M_3d");
+	if (success)
+	{
+		mvp_matrix_2d_location = program.new_uniform_location("u_mvp_M_2d");
+		mvp_matrix_3d_location = program.new_uniform_location("u_mvp_M_3d");
+	}
+
+	return success;
 }
 
-void kiwi::basic_3d_solid_color_sprites_split::init()
+bool kiwi::basic_3d_solid_color_sprites_split::init() noexcept
 {
-	program.new_program(
+	bool success = program.new_program(
 
 		"	#version 430 core														\n"
 		"	layout (location = 0) in vec2 in_XY;									\n"
@@ -3487,13 +3589,18 @@ void kiwi::basic_3d_solid_color_sprites_split::init()
 		"	}																		\n"
 	);
 
-	mvp_matrix_2d_location = program.new_uniform_location("u_mvp_M_2d");
-	mvp_matrix_3d_location = program.new_uniform_location("u_mvp_M_3d");
+	if (success)
+	{
+		mvp_matrix_2d_location = program.new_uniform_location("u_mvp_M_2d");
+		mvp_matrix_3d_location = program.new_uniform_location("u_mvp_M_3d");
+	}
+
+	return success;
 }
 
-void kiwi::basic_3d_solid_color_sprites_matrix::init()
+bool kiwi::basic_3d_solid_color_sprites_matrix::init() noexcept
 {
-	program.new_program(
+	bool success = program.new_program(
 
 		"	#version 430 core														\n"
 		"	layout (location = 0) in vec2 in_XY;									\n"
@@ -3524,13 +3631,18 @@ void kiwi::basic_3d_solid_color_sprites_matrix::init()
 		"	}																		\n"
 	);
 
-	vp_matrix_2d_location = program.new_uniform_location("u_vp_M_2d");
-	mvp_matrix_3d_location = program.new_uniform_location("u_mvp_M_3d");
+	if (success)
+	{
+		vp_matrix_2d_location = program.new_uniform_location("u_vp_M_2d");
+		mvp_matrix_3d_location = program.new_uniform_location("u_mvp_M_3d");
+	}
+
+	return success;
 }
 
-void kiwi::basic_3d_solid_color_sprites_matrix_split::init()
+bool kiwi::basic_3d_solid_color_sprites_matrix_split::init() noexcept
 {
-	program.new_program(
+	bool success = program.new_program(
 
 		"	#version 430 core														\n"
 		"	layout (location = 0) in vec2 in_XY;									\n"
@@ -3562,13 +3674,18 @@ void kiwi::basic_3d_solid_color_sprites_matrix_split::init()
 		"	}																		\n"
 	);
 	
-	vp_matrix_2d_location = program.new_uniform_location("u_vp_M_2d");
-	mvp_matrix_3d_location = program.new_uniform_location("u_mvp_M_3d");
+	if (success)
+	{
+		vp_matrix_2d_location = program.new_uniform_location("u_vp_M_2d");
+		mvp_matrix_3d_location = program.new_uniform_location("u_mvp_M_3d");
+	}
+
+	return success;
 }
 
-void kiwi::basic_3d_texture_sprite::init()
+bool kiwi::basic_3d_texture_sprite::init() noexcept
 {
-	program.new_program(
+	bool success = program.new_program(
 
 		"	#version 330 core								\n"
 		"	layout (location = 0) in vec2 in_XY;			\n"
@@ -3600,14 +3717,19 @@ void kiwi::basic_3d_texture_sprite::init()
 		"	}												\n"
 	);
 
-	mvp_matrix_2d_location = program.new_uniform_location("u_mvp_M_2d");
-	mvp_matrix_3d_location = program.new_uniform_location("u_mvp_M_3d");
-	XYZ_location = program.new_uniform_location("u_XYZ");
+	if (success)
+	{
+		mvp_matrix_2d_location = program.new_uniform_location("u_mvp_M_2d");
+		mvp_matrix_3d_location = program.new_uniform_location("u_mvp_M_3d");
+		XYZ_location = program.new_uniform_location("u_XYZ");
+	}
+
+	return success;
 }
 
-void kiwi::basic_3d_texture_sprites::init()
+bool kiwi::basic_3d_texture_sprites::init() noexcept
 {
-	program.new_program(
+	bool success = program.new_program(
 
 		"	#version 430 core														\n"
 		"	layout (location = 0) in vec2 in_XY;									\n"
@@ -3639,13 +3761,18 @@ void kiwi::basic_3d_texture_sprites::init()
 		"	}																		\n"
 	);
 
-	mvp_matrix_2d_location = program.new_uniform_location("u_mvp_M_2d");
-	mvp_matrix_3d_location = program.new_uniform_location("u_mvp_M_3d");
+	if (success)
+	{
+		mvp_matrix_2d_location = program.new_uniform_location("u_mvp_M_2d");
+		mvp_matrix_3d_location = program.new_uniform_location("u_mvp_M_3d");
+	}
+
+	return success;
 }
 
-void kiwi::basic_3d_texture_sprites_split::init()
+bool kiwi::basic_3d_texture_sprites_split::init() noexcept
 {
-	program.new_program(
+	bool success = program.new_program(
 
 		"	#version 430 core														\n"
 		"	layout (location = 0) in vec2 in_XY;									\n"
@@ -3678,13 +3805,18 @@ void kiwi::basic_3d_texture_sprites_split::init()
 		"	}																		\n"
 	);
 
-	mvp_matrix_2d_location = program.new_uniform_location("u_mvp_M_2d");
-	mvp_matrix_3d_location = program.new_uniform_location("u_mvp_M_3d");
+	if (success)
+	{
+		mvp_matrix_2d_location = program.new_uniform_location("u_mvp_M_2d");
+		mvp_matrix_3d_location = program.new_uniform_location("u_mvp_M_3d");
+	}
+
+	return success;
 }
 
-void kiwi::basic_3d_texture_sprites_matrix::init()
+bool kiwi::basic_3d_texture_sprites_matrix::init() noexcept
 {
-	program.new_program(
+	bool success = program.new_program(
 
 		"	#version 430 core														\n"
 		"	layout (location = 0) in vec2 in_XY;									\n"
@@ -3717,13 +3849,18 @@ void kiwi::basic_3d_texture_sprites_matrix::init()
 		"	}																		\n"
 	);
 
-	vp_matrix_2d_location = program.new_uniform_location("u_vp_M_2d");
-	mvp_matrix_3d_location = program.new_uniform_location("u_mvp_M_3d");
+	if (success)
+	{
+		vp_matrix_2d_location = program.new_uniform_location("u_vp_M_2d");
+		mvp_matrix_3d_location = program.new_uniform_location("u_mvp_M_3d");
+	}
+
+	return success;
 }
 
-void kiwi::basic_3d_texture_sprites_matrix_split::init()
+bool kiwi::basic_3d_texture_sprites_matrix_split::init() noexcept
 {
-	program.new_program(
+	bool success = program.new_program(
 
 		"	#version 430 core														\n"
 		"	layout (location = 0) in vec2 in_XY;									\n"
@@ -3757,6 +3894,11 @@ void kiwi::basic_3d_texture_sprites_matrix_split::init()
 		"	}																		\n"
 	);
 
-	vp_matrix_2d_location = program.new_uniform_location("u_vp_M_2d");
-	mvp_matrix_3d_location = program.new_uniform_location("u_mvp_M_3d");
+	if (success)
+	{
+		vp_matrix_2d_location = program.new_uniform_location("u_vp_M_2d");
+		mvp_matrix_3d_location = program.new_uniform_location("u_mvp_M_3d");
+	}
+
+	return success;
 }

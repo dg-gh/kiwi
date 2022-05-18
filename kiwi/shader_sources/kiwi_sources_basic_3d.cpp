@@ -125,6 +125,49 @@ const char* const kiwi::source::basic_3d_texture_alpha_test::fragment_shader() n
 		;
 }
 
+const char* const kiwi::source::basic_3d_skybox::vertex_shader() noexcept
+{
+	return
+
+		"	#version 330 core																					\n"
+		"	out vec3 XYZ;																						\n"
+		"	uniform mat4 u_mvp_M;																				\n"
+
+		"	vec3 cube_XYZ[24] = {																				\n"
+		"		vec3(-1.0, -1.0, 1.0), vec3(-1.0, 1.0, 1.0), vec3(1.0, 1.0, 1.0), vec3(1.0, -1.0, 1.0),			\n"
+		"		vec3(-1.0, -1.0, -1.0), vec3(-1.0, 1.0, -1.0), vec3(-1.0, 1.0, 1.0), vec3(-1.0, -1.0, 1.0),		\n"
+		"		vec3(-1.0, -1.0, -1.0), vec3(-1.0, -1.0, 1.0), vec3(1.0, -1.0, 1.0), vec3(1.0, -1.0, -1.0),		\n"
+		"		vec3(1.0, -1.0, -1.0), vec3(1.0, -1.0, 1.0), vec3(1.0, 1.0, 1.0), vec3(1.0, 1.0, -1.0),			\n"
+		"		vec3(-1.0, 1.0, -1.0), vec3(1.0, 1.0, -1.0), vec3(1.0, 1.0, 1.0), vec3(-1.0, 1.0, 1.0),			\n"
+		"		vec3(-1.0, -1.0, -1.0), vec3(1.0, -1.0, -1.0), vec3(1.0, 1.0, -1.0), vec3(-1.0, 1.0, -1.0)		\n"
+		"	};																									\n"
+
+		"	void main()																							\n"
+		"	{																									\n"
+		"		vec3 temp = cube_XYZ[gl_VertexID];																\n"
+		"		XYZ = vec3(-temp.yz, temp[0]);																	\n"
+		"		vec4 temp_pos = u_mvp_M * vec4(temp, 1.0);														\n"
+		"		gl_Position = vec4(temp_pos[0], temp_pos[1], temp_pos[3] - 0.000001, temp_pos[3]);				\n"
+		"	}																									\n"
+		;
+}
+const char* const kiwi::source::basic_3d_skybox::fragment_shader() noexcept
+{
+	return
+		
+		"	#version 330 core																					\n"
+		"	in vec3 XYZ;																						\n"
+		"	out vec4 color;																						\n"
+
+		"	uniform samplerCube box;																			\n"
+
+		"	void main()																							\n"
+		"	{																									\n"
+		"		color = texture(box, XYZ);																		\n"
+		"	}																									\n"
+		;
+}
+
 const char* const kiwi::source::basic_3d_no_shade::vertex_shader() noexcept
 {
 	return
