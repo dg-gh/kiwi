@@ -16,7 +16,6 @@ namespace kiwi
 
 namespace kiwi
 {
-	class scoped_picker;
 	class _picker_2d_proxy;
 	class _picker_3d_proxy;
 
@@ -25,7 +24,6 @@ namespace kiwi
 
 	public:
 
-		friend class scoped_picker;
 		friend class _picker_2d_proxy;
 		friend class _picker_3d_proxy;
 
@@ -36,8 +34,8 @@ namespace kiwi
 		kiwi::picker& operator=(kiwi::picker&&) = delete;
 		~picker() = default;
 
-		kiwi::picker& init(std::size_t width, std::size_t height);
-		kiwi::picker& resize(std::size_t width, std::size_t height);
+		kiwi::picker& init(std::size_t width, std::size_t height) noexcept;
+		kiwi::picker& resize(std::size_t width, std::size_t height) noexcept;
 
 		kiwi::picker& collect() noexcept;
 		GLushort pick_id(std::size_t pixel_X, std::size_t pixel_Y) const noexcept;

@@ -131,7 +131,7 @@ void kiwi::draw_id_terminate() noexcept
 }
 
 
-kiwi::picker& kiwi::picker::init(std::size_t width, std::size_t height)
+kiwi::picker& kiwi::picker::init(std::size_t width, std::size_t height) noexcept
 {
 	m_texture_buffer.allocate(kiwi::texture_format::i16u, kiwi::size(width, height), 1, kiwi::texture_mapping::nearest, kiwi::texture_borders::clamp);
 	m_render_buffer.allocate(kiwi::render_buffer_type::f24_st8, kiwi::size(width, height));
@@ -147,7 +147,7 @@ kiwi::picker& kiwi::picker::init(std::size_t width, std::size_t height)
 	return *this;
 }
 
-kiwi::picker& kiwi::picker::resize(std::size_t width, std::size_t height)
+kiwi::picker& kiwi::picker::resize(std::size_t width, std::size_t height) noexcept
 {
 	m_texture_buffer.allocate(kiwi::texture_format::i16u, kiwi::size(width, height), 1, kiwi::texture_mapping::nearest, kiwi::texture_borders::clamp);
 	m_render_buffer.allocate(kiwi::render_buffer_type::f24_st8, kiwi::size(width, height));
