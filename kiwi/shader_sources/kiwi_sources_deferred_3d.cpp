@@ -124,7 +124,7 @@ const char* const kiwi::source::deferred_3d_lighting_pass::fragment_shader() noe
 		"		}																								\n"
 
 		"		vec3 V_dir = normalize(vec3(u_view_front_left_up_XYZ[3]) - XYZ); 								\n"
-		"		vec3 N_dir = vec3(texture(Tx_N_dir, UV));														\n"
+		"		vec3 N_dir = normalize(vec3(texture(Tx_N_dir, UV)));											\n"
 		"		float dot_NV = dot(N_dir, V_dir);																\n"
 
 		"		vec4 RMEC = texture(Tx_RMEC, UV);																\n"
@@ -321,7 +321,7 @@ const char* const kiwi::source::deferred_3d_lighting_pass_ortho::fragment_shader
 		"		}																								\n"
 
 		"		vec3 V_dir = normalize(vec3(u_view_front_left_up_XYZ[3]) - XYZ); 								\n"
-		"		vec3 N_dir = vec3(texture(Tx_N_dir, UV));														\n"
+		"		vec3 N_dir = normalize(vec3(texture(Tx_N_dir, UV)));											\n"
 		"		float dot_NV = dot(N_dir, V_dir);																\n"
 
 		"		vec4 RMEC = texture(Tx_RMEC, UV);																\n"
