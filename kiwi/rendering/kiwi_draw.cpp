@@ -422,7 +422,7 @@ void kiwi::draw_terminate() noexcept
 kiwi::_load_basic_2d_proxy kiwi::draw_2d_with() noexcept
 {
 	kiwi::_load_basic_2d_proxy proxy;
-	proxy.m_transformation_matrix_ptr = nullptr;
+	proxy.m_transformation_matrix_ptr = kiwi::window_matrix_data();
 	return proxy;
 }
 kiwi::_load_basic_2d_proxy kiwi::draw_2d_with(const GLfloat* const transformation_matrix_ptr) noexcept
@@ -473,16 +473,8 @@ kiwi::_draw_basic_proxy kiwi::_load_basic_2d_proxy::using_solid_color(const kiwi
 
 	vertex_buffer.to_location(0);
 
-	if (m_transformation_matrix_ptr == nullptr)
-	{
-		buffers.m_program_solid_color_2d.program.set_uniform_3x3f(buffers.m_program_solid_color_2d.mvp_matrix_location, kiwi::window_matrix_data());
-	}
-	else
-	{
-		buffers.m_program_solid_color_2d.program.set_uniform_3x3f(buffers.m_program_solid_color_2d.mvp_matrix_location, m_transformation_matrix_ptr);
-	}
-
-	buffers.m_program_solid_color_2d.program.set_uniform_4f(buffers.m_program_solid_color_2d.RGBA_location, solid_color.data());
+	buffers.m_program_solid_color_2d.program.set_uniform_3x3f(buffers.m_program_solid_color_2d.mvp_matrix_location, m_transformation_matrix_ptr)
+		.set_uniform_4f(buffers.m_program_solid_color_2d.RGBA_location, solid_color.data());
 
 	kiwi::_draw_basic_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -497,14 +489,7 @@ kiwi::_draw_basic_proxy kiwi::_load_basic_2d_proxy::using_color_gradient(const k
 	vertex_buffer.to_location(0);
 	color_vertex_buffer.to_location(1);
 
-	if (m_transformation_matrix_ptr == nullptr)
-	{
-		buffers.m_program_color_gradient_2d.program.set_uniform_3x3f(buffers.m_program_color_gradient_2d.mvp_matrix_location, kiwi::window_matrix_data());
-	}
-	else
-	{
-		buffers.m_program_color_gradient_2d.program.set_uniform_3x3f(buffers.m_program_color_gradient_2d.mvp_matrix_location, m_transformation_matrix_ptr);
-	}
+	buffers.m_program_color_gradient_2d.program.set_uniform_3x3f(buffers.m_program_color_gradient_2d.mvp_matrix_location, m_transformation_matrix_ptr);
 
 	kiwi::_draw_basic_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -520,14 +505,7 @@ kiwi::_draw_basic_proxy kiwi::_load_basic_2d_proxy::using_texture(const kiwi::ve
 	UV_buffer.to_location(1);
 	texture.to_binding(0);
 
-	if (m_transformation_matrix_ptr == nullptr)
-	{
-		buffers.m_program_texture_2d.program.set_uniform_3x3f(buffers.m_program_texture_2d.mvp_matrix_location, kiwi::window_matrix_data());
-	}
-	else
-	{
-		buffers.m_program_texture_2d.program.set_uniform_3x3f(buffers.m_program_texture_2d.mvp_matrix_location, m_transformation_matrix_ptr);
-	}
+	buffers.m_program_texture_2d.program.set_uniform_3x3f(buffers.m_program_texture_2d.mvp_matrix_location, m_transformation_matrix_ptr);
 
 	kiwi::_draw_basic_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -544,16 +522,8 @@ kiwi::_draw_basic_proxy kiwi::_load_basic_2d_proxy::using_texture_alpha_test(con
 	UV_buffer.to_location(1);
 	texture.to_binding(0);
 
-	if (m_transformation_matrix_ptr == nullptr)
-	{
-		buffers.m_program_texture_alpha_test_2d.program.set_uniform_3x3f(buffers.m_program_texture_alpha_test_2d.mvp_matrix_location, kiwi::window_matrix_data());
-	}
-	else
-	{
-		buffers.m_program_texture_alpha_test_2d.program.set_uniform_3x3f(buffers.m_program_texture_alpha_test_2d.mvp_matrix_location, m_transformation_matrix_ptr);
-	}
-
-	buffers.m_program_texture_alpha_test_2d.program.set_uniform_1f(buffers.m_program_texture_alpha_test_2d.alpha_test_location, alpha_test_value);
+	buffers.m_program_texture_alpha_test_2d.program.set_uniform_3x3f(buffers.m_program_texture_alpha_test_2d.mvp_matrix_location, m_transformation_matrix_ptr)
+		.set_uniform_1f(buffers.m_program_texture_alpha_test_2d.alpha_test_location, alpha_test_value);
 
 	kiwi::_draw_basic_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -567,14 +537,7 @@ kiwi::_draw_basic_proxy kiwi::_load_basic_2d_proxy::using_no_shade(const kiwi::v
 
 	vertex_buffer.to_location(0);
 
-	if (m_transformation_matrix_ptr == nullptr)
-	{
-		buffers.m_program_no_shade_2d.program.set_uniform_3x3f(buffers.m_program_no_shade_2d.mvp_matrix_location, kiwi::window_matrix_data());
-	}
-	else
-	{
-		buffers.m_program_no_shade_2d.program.set_uniform_3x3f(buffers.m_program_no_shade_2d.mvp_matrix_location, m_transformation_matrix_ptr);
-	}
+	buffers.m_program_no_shade_2d.program.set_uniform_3x3f(buffers.m_program_no_shade_2d.mvp_matrix_location, m_transformation_matrix_ptr);
 
 	kiwi::_draw_basic_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -590,14 +553,7 @@ kiwi::_draw_instanced_basic_proxy kiwi::_load_basic_2d_proxy::using_color_sprite
 	vertex_buffer.to_location(0);
 	XY_RGBA_set.to_binding(0);
 
-	if (m_transformation_matrix_ptr == nullptr)
-	{
-		buffers.m_program_solid_color_sprites_2d.program.set_uniform_3x3f(buffers.m_program_solid_color_sprites_2d.mvp_matrix_location, kiwi::window_matrix_data());
-	}
-	else
-	{
-		buffers.m_program_solid_color_sprites_2d.program.set_uniform_3x3f(buffers.m_program_solid_color_sprites_2d.mvp_matrix_location, m_transformation_matrix_ptr);
-	}
+	buffers.m_program_solid_color_sprites_2d.program.set_uniform_3x3f(buffers.m_program_solid_color_sprites_2d.mvp_matrix_location, m_transformation_matrix_ptr);
 
 	kiwi::_draw_instanced_basic_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -613,14 +569,7 @@ kiwi::_draw_instanced_basic_proxy kiwi::_load_basic_2d_proxy::using_color_sprite
 	vertex_buffer.to_location(0);
 	XYZ_RGBA_set.to_binding(0);
 
-	if (m_transformation_matrix_ptr == nullptr)
-	{
-		buffers.m_program_solid_color_sprites_2d.program.set_uniform_3x3f(buffers.m_program_solid_color_sprites_2d.mvp_matrix_location, kiwi::window_matrix_data());
-	}
-	else
-	{
-		buffers.m_program_solid_color_sprites_2d.program.set_uniform_3x3f(buffers.m_program_solid_color_sprites_2d.mvp_matrix_location, m_transformation_matrix_ptr);
-	}
+	buffers.m_program_solid_color_sprites_2d.program.set_uniform_3x3f(buffers.m_program_solid_color_sprites_2d.mvp_matrix_location, m_transformation_matrix_ptr);
 
 	kiwi::_draw_instanced_basic_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -638,14 +587,7 @@ kiwi::_draw_instanced_basic_proxy kiwi::_load_basic_2d_proxy::using_texture_spri
 	UV_buffer.to_location(1);
 	XY_UV_set.to_binding(0, 0);
 
-	if (m_transformation_matrix_ptr == nullptr)
-	{
-		buffers.m_program_texture_sprites_2d.program.set_uniform_3x3f(buffers.m_program_texture_sprites_2d.mvp_matrix_location, kiwi::window_matrix_data());
-	}
-	else
-	{
-		buffers.m_program_texture_sprites_2d.program.set_uniform_3x3f(buffers.m_program_texture_sprites_2d.mvp_matrix_location, m_transformation_matrix_ptr);
-	}
+	buffers.m_program_texture_sprites_2d.program.set_uniform_3x3f(buffers.m_program_texture_sprites_2d.mvp_matrix_location, m_transformation_matrix_ptr);
 
 	kiwi::_draw_instanced_basic_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -663,14 +605,7 @@ kiwi::_draw_instanced_basic_proxy kiwi::_load_basic_2d_proxy::using_texture_spri
 	UV_buffer.to_location(1);
 	XYZ_UV_set.to_binding(0, 0);
 
-	if (m_transformation_matrix_ptr == nullptr)
-	{
-		buffers.m_program_texture_sprites_2d.program.set_uniform_3x3f(buffers.m_program_texture_sprites_2d.mvp_matrix_location, kiwi::window_matrix_data());
-	}
-	else
-	{
-		buffers.m_program_texture_sprites_2d.program.set_uniform_3x3f(buffers.m_program_texture_sprites_2d.mvp_matrix_location, m_transformation_matrix_ptr);
-	}
+	buffers.m_program_texture_sprites_2d.program.set_uniform_3x3f(buffers.m_program_texture_sprites_2d.mvp_matrix_location, m_transformation_matrix_ptr);
 
 	kiwi::_draw_instanced_basic_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
