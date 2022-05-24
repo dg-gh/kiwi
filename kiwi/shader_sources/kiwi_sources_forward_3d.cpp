@@ -197,7 +197,8 @@ const char* const kiwi::source::forward_3d_solid_color::fragment_shader() noexce
 		"	#version 430 core																					\n"
 		"	in vec3 moved_XYZ;																					\n"
 		"	in vec3 _moved_N_dir;																				\n"
-		"	out vec4 color;																						\n"
+		"	layout (location = 0) out vec4 color;																\n"
+		"	layout (location = 1) out vec4 normal_vec;															\n"
 
 		LIGHTSET_BUFFERS
 
@@ -239,6 +240,8 @@ const char* const kiwi::source::forward_3d_solid_color::fragment_shader() noexce
 		"			float m = min(min(min(color[0], color[1]), color[2]), 1.0);									\n"
 		"			color.xyz = m + ((u_RMEC[3] - m) / (M - m)) * (color.xyz - m);								\n"
 		"		}																								\n"
+
+		"		normal_vec = vec4(moved_N_dir, 1.0);															\n"
 		"	}																									\n"
 		;
 }
@@ -272,7 +275,8 @@ const char* const kiwi::source::forward_3d_color_gradient_sRMEC::fragment_shader
 		"	in vec3 moved_XYZ;																					\n"
 		"	in vec3 _moved_N_dir;																				\n"
 		"	in vec4 RGBA;																						\n"
-		"	out vec4 color;																						\n"
+		"	layout (location = 0) out vec4 color;																\n"
+		"	layout (location = 1) out vec4 normal_vec;															\n"
 
 		LIGHTSET_BUFFERS
 
@@ -313,6 +317,8 @@ const char* const kiwi::source::forward_3d_color_gradient_sRMEC::fragment_shader
 		"			float m = min(min(min(color[0], color[1]), color[2]), 1.0);									\n"
 		"			color.xyz = m + ((u_RMEC[3] - m) / (M - m)) * (vec3(color) - m);							\n"
 		"		}																								\n"
+
+		"		normal_vec = vec4(moved_N_dir, 1.0);															\n"
 		"	}																									\n"
 		;
 }
@@ -350,7 +356,8 @@ const char* const kiwi::source::forward_3d_color_gradient_vRMEC::fragment_shader
 		"	in vec3 _moved_N_dir;																				\n"
 		"	in vec4 RGBA;																						\n"
 		"	in vec4 RMEC;																						\n"
-		"	out vec4 color;																						\n"
+		"	layout (location = 0) out vec4 color;																\n"
+		"	layout (location = 1) out vec4 normal_vec;															\n"
 
 		LIGHTSET_BUFFERS
 
@@ -391,6 +398,8 @@ const char* const kiwi::source::forward_3d_color_gradient_vRMEC::fragment_shader
 		"			float m = min(min(min(color[0], color[1]), color[2]), 1.0);									\n"
 		"			color.xyz = m + ((ceiling - m) / (M - m)) * (vec3(color) - m);								\n"
 		"		}																								\n"
+
+		"		normal_vec = vec4(moved_N_dir, 1.0);															\n"
 		"	}																									\n"
 		;
 }
@@ -428,7 +437,8 @@ const char* const kiwi::source::forward_3d_texture_sRMEC::fragment_shader() noex
 		"	in vec3 _moved_N_dir;																				\n"
 		"	in vec2 UV;																							\n"
 		"	in vec2 UV_lmap;																					\n"
-		"	out vec4 color;																						\n"
+		"	layout (location = 0) out vec4 color;																\n"
+		"	layout (location = 1) out vec4 normal_vec;															\n"
 
 		LIGHTSET_BUFFERS
 
@@ -474,6 +484,8 @@ const char* const kiwi::source::forward_3d_texture_sRMEC::fragment_shader() noex
 		"			float m = min(min(min(color[0], color[1]), color[2]), 1.0);									\n"
 		"			color.xyz = m + ((ceiling - m) / (M - m)) * (color.xyz - m);								\n"
 		"		}																								\n"
+
+		"		normal_vec = vec4(moved_N_dir, 1.0);															\n"
 		"	}																									\n"
 		;
 }
@@ -515,7 +527,8 @@ const char* const kiwi::source::forward_3d_texture_vRMEC::fragment_shader() noex
 		"	in vec2 UV;																							\n"
 		"	in vec2 UV_lmap;																					\n"
 		"	in vec4 RMEC;																						\n"
-		"	out vec4 color;																						\n"
+		"	layout (location = 0) out vec4 color;																\n"
+		"	layout (location = 1) out vec4 normal_vec;															\n"
 
 		LIGHTSET_BUFFERS
 
@@ -561,6 +574,8 @@ const char* const kiwi::source::forward_3d_texture_vRMEC::fragment_shader() noex
 		"			float m = min(min(min(color[0], color[1]), color[2]), 1.0);									\n"
 		"			color.xyz = m + ((ceiling - m) / (M - m)) * (color.xyz - m);								\n"
 		"		}																								\n"
+
+		"		normal_vec = vec4(moved_N_dir, 1.0);															\n"
 		"	}																									\n"
 		;
 }
@@ -598,7 +613,8 @@ const char* const kiwi::source::forward_3d_texture_mRMEC::fragment_shader() noex
 		"	in vec3 _moved_N_dir;																				\n"
 		"	in vec2 UV;																							\n"
 		"	in vec2 UV_lmap;																					\n"
-		"	out vec4 color;																						\n"
+		"	layout (location = 0) out vec4 color;																\n"
+		"	layout (location = 1) out vec4 normal_vec;															\n"
 
 		LIGHTSET_BUFFERS
 
@@ -646,6 +662,8 @@ const char* const kiwi::source::forward_3d_texture_mRMEC::fragment_shader() noex
 		"			float m = min(min(min(color[0], color[1]), color[2]), 1.0);									\n"
 		"			color.xyz = m + ((ceiling - m) / (M - m)) * (color.xyz - m);								\n"
 		"		}																								\n"
+
+		"		normal_vec = vec4(moved_N_dir, 1.0);															\n"
 		"	}																									\n"
 		;
 }
@@ -685,7 +703,8 @@ const char* const kiwi::source::forward_3d_normal_sRMEC::fragment_shader() noexc
 		"	in mat3 moved_TBN;																					\n"
 		"	in vec2 UV;																							\n"
 		"	in vec2 UV_lmap;																					\n"
-		"	out vec4 color;																						\n"
+		"	layout (location = 0) out vec4 color;																\n"
+		"	layout (location = 1) out vec4 normal_vec;															\n"
 
 		LIGHTSET_BUFFERS
 
@@ -732,6 +751,8 @@ const char* const kiwi::source::forward_3d_normal_sRMEC::fragment_shader() noexc
 		"			float m = min(min(min(color[0], color[1]), color[2]), 1.0);									\n"
 		"			color.xyz = m + ((u_RMEC[3] - m) / (M - m)) * (color.xyz - m);								\n"
 		"		}																								\n"
+
+		"		normal_vec = vec4(moved_N_dir, 1.0);															\n"
 		"	}																									\n"
 		;
 }
@@ -775,7 +796,8 @@ const char* const kiwi::source::forward_3d_normal_vRMEC::fragment_shader() noexc
 		"	in vec2 UV;																							\n"
 		"	in vec2 UV_lmap;																					\n"
 		"	in vec4 RMEC;																						\n"
-		"	out vec4 color;																						\n"
+		"	layout (location = 0) out vec4 color;																\n"
+		"	layout (location = 1) out vec4 normal_vec;															\n"
 
 		LIGHTSET_BUFFERS
 
@@ -823,6 +845,8 @@ const char* const kiwi::source::forward_3d_normal_vRMEC::fragment_shader() noexc
 		"			float m = min(min(min(color[0], color[1]), color[2]), 1.0);									\n"
 		"			color.xyz = m + ((ceiling - m) / (M - m)) * (color.xyz - m);								\n"
 		"		}																								\n"
+
+		"		normal_vec = vec4(moved_N_dir, 1.0);															\n"
 		"	}																									\n"
 		;
 }
@@ -862,7 +886,8 @@ const char* const kiwi::source::forward_3d_normal_mRMEC::fragment_shader() noexc
 		"	in mat3 moved_TBN;																					\n"
 		"	in vec2 UV;																							\n"
 		"	in vec2 UV_lmap;																					\n"
-		"	out vec4 color;																						\n"
+		"	layout (location = 0) out vec4 color;																\n"
+		"	layout (location = 1) out vec4 normal_vec;															\n"
 
 		LIGHTSET_BUFFERS
 
@@ -912,6 +937,8 @@ const char* const kiwi::source::forward_3d_normal_mRMEC::fragment_shader() noexc
 		"			float m = min(min(min(color[0], color[1]), color[2]), 1.0);									\n"
 		"			color.xyz = m + ((ceiling - m) / (M - m)) * (color.xyz - m);								\n"
 		"		}																								\n"
+
+		"		normal_vec = vec4(moved_N_dir, 1.0);															\n"
 		"	}																									\n"
 		;
 }
@@ -951,7 +978,8 @@ const char* const kiwi::source::forward_3d_parallax_sRMEC::fragment_shader() noe
 		"	in mat3 moved_TBN;																					\n"
 		"	in vec2 UV;																							\n"
 		"	in vec2 UV_lmap;																					\n"
-		"	out vec4 color;																						\n"
+		"	layout (location = 0) out vec4 color;																\n"
+		"	layout (location = 1) out vec4 normal_vec;															\n"
 
 		LIGHTSET_BUFFERS
 
@@ -1002,6 +1030,8 @@ const char* const kiwi::source::forward_3d_parallax_sRMEC::fragment_shader() noe
 		"			float m = min(min(min(color[0], color[1]), color[2]), 1.0);									\n"
 		"			color.xyz = m + ((u_RMEC[3] - m) / (M - m)) * (color.xyz - m);								\n"
 		"		}																								\n"
+
+		"		normal_vec = vec4(moved_N_dir, 1.0);															\n"
 		"	}																									\n"
 		;
 }
@@ -1045,7 +1075,8 @@ const char* const kiwi::source::forward_3d_parallax_vRMEC::fragment_shader() noe
 		"	in vec2 UV;																							\n"
 		"	in vec2 UV_lmap;																					\n"
 		"	in vec4 RMEC;																						\n"
-		"	out vec4 color;																						\n"
+		"	layout (location = 0) out vec4 color;																\n"
+		"	layout (location = 1) out vec4 normal_vec;															\n"
 
 		LIGHTSET_BUFFERS
 
@@ -1097,6 +1128,8 @@ const char* const kiwi::source::forward_3d_parallax_vRMEC::fragment_shader() noe
 		"			float m = min(min(min(color[0], color[1]), color[2]), 1.0);									\n"
 		"			color.xyz = m + ((ceiling - m) / (M - m)) * (color.xyz - m);								\n"
 		"		}																								\n"
+
+		"		normal_vec = vec4(moved_N_dir, 1.0);															\n"
 		"	}																									\n"
 		;
 }
@@ -1136,7 +1169,8 @@ const char* const kiwi::source::forward_3d_parallax_mRMEC::fragment_shader() noe
 		"	in mat3 moved_TBN;																					\n"
 		"	in vec2 UV;																							\n"
 		"	in vec2 UV_lmap;																					\n"
-		"	out vec4 color;																						\n"
+		"	layout (location = 0) out vec4 color;																\n"
+		"	layout (location = 1) out vec4 normal_vec;															\n"
 
 		LIGHTSET_BUFFERS
 
@@ -1190,6 +1224,8 @@ const char* const kiwi::source::forward_3d_parallax_mRMEC::fragment_shader() noe
 		"			float m = min(min(min(color[0], color[1]), color[2]), 1.0);									\n"
 		"			color.xyz = m + ((ceiling - m) / (M - m)) * (color.xyz - m);								\n"
 		"		}																								\n"
+
+		"		normal_vec = vec4(moved_N_dir, 1.0);															\n"
 		"	}																									\n"
 		;
 }
