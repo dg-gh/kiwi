@@ -190,8 +190,6 @@ const char* const kiwi::source::forward_3d_solid_color::vertex_shader() noexcept
 		"		_moved_N_dir = mat3(u_m_M) * in_N_dir;															\n"
 		"	}																									\n"
 		;
-
-
 }
 const char* const kiwi::source::forward_3d_solid_color::fragment_shader() noexcept
 {
