@@ -3197,6 +3197,7 @@ bool kiwi::basic_2d_texture::init() noexcept
 	if (success)
 	{
 		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
+		program.set_uniform_1i("Tx", static_cast<GLint>(0));
 	}
 
 	return success;
@@ -3213,6 +3214,7 @@ bool kiwi::basic_2d_texture_alpha_test::init() noexcept
 	{
 		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
 		alpha_test_location = program.new_uniform_location("u_alpha_test");
+		program.set_uniform_1i("Tx", static_cast<GLint>(0));
 	}
 
 	return success;
@@ -3357,6 +3359,7 @@ bool kiwi::basic_3d_texture::init() noexcept
 	if (success)
 	{
 		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
+		program.set_uniform_1i("Tx", static_cast<GLint>(0));
 	}
 
 	return success;
@@ -3373,6 +3376,7 @@ bool kiwi::basic_3d_texture_alpha_test::init() noexcept
 	{
 		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
 		alpha_test_location = program.new_uniform_location("u_alpha_test");
+		program.set_uniform_1i("Tx", static_cast<GLint>(0));
 	}
 
 	return success;
