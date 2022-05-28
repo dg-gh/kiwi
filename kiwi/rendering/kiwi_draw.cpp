@@ -799,7 +799,7 @@ void kiwi::_load_basic_3d_proxy::using_skybox(const kiwi::cubemap_buffer& skybox
 {
 	kiwi::global_type<kiwi::default_buffers> buffers = kiwi::get_global_type<kiwi::default_buffers>();
 
-	skybox_buffer.bind();
+	skybox_buffer.to_binding(0);
 
 	buffers.m_program_skybox_3d.program.set_uniform_4x4f(buffers.m_program_skybox_3d.mvp_matrix_location, m_transformation_matrix_ptr);
 
@@ -3388,6 +3388,7 @@ bool kiwi::basic_3d_skybox::init() noexcept
 	if (success)
 	{
 		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
+		program.set_uniform_1i("skybox", static_cast<GLint>(1));
 	}
 
 	return success;

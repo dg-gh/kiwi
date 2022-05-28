@@ -159,11 +159,11 @@ const char* const kiwi::source::basic_3d_skybox::fragment_shader() noexcept
 		"	in vec3 XYZ;																						\n"
 		"	out vec4 color;																						\n"
 
-		"	uniform samplerCube box;																			\n"
+		"	uniform samplerCube skybox;																			\n"
 
 		"	void main()																							\n"
 		"	{																									\n"
-		"		color = texture(box, XYZ);																		\n"
+		"		color = texture(skybox, XYZ);																	\n"
 		"	}																									\n"
 		;
 }

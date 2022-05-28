@@ -108,6 +108,28 @@ void kiwi::cubemap_buffer::unbind() noexcept
 	kiwi::context::current_texture_buffer() = nullptr;
 }
 
+kiwi::cubemap_buffer& kiwi::cubemap_buffer::to_binding(GLenum binding) noexcept
+{
+	if (kiwi::context::current_texture_buffer() != static_cast<const void*>(this))
+	{
+		glActiveTexture(GL_TEXTURE0 + binding);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, m_buffer_index);
+		kiwi::context::current_texture_buffer() = static_cast<const void*>(this);
+	}
+	return *this;
+}
+
+const kiwi::cubemap_buffer& kiwi::cubemap_buffer::to_binding(GLenum binding) const noexcept
+{
+	if (kiwi::context::current_texture_buffer() != static_cast<const void*>(this))
+	{
+		glActiveTexture(GL_TEXTURE0 + binding);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, m_buffer_index);
+		kiwi::context::current_texture_buffer() = static_cast<const void*>(this);
+	}
+	return *this;
+}
+
 kiwi::cubemap_buffer& kiwi::cubemap_buffer::load(
 	const unsigned char* const Xp_data_ptr,
 	const unsigned char* const Xm_data_ptr,

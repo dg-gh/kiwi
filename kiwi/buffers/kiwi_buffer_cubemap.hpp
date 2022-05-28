@@ -52,6 +52,10 @@ namespace kiwi
 		const kiwi::cubemap_buffer& bind() const noexcept;
 		static void unbind() noexcept;
 
+
+		kiwi::cubemap_buffer& to_binding(GLenum binding) noexcept;
+		const kiwi::cubemap_buffer& to_binding(GLenum binding) const noexcept;
+
 		kiwi::cubemap_buffer& load(
 			const unsigned char* const Xp_data_ptr,
 			const unsigned char* const Xm_data_ptr,
