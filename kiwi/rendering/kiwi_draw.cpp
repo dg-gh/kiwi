@@ -3388,7 +3388,7 @@ bool kiwi::basic_3d_skybox::init() noexcept
 	if (success)
 	{
 		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
-		program.set_uniform_1i("skybox", static_cast<GLint>(1));
+		program.set_uniform_1i("skybox", static_cast<GLint>(0));
 	}
 
 	return success;
