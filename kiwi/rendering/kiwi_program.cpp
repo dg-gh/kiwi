@@ -211,26 +211,52 @@ GLint kiwi::program::new_uniform_location(const char* const uniform_variable) co
 kiwi::program& kiwi::program::set_uniform_1f(const char* const uniform_variable,
 	GLfloat u0) noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniform1f(location, u0);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniform1f(location, u0);
+	}
 	return *this;
 }
 
 const kiwi::program& kiwi::program::set_uniform_1f(const char* const uniform_variable,
 	GLfloat u0) const noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniform1f(location, u0);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniform1f(location, u0);
+	}
 	return *this;
 }
 
@@ -262,26 +288,52 @@ const kiwi::program& kiwi::program::set_uniform_1f(GLint location,
 kiwi::program& kiwi::program::set_uniform_2f(const char* const uniform_variable,
 	GLfloat u0, GLfloat u1) noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniform2f(location, u0, u1);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniform2f(location, u0, u1);
+	}
 	return *this;
 }
 
 const kiwi::program& kiwi::program::set_uniform_2f(const char* const uniform_variable,
 	GLfloat u0, GLfloat u1) const noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniform2f(location, u0, u1);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniform2f(location, u0, u1);
+	}
 	return *this;
 }
 
@@ -313,26 +365,52 @@ const kiwi::program& kiwi::program::set_uniform_2f(GLint location,
 kiwi::program& kiwi::program::set_uniform_3f(const char* const uniform_variable,
 	GLfloat u0, GLfloat u1, GLfloat u2) noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniform3f(location, u0, u1, u2);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniform3f(location, u0, u1, u2);
+	}
 	return *this;
 }
 
 const kiwi::program& kiwi::program::set_uniform_3f(const char* const uniform_variable,
 	GLfloat u0, GLfloat u1, GLfloat u2) const noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniform3f(location, u0, u1, u2);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniform3f(location, u0, u1, u2);
+	}
 	return *this;
 }
 
@@ -364,26 +442,52 @@ const kiwi::program& kiwi::program::set_uniform_3f(GLint location,
 kiwi::program& kiwi::program::set_uniform_4f(const char* const uniform_variable,
 	GLfloat u0, GLfloat u1, GLfloat u2, GLfloat u3) noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniform4f(location, u0, u1, u2, u3);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniform4f(location, u0, u1, u2, u3);
+	}
 	return *this;
 }
 
 const kiwi::program& kiwi::program::set_uniform_4f(const char* const uniform_variable,
 	GLfloat u0, GLfloat u1, GLfloat u2, GLfloat u3) const noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniform4f(location, u0, u1, u2, u3);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniform4f(location, u0, u1, u2, u3);
+	}
 	return *this;
 }
 
@@ -415,26 +519,52 @@ const kiwi::program& kiwi::program::set_uniform_4f(GLint location,
 kiwi::program& kiwi::program::set_uniform_2f(const char* const uniform_variable,
 	const GLfloat* const values_ptr) noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniform2fv(location, 1, values_ptr);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniform2fv(location, 1, values_ptr);
+	}
 	return *this;
 }
 
 const kiwi::program& kiwi::program::set_uniform_2f(const char* const uniform_variable,
 	const GLfloat* const values_ptr) const noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniform2fv(location, 1, values_ptr);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniform2fv(location, 1, values_ptr);
+	}
 	return *this;
 }
 
@@ -466,26 +596,52 @@ const kiwi::program& kiwi::program::set_uniform_2f(GLint location,
 kiwi::program& kiwi::program::set_uniform_3f(const char* const uniform_variable,
 	const GLfloat* const values_ptr) noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniform3fv(location, 1, values_ptr);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniform3fv(location, 1, values_ptr);
+	}
 	return *this;
 }
 
 const kiwi::program& kiwi::program::set_uniform_3f(const char* const uniform_variable,
 	const GLfloat* const values_ptr) const noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniform3fv(location, 1, values_ptr);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniform3fv(location, 1, values_ptr);
+	}
 	return *this;
 }
 
@@ -517,26 +673,52 @@ const kiwi::program& kiwi::program::set_uniform_3f(GLint location,
 kiwi::program& kiwi::program::set_uniform_4f(const char* const uniform_variable,
 	const GLfloat* const values_ptr) noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniform4fv(location, 1, values_ptr);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniform4fv(location, 1, values_ptr);
+	}
 	return *this;
 }
 
 const kiwi::program& kiwi::program::set_uniform_4f(const char* const uniform_variable,
 	const GLfloat* const values_ptr) const noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniform4fv(location, 1, values_ptr);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniform4fv(location, 1, values_ptr);
+	}
 	return *this;
 }
 
@@ -568,26 +750,52 @@ const kiwi::program& kiwi::program::set_uniform_4f(GLint location,
 kiwi::program& kiwi::program::set_uniform_3x3f(const char* const uniform_variable,
 	const GLfloat* const values_ptr) noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniformMatrix3fv(location, 1, GL_FALSE, values_ptr);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniformMatrix3fv(location, 1, GL_FALSE, values_ptr);
+	}
 	return *this;
 }
 
 const kiwi::program& kiwi::program::set_uniform_3x3f(const char* const uniform_variable,
 	const GLfloat* const values_ptr) const noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniformMatrix3fv(location, 1, GL_FALSE, values_ptr);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniformMatrix3fv(location, 1, GL_FALSE, values_ptr);
+	}
 	return *this;
 }
 
@@ -619,26 +827,52 @@ const kiwi::program& kiwi::program::set_uniform_3x3f(GLint location,
 kiwi::program& kiwi::program::set_uniform_4x4f(const char* const uniform_variable,
 	const GLfloat* const values_ptr) noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniformMatrix4fv(location, 1, GL_FALSE, values_ptr);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniformMatrix4fv(location, 1, GL_FALSE, values_ptr);
+	}
 	return *this;
 }
 
 const kiwi::program& kiwi::program::set_uniform_4x4f(const char* const uniform_variable,
 	const GLfloat* const values_ptr) const noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniformMatrix4fv(location, 1, GL_FALSE, values_ptr);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniformMatrix4fv(location, 1, GL_FALSE, values_ptr);
+	}
 	return *this;
 }
 
@@ -670,26 +904,52 @@ const kiwi::program& kiwi::program::set_uniform_4x4f(GLint location,
 kiwi::program& kiwi::program::set_uniform_1i(const char* const uniform_variable,
 	GLint u0) noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniform1i(location, u0);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniform1i(location, u0);
+	}
 	return *this;
 }
 
 const kiwi::program& kiwi::program::set_uniform_1i(const char* const uniform_variable,
 	GLint u0) const noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniform1i(location, u0);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniform1i(location, u0);
+	}
 	return *this;
 }
 
@@ -722,26 +982,52 @@ const kiwi::program& kiwi::program::set_uniform_1i(GLint location,
 kiwi::program& kiwi::program::set_uniform_2i(const char* const uniform_variable,
 	GLint u0, GLint u1) noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniform2i(location, u0, u1);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniform2i(location, u0, u1);
+	}
 	return *this;
 }
 
 const kiwi::program& kiwi::program::set_uniform_2i(const char* const uniform_variable,
 	GLint u0, GLint u1) const noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniform2i(location, u0, u1);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniform2i(location, u0, u1);
+	}
 	return *this;
 }
 
@@ -773,26 +1059,52 @@ const kiwi::program& kiwi::program::set_uniform_2i(GLint location,
 kiwi::program& kiwi::program::set_uniform_3i(const char* const uniform_variable,
 	GLint u0, GLint u1, GLint u2) noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniform3i(location, u0, u1, u2);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniform3i(location, u0, u1, u2);
+	}
 	return *this;
 }
 
 const kiwi::program& kiwi::program::set_uniform_3i(const char* const uniform_variable,
 	GLint u0, GLint u1, GLint u2) const noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniform3i(location, u0, u1, u2);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniform3i(location, u0, u1, u2);
+	}
 	return *this;
 }
 
@@ -824,26 +1136,52 @@ const kiwi::program& kiwi::program::set_uniform_3i(GLint location,
 kiwi::program& kiwi::program::set_uniform_4i(const char* const uniform_variable,
 	GLuint u0, GLuint u1, GLuint u2, GLuint u3) noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniform4ui(location, u0, u1, u2, u3);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniform4ui(location, u0, u1, u2, u3);
+	}
 	return *this;
 }
 
 const kiwi::program& kiwi::program::set_uniform_4i(const char* const uniform_variable,
 	GLuint u0, GLuint u1, GLuint u2, GLuint u3) const noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniform4ui(location, u0, u1, u2, u3);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniform4ui(location, u0, u1, u2, u3);
+	}
 	return *this;
 }
 
@@ -875,26 +1213,52 @@ const kiwi::program& kiwi::program::set_uniform_4i(GLint location,
 kiwi::program& kiwi::program::set_uniform_2i(const char* const uniform_variable,
 	const GLint* const values_ptr) noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniform2iv(location, 1, values_ptr);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniform2iv(location, 1, values_ptr);
+	}
 	return *this;
 }
 
 const kiwi::program& kiwi::program::set_uniform_2i(const char* const uniform_variable,
 	const GLint* const values_ptr) const noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniform2iv(location, 1, values_ptr);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniform2iv(location, 1, values_ptr);
+	}
 	return *this;
 }
 
@@ -926,26 +1290,52 @@ const kiwi::program& kiwi::program::set_uniform_2i(GLint location,
 kiwi::program& kiwi::program::set_uniform_3i(const char* const uniform_variable,
 	const GLint* const values_ptr) noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniform3iv(location, 1, values_ptr);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniform3iv(location, 1, values_ptr);
+	}
 	return *this;
 }
 
 const kiwi::program& kiwi::program::set_uniform_3i(const char* const uniform_variable,
 	const GLint* const values_ptr) const noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniform3iv(location, 1, values_ptr);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniform3iv(location, 1, values_ptr);
+	}
 	return *this;
 }
 
@@ -977,26 +1367,52 @@ const kiwi::program& kiwi::program::set_uniform_3i(GLint location,
 kiwi::program& kiwi::program::set_uniform_4i(const char* const uniform_variable,
 	const GLint* const values_ptr) noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniform4iv(location, 1, values_ptr);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniform4iv(location, 1, values_ptr);
+	}
 	return *this;
 }
 
 const kiwi::program& kiwi::program::set_uniform_4i(const char* const uniform_variable,
 	const GLint* const values_ptr) const noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniform4iv(location, 1, values_ptr);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniform4iv(location, 1, values_ptr);
+	}
 	return *this;
 }
 
@@ -1028,26 +1444,52 @@ const kiwi::program& kiwi::program::set_uniform_4i(GLint location,
 kiwi::program& kiwi::program::set_uniform_1ui(const char* const uniform_variable,
 	GLuint u0) noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniform1ui(location, u0);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniform1ui(location, u0);
+	}
 	return *this;
 }
 
 const kiwi::program& kiwi::program::set_uniform_1ui(const char* const uniform_variable,
 	GLuint u0) const noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniform1ui(location, u0);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniform1ui(location, u0);
+	}
 	return *this;
 }
 
@@ -1079,26 +1521,52 @@ const kiwi::program& kiwi::program::set_uniform_1ui(GLint location,
 kiwi::program& kiwi::program::set_uniform_2ui(const char* const uniform_variable,
 	GLuint u0, GLuint u1) noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniform2ui(location, u0, u1);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniform2ui(location, u0, u1);
+	}
 	return *this;
 }
 
 const kiwi::program& kiwi::program::set_uniform_2ui(const char* const uniform_variable,
 	GLuint u0, GLuint u1) const noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniform2ui(location, u0, u1);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniform2ui(location, u0, u1);
+	}
 	return *this;
 }
 
@@ -1130,26 +1598,52 @@ const kiwi::program& kiwi::program::set_uniform_2ui(GLint location,
 kiwi::program& kiwi::program::set_uniform_3ui(const char* const uniform_variable,
 	GLuint u0, GLuint u1, GLuint u2) noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniform3ui(location, u0, u1, u2);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniform3ui(location, u0, u1, u2);
+	}
 	return *this;
 }
 
 const kiwi::program& kiwi::program::set_uniform_3ui(const char* const uniform_variable,
 	GLuint u0, GLuint u1, GLuint u2) const noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniform3ui(location, u0, u1, u2);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniform3ui(location, u0, u1, u2);
+	}
 	return *this;
 }
 
@@ -1181,26 +1675,52 @@ const kiwi::program& kiwi::program::set_uniform_3ui(GLint location,
 kiwi::program& kiwi::program::set_uniform_4ui(const char* const uniform_variable,
 	GLuint u0, GLuint u1, GLuint u2, GLuint u3) noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniform4ui(location, u0, u1, u2, u3);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniform4ui(location, u0, u1, u2, u3);
+	}
 	return *this;
 }
 
 const kiwi::program& kiwi::program::set_uniform_4ui(const char* const uniform_variable,
 	GLuint u0, GLuint u1, GLuint u2, GLuint u3) const noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniform4ui(location, u0, u1, u2, u3);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniform4ui(location, u0, u1, u2, u3);
+	}
 	return *this;
 }
 
@@ -1232,26 +1752,52 @@ const kiwi::program& kiwi::program::set_uniform_4ui(GLint location,
 kiwi::program& kiwi::program::set_uniform_2ui(const char* const uniform_variable,
 	const GLuint* const values_ptr) noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniform2uiv(location, 1, values_ptr);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniform2uiv(location, 1, values_ptr);
+	}
 	return *this;
 }
 
 const kiwi::program& kiwi::program::set_uniform_2ui(const char* const uniform_variable,
 	const GLuint* const values_ptr) const noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniform2uiv(location, 1, values_ptr);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniform2uiv(location, 1, values_ptr);
+	}
 	return *this;
 }
 
@@ -1283,26 +1829,52 @@ const kiwi::program& kiwi::program::set_uniform_2ui(GLint location,
 kiwi::program& kiwi::program::set_uniform_3ui(const char* const uniform_variable,
 	const GLuint* const values_ptr) noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniform3uiv(location, 1, values_ptr);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniform3uiv(location, 1, values_ptr);
+	}
 	return *this;
 }
 
 const kiwi::program& kiwi::program::set_uniform_3ui(const char* const uniform_variable,
 	const GLuint* const values_ptr) const noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniform3uiv(location, 1, values_ptr);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniform3uiv(location, 1, values_ptr);
+	}
 	return *this;
 }
 
@@ -1334,26 +1906,52 @@ const kiwi::program& kiwi::program::set_uniform_3ui(GLint location,
 kiwi::program& kiwi::program::set_uniform_4ui(const char* const uniform_variable,
 	const GLuint* const values_ptr) noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniform4uiv(location, 1, values_ptr);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniform4uiv(location, 1, values_ptr);
+	}
 	return *this;
 }
 
 const kiwi::program& kiwi::program::set_uniform_4ui(const char* const uniform_variable,
 	const GLuint* const values_ptr) const noexcept
 {
+	if (m_program_index == 0)
+	{
+		std::cout << "program invalid for uniform variable : " << uniform_variable << '\n' << std::endl;
+		return *this;
+	}
+
 	if (kiwi::context::current_program() != static_cast<const void*>(this))
 	{
 		glUseProgram(m_program_index);
 		kiwi::context::current_program() = static_cast<const void*>(this);
 	}
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
-	glUniform4uiv(location, 1, values_ptr);
+	if (location == -1)
+	{
+		std::cout << "uniform variable not found : " << uniform_variable << '\n' << std::endl;
+	}
+	else
+	{
+		glUniform4uiv(location, 1, values_ptr);
+	}
 	return *this;
 }
 
