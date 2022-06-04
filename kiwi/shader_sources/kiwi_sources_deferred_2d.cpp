@@ -78,7 +78,8 @@ const char* const kiwi::source::deferred_2d_lighting_pass::fragment_shader() noe
 		"	{																									\n"
 		"		float temp = 1.0 - dot(a_H_dir, a_V_dir);														\n"
 		"		float temp_sq = temp * temp;																	\n"
-		"		return vec3(temp) + (1.0 - (temp_sq * temp_sq) * temp) * a_F0;									\n"
+		"		temp = temp_sq * temp_sq * temp;																\n"
+		"		return a_F0 + (temp - temp * a_F0);																\n"
 		"	}																									\n"
 
 		"	void main()																							\n"
@@ -98,7 +99,7 @@ const char* const kiwi::source::deferred_2d_lighting_pass::fragment_shader() noe
 
 		"		float dielec = 1.0 - RMEC[1];																	\n"
 		"		vec4 RGBA = texture(Tx_albedo, UV);																\n"
-		"		vec3 fresnel = mix(vec3(0.4), vec3(RGBA), RMEC[1]);												\n"
+		"		vec3 fresnel = mix(vec3(0.04), vec3(RGBA), RMEC[1]);											\n"
 
 		"		vec3 diff = vec3(3.14159 * RMEC[2]);															\n"
 		"		vec3 spec = vec3(0.0);																			\n"

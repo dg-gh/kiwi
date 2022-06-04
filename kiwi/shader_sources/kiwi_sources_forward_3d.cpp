@@ -33,7 +33,8 @@
 "	{																									\n"\
 "		float temp = 1.0 - dot(a_H_dir, a_V_dir);														\n"\
 "		float temp_sq = temp * temp;																	\n"\
-"		return vec3(temp) + (1.0 - (temp_sq * temp_sq) * temp) * a_F0;									\n"\
+"		temp = temp_sq * temp_sq * temp;																\n"\
+"		return a_F0 + (temp - temp * a_F0);																\n"\
 "	}																									\n"
 
 #define NORMAL_FUNC_3D \
@@ -222,7 +223,7 @@ const char* const kiwi::source::forward_3d_solid_color::fragment_shader() noexce
 		"		float GGX_G_NV = GGX_G(dot_NV, alpha_sq);														\n"
 
 		"		float dielec = 1.0 - u_RMEC[1];																	\n"
-		"		vec3 fresnel = mix(vec3(0.4), vec3(u_RGBA), u_RMEC[1]);											\n"
+		"		vec3 fresnel = mix(vec3(0.04), vec3(u_RGBA), u_RMEC[1]);										\n"
 
 		"		vec3 diff = vec3(3.14159 * u_RMEC[2]);															\n"
 		"		vec3 spec = vec3(0.0);																			\n"
@@ -298,7 +299,7 @@ const char* const kiwi::source::forward_3d_color_gradient_sRMEC::fragment_shader
 		"		float GGX_G_NV = GGX_G(dot_NV, alpha_sq);														\n"
 
 		"		float dielec = 1.0 - u_RMEC[1];																	\n"
-		"		vec3 fresnel = mix(vec3(0.4), vec3(RGBA), u_RMEC[1]);											\n"
+		"		vec3 fresnel = mix(vec3(0.04), vec3(RGBA), u_RMEC[1]);											\n"
 
 		"		vec3 diff = vec3(3.14159 * u_RMEC[2]);															\n"
 		"		vec3 spec = vec3(0.0);																			\n"
@@ -379,7 +380,7 @@ const char* const kiwi::source::forward_3d_color_gradient_vRMEC::fragment_shader
 		"		float GGX_G_NV = GGX_G(dot_NV, alpha_sq);														\n"
 
 		"		float dielec = 1.0 - RMEC[1];																	\n"
-		"		vec3 fresnel = mix(vec3(0.4), vec3(RGBA), RMEC[1]);												\n"
+		"		vec3 fresnel = mix(vec3(0.04), vec3(RGBA), RMEC[1]);											\n"
 
 		"		vec3 diff = vec3(3.14159 * RMEC[2]);															\n"
 		"		vec3 spec = vec3(0.0);																			\n"
@@ -464,7 +465,7 @@ const char* const kiwi::source::forward_3d_texture_sRMEC::fragment_shader() noex
 
 		"		float dielec = 1.0 - u_RMEC[1];																	\n"
 		"		vec4 RGBA = texture(Tx, UV);																	\n"
-		"		vec3 fresnel = mix(vec3(0.4), vec3(RGBA), u_RMEC[1]);											\n"
+		"		vec3 fresnel = mix(vec3(0.04), vec3(RGBA), u_RMEC[1]);											\n"
 
 		"		vec3 diff = vec3(3.14159 * u_RMEC[2]);															\n"
 		"		vec3 spec = vec3(0.0);																			\n"
@@ -554,7 +555,7 @@ const char* const kiwi::source::forward_3d_texture_vRMEC::fragment_shader() noex
 
 		"		float dielec = 1.0 - RMEC[1];																	\n"
 		"		vec4 RGBA = texture(Tx, UV);																	\n"
-		"		vec3 fresnel = mix(vec3(0.4), vec3(RGBA), RMEC[1]);												\n"
+		"		vec3 fresnel = mix(vec3(0.04), vec3(RGBA), RMEC[1]);											\n"
 
 		"		vec3 diff = vec3(3.14159 * RMEC[2]);															\n"
 		"		vec3 spec = vec3(0.0);																			\n"
@@ -642,7 +643,7 @@ const char* const kiwi::source::forward_3d_texture_mRMEC::fragment_shader() noex
 
 		"		float dielec = 1.0 - RMEC[1];																	\n"
 		"		vec4 RGBA = texture(Tx, UV);																	\n"
-		"		vec3 fresnel = mix(vec3(0.4), vec3(RGBA), RMEC[1]);												\n"
+		"		vec3 fresnel = mix(vec3(0.04), vec3(RGBA), RMEC[1]);											\n"
 
 		"		vec3 diff = vec3(3.14159 * RMEC[2]);															\n"
 		"		vec3 spec = vec3(0.0);																			\n"
@@ -732,7 +733,7 @@ const char* const kiwi::source::forward_3d_normal_sRMEC::fragment_shader() noexc
 
 		"		float dielec = 1.0 - u_RMEC[1];																	\n"
 		"		vec4 RGBA = texture(Tx, UV);																	\n"
-		"		vec3 fresnel = mix(vec3(0.4), vec3(RGBA), u_RMEC[1]);											\n"
+		"		vec3 fresnel = mix(vec3(0.04), vec3(RGBA), u_RMEC[1]);											\n"
 
 		"		vec3 diff = vec3(3.14159 * u_RMEC[2]);															\n"
 		"		vec3 spec = vec3(0.0);																			\n"
@@ -825,7 +826,7 @@ const char* const kiwi::source::forward_3d_normal_vRMEC::fragment_shader() noexc
 
 		"		float dielec = 1.0 - RMEC[1];																	\n"
 		"		vec4 RGBA = texture(Tx, UV);																	\n"
-		"		vec3 fresnel = mix(vec3(0.4), vec3(RGBA), RMEC[1]);												\n"
+		"		vec3 fresnel = mix(vec3(0.04), vec3(RGBA), RMEC[1]);											\n"
 
 		"		vec3 diff = vec3(3.14159 * RMEC[2]);															\n"
 		"		vec3 spec = vec3(0.0);																			\n"
@@ -917,7 +918,7 @@ const char* const kiwi::source::forward_3d_normal_mRMEC::fragment_shader() noexc
 
 		"		float dielec = 1.0 - RMEC[1];																	\n"
 		"		vec4 RGBA = texture(Tx, UV);																	\n"
-		"		vec3 fresnel = mix(vec3(0.4), vec3(RGBA), RMEC[1]);												\n"
+		"		vec3 fresnel = mix(vec3(0.04), vec3(RGBA), RMEC[1]);											\n"
 
 		"		vec3 diff = vec3(3.14159 * RMEC[2]);															\n"
 		"		vec3 spec = vec3(0.0);																			\n"
@@ -1011,7 +1012,7 @@ const char* const kiwi::source::forward_3d_parallax_sRMEC::fragment_shader() noe
 
 		"		float dielec = 1.0 - u_RMEC[1];																	\n"
 		"		vec4 RGBA = texture(Tx, shifted_UV);															\n"
-		"		vec3 fresnel = mix(vec3(0.4), vec3(RGBA), u_RMEC[1]);											\n"
+		"		vec3 fresnel = mix(vec3(0.04), vec3(RGBA), u_RMEC[1]);											\n"
 
 		"		vec3 diff = vec3(3.14159 * u_RMEC[2]);															\n"
 		"		vec3 spec = vec3(0.0);																			\n"
@@ -1108,7 +1109,7 @@ const char* const kiwi::source::forward_3d_parallax_vRMEC::fragment_shader() noe
 
 		"		float dielec = 1.0 - RMEC[1];																	\n"
 		"		vec4 RGBA = texture(Tx, shifted_UV);															\n"
-		"		vec3 fresnel = mix(vec3(0.4), vec3(RGBA), RMEC[1]);												\n"
+		"		vec3 fresnel = mix(vec3(0.04), vec3(RGBA), RMEC[1]);											\n"
 
 		"		vec3 diff = vec3(3.14159 * RMEC[2]);															\n"
 		"		vec3 spec = vec3(0.0);																			\n"
@@ -1204,7 +1205,7 @@ const char* const kiwi::source::forward_3d_parallax_mRMEC::fragment_shader() noe
 
 		"		float dielec = 1.0 - RMEC[1];																	\n"
 		"		vec4 RGBA = texture(Tx, shifted_UV);															\n"
-		"		vec3 fresnel = mix(vec3(0.4), vec3(RGBA), RMEC[1]);												\n"
+		"		vec3 fresnel = mix(vec3(0.04), vec3(RGBA), RMEC[1]);											\n"
 
 		"		vec3 diff = vec3(3.14159 * RMEC[2]);															\n"
 		"		vec3 spec = vec3(0.0);																			\n"
