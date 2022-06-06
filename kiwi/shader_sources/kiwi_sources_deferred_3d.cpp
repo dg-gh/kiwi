@@ -110,7 +110,7 @@ const char* const kiwi::source::deferred_3d_lighting_pass::fragment_shader() noe
 		"		float temp = 1.0 - dot(a_H_dir, a_V_dir);														\n"
 		"		float temp_sq = temp * temp;																	\n"
 		"		temp = temp_sq * temp_sq * temp;																\n"
-		"		return a_F0 + (temp - temp * a_F0);																\n"
+		"		return temp + (1.0 - temp) * a_F0;																\n"
 		"	}																									\n"
 
 		"	void main()																							\n"
@@ -309,7 +309,7 @@ const char* const kiwi::source::deferred_3d_lighting_pass_ortho::fragment_shader
 		"		float temp = 1.0 - dot(a_H_dir, a_V_dir);														\n"
 		"		float temp_sq = temp * temp;																	\n"
 		"		temp = temp_sq * temp_sq * temp;																\n"
-		"		return a_F0 + (temp - temp * a_F0);																\n"
+		"		return temp + (1.0 - temp) * a_F0;																\n"
 		"	}																									\n"
 
 		"	void main()																							\n"
