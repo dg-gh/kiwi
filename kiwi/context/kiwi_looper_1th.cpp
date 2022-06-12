@@ -40,68 +40,21 @@ bool kiwi::looper_1th::window_resized() noexcept
 	}
 }
 
-bool kiwi::looper_1th::show(kiwi::size size_2d, const char* new_title)
+bool kiwi::looper_1th::show(const kiwi::size& size_2d, const char* const new_title)
 {
-	// glfw init
-
-	if (!glfwInit())
+	if (!kiwi::context::window_init(size_2d[0], size_2d[1],
+		m_window_resizable,
+		m_window_free_ratio,
+		m_window_fullscreen,
+		m_window_anti_aliasing,
+		new_title))
 	{
 		return false;
 	}
 
-	// window specs
-
-	int new_screen_width = static_cast<int>(size_2d[0]);
-	int new_screen_height = static_cast<int>(size_2d[1]);
-
-	if (m_window_resizable) { glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); }
-	else { glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE); }
-
-	if (m_window_anti_aliasing) { glfwWindowHint(GLFW_SAMPLES, 4); }
-
-	if (m_window_fullscreen)
-	{
-		kiwi::context::window() = glfwCreateWindow(new_screen_width, new_screen_height,
-			new_title, glfwGetPrimaryMonitor(), nullptr);
-	}
-	else
-	{
-		kiwi::context::window() = glfwCreateWindow(new_screen_width, new_screen_height,
-			new_title, nullptr, nullptr);
-	}
-
-	if (kiwi::context::window() == nullptr)
-	{
-		glfwTerminate();
-		return false;
-	}
-
-	glfwMakeContextCurrent(kiwi::context::window());
-	glfwSetWindowSizeCallback(kiwi::context::window(), kiwi::context::window_resize_callback);
-	kiwi::context::window_resize_callback(kiwi::context::window(), new_screen_width, new_screen_height);
 	m_window_state_counter = kiwi::window_state_counter();
 
-	if (m_window_resizable && !m_window_free_ratio)
-	{
-		glfwSetWindowAspectRatio(kiwi::context::window(), new_screen_width, new_screen_height);
-	}
-
-	// glew init
-
-	if (glewInit() != GLEW_OK)
-	{
-		glfwTerminate();
-		return false;
-	}
-
-	// display
-
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_ONE, GL_ZERO);
-	if (m_window_anti_aliasing) { glEnable(GL_MULTISAMPLE); }
-
 	setup();
-
 
 	if (m_timeframe_int != 0)
 	{
@@ -121,9 +74,9 @@ bool kiwi::looper_1th::show(kiwi::size size_2d, const char* new_title)
 			// loop content
 			loop(loop_time_elapsed);
 
-			glfwSwapBuffers(kiwi::context::window());
+			kiwi::swap_buffers();
 
-			if (exit_condition() || glfwWindowShouldClose(kiwi::context::window()))
+			if (exit_condition() || kiwi::context::window_should_close())
 			{
 				// exit
 				break;
@@ -144,9 +97,9 @@ bool kiwi::looper_1th::show(kiwi::size size_2d, const char* new_title)
 			// loop content
 			loop(loop_time_elapsed);
 
-			glfwSwapBuffers(kiwi::context::window());
+			kiwi::swap_buffers();
 
-			if (exit_condition() || glfwWindowShouldClose(kiwi::context::window()))
+			if (exit_condition() || kiwi::context::window_should_close())
 			{
 				// exit
 				break;
@@ -156,9 +109,7 @@ bool kiwi::looper_1th::show(kiwi::size size_2d, const char* new_title)
 
 	exit();
 
-	glfwSetWindowAspectRatio(kiwi::context::window(), GLFW_DONT_CARE, GLFW_DONT_CARE);
-	glfwDestroyWindow(kiwi::context::window());
-	glfwTerminate();
+	kiwi::context::window_terminate();
 	kiwi::context::delete_window_size_info();
 	kiwi::context::window() = nullptr;
 	return true;
@@ -200,9 +151,4 @@ kiwi::looper_1th& kiwi::looper_1th::set_timeframe(double new_timeframe) noexcept
 		m_timeframe_int = 0;
 	}
 	return *this;
-}
-
-GLFWwindow* kiwi::looper_1th::this_window() noexcept
-{
-	return kiwi::context::window();
 }

@@ -52,7 +52,7 @@ namespace kiwi
 
 	public:
 
-		bool show(kiwi::size size_2d, const char* const new_title);
+		bool show(const kiwi::size& size_2d, const char* const new_title);
 
 		kiwi::looper_2th& set_window_resizable(bool window_resizable) noexcept;
 		kiwi::looper_2th& set_aspect_ratio_free(bool free_aspect_ratio) noexcept;
@@ -62,13 +62,9 @@ namespace kiwi
 
 		kiwi::looper_2th& enable_automatic_display_cleanup(bool cleanup_enabled) noexcept;
 
-	protected:
-		
-		GLFWwindow* this_window() noexcept;
-
 	private:
 
-		void display_function(int new_screen_width, int new_screen_height, const char* const new_title);
+		void display_function(std::size_t new_screen_width, std::size_t new_screen_height, const char* const new_title);
 
 		static constexpr double factor_tick_per_s = static_cast<double>(
 			std::chrono::steady_clock::duration::period::den

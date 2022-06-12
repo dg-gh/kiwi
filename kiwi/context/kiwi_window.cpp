@@ -9,65 +9,19 @@ kiwi::window::~window()
 	}
 }
 
-bool kiwi::window::show(kiwi::size size_2d, const char* new_title)
+bool kiwi::window::show(const kiwi::size& size_2d, const char* const new_title)
 {
-	// glfw init
-
-	if (!glfwInit())
+	if (!kiwi::context::window_init(size_2d[0], size_2d[1],
+		m_window_resizable,
+		m_window_free_ratio,
+		m_window_fullscreen,
+		m_window_anti_aliasing,
+		new_title))
 	{
 		return false;
 	}
 
-	// window specs
-
-	if (m_window_resizable) { glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); }
-	else { glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE); }
-
-	if (m_window_anti_aliasing) { glfwWindowHint(GLFW_SAMPLES, 4); }
-
-	int new_screen_width = static_cast<int>(size_2d[0]);
-	int new_screen_height = static_cast<int>(size_2d[1]);
-
-	if (m_window_fullscreen)
-	{
-		kiwi::context::window() = glfwCreateWindow(new_screen_width, new_screen_height,
-			new_title, glfwGetPrimaryMonitor(), nullptr);
-	}
-	else
-	{
-		kiwi::context::window() = glfwCreateWindow(new_screen_width, new_screen_height,
-			new_title, nullptr, nullptr);
-	}
-
-	if (kiwi::context::window() == nullptr)
-	{
-		glfwTerminate();
-		return false;
-	}
-
-	glfwMakeContextCurrent(kiwi::context::window());
-	glfwSetWindowSizeCallback(kiwi::context::window(), kiwi::context::window_resize_callback);
-	kiwi::context::window_resize_callback(kiwi::context::window(), new_screen_width, new_screen_height);
 	m_window_state_counter = kiwi::window_state_counter();
-
-	if (m_window_resizable && !m_window_free_ratio)
-	{
-		glfwSetWindowAspectRatio(kiwi::context::window(), new_screen_width, new_screen_height);
-	}
-
-	// glew init
-
-	if (glewInit() != GLEW_OK)
-	{
-		glfwTerminate();
-		return false;
-	}
-
-	// display
-
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_ONE, GL_ZERO);
-	if (m_window_anti_aliasing) { glEnable(GL_MULTISAMPLE); }
 
 	m_window_running = true;
 
@@ -76,7 +30,7 @@ bool kiwi::window::show(kiwi::size size_2d, const char* new_title)
 
 bool kiwi::window::good()
 {
-	return !glfwWindowShouldClose(kiwi::context::window());
+	return !kiwi::context::window_should_close();
 }
 
 
@@ -97,9 +51,7 @@ bool kiwi::window::window_resized() noexcept
 
 void kiwi::window::exit_window()
 {
-	glfwSetWindowAspectRatio(kiwi::context::window(), GLFW_DONT_CARE, GLFW_DONT_CARE);
-	glfwDestroyWindow(kiwi::context::window());
-	glfwTerminate();
+	kiwi::context::window_terminate();
 	kiwi::context::delete_window_size_info();
 	kiwi::context::window() = nullptr;
 	m_window_running = false;

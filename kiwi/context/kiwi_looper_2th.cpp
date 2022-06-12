@@ -57,7 +57,7 @@ bool kiwi::looper_2th::window_resized() noexcept
 	}
 }
 
-bool kiwi::looper_2th::show(kiwi::size size_2d, const char* const new_title)
+bool kiwi::looper_2th::show(const kiwi::size& size_2d, const char* const new_title)
 {
 	setup_loop();
 
@@ -112,7 +112,7 @@ bool kiwi::looper_2th::show(kiwi::size size_2d, const char* const new_title)
 			// loop content
 			loop(loop_time_elapsed);
 
-			if (exit_condition() || glfwWindowShouldClose(kiwi::context::window()))
+			if (exit_condition() || kiwi::context::window_should_close())
 			{
 				// exit
 				m_display_running.store(false);
@@ -133,7 +133,7 @@ bool kiwi::looper_2th::show(kiwi::size size_2d, const char* const new_title)
 			// loop content
 			loop(loop_time_elapsed);
 
-			if (exit_condition() || glfwWindowShouldClose(kiwi::context::window()))
+			if (exit_condition() || kiwi::context::window_should_close())
 			{
 				// exit
 				m_display_running.store(false);
@@ -150,10 +150,8 @@ bool kiwi::looper_2th::show(kiwi::size size_2d, const char* const new_title)
 
 	if (m_buffer_cleanup_enabled.load())
 	{
-		glfwInit();
-		kiwi::context::window() = glfwCreateWindow(1, 1, "", nullptr, nullptr);
-		glfwDestroyWindow(kiwi::context::window());
-		glfwTerminate();
+		kiwi::context::pop_tiny_window();
+		kiwi::context::window_terminate();
 		kiwi::context::delete_window_size_info();
 		kiwi::context::window() = nullptr;
 	}
@@ -204,75 +202,21 @@ kiwi::looper_2th& kiwi::looper_2th::enable_automatic_display_cleanup(bool cleanu
 	return *this;
 }
 
-GLFWwindow* kiwi::looper_2th::this_window() noexcept
+void kiwi::looper_2th::display_function(std::size_t new_screen_width, std::size_t new_screen_height, const char* const new_title)
 {
-	return kiwi::context::window();
-}
-
-void kiwi::looper_2th::display_function(int new_screen_width, int new_screen_height, const char* const new_title)
-{
-	// glfw init
-
-	if (!glfwInit())
+	if (!kiwi::context::window_init(new_screen_width, new_screen_height,
+		m_window_resizable,
+		m_window_free_ratio,
+		m_window_fullscreen,
+		m_window_anti_aliasing,
+		new_title))
 	{
 		m_display_setup_failed.store(true);
 		m_display_setup_finished.store(true);
 		return;
 	}
 
-	// window specs
-
-	if (m_window_resizable) { glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); }
-	else { glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE); }
-
-	if (m_window_anti_aliasing) { glfwWindowHint(GLFW_SAMPLES, 4); }
-
-	if (m_window_fullscreen)
-	{
-		kiwi::context::window() = glfwCreateWindow(new_screen_width, new_screen_height,
-			new_title, glfwGetPrimaryMonitor(), nullptr);
-	}
-	else
-	{
-		kiwi::context::window() = glfwCreateWindow(new_screen_width, new_screen_height,
-			new_title, nullptr, nullptr);
-	}
-
-	if (kiwi::context::window() == nullptr)
-	{
-		glfwTerminate();
-		m_display_setup_failed.store(true);
-		m_display_setup_finished.store(true);
-		return;
-	}
-
-	glfwMakeContextCurrent(kiwi::context::window());
-	glfwSetWindowSizeCallback(kiwi::context::window(), kiwi::context::window_resize_callback);
-	kiwi::context::window_resize_callback(kiwi::context::window(), new_screen_width, new_screen_height);
 	m_window_state_counter = kiwi::window_state_counter();
-
-	if (m_window_resizable && !m_window_free_ratio)
-	{
-		glfwSetWindowAspectRatio(kiwi::context::window(), new_screen_width, new_screen_height);
-	}
-
-	// glew init
-
-	if (glewInit() != GLEW_OK)
-	{
-		glfwTerminate();
-		m_display_setup_failed.store(true);
-		m_display_setup_finished.store(true);
-		return;
-	}
-	m_display_setup_failed.store(false);
-	m_display_setup_finished.store(true);
-
-	// display
-
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_ONE, GL_ZERO);
-	if (m_window_anti_aliasing) { glEnable(GL_MULTISAMPLE); }
 
 	setup_display();
 
@@ -295,14 +239,12 @@ void kiwi::looper_2th::display_function(int new_screen_width, int new_screen_hei
 		// display content
 		display(display_time_elapsed);
 
-		glfwSwapBuffers(kiwi::context::window());
+		kiwi::swap_buffers();
 
 		if (!m_display_running.load())
 		{
 			exit_display();
-			glfwSetWindowAspectRatio(kiwi::context::window(), GLFW_DONT_CARE, GLFW_DONT_CARE);
-			glfwDestroyWindow(kiwi::context::window());
-			glfwTerminate();
+			kiwi::context::window_terminate();
 			break;
 		}
 	}

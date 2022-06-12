@@ -50,17 +50,13 @@ namespace kiwi
 
 	public:
 
-		bool show(kiwi::size size_2d, const char* new_title);
+		bool show(const kiwi::size& size_2d, const char* const new_title);
 
 		kiwi::looper_1th& set_window_resizable(bool window_resizable) noexcept;
 		kiwi::looper_1th& set_aspect_ratio_free(bool free_aspect_ratio) noexcept;
 		kiwi::looper_1th& set_window_fullscreen(bool window_fullscreen) noexcept;
 		kiwi::looper_1th& set_anti_aliasing(bool anti_aliasing_enabled) noexcept;
 		kiwi::looper_1th& set_timeframe(double new_timeframe) noexcept; // can be redefined any time
-
-	protected:
-
-		GLFWwindow* this_window() noexcept;
 
 	private:
 

@@ -18,7 +18,7 @@ namespace kiwi
 		kiwi::window& operator=(kiwi::window&&) = delete;
 		virtual ~window();
 
-		bool show(kiwi::size size_2d, const char* new_title);
+		bool show(const kiwi::size& size_2d, const char* const new_title);
 
 		void exit_window();
 

@@ -727,3 +727,86 @@ const GLfloat* kiwi::RMEC::data() const noexcept
 {
 	return static_cast<const GLfloat*>(m_RMEC);
 }
+
+bool kiwi::context::window_init(std::size_t width, std::size_t height,
+	bool window_resizable,
+	bool free_aspect_ratio,
+	bool window_fullscreen,
+	bool anti_aliasing_enabled,
+	const char* const new_title)
+{
+	if (!glfwInit())
+	{
+		return false;
+	}
+
+	// window specs
+
+	int new_screen_width = static_cast<int>(width);
+	int new_screen_height = static_cast<int>(height);
+
+	if (window_resizable) { glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); }
+	else { glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE); }
+
+	if (anti_aliasing_enabled) { glfwWindowHint(GLFW_SAMPLES, 4); }
+
+	if (window_fullscreen)
+	{
+		kiwi::context::window() = glfwCreateWindow(new_screen_width, new_screen_height,
+			new_title, glfwGetPrimaryMonitor(), nullptr);
+	}
+	else
+	{
+		kiwi::context::window() = glfwCreateWindow(new_screen_width, new_screen_height,
+			new_title, nullptr, nullptr);
+	}
+
+	if (kiwi::context::window() == nullptr)
+	{
+		glfwTerminate();
+		return false;
+	}
+
+	glfwMakeContextCurrent(kiwi::context::window());
+	glfwSetWindowSizeCallback(kiwi::context::window(), kiwi::context::window_resize_callback);
+	kiwi::context::window_resize_callback(kiwi::context::window(), new_screen_width, new_screen_height);
+
+	if (window_resizable && !free_aspect_ratio)
+	{
+		glfwSetWindowAspectRatio(kiwi::context::window(), new_screen_width, new_screen_height);
+	}
+
+	// glew init
+
+	if (glewInit() != GLEW_OK)
+	{
+		glfwTerminate();
+		return false;
+	}
+
+	// display
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_ONE, GL_ZERO);
+	if (anti_aliasing_enabled) { glEnable(GL_MULTISAMPLE); }
+
+	return true;
+}
+
+void kiwi::context::window_terminate()
+{
+	glfwSetWindowAspectRatio(kiwi::user_window_context.window_ptr, GLFW_DONT_CARE, GLFW_DONT_CARE);
+	glfwDestroyWindow(kiwi::user_window_context.window_ptr);
+	glfwTerminate();
+}
+
+bool kiwi::context::window_should_close()
+{
+	return glfwWindowShouldClose(kiwi::user_window_context.window_ptr);
+}
+
+void kiwi::context::pop_tiny_window()
+{
+	glfwInit();
+	kiwi::user_window_context.window_ptr = glfwCreateWindow(1, 1, "", nullptr, nullptr);
+}

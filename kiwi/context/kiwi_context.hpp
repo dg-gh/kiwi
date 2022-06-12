@@ -97,6 +97,19 @@ namespace kiwi
 
 		void window_resize_callback(GLFWwindow* window, int screen_width, int screen_height);
 		void delete_window_size_info();
+
+		bool window_init(std::size_t width, std::size_t height,
+			bool window_resizable,
+			bool free_aspect_ratio,
+			bool window_fullscreen,
+			bool anti_aliasing_enabled,
+			const char* const new_title);
+
+		bool window_should_close();
+
+		void window_terminate();
+
+		void pop_tiny_window();
 	}
 }
 
