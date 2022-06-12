@@ -3,6 +3,7 @@
 kiwi::texture_buffer::texture_buffer() noexcept
 {
 	m_buffer_index = 0;
+	m_pixel_buffer_type = kiwi::pixel_buffer_type::texture_2d;
 	m_current_size = 0;
 	m_dim = 0;
 	m_width = 0;
@@ -14,6 +15,7 @@ kiwi::texture_buffer::texture_buffer() noexcept
 kiwi::texture_buffer::texture_buffer(kiwi::texture_buffer&& rhs) noexcept
 {
 	m_buffer_index = rhs.m_buffer_index;
+	m_pixel_buffer_type = kiwi::pixel_buffer_type::texture_2d;
 	m_current_size = rhs.m_current_size;
 	m_dim = rhs.m_dim;
 	m_width = rhs.m_width;
@@ -91,11 +93,6 @@ kiwi::texture_buffer& kiwi::texture_buffer::delete_id() noexcept
 		m_format = kiwi::texture_format::u8;
 	}
 	return *this;
-}
-
-GLuint kiwi::texture_buffer::get_id() const noexcept
-{
-	return m_buffer_index;
 }
 
 kiwi::texture_buffer& kiwi::texture_buffer::bind() noexcept
@@ -994,7 +991,7 @@ kiwi::texture_buffer& kiwi::texture_buffer::allocate(kiwi::texture_format format
 	GLint _borders;
 	bool mipmap = false;
 
-	p_format(m_format, pixel_dimension, &_type, &_color_format, &_internal_format);
+	pixel_format(m_format, pixel_dimension, &_type, &_color_format, &_internal_format);
 
 	switch (mapping)
 	{
@@ -1067,25 +1064,25 @@ const kiwi::texture_buffer& kiwi::texture_buffer::to_binding(GLenum binding) con
 
 kiwi::texture_buffer& kiwi::texture_buffer::to_binding_for_compute(GLuint binding) noexcept
 {
-	glBindImageTexture(binding, m_buffer_index, 0, GL_FALSE, 0, GL_READ_WRITE, p_internal_format(m_format, m_dim));
+	glBindImageTexture(binding, m_buffer_index, 0, GL_FALSE, 0, GL_READ_WRITE, pixel_internal_format(m_format, m_dim));
 	return *this;
 }
 
 const kiwi::texture_buffer& kiwi::texture_buffer::to_binding_for_compute(GLuint binding) const noexcept
 {
-	glBindImageTexture(binding, m_buffer_index, 0, GL_FALSE, 0, GL_READ_WRITE, p_internal_format(m_format, m_dim));
+	glBindImageTexture(binding, m_buffer_index, 0, GL_FALSE, 0, GL_READ_WRITE, pixel_internal_format(m_format, m_dim));
 	return *this;
 }
 
 kiwi::texture_buffer& kiwi::texture_buffer::unbind_for_compute(GLuint binding) noexcept
 {
-	glBindImageTexture(binding, 0, 0, GL_FALSE, 0, GL_READ_WRITE, p_internal_format(m_format, m_dim));
+	glBindImageTexture(binding, 0, 0, GL_FALSE, 0, GL_READ_WRITE, pixel_internal_format(m_format, m_dim));
 	return *this;
 }
 
 const kiwi::texture_buffer& kiwi::texture_buffer::unbind_for_compute(GLuint binding) const noexcept
 {
-	glBindImageTexture(binding, 0, 0, GL_FALSE, 0, GL_READ_WRITE, p_internal_format(m_format, m_dim));
+	glBindImageTexture(binding, 0, 0, GL_FALSE, 0, GL_READ_WRITE, pixel_internal_format(m_format, m_dim));
 	return *this;
 }
 
@@ -1136,7 +1133,7 @@ kiwi::texture_sampling kiwi::texture_buffer::get_sampling() const noexcept
 	}
 }
 
-void kiwi::texture_buffer::p_format(kiwi::texture_format format, std::size_t pixel_dimension,
+void kiwi::texture_buffer::pixel_format(kiwi::texture_format format, std::size_t pixel_dimension,
 	GLenum* type_ptr, GLenum* color_format_ptr, GLint* internal_format_ptr) const noexcept
 {
 	switch (pixel_dimension)
@@ -1239,7 +1236,7 @@ void kiwi::texture_buffer::p_format(kiwi::texture_format format, std::size_t pix
 	}
 }
 
-GLint kiwi::texture_buffer::p_internal_format(kiwi::texture_format format, std::size_t pixel_dimension) const noexcept
+GLint kiwi::texture_buffer::pixel_internal_format(kiwi::texture_format format, std::size_t pixel_dimension) const noexcept
 {
 	switch (pixel_dimension)
 	{

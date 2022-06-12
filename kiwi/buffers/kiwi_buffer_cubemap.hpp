@@ -2,6 +2,7 @@
 #define KIWI_BUFFER_CUBEMAP_HPP
 
 #include "context/kiwi_context.hpp"
+#include "buffers/kiwi_buffer_pixel.hpp"
 
 namespace kiwi
 {
@@ -26,13 +27,13 @@ namespace kiwi
 		Zp, Zm
 	};
 
-	class cubemap_buffer
+	class cubemap_buffer : public kiwi::pixel_buffer
 	{
 
 	private:
 
-		GLuint m_buffer_index;
 		std::size_t m_dim;
+		std::size_t m_resolution;
 		kiwi::cubemap_format m_format;
 
 	public:
@@ -52,6 +53,9 @@ namespace kiwi
 		const kiwi::cubemap_buffer& bind() const noexcept;
 		static void unbind() noexcept;
 
+		std::size_t pixel_dim() const noexcept;
+		std::size_t width() const noexcept override;
+		std::size_t height() const noexcept override;
 
 		kiwi::cubemap_buffer& to_binding(GLenum binding) noexcept;
 		const kiwi::cubemap_buffer& to_binding(GLenum binding) const noexcept;

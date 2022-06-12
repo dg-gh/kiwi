@@ -2,6 +2,7 @@
 #define KIWI_BUFFER_TEXTURE_HPP
 
 #include "context/kiwi_context.hpp"
+#include "buffers/kiwi_buffer_pixel.hpp"
 
 namespace kiwi
 {
@@ -23,12 +24,11 @@ namespace kiwi
 	};
 	enum class texture_sampling { unique, multiple };
 
-	class texture_buffer
+	class texture_buffer : public kiwi::pixel_buffer
 	{
 
 	private:
 
-		GLuint m_buffer_index;
 		GLsizei m_current_size;
 		std::size_t m_dim;
 		std::size_t m_width;
@@ -47,7 +47,6 @@ namespace kiwi
 
 		kiwi::texture_buffer& new_id() noexcept;
 		kiwi::texture_buffer& delete_id() noexcept;
-		GLuint get_id() const noexcept;
 
 		kiwi::texture_buffer& bind() noexcept;
 		const kiwi::texture_buffer& bind() const noexcept;
@@ -107,8 +106,8 @@ namespace kiwi
 		const kiwi::texture_buffer& unbind_for_compute(GLuint binding) const noexcept;
 
 		std::size_t pixel_dim() const noexcept;
-		std::size_t width() const noexcept;
-		std::size_t height() const noexcept;
+		std::size_t width() const noexcept override;
+		std::size_t height() const noexcept override;
 
 		kiwi::texture_buffer& set_format(kiwi::texture_format format) noexcept;
 		kiwi::texture_format get_format() const noexcept;
@@ -118,10 +117,10 @@ namespace kiwi
 
 	private:
 
-		void p_format(kiwi::texture_format format, std::size_t pixel_dimension,
+		void pixel_format(kiwi::texture_format format, std::size_t pixel_dimension,
 			GLenum* type_ptr, GLenum* color_format_ptr, GLint* internal_format_ptr) const noexcept;
 
-		GLint p_internal_format(kiwi::texture_format format, std::size_t pixel_dimension) const noexcept;
+		GLint pixel_internal_format(kiwi::texture_format format, std::size_t pixel_dimension) const noexcept;
 	};
 }
 

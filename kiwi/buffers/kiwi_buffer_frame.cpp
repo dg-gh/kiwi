@@ -352,7 +352,7 @@ kiwi::frame_buffer& kiwi::frame_buffer::detach_all_textures() noexcept
 	return *this;
 }
 
-kiwi::texture_buffer* kiwi::frame_buffer::get_texture(std::size_t color_attachment) const noexcept
+kiwi::pixel_buffer* kiwi::frame_buffer::get_texture(std::size_t color_attachment) const noexcept
 {
 	return m_texture_buffer_ptr[color_attachment];
 }

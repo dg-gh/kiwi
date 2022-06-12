@@ -2,6 +2,7 @@
 #define KIWI_BUFFER_FRAME_HPP
 
 #include "context/kiwi_context.hpp"
+#include "buffers/kiwi_buffer_pixel.hpp"
 #include "buffers/kiwi_buffer_texture.hpp"
 #include "buffers/kiwi_buffer_render.hpp"
 
@@ -17,7 +18,7 @@ namespace kiwi
 
 		GLuint m_frame_buffer_index;
 
-		kiwi::texture_buffer* m_texture_buffer_ptr[m_max_number_of_attachments];
+		kiwi::pixel_buffer* m_texture_buffer_ptr[m_max_number_of_attachments];
 
 		mutable GLenum m_textures_in_use[m_max_number_of_attachments];
 
@@ -52,7 +53,7 @@ namespace kiwi
 		kiwi::frame_buffer& detach_texture(std::size_t color_attachment) noexcept;
 		kiwi::frame_buffer& detach_all_textures() noexcept;
 
-		kiwi::texture_buffer* get_texture(std::size_t color_attachment) const noexcept;
+		kiwi::pixel_buffer* get_texture(std::size_t color_attachment) const noexcept;
 
 		kiwi::frame_buffer& attach_render_buffer(kiwi::render_buffer* render_buffer_ptr) noexcept;
 		kiwi::frame_buffer& detach_render_buffer() noexcept;

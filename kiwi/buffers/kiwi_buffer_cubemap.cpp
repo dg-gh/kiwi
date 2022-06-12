@@ -5,6 +5,7 @@ kiwi::cubemap_buffer::cubemap_buffer() noexcept
 {
 	m_buffer_index = 0;
 	m_dim = 0;
+	m_resolution = 0;
 	m_format = kiwi::cubemap_format::u8;
 }
 
@@ -16,6 +17,7 @@ kiwi::cubemap_buffer::cubemap_buffer(kiwi::cubemap_buffer&& rhs) noexcept
 
 	rhs.m_buffer_index = 0;
 	rhs.m_dim = 0;
+	m_resolution = 0;
 
 	rhs.m_format = kiwi::cubemap_format::u8;
 }
@@ -130,6 +132,21 @@ const kiwi::cubemap_buffer& kiwi::cubemap_buffer::to_binding(GLenum binding) con
 	return *this;
 }
 
+std::size_t kiwi::cubemap_buffer::pixel_dim() const noexcept
+{
+	return m_dim;
+}
+
+std::size_t kiwi::cubemap_buffer::width() const noexcept
+{
+	return m_resolution;
+}
+
+std::size_t kiwi::cubemap_buffer::height() const noexcept
+{
+	return m_resolution;
+}
+
 kiwi::cubemap_buffer& kiwi::cubemap_buffer::load(
 	const unsigned char* const Xp_data_ptr,
 	const unsigned char* const Xm_data_ptr,
@@ -156,7 +173,7 @@ kiwi::cubemap_buffer& kiwi::cubemap_buffer::load(
 	}
 
 	m_dim = pixel_dimension;
-
+	m_resolution = resolution;
 
 	GLint _color_format;
 	GLint _internal_format;
@@ -228,7 +245,7 @@ kiwi::cubemap_buffer& kiwi::cubemap_buffer::load(
 	}
 
 	m_dim = pixel_dimension;
-
+	m_resolution = resolution;
 
 	GLint _color_format;
 	GLint _internal_format;
@@ -305,6 +322,7 @@ kiwi::cubemap_buffer& kiwi::cubemap_buffer::load(
 	}
 
 	m_dim = pixel_dimension;
+	m_resolution = 0;
 
 	GLint _color_format;
 	GLint _internal_format;
