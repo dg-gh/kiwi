@@ -63,9 +63,12 @@ namespace kiwi
 		kiwi::glyph_3d& clear_buffer(std::size_t glyph_count) noexcept;
 		kiwi::glyph_3d& clear_buffer_after(std::size_t glyph_number) noexcept;
 
+		std::size_t glyph_count() const noexcept;
 		std::size_t capacity() const noexcept;
 
 	private:
+
+		static constexpr std::size_t m_packet_size = 1024;
 
 		static constexpr GLfloat GL0 = static_cast<GLfloat>(0);
 		static constexpr GLfloat GL1 = static_cast<GLfloat>(1);
@@ -103,6 +106,8 @@ namespace kiwi
 
 		std::size_t m_glyph_count = 0;
 		std::size_t m_capacity = 0;
+
+		std::vector<GLfloat> m_XY_UV_shift_temp_buffer;
 
 		void generate_default_atlas_function();
 		void generate_default_atlas_texture();
