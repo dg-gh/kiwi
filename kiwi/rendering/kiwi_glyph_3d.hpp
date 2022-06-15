@@ -87,16 +87,16 @@ namespace kiwi
 		thread_local static GLint m_alpha_discard_location;
 		thread_local static GLint m_mvp_matrix_location;
 
-		thread_local static GLfloat m_XY_UV_shift[4];
-
 
 		kiwi::storage_buffer m_XY_UV_coordinates;
 		const kiwi::texture_buffer* m_atlas_texture = &m_default_atlas_texture;
 		std::function<void(const int, GLfloat*)> m_atlas_coordinate_function;
 
+
 		GLfloat m_XY_UV_size[4] = { GL0, GL0, GL0, GL0 };
 		GLfloat m_RGBA[4] = { GL1, GL1, GL1, GL1 };
 
+		GLfloat m_XY_UV_shift[4] = { GL0, GL0, GL0, GL0 };
 		GLfloat m_origin[2] = { GL0, GL0 };
 		GLfloat m_right_up_orig[9] = {
 			GL0, GL0, GL0,

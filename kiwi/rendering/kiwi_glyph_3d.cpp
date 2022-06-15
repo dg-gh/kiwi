@@ -12,13 +12,6 @@ thread_local GLint kiwi::glyph_3d::m_RGBA_location = -1;
 thread_local GLint kiwi::glyph_3d::m_alpha_discard_location = -1;
 thread_local GLint kiwi::glyph_3d::m_mvp_matrix_location = -1;
 
-thread_local GLfloat kiwi::glyph_3d::m_XY_UV_shift[4] = {
-	static_cast<GLfloat>(0),
-	static_cast<GLfloat>(0),
-	static_cast<GLfloat>(0),
-	static_cast<GLfloat>(0)
-};
-
 
 kiwi::glyph_3d::glyph_3d() noexcept
 {
