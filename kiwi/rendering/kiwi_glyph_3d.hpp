@@ -63,6 +63,9 @@ namespace kiwi
 		kiwi::glyph_3d& clear_buffer(std::size_t glyph_count) noexcept;
 		kiwi::glyph_3d& clear_buffer_after(std::size_t glyph_number) noexcept;
 
+		GLfloat get_X() const noexcept;
+		GLfloat get_Y() const noexcept;
+
 		std::size_t glyph_count() const noexcept;
 		std::size_t capacity() const noexcept;
 
