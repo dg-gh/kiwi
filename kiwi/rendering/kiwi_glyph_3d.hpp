@@ -65,6 +65,8 @@ namespace kiwi
 
 		GLfloat get_X() const noexcept;
 		GLfloat get_Y() const noexcept;
+		GLfloat get_X_free() const noexcept;
+		GLfloat get_Y_free() const noexcept;
 
 		std::size_t glyph_count() const noexcept;
 		std::size_t capacity() const noexcept;

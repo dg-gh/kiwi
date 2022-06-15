@@ -640,10 +640,20 @@ kiwi::glyph_3d& kiwi::glyph_3d::clear_buffer_after(std::size_t glyph_number) noe
 
 GLfloat kiwi::glyph_3d::get_X() const noexcept
 {
-	return m_XY_UV_shift[0];
+	return m_XY_UV_shift[0] - m_origin[0];
 }
 
 GLfloat kiwi::glyph_3d::get_Y() const noexcept
+{
+	return m_XY_UV_shift[1] - m_origin[1];
+}
+
+GLfloat kiwi::glyph_3d::get_X_free() const noexcept
+{
+	return m_XY_UV_shift[0];
+}
+
+GLfloat kiwi::glyph_3d::get_Y_free() const noexcept
 {
 	return m_XY_UV_shift[1];
 }
