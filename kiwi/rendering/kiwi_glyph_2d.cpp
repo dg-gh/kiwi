@@ -30,7 +30,7 @@ kiwi::glyph_2d::~glyph_2d()
 	}
 }
 
-bool kiwi::glyph_2d::init(std::size_t char_capacity)
+bool kiwi::glyph_2d::init(std::size_t glyph_capacity)
 {
 	bool success = false;
 
@@ -61,12 +61,14 @@ bool kiwi::glyph_2d::init(std::size_t char_capacity)
 		success = false;
 	}
 
-	m_XY_UV_coordinates.allocate(char_capacity * (4 * sizeof(GLfloat)));
+	m_XY_UV_coordinates.allocate(glyph_capacity * (4 * sizeof(GLfloat)));
 
 	generate_default_atlas_function();
 
-	m_capacity = char_capacity;
+	m_capacity = glyph_capacity;
 	m_glyph_count = 0;
+	m_buffer_current_ptr = m_XY_UV_shift_temp_buffer.data();
+	m_buffer_end_ptr = m_XY_UV_shift_temp_buffer.data() + (m_packet_size * 4);
 
 	return success;
 }
@@ -103,8 +105,8 @@ kiwi::glyph_2d& kiwi::glyph_2d::set_origin(GLfloat X, GLfloat Y) noexcept
 {
 	m_origin[0] = X;
 	m_origin[1] = Y;
-	m_XY_UV_shift[0] = X;
-	m_XY_UV_shift[1] = Y;
+	m_XY[0] = X;
+	m_XY[1] = Y;
 	return *this;
 }
 
@@ -112,8 +114,8 @@ kiwi::glyph_2d& kiwi::glyph_2d::set_origin(const GLfloat* const XY_ptr) noexcept
 {
 	m_origin[0] = *XY_ptr;
 	m_origin[1] = *(XY_ptr + 1);
-	m_XY_UV_shift[0] = *XY_ptr;
-	m_XY_UV_shift[1] = *(XY_ptr + 1);
+	m_XY[0] = *XY_ptr;
+	m_XY[1] = *(XY_ptr + 1);
 	return *this;
 }
 
@@ -146,35 +148,33 @@ kiwi::glyph_2d& kiwi::glyph_2d::set_RGBA(GLfloat R, GLfloat G, GLfloat B, GLfloa
 
 kiwi::glyph_2d& kiwi::glyph_2d::append_text(const char* const ptr) noexcept
 {
-	GLfloat* buffer_current_ptr = m_XY_UV_shift_temp_buffer.data();
-	GLfloat* buffer_end_ptr = m_XY_UV_shift_temp_buffer.data() + (m_packet_size * 4);
 	const char* glyph_ptr = ptr;
 
 	while (m_glyph_count < m_capacity)
 	{
 		if ((*glyph_ptr != 0) && (*glyph_ptr != '\n'))
 		{
-			m_XY_UV_shift[0] += m_glyph_offset;
-			*buffer_current_ptr = m_XY_UV_shift[0];
-			*(buffer_current_ptr + 1) = m_XY_UV_shift[1];
-			m_atlas_coordinate_function(static_cast<int>(*glyph_ptr++), buffer_current_ptr + 2);
+			m_XY[0] += m_glyph_offset;
+			*m_buffer_current_ptr = m_XY[0];
+			*(m_buffer_current_ptr + 1) = m_XY[1];
+			m_atlas_coordinate_function(static_cast<int>(*glyph_ptr++), m_buffer_current_ptr + 2);
 
 			m_glyph_count++;
-			buffer_current_ptr += 4;
+			m_buffer_current_ptr += 4;
 
-			if (buffer_current_ptr == buffer_end_ptr)
+			if (m_buffer_current_ptr == m_buffer_end_ptr)
 			{
 				m_XY_UV_coordinates.substitute(m_XY_UV_shift_temp_buffer.data(),
 					(m_glyph_count - m_packet_size) * (4 * sizeof(GLfloat)),
 					m_packet_size * 4 * sizeof(GLfloat));
 
-				buffer_current_ptr = m_XY_UV_shift_temp_buffer.data();
+				m_buffer_current_ptr = m_XY_UV_shift_temp_buffer.data();
 			}
 		}
 		else if (*glyph_ptr == '\n')
 		{
-			m_XY_UV_shift[0] = m_origin[0];
-			m_XY_UV_shift[1] -= m_endline_offset;
+			m_XY[0] = m_origin[0];
+			m_XY[1] -= m_endline_offset;
 			glyph_ptr++;
 		}
 		else
@@ -183,92 +183,45 @@ kiwi::glyph_2d& kiwi::glyph_2d::append_text(const char* const ptr) noexcept
 		}
 	}
 
-	if (buffer_current_ptr != m_XY_UV_shift_temp_buffer.data())
-	{
-		std::size_t remainder = static_cast<std::size_t>(buffer_current_ptr - m_XY_UV_shift_temp_buffer.data());
-
-		m_XY_UV_coordinates.substitute(m_XY_UV_shift_temp_buffer.data(),
-			(m_glyph_count - remainder / 4) * (4 * sizeof(GLfloat)),
-			remainder * sizeof(GLfloat));
-	}
-
 	return *this;
 }
 
 kiwi::glyph_2d& kiwi::glyph_2d::append_text(const char* const ptr, std::size_t glyph_count) noexcept
 {
-	GLfloat* buffer_current_ptr = m_XY_UV_shift_temp_buffer.data();
 	const char* glyph_ptr = ptr;
+	const char* glyph_end_ptr = ptr + glyph_count;
 
+	while (m_glyph_count < m_capacity)
 	{
-		std::size_t temp = m_capacity - m_glyph_count;
-		glyph_count = (temp < glyph_count) ? temp : glyph_count;
-	}
-
-	std::size_t glyph_count_remainder = glyph_count % m_packet_size;
-	std::size_t glyph_packet_count = glyph_count / m_packet_size;
-
-	for (std::size_t n = 0; n < glyph_packet_count; n++)
-	{
-		std::size_t end_lines = 0;
-
-		for (int m = 0; m < m_packet_size; m++)
+		if ((glyph_ptr != glyph_end_ptr) && (*glyph_ptr != '\n'))
 		{
-			if (*glyph_ptr != '\n')
-			{
-				m_XY_UV_shift[0] += m_glyph_offset;
-				*buffer_current_ptr = m_XY_UV_shift[0];
-				*(buffer_current_ptr + 1) = m_XY_UV_shift[1];
-				m_atlas_coordinate_function(static_cast<int>(*glyph_ptr++), buffer_current_ptr + 2);
+			m_XY[0] += m_glyph_offset;
+			*m_buffer_current_ptr = m_XY[0];
+			*(m_buffer_current_ptr + 1) = m_XY[1];
+			m_atlas_coordinate_function(static_cast<int>(*glyph_ptr++), m_buffer_current_ptr + 2);
 
-				buffer_current_ptr += 4;
-			}
-			else
+			m_glyph_count++;
+			m_buffer_current_ptr += 4;
+
+			if (m_buffer_current_ptr == m_buffer_end_ptr)
 			{
-				m_XY_UV_shift[0] = m_origin[0];
-				m_XY_UV_shift[1] -= m_endline_offset;
-				glyph_ptr++;
-				end_lines++;
+				m_XY_UV_coordinates.substitute(m_XY_UV_shift_temp_buffer.data(),
+					(m_glyph_count - m_packet_size) * (4 * sizeof(GLfloat)),
+					m_packet_size * 4 * sizeof(GLfloat));
+
+				m_buffer_current_ptr = m_XY_UV_shift_temp_buffer.data();
 			}
 		}
-
-		m_XY_UV_coordinates.substitute(m_XY_UV_shift_temp_buffer.data(),
-			m_glyph_count * (4 * sizeof(GLfloat)),
-			m_packet_size * 4 * sizeof(GLfloat));
-
-		buffer_current_ptr = m_XY_UV_shift_temp_buffer.data();
-		m_glyph_count += m_packet_size - end_lines;
-	}
-
-	if (glyph_count_remainder != 0)
-	{
-		std::size_t end_lines = 0;
-
-		for (std::size_t n = 0; n < glyph_count_remainder; n++)
+		else if (*glyph_ptr == '\n')
 		{
-			if (*glyph_ptr != '\n')
-			{
-				m_XY_UV_shift[0] += m_glyph_offset;
-				*buffer_current_ptr = m_XY_UV_shift[0];
-				*(buffer_current_ptr + 1) = m_XY_UV_shift[1];
-				m_atlas_coordinate_function(static_cast<int>(*glyph_ptr++), buffer_current_ptr + 2);
-
-				buffer_current_ptr += 4;
-			}
-			else
-			{
-				m_XY_UV_shift[0] = m_origin[0];
-				m_XY_UV_shift[1] -= m_endline_offset;
-				glyph_ptr++;
-				end_lines++;
-			}
+			m_XY[0] = m_origin[0];
+			m_XY[1] -= m_endline_offset;
+			glyph_ptr++;
 		}
-
-		m_XY_UV_coordinates.substitute(m_XY_UV_shift_temp_buffer.data(),
-			m_glyph_count * (4 * sizeof(GLfloat)),
-			glyph_count_remainder * 4 * sizeof(GLfloat));
-
-		m_glyph_count += glyph_count_remainder - end_lines;
+		else
+		{
+			break;
+		}
 	}
 
 	return *this;
@@ -278,12 +231,22 @@ kiwi::glyph_2d& kiwi::glyph_2d::append_text(char glyph) noexcept
 {
 	if (m_glyph_count < m_capacity)
 	{
-		m_atlas_coordinate_function(static_cast<int>(glyph), static_cast<GLfloat*>(m_XY_UV_shift) + 2);
-		m_XY_UV_coordinates.substitute(static_cast<GLfloat*>(m_XY_UV_shift),
-			m_glyph_count * (4 * sizeof(GLfloat)), 4 * sizeof(GLfloat));
+		m_XY[0] += m_glyph_offset;
+		*m_buffer_current_ptr = m_XY[0];
+		*(m_buffer_current_ptr + 1) = m_XY[1];
+		m_atlas_coordinate_function(static_cast<int>(glyph), m_buffer_current_ptr + 2);
 
-		m_XY_UV_shift[0] += m_glyph_offset;
 		m_glyph_count++;
+		m_buffer_current_ptr += 4;
+
+		if (m_buffer_current_ptr == m_buffer_end_ptr)
+		{
+			m_XY_UV_coordinates.substitute(m_XY_UV_shift_temp_buffer.data(),
+				(m_glyph_count - m_packet_size) * (4 * sizeof(GLfloat)),
+				m_packet_size * 4 * sizeof(GLfloat));
+
+			m_buffer_current_ptr = m_XY_UV_shift_temp_buffer.data();
+		}
 	}
 
 	return *this;
@@ -291,35 +254,33 @@ kiwi::glyph_2d& kiwi::glyph_2d::append_text(char glyph) noexcept
 
 kiwi::glyph_2d& kiwi::glyph_2d::append_wtext(const wchar_t* const ptr) noexcept
 {
-	GLfloat* buffer_current_ptr = m_XY_UV_shift_temp_buffer.data();
-	GLfloat* buffer_end_ptr = m_XY_UV_shift_temp_buffer.data() + (m_packet_size * 4);
 	const wchar_t* glyph_ptr = ptr;
 
 	while (m_glyph_count < m_capacity)
 	{
-		if ((*glyph_ptr != 0) && (*glyph_ptr != L'\n'))
+		if ((*glyph_ptr != 0) && (*glyph_ptr != '\n'))
 		{
-			m_XY_UV_shift[0] += m_glyph_offset;
-			*buffer_current_ptr = m_XY_UV_shift[0];
-			*(buffer_current_ptr + 1) = m_XY_UV_shift[1];
-			m_atlas_coordinate_function(static_cast<int>(*glyph_ptr++), buffer_current_ptr + 2);
+			m_XY[0] += m_glyph_offset;
+			*m_buffer_current_ptr = m_XY[0];
+			*(m_buffer_current_ptr + 1) = m_XY[1];
+			m_atlas_coordinate_function(static_cast<int>(*glyph_ptr++), m_buffer_current_ptr + 2);
 
 			m_glyph_count++;
-			buffer_current_ptr += 4;
+			m_buffer_current_ptr += 4;
 
-			if (buffer_current_ptr == buffer_end_ptr)
+			if (m_buffer_current_ptr == m_buffer_end_ptr)
 			{
 				m_XY_UV_coordinates.substitute(m_XY_UV_shift_temp_buffer.data(),
 					(m_glyph_count - m_packet_size) * (4 * sizeof(GLfloat)),
 					m_packet_size * 4 * sizeof(GLfloat));
 
-				buffer_current_ptr = m_XY_UV_shift_temp_buffer.data();
+				m_buffer_current_ptr = m_XY_UV_shift_temp_buffer.data();
 			}
 		}
-		else if (*glyph_ptr == L'\n')
+		else if (*glyph_ptr == '\n')
 		{
-			m_XY_UV_shift[0] = m_origin[0];
-			m_XY_UV_shift[1] -= m_endline_offset;
+			m_XY[0] = m_origin[0];
+			m_XY[1] -= m_endline_offset;
 			glyph_ptr++;
 		}
 		else
@@ -328,92 +289,45 @@ kiwi::glyph_2d& kiwi::glyph_2d::append_wtext(const wchar_t* const ptr) noexcept
 		}
 	}
 
-	if (buffer_current_ptr != m_XY_UV_shift_temp_buffer.data())
-	{
-		std::size_t remainder = static_cast<std::size_t>(buffer_current_ptr - m_XY_UV_shift_temp_buffer.data());
-
-		m_XY_UV_coordinates.substitute(m_XY_UV_shift_temp_buffer.data(),
-			(m_glyph_count - remainder / 4) * (4 * sizeof(GLfloat)),
-			remainder * sizeof(GLfloat));
-	}
-
 	return *this;
 }
 
 kiwi::glyph_2d& kiwi::glyph_2d::append_wtext(const wchar_t* const ptr, std::size_t glyph_count) noexcept
 {
-	GLfloat* buffer_current_ptr = m_XY_UV_shift_temp_buffer.data();
-	const wchar_t* glypth_ptr = ptr;
+	const wchar_t* glyph_ptr = ptr;
+	const wchar_t* glyph_end_ptr = ptr + glyph_count;
 
+	while (m_glyph_count < m_capacity)
 	{
-		std::size_t temp = m_capacity - m_glyph_count;
-		glyph_count = (temp < glyph_count) ? temp : glyph_count;
-	}
-
-	std::size_t glyph_count_remainder = glyph_count % m_packet_size;
-	std::size_t glyph_packet_count = glyph_count / m_packet_size;
-
-	for (std::size_t n = 0; n < glyph_packet_count; n++)
-	{
-		std::size_t end_lines = 0;
-
-		for (int m = 0; m < m_packet_size; m++)
+		if ((glyph_ptr != glyph_end_ptr) && (*glyph_ptr != '\n'))
 		{
-			if (*glypth_ptr != L'\n')
-			{
-				m_XY_UV_shift[0] += m_glyph_offset;
-				*buffer_current_ptr = m_XY_UV_shift[0];
-				*(buffer_current_ptr + 1) = m_XY_UV_shift[1];
-				m_atlas_coordinate_function(static_cast<int>(*glypth_ptr++), buffer_current_ptr + 2);
+			m_XY[0] += m_glyph_offset;
+			*m_buffer_current_ptr = m_XY[0];
+			*(m_buffer_current_ptr + 1) = m_XY[1];
+			m_atlas_coordinate_function(static_cast<int>(*glyph_ptr++), m_buffer_current_ptr + 2);
 
-				buffer_current_ptr += 4;
-			}
-			else
+			m_glyph_count++;
+			m_buffer_current_ptr += 4;
+
+			if (m_buffer_current_ptr == m_buffer_end_ptr)
 			{
-				m_XY_UV_shift[0] = m_origin[0];
-				m_XY_UV_shift[1] -= m_endline_offset;
-				glypth_ptr++;
-				end_lines++;
+				m_XY_UV_coordinates.substitute(m_XY_UV_shift_temp_buffer.data(),
+					(m_glyph_count - m_packet_size) * (4 * sizeof(GLfloat)),
+					m_packet_size * 4 * sizeof(GLfloat));
+
+				m_buffer_current_ptr = m_XY_UV_shift_temp_buffer.data();
 			}
 		}
-
-		m_XY_UV_coordinates.substitute(m_XY_UV_shift_temp_buffer.data(),
-			m_glyph_count * (4 * sizeof(GLfloat)),
-			m_packet_size * 4 * sizeof(GLfloat));
-
-		buffer_current_ptr = m_XY_UV_shift_temp_buffer.data();
-		m_glyph_count += m_packet_size - end_lines;
-	}
-
-	if (glyph_count_remainder != 0)
-	{
-		std::size_t end_lines = 0;
-
-		for (std::size_t n = 0; n < glyph_count_remainder; n++)
+		else if (*glyph_ptr == '\n')
 		{
-			if (*glypth_ptr != '\n')
-			{
-				m_XY_UV_shift[0] += m_glyph_offset;
-				*buffer_current_ptr = m_XY_UV_shift[0];
-				*(buffer_current_ptr + 1) = m_XY_UV_shift[1];
-				m_atlas_coordinate_function(static_cast<int>(*glypth_ptr++), buffer_current_ptr + 2);
-
-				buffer_current_ptr += 4;
-			}
-			else
-			{
-				m_XY_UV_shift[0] = m_origin[0];
-				m_XY_UV_shift[1] -= m_endline_offset;
-				glypth_ptr++;
-				end_lines++;
-			}
+			m_XY[0] = m_origin[0];
+			m_XY[1] -= m_endline_offset;
+			glyph_ptr++;
 		}
-
-		m_XY_UV_coordinates.substitute(m_XY_UV_shift_temp_buffer.data(),
-			m_glyph_count * (4 * sizeof(GLfloat)),
-			glyph_count_remainder * 4 * sizeof(GLfloat));
-
-		m_glyph_count += glyph_count_remainder - end_lines;
+		else
+		{
+			break;
+		}
 	}
 
 	return *this;
@@ -423,12 +337,22 @@ kiwi::glyph_2d& kiwi::glyph_2d::append_wtext(wchar_t glyph) noexcept
 {
 	if (m_glyph_count < m_capacity)
 	{
-		m_atlas_coordinate_function(static_cast<int>(glyph), static_cast<GLfloat*>(m_XY_UV_shift) + 2);
-		m_XY_UV_coordinates.substitute(static_cast<GLfloat*>(m_XY_UV_shift),
-			m_glyph_count * (4 * sizeof(GLfloat)), 4 * sizeof(GLfloat));
+		m_XY[0] += m_glyph_offset;
+		*m_buffer_current_ptr = m_XY[0];
+		*(m_buffer_current_ptr + 1) = m_XY[1];
+		m_atlas_coordinate_function(static_cast<int>(glyph), m_buffer_current_ptr + 2);
 
-		m_XY_UV_shift[0] += m_glyph_offset;
 		m_glyph_count++;
+		m_buffer_current_ptr += 4;
+
+		if (m_buffer_current_ptr == m_buffer_end_ptr)
+		{
+			m_XY_UV_coordinates.substitute(m_XY_UV_shift_temp_buffer.data(),
+				(m_glyph_count - m_packet_size) * (4 * sizeof(GLfloat)),
+				m_packet_size * 4 * sizeof(GLfloat));
+
+			m_buffer_current_ptr = m_XY_UV_shift_temp_buffer.data();
+		}
 	}
 
 	return *this;
@@ -436,68 +360,27 @@ kiwi::glyph_2d& kiwi::glyph_2d::append_wtext(wchar_t glyph) noexcept
 
 kiwi::glyph_2d& kiwi::glyph_2d::append_glyph(const int* const ptr, std::size_t glyph_count) noexcept
 {
-	GLfloat* buffer_current_ptr = m_XY_UV_shift_temp_buffer.data();
 	const int* glyph_ptr = ptr;
+	const int* glyph_end_ptr = ptr + glyph_count;
 
+	while (glyph_ptr != glyph_end_ptr && m_glyph_count < m_capacity)
 	{
-		std::size_t temp = m_capacity - m_glyph_count;
-		glyph_count = (temp < glyph_count) ? temp : glyph_count;
-	}
+		m_XY[0] += m_glyph_offset;
+		*m_buffer_current_ptr = m_XY[0];
+		*(m_buffer_current_ptr + 1) = m_XY[1];
+		m_atlas_coordinate_function(*glyph_ptr++, m_buffer_current_ptr + 2);
 
-	std::size_t glyph_count_remainder = glyph_count % m_packet_size;
-	std::size_t glyph_packet_count = glyph_count / m_packet_size;
+		m_glyph_count++;
+		m_buffer_current_ptr += 4;
 
-	for (std::size_t n = 0; n < glyph_packet_count; n++)
-	{
-		std::size_t end_lines = 0;
-
-		for (int m = 0; m < m_packet_size; m++)
+		if (m_buffer_current_ptr == m_buffer_end_ptr)
 		{
-			m_XY_UV_shift[0] += m_glyph_offset;
-			*buffer_current_ptr = m_XY_UV_shift[0];
-			*(buffer_current_ptr + 1) = m_XY_UV_shift[1];
-			m_atlas_coordinate_function(*glyph_ptr++, buffer_current_ptr + 2);
+			m_XY_UV_coordinates.substitute(m_XY_UV_shift_temp_buffer.data(),
+				(m_glyph_count - m_packet_size) * (4 * sizeof(GLfloat)),
+				m_packet_size * 4 * sizeof(GLfloat));
 
-			buffer_current_ptr += 4;
+			m_buffer_current_ptr = m_XY_UV_shift_temp_buffer.data();
 		}
-
-		m_XY_UV_coordinates.substitute(m_XY_UV_shift_temp_buffer.data(),
-			m_glyph_count * (4 * sizeof(GLfloat)),
-			m_packet_size * 4 * sizeof(GLfloat));
-
-		buffer_current_ptr = m_XY_UV_shift_temp_buffer.data();
-		m_glyph_count += m_packet_size - end_lines;
-	}
-
-	if (glyph_count_remainder != 0)
-	{
-		std::size_t end_lines = 0;
-
-		for (std::size_t n = 0; n < glyph_count_remainder; n++)
-		{
-			if (*glyph_ptr != '\n')
-			{
-				m_XY_UV_shift[0] += m_glyph_offset;
-				*buffer_current_ptr = m_XY_UV_shift[0];
-				*(buffer_current_ptr + 1) = m_XY_UV_shift[1];
-				m_atlas_coordinate_function(*glyph_ptr++, buffer_current_ptr + 2);
-
-				buffer_current_ptr += 4;
-			}
-			else
-			{
-				m_XY_UV_shift[0] = m_origin[0];
-				m_XY_UV_shift[1] -= m_endline_offset;
-				glyph_ptr++;
-				end_lines++;
-			}
-		}
-
-		m_XY_UV_coordinates.substitute(m_XY_UV_shift_temp_buffer.data(),
-			m_glyph_count * (4 * sizeof(GLfloat)),
-			glyph_count_remainder * 4 * sizeof(GLfloat));
-
-		m_glyph_count += glyph_count_remainder - end_lines;
 	}
 
 	return *this;
@@ -507,12 +390,22 @@ kiwi::glyph_2d& kiwi::glyph_2d::append_glyph(int glyph) noexcept
 {
 	if (m_glyph_count < m_capacity)
 	{
-		m_atlas_coordinate_function(glyph, static_cast<GLfloat*>(m_XY_UV_shift) + 2);
-		m_XY_UV_coordinates.substitute(static_cast<GLfloat*>(m_XY_UV_shift),
-			m_glyph_count * (4 * sizeof(GLfloat)), 4 * sizeof(GLfloat));
+		m_XY[0] += m_glyph_offset;
+		*m_buffer_current_ptr = m_XY[0];
+		*(m_buffer_current_ptr + 1) = m_XY[1];
+		m_atlas_coordinate_function(glyph, m_buffer_current_ptr + 2);
 
-		m_XY_UV_shift[0] += m_glyph_offset;
 		m_glyph_count++;
+		m_buffer_current_ptr += 4;
+
+		if (m_buffer_current_ptr == m_buffer_end_ptr)
+		{
+			m_XY_UV_coordinates.substitute(m_XY_UV_shift_temp_buffer.data(),
+				(m_glyph_count - m_packet_size) * (4 * sizeof(GLfloat)),
+				m_packet_size * 4 * sizeof(GLfloat));
+
+			m_buffer_current_ptr = m_XY_UV_shift_temp_buffer.data();
+		}
 	}
 
 	return *this;
@@ -520,6 +413,8 @@ kiwi::glyph_2d& kiwi::glyph_2d::append_glyph(int glyph) noexcept
 
 kiwi::glyph_2d& kiwi::glyph_2d::update_text(std::size_t glyph_number, char glyph) noexcept
 {
+	finish_loading();
+
 	GLfloat UV_shift_buffer[2];
 
 	m_atlas_coordinate_function(static_cast<int>(glyph), static_cast<GLfloat*>(UV_shift_buffer));
@@ -531,6 +426,8 @@ kiwi::glyph_2d& kiwi::glyph_2d::update_text(std::size_t glyph_number, char glyph
 
 kiwi::glyph_2d& kiwi::glyph_2d::update_wtext(std::size_t glyph_number, wchar_t glyph) noexcept
 {
+	finish_loading();
+
 	GLfloat UV_shift_buffer[2];
 
 	m_atlas_coordinate_function(static_cast<int>(glyph), static_cast<GLfloat*>(UV_shift_buffer));
@@ -542,6 +439,8 @@ kiwi::glyph_2d& kiwi::glyph_2d::update_wtext(std::size_t glyph_number, wchar_t g
 
 kiwi::glyph_2d& kiwi::glyph_2d::update_glyph(std::size_t glyph_number, int glyph) noexcept
 {
+	finish_loading();
+
 	GLfloat UV_shift_buffer[2];
 
 	m_atlas_coordinate_function(glyph, static_cast<GLfloat*>(UV_shift_buffer));
@@ -553,33 +452,42 @@ kiwi::glyph_2d& kiwi::glyph_2d::update_glyph(std::size_t glyph_number, int glyph
 
 kiwi::glyph_2d& kiwi::glyph_2d::space(std::size_t glyph_count) noexcept
 {
-	m_XY_UV_shift[0] += static_cast<GLfloat>(glyph_count) * m_glyph_offset;
+	m_XY[0] += static_cast<GLfloat>(glyph_count) * m_glyph_offset;
 	return *this;
 }
 
 kiwi::glyph_2d& kiwi::glyph_2d::end_line() noexcept
 {
-	m_XY_UV_shift[0] = m_origin[0];
-	m_XY_UV_shift[1] -= m_endline_offset;
+	m_XY[0] = m_origin[0];
+	m_XY[1] -= m_endline_offset;
 	return *this;
 }
 
 kiwi::glyph_2d& kiwi::glyph_2d::end_line_up() noexcept
 {
-	m_XY_UV_shift[0] = m_origin[0];
-	m_XY_UV_shift[1] += m_endline_offset;
+	m_XY[0] = m_origin[0];
+	m_XY[1] += m_endline_offset;
 	return *this;
 }
 
-kiwi::glyph_2d& kiwi::glyph_2d::jump_to(GLfloat X, GLfloat Y) noexcept
+kiwi::glyph_2d& kiwi::glyph_2d::move_to(GLfloat X, GLfloat Y) noexcept
 {
-	m_XY_UV_shift[0] = m_origin[0] + X * m_glyph_offset;
-	m_XY_UV_shift[1] = m_origin[1] - Y * m_endline_offset;
+	m_XY[0] = m_origin[0] + X * m_glyph_offset;
+	m_XY[1] = m_origin[1] - Y * m_endline_offset;
+	return *this;
+}
+
+kiwi::glyph_2d& kiwi::glyph_2d::move(GLfloat X, GLfloat Y) noexcept
+{
+	m_XY[0] += X * m_glyph_offset;
+	m_XY[1] -= Y * m_endline_offset;
 	return *this;
 }
 
 kiwi::glyph_2d& kiwi::glyph_2d::draw_with() noexcept
 {
+	finish_loading();
+
 	m_XY_UV_coordinates.to_binding(0);
 	m_atlas_texture->to_binding(0);
 
@@ -587,12 +495,14 @@ kiwi::glyph_2d& kiwi::glyph_2d::draw_with() noexcept
 		.set_uniform_4f(m_RGBA_location, static_cast<GLfloat*>(m_RGBA))
 		.set_uniform_3x3f(m_mvp_matrix_location, kiwi::window_matrix_data());
 
-	glDrawArraysInstanced(GL_QUADS, 0, 4, static_cast<GLsizei>(m_glyph_count));
+	glDrawArrays(GL_QUADS, 0, 4 * static_cast<GLsizei>(m_glyph_count));
 	return *this;
 }
 
 kiwi::glyph_2d& kiwi::glyph_2d::draw_with(const GLfloat* const mvp_matrix_ptr) noexcept
 {
+	finish_loading();
+
 	m_XY_UV_coordinates.to_binding(0);
 	m_atlas_texture->to_binding(0);
 
@@ -600,48 +510,69 @@ kiwi::glyph_2d& kiwi::glyph_2d::draw_with(const GLfloat* const mvp_matrix_ptr) n
 		.set_uniform_4f(m_RGBA_location, static_cast<GLfloat*>(m_RGBA))
 		.set_uniform_3x3f(m_mvp_matrix_location, mvp_matrix_ptr);
 
-	glDrawArraysInstanced(GL_QUADS, 0, 4, static_cast<GLsizei>(m_glyph_count));
+	glDrawArrays(GL_QUADS, 0, 4 * static_cast<GLsizei>(m_glyph_count));
 	return *this;
 }
 
 kiwi::glyph_2d& kiwi::glyph_2d::clear_buffer() noexcept
 {
-	m_XY_UV_shift[0] = m_origin[0];
-	m_XY_UV_shift[1] = m_origin[1];
+	m_buffer_current_ptr = m_XY_UV_shift_temp_buffer.data();
+
+	m_XY[0] = m_origin[0];
+	m_XY[1] = m_origin[1];
 	m_glyph_count = 0;
 	return *this;
 }
 
 kiwi::glyph_2d& kiwi::glyph_2d::clear_buffer(std::size_t glyph_count) noexcept
 {
+	finish_loading();
+
 	m_glyph_count = (glyph_count < m_glyph_count) ? m_glyph_count - glyph_count : 0;
 	return *this;
 }
 
 kiwi::glyph_2d& kiwi::glyph_2d::clear_buffer_after(std::size_t glyph_number) noexcept
 {
+	finish_loading();
+
 	m_glyph_count = (glyph_number < m_glyph_count) ? glyph_number : m_glyph_count;
+	return *this;
+}
+
+kiwi::glyph_2d& kiwi::glyph_2d::finish_loading() noexcept
+{
+	if (m_buffer_current_ptr != m_XY_UV_shift_temp_buffer.data())
+	{
+		std::size_t remainder = static_cast<std::size_t>(m_buffer_current_ptr - m_XY_UV_shift_temp_buffer.data());
+
+		m_XY_UV_coordinates.substitute(m_XY_UV_shift_temp_buffer.data(),
+			(m_glyph_count - remainder / 4) * (4 * sizeof(GLfloat)),
+			remainder * sizeof(GLfloat));
+	}
+
+	m_buffer_current_ptr = m_XY_UV_shift_temp_buffer.data();
 	return *this;
 }
 
 GLfloat kiwi::glyph_2d::get_X() const noexcept
 {
-	return m_XY_UV_shift[0] - m_origin[0];
+	return m_XY[0] - m_origin[0];
 }
 
 GLfloat kiwi::glyph_2d::get_Y() const noexcept
 {
-	return m_XY_UV_shift[1] - m_origin[1];
+	return m_XY[1] - m_origin[1];
 }
 
 GLfloat kiwi::glyph_2d::get_X_free() const noexcept
 {
-	return m_XY_UV_shift[0];
+	return m_XY[0];
 }
 
 GLfloat kiwi::glyph_2d::get_Y_free() const noexcept
 {
-	return m_XY_UV_shift[1];
+	return m_XY[1];
 }
 
 std::size_t kiwi::glyph_2d::glyph_count() const noexcept

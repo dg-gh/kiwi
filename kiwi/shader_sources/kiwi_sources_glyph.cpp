@@ -14,12 +14,14 @@ const char* const kiwi::source::glyph_2d::vertex_shader() noexcept
 
 		"	void main()																				\n"
 		"	{																						\n"
-		"		vec3 in_XYh = u_mvp_M * vec3(u_XY_UV_shift[gl_InstanceID].XY						\n"
-		"			+ square[gl_VertexID] * u_XY_UV_size.xy, 1.0);									\n"
+		"		uint quad_instance_id = gl_VertexID >> 2;											\n"
+		"		uint quad_vertex_id = gl_VertexID & uint(3);										\n"
+		"		vec3 in_XYh = u_mvp_M * vec3(u_XY_UV_shift[quad_instance_id].XY						\n"
+		"			+ square[quad_vertex_id] * u_XY_UV_size.xy, 1.0);								\n"
 
 		"		gl_Position = vec4(in_XYh[0], in_XYh[1], 0.0, 1.0);									\n"
 
-		"		UV = u_XY_UV_shift[gl_InstanceID].UV + square[gl_VertexID] * u_XY_UV_size.zw;		\n"
+		"		UV = u_XY_UV_shift[quad_instance_id].UV + square[quad_vertex_id] * u_XY_UV_size.zw;	\n"
 		"	}																						\n"
 		;
 }
@@ -53,12 +55,14 @@ const char* const kiwi::source::glyph_3d::vertex_shader() noexcept
 
 		"	void main()																				\n"
 		"	{																						\n"
-		"		vec3 plane_coord = vec3(u_XY_UV_shift[gl_InstanceID].XY								\n"
-		"			+ square[gl_VertexID] * u_XY_UV_size.xy, 1.0);									\n"
+		"		uint quad_instance_id = gl_VertexID >> 2;											\n"
+		"		uint quad_vertex_id = gl_VertexID & uint(3);										\n"
+		"		vec3 plane_coord = vec3(u_XY_UV_shift[quad_instance_id].XY							\n"
+		"			+ square[quad_vertex_id] * u_XY_UV_size.xy, 1.0);								\n"
 
 		"		gl_Position = u_mvp_M * vec4(u_right_up_orig * plane_coord, 1.0);					\n"
 
-		"		UV = u_XY_UV_shift[gl_InstanceID].UV + square[gl_VertexID] * u_XY_UV_size.zw;		\n"
+		"		UV = u_XY_UV_shift[quad_instance_id].UV + square[quad_vertex_id] * u_XY_UV_size.zw; \n"
 		"	}																						\n"
 		;
 }

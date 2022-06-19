@@ -22,7 +22,7 @@ namespace kiwi
 		kiwi::glyph_3d& operator=(kiwi::glyph_3d&&) = delete;
 		~glyph_3d();
 
-		bool init(std::size_t char_capacity);
+		bool init(std::size_t glyph_capacity);
 
 		kiwi::glyph_3d& use_default_atlas();
 		kiwi::glyph_3d& set_atlas(const kiwi::texture_buffer* const atlas_texture_ptr, std::function<void(const int, GLfloat* ptr)> atlas_function);
@@ -56,12 +56,15 @@ namespace kiwi
 		kiwi::glyph_3d& space(std::size_t glyph_count) noexcept;
 		kiwi::glyph_3d& end_line() noexcept;
 		kiwi::glyph_3d& end_line_up() noexcept;
-		kiwi::glyph_3d& jump_to(GLfloat X, GLfloat Y) noexcept;
+		kiwi::glyph_3d& move_to(GLfloat X, GLfloat Y) noexcept;
+		kiwi::glyph_3d& move(GLfloat X, GLfloat Y) noexcept;
 
 		kiwi::glyph_3d& draw_with(const GLfloat* const mvp_matrix_ptr) noexcept;
 		kiwi::glyph_3d& clear_buffer() noexcept;
 		kiwi::glyph_3d& clear_buffer(std::size_t glyph_count) noexcept;
 		kiwi::glyph_3d& clear_buffer_after(std::size_t glyph_number) noexcept;
+
+		kiwi::glyph_3d& finish_loading() noexcept;
 
 		GLfloat get_X() const noexcept;
 		GLfloat get_Y() const noexcept;
@@ -98,7 +101,7 @@ namespace kiwi
 		GLfloat m_XY_UV_size[4] = { GL0, GL0, GL0, GL0 };
 		GLfloat m_RGBA[4] = { GL1, GL1, GL1, GL1 };
 
-		GLfloat m_XY_UV_shift[4] = { GL0, GL0, GL0, GL0 };
+		GLfloat m_XY[2] = { GL0, GL0 };
 		GLfloat m_origin[2] = { GL0, GL0 };
 		GLfloat m_right_up_orig[9] = {
 			GL0, GL0, GL0,
@@ -113,6 +116,8 @@ namespace kiwi
 		std::size_t m_capacity = 0;
 
 		std::vector<GLfloat> m_XY_UV_shift_temp_buffer;
+		GLfloat* m_buffer_current_ptr;
+		GLfloat* m_buffer_end_ptr;
 
 		void generate_default_atlas_function();
 		void generate_default_atlas_texture();
