@@ -149,7 +149,9 @@ kiwi::glyph_3d& kiwi::glyph_3d::set_tile_size(GLfloat width, GLfloat height, GLf
 	m_XY_UV_size[0] = width;
 	m_XY_UV_size[1] = height;
 	m_glyph_offset = width + horizontal_offset;
+	m_glyph_offset_inv = GL1 / m_glyph_offset;
 	m_endline_offset = height + vertical_offset;
+	m_endline_offset_inv = GL1 / m_endline_offset;
 	m_glyph_count = 0;
 	return *this;
 }
@@ -593,12 +595,12 @@ kiwi::glyph_3d& kiwi::glyph_3d::finish_loading() noexcept
 
 GLfloat kiwi::glyph_3d::get_X() const noexcept
 {
-	return m_XY[0] - m_origin[0];
+	return m_glyph_offset_inv * (m_XY[0] - m_origin[0]);
 }
 
 GLfloat kiwi::glyph_3d::get_Y() const noexcept
 {
-	return m_XY[1] - m_origin[1];
+	return m_endline_offset_inv * (m_origin[1] - m_XY[1]);
 }
 
 GLfloat kiwi::glyph_3d::get_X_free() const noexcept

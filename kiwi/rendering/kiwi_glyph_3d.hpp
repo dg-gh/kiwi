@@ -113,7 +113,9 @@ namespace kiwi
 			GL0, GL0, GL1
 		};
 		GLfloat m_glyph_offset = GL0;
+		GLfloat m_glyph_offset_inv = GL0;
 		GLfloat m_endline_offset = GL0;
+		GLfloat m_endline_offset_inv = GL0;
 		GLfloat m_alpha_discard = static_cast<GLfloat>(0.5);
 
 		std::size_t m_glyph_count = 0;
