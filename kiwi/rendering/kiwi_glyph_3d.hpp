@@ -57,7 +57,11 @@ namespace kiwi
 		kiwi::glyph_3d& end_line() noexcept;
 		kiwi::glyph_3d& end_line_up() noexcept;
 		kiwi::glyph_3d& move_to(GLfloat X, GLfloat Y) noexcept;
-		kiwi::glyph_3d& move(GLfloat X, GLfloat Y) noexcept;
+		kiwi::glyph_3d& move_X_to(GLfloat X) noexcept;
+		kiwi::glyph_3d& move_Y_to(GLfloat Y) noexcept;
+		kiwi::glyph_3d& move(GLfloat X_offset, GLfloat Y_offset) noexcept;
+		kiwi::glyph_3d& move_X(GLfloat X_offset) noexcept;
+		kiwi::glyph_3d& move_Y(GLfloat Y_offset) noexcept;
 
 		kiwi::glyph_3d& draw_with(const GLfloat* const mvp_matrix_ptr) noexcept;
 		kiwi::glyph_3d& clear_buffer() noexcept;

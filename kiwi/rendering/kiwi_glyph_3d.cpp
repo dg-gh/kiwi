@@ -502,10 +502,34 @@ kiwi::glyph_3d& kiwi::glyph_3d::move_to(GLfloat X, GLfloat Y) noexcept
 	return *this;
 }
 
-kiwi::glyph_3d& kiwi::glyph_3d::move(GLfloat X, GLfloat Y) noexcept
+kiwi::glyph_3d& kiwi::glyph_3d::move_X_to(GLfloat X) noexcept
 {
 	m_XY[0] = m_origin[0] + X * m_glyph_offset;
+	return *this;
+}
+
+kiwi::glyph_3d& kiwi::glyph_3d::move_Y_to(GLfloat Y) noexcept
+{
 	m_XY[1] = m_origin[1] - Y * m_endline_offset;
+	return *this;
+}
+
+kiwi::glyph_3d& kiwi::glyph_3d::move(GLfloat X_offset, GLfloat Y_offset) noexcept
+{
+	m_XY[0] = m_origin[0] + X_offset * m_glyph_offset;
+	m_XY[1] = m_origin[1] - Y_offset * m_endline_offset;
+	return *this;
+}
+
+kiwi::glyph_3d& kiwi::glyph_3d::move_X(GLfloat X_offset) noexcept
+{
+	m_XY[0] += X_offset * m_glyph_offset;
+	return *this;
+}
+
+kiwi::glyph_3d& kiwi::glyph_3d::move_Y(GLfloat Y_offset) noexcept
+{
+	m_XY[1] -= Y_offset * m_endline_offset;
 	return *this;
 }
 
