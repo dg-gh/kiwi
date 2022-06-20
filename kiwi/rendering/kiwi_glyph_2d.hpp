@@ -25,13 +25,13 @@ namespace kiwi
 		bool init(std::size_t glyph_capacity);
 
 		kiwi::glyph_2d& use_default_atlas();
-		kiwi::glyph_2d& set_atlas(const kiwi::texture_buffer* const atlas_texture_ptr, std::function<void(const int, GLfloat* ptr)> atlas_function);
+		kiwi::glyph_2d& set_atlas(const kiwi::texture_buffer* const atlas_texture_ptr, std::function<void(const int, GLfloat* ptr)> atlas_function,
+			GLfloat atlas_tile_width, GLfloat atlas_tile_height);
 		const kiwi::texture_buffer* get_atlas_texture() const noexcept;
 
 		kiwi::glyph_2d& set_origin(GLfloat X, GLfloat Y) noexcept;
 		kiwi::glyph_2d& set_origin(const GLfloat* const XY_ptr) noexcept;
 		kiwi::glyph_2d& set_tile_size(GLfloat width, GLfloat height, GLfloat horizontal_offset = GL0, GLfloat vertical_offset = GL0) noexcept;
-		kiwi::glyph_2d& set_atlas_tile_size(GLfloat width, GLfloat height) noexcept;
 		kiwi::glyph_2d& set_RGBA(GLfloat R, GLfloat G, GLfloat B, GLfloat A = GL1) noexcept;
 
 		kiwi::glyph_2d& append_text(const char* const ptr) noexcept;

@@ -81,10 +81,13 @@ kiwi::glyph_2d& kiwi::glyph_2d::use_default_atlas()
 	return *this;
 }
 
-kiwi::glyph_2d& kiwi::glyph_2d::set_atlas(const kiwi::texture_buffer* const atlas_texture_ptr, std::function<void(const int, GLfloat* ptr)> atlas_function)
+kiwi::glyph_2d& kiwi::glyph_2d::set_atlas(const kiwi::texture_buffer* const atlas_texture_ptr, std::function<void(const int, GLfloat* ptr)> atlas_function,
+	GLfloat atlas_tile_width, GLfloat atlas_tile_height)
 {
 	m_atlas_texture = atlas_texture_ptr;
 	m_atlas_coordinate_function = std::move(atlas_function);
+	m_XY_UV_size[2] = atlas_tile_width;
+	m_XY_UV_size[3] = atlas_tile_height;
 	m_glyph_count = 0;
 	return *this;
 }
@@ -127,14 +130,6 @@ kiwi::glyph_2d& kiwi::glyph_2d::set_tile_size(GLfloat width, GLfloat height, GLf
 	m_glyph_offset_inv = GL1 / m_glyph_offset;
 	m_endline_offset = height + vertical_offset;
 	m_endline_offset_inv = GL1 / m_endline_offset;
-	m_glyph_count = 0;
-	return *this;
-}
-
-kiwi::glyph_2d& kiwi::glyph_2d::set_atlas_tile_size(GLfloat width, GLfloat height) noexcept
-{
-	m_XY_UV_size[2] = width;
-	m_XY_UV_size[3] = height;
 	m_glyph_count = 0;
 	return *this;
 }
