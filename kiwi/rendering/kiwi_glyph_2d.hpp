@@ -27,6 +27,7 @@ namespace kiwi
 		kiwi::glyph_2d& use_default_atlas();
 		kiwi::glyph_2d& set_atlas(const kiwi::texture_buffer* const atlas_texture_ptr, std::function<void(const int, GLfloat* ptr)> atlas_function,
 			GLfloat atlas_tile_width, GLfloat atlas_tile_height);
+		kiwi::glyph_2d& set_atlas_texture(const kiwi::texture_buffer* const atlas_texture_ptr);
 		const kiwi::texture_buffer* get_atlas_texture() const noexcept;
 
 		kiwi::glyph_2d& set_origin(GLfloat X, GLfloat Y) noexcept;
@@ -60,7 +61,9 @@ namespace kiwi
 		kiwi::glyph_2d& move_Y(GLfloat Y_offset) noexcept;
 
 		kiwi::glyph_2d& draw_with() noexcept;
+		kiwi::glyph_2d& draw_with(std::size_t begin_glyph, std::size_t glyph_count) noexcept;
 		kiwi::glyph_2d& draw_with(const GLfloat* const mvp_matrix_ptr) noexcept;
+		kiwi::glyph_2d& draw_with(const GLfloat* const mvp_matrix_ptr, std::size_t begin_glyph, std::size_t glyph_count) noexcept;
 		kiwi::glyph_2d& clear_buffer() noexcept;
 		kiwi::glyph_2d& clear_buffer(std::size_t glyph_count) noexcept;
 		kiwi::glyph_2d& clear_buffer_after(std::size_t glyph_number) noexcept;
@@ -109,8 +112,8 @@ namespace kiwi
 		std::size_t m_capacity = 0;
 
 		std::vector<GLfloat> m_XY_UV_shift_temp_buffer;
-		GLfloat* m_buffer_current_ptr;
-		GLfloat* m_buffer_end_ptr;
+		GLfloat* m_buffer_current_ptr = nullptr;
+		GLfloat* m_buffer_end_ptr = nullptr;
 
 		void generate_default_atlas_function();
 		void generate_default_atlas_texture();

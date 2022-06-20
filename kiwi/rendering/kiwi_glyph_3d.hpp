@@ -27,6 +27,7 @@ namespace kiwi
 		kiwi::glyph_3d& use_default_atlas();
 		kiwi::glyph_3d& set_atlas(const kiwi::texture_buffer* const atlas_texture_ptr, std::function<void(const int, GLfloat* ptr)> atlas_function,
 			GLfloat atlas_tile_width, GLfloat atlas_tile_height);
+		kiwi::glyph_3d& set_atlas_texture(const kiwi::texture_buffer* const atlas_texture_ptr);
 		const kiwi::texture_buffer* get_atlas_texture() const noexcept;
 
 		kiwi::glyph_3d& set_origin(GLfloat X, GLfloat Y) noexcept;
@@ -64,6 +65,7 @@ namespace kiwi
 		kiwi::glyph_3d& move_Y(GLfloat Y_offset) noexcept;
 
 		kiwi::glyph_3d& draw_with(const GLfloat* const mvp_matrix_ptr) noexcept;
+		kiwi::glyph_3d& draw_with(const GLfloat* const mvp_matrix_ptr, std::size_t begin_glyph, std::size_t glyph_count) noexcept;
 		kiwi::glyph_3d& clear_buffer() noexcept;
 		kiwi::glyph_3d& clear_buffer(std::size_t glyph_count) noexcept;
 		kiwi::glyph_3d& clear_buffer_after(std::size_t glyph_number) noexcept;
@@ -101,7 +103,6 @@ namespace kiwi
 		const kiwi::texture_buffer* m_atlas_texture = &m_default_atlas_texture;
 		std::function<void(const int, GLfloat*)> m_atlas_coordinate_function;
 
-
 		GLfloat m_XY_UV_size[4] = { GL0, GL0, GL0, GL0 };
 		GLfloat m_RGBA[4] = { GL1, GL1, GL1, GL1 };
 
@@ -122,8 +123,8 @@ namespace kiwi
 		std::size_t m_capacity = 0;
 
 		std::vector<GLfloat> m_XY_UV_shift_temp_buffer;
-		GLfloat* m_buffer_current_ptr;
-		GLfloat* m_buffer_end_ptr;
+		GLfloat* m_buffer_current_ptr = nullptr;
+		GLfloat* m_buffer_end_ptr = nullptr;
 
 		void generate_default_atlas_function();
 		void generate_default_atlas_texture();
