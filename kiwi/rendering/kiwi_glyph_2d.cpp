@@ -537,6 +537,13 @@ kiwi::glyph_2d& kiwi::glyph_2d::set_XY(GLfloat X, GLfloat Y) noexcept
 	return *this;
 }
 
+kiwi::glyph_2d& kiwi::glyph_2d::set_XY(const GLfloat* const XY_ptr) noexcept
+{
+	m_XY[0] = m_origin[0] + *XY_ptr * m_glyph_offset;
+	m_XY[1] = m_origin[1] - *(XY_ptr + 1) * m_endline_offset;
+	return *this;
+}
+
 kiwi::glyph_2d& kiwi::glyph_2d::set_X(GLfloat X) noexcept
 {
 	m_XY[0] = m_origin[0] + X * m_glyph_offset;
@@ -553,6 +560,13 @@ kiwi::glyph_2d& kiwi::glyph_2d::move_XY(GLfloat X_offset, GLfloat Y_offset) noex
 {
 	m_XY[0] += X_offset * m_glyph_offset;
 	m_XY[1] -= Y_offset * m_endline_offset;
+	return *this;
+}
+
+kiwi::glyph_2d& kiwi::glyph_2d::move_XY(const GLfloat* const XY_offset_ptr) noexcept
+{
+	m_XY[0] += *XY_offset_ptr * m_glyph_offset;
+	m_XY[1] -= *(XY_offset_ptr + 1) * m_endline_offset;
 	return *this;
 }
 
