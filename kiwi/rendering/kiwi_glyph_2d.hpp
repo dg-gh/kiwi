@@ -44,6 +44,7 @@ namespace kiwi
 		kiwi::glyph_2d& append_wtext(wchar_t glyph) noexcept;
 
 		kiwi::glyph_2d& append_glyph(const int* const ptr, std::size_t glyph_count) noexcept;
+		kiwi::glyph_2d& append_glyph(const int* const ptr, std::size_t glyph_count, int end_line_glyph) noexcept;
 		kiwi::glyph_2d& append_glyph(int glyph) noexcept;
 
 		kiwi::glyph_2d& update_text(std::size_t glyph_number, char glyph) noexcept;
@@ -53,10 +54,10 @@ namespace kiwi
 		kiwi::glyph_2d& space(std::size_t glyph_count) noexcept;
 		kiwi::glyph_2d& end_line() noexcept;
 		kiwi::glyph_2d& end_line_up() noexcept;
-		kiwi::glyph_2d& move_to(GLfloat X, GLfloat Y) noexcept;
-		kiwi::glyph_2d& move_X_to(GLfloat X) noexcept;
-		kiwi::glyph_2d& move_Y_to(GLfloat Y) noexcept;
-		kiwi::glyph_2d& move(GLfloat X_offset, GLfloat Y_offset) noexcept;
+		kiwi::glyph_2d& set_XY(GLfloat X, GLfloat Y) noexcept;
+		kiwi::glyph_2d& set_X(GLfloat X) noexcept;
+		kiwi::glyph_2d& set_Y(GLfloat Y) noexcept;
+		kiwi::glyph_2d& move_XY(GLfloat X_offset, GLfloat Y_offset) noexcept;
 		kiwi::glyph_2d& move_X(GLfloat X_offset) noexcept;
 		kiwi::glyph_2d& move_Y(GLfloat Y_offset) noexcept;
 
