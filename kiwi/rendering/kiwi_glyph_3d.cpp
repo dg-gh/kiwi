@@ -548,10 +548,10 @@ kiwi::glyph_3d& kiwi::glyph_3d::end_line() noexcept
 	return *this;
 }
 
-kiwi::glyph_3d& kiwi::glyph_3d::end_line_up() noexcept
+kiwi::glyph_3d& kiwi::glyph_3d::end_line(GLfloat lines_down) noexcept
 {
 	m_XY[0] = m_origin[0];
-	m_XY[1] += m_endline_offset;
+	m_XY[1] += lines_down * m_endline_offset;
 	return *this;
 }
 

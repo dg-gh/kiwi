@@ -57,7 +57,7 @@ namespace kiwi
 
 		kiwi::glyph_3d& space(std::size_t glyph_count) noexcept;
 		kiwi::glyph_3d& end_line() noexcept;
-		kiwi::glyph_3d& end_line_up() noexcept;
+		kiwi::glyph_3d& end_line(GLfloat lines_down) noexcept;
 		kiwi::glyph_3d& set_XY(GLfloat X, GLfloat Y) noexcept;
 		kiwi::glyph_3d& set_XY(const GLfloat* const XY_ptr) noexcept;
 		kiwi::glyph_3d& set_X(GLfloat X) noexcept;
