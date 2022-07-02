@@ -25,7 +25,7 @@ namespace kiwi
 		bool init(std::size_t glyph_capacity);
 
 		kiwi::glyph_3d& use_default_atlas();
-		kiwi::glyph_3d& set_atlas(const kiwi::texture_buffer* const atlas_texture_ptr, std::function<void(const int, GLfloat* ptr)> atlas_function,
+		kiwi::glyph_3d& set_atlas(const kiwi::texture_buffer* const atlas_texture_ptr, std::function<void(const int, const int, GLfloat* ptr)> atlas_function,
 			GLfloat atlas_tile_width, GLfloat atlas_tile_height);
 		kiwi::glyph_3d& set_atlas_texture(const kiwi::texture_buffer* const atlas_texture_ptr);
 		const kiwi::texture_buffer* get_atlas_texture() const noexcept;
@@ -54,6 +54,22 @@ namespace kiwi
 		kiwi::glyph_3d& update_text(std::size_t glyph_number, char glyph) noexcept;
 		kiwi::glyph_3d& update_wtext(std::size_t glyph_number, wchar_t glyph) noexcept;
 		kiwi::glyph_3d& update_glyph(std::size_t glyph_number, int glyph) noexcept;
+
+		kiwi::glyph_3d& append_text_modded(int mod_number, const char* const ptr) noexcept;
+		kiwi::glyph_3d& append_text_modded(int mod_number, const char* const ptr, std::size_t glyph_count) noexcept;
+		kiwi::glyph_3d& append_text_modded(int mod_number, char glyph) noexcept;
+
+		kiwi::glyph_3d& append_wtext_modded(int mod_number, const wchar_t* const ptr) noexcept;
+		kiwi::glyph_3d& append_wtext_modded(int mod_number, const wchar_t* const ptr, std::size_t glyph_count) noexcept;
+		kiwi::glyph_3d& append_wtext_modded(int mod_number, wchar_t glyph) noexcept;
+
+		kiwi::glyph_3d& append_glyph_modded(int mod_number, const int* const ptr, std::size_t glyph_count) noexcept;
+		kiwi::glyph_3d& append_glyph_modded(int mod_number, const int* const ptr, std::size_t glyph_count, int end_line_glyph) noexcept;
+		kiwi::glyph_3d& append_glyph_modded(int mod_number, int glyph) noexcept;
+
+		kiwi::glyph_3d& update_text_modded(int mod_number, std::size_t glyph_number, char glyph) noexcept;
+		kiwi::glyph_3d& update_wtext_modded(int mod_number, std::size_t glyph_number, wchar_t glyph) noexcept;
+		kiwi::glyph_3d& update_glyph_modded(int mod_number, std::size_t glyph_number, int glyph) noexcept;
 
 		kiwi::glyph_3d& space(std::size_t glyph_count) noexcept;
 		kiwi::glyph_3d& end_line() noexcept;
@@ -86,6 +102,7 @@ namespace kiwi
 	private:
 
 		static constexpr std::size_t m_packet_size = 1024;
+		static constexpr std::size_t m_number_of_default_colors = 8;
 
 		static constexpr GLfloat GL0 = static_cast<GLfloat>(0);
 		static constexpr GLfloat GL1 = static_cast<GLfloat>(1);
@@ -104,7 +121,7 @@ namespace kiwi
 
 		kiwi::storage_buffer m_XY_UV_coordinates;
 		const kiwi::texture_buffer* m_atlas_texture = &m_default_atlas_texture;
-		std::function<void(const int, GLfloat*)> m_atlas_coordinate_function;
+		std::function<void(const int, const int, GLfloat*)> m_atlas_coordinate_function;
 
 		GLfloat m_XY_UV_size[4] = { GL0, GL0, GL0, GL0 };
 		GLfloat m_RGBA[4] = { GL1, GL1, GL1, GL1 };
@@ -116,10 +133,10 @@ namespace kiwi
 			GL0, -GL1, GL0,
 			GL0, GL0, GL1
 		};
-		GLfloat m_glyph_offset = GL0;
-		GLfloat m_glyph_offset_inv = GL0;
-		GLfloat m_endline_offset = GL0;
-		GLfloat m_endline_offset_inv = GL0;
+		GLfloat m_X_offset = GL0;
+		GLfloat m_X_offset_inv = GL0;
+		GLfloat m_Y_offset = GL0;
+		GLfloat m_Y_offset_inv = GL0;
 		GLfloat m_alpha_discard = static_cast<GLfloat>(0.5);
 
 		std::size_t m_glyph_count = 0;
