@@ -19,10 +19,11 @@ void kiwi::looper_1th::loop(GLfloat loop_time_elapsed)
 
 bool kiwi::looper_1th::exit_condition() { return false; }
 
-void kiwi::looper_1th::exit()
+int kiwi::looper_1th::exit()
 {
 	// terminate buffers, shaders and programs
 	// kiwi::draw_terminate();
+	return 0;
 }
 
 bool kiwi::looper_1th::window_resized() noexcept
@@ -40,7 +41,7 @@ bool kiwi::looper_1th::window_resized() noexcept
 	}
 }
 
-bool kiwi::looper_1th::show(const kiwi::size& size_2d, const char* const new_title)
+int kiwi::looper_1th::show(const kiwi::size& size_2d, const char* const new_title)
 {
 	if (!kiwi::context::window_init(size_2d[0], size_2d[1],
 		m_window_resizable,
@@ -49,7 +50,7 @@ bool kiwi::looper_1th::show(const kiwi::size& size_2d, const char* const new_tit
 		m_window_anti_aliasing,
 		new_title))
 	{
-		return false;
+		return -1;
 	}
 
 	m_window_state_counter = kiwi::window_state_counter();
@@ -107,12 +108,12 @@ bool kiwi::looper_1th::show(const kiwi::size& size_2d, const char* const new_tit
 		}
 	}
 
-	exit();
+	int result = exit();
 
 	kiwi::context::window_terminate();
 	kiwi::context::delete_window_size_info();
 	kiwi::context::window() = nullptr;
-	return true;
+	return result;
 }
 
 kiwi::looper_1th& kiwi::looper_1th::set_window_resizable(bool window_resizable) noexcept

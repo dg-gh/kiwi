@@ -11,6 +11,24 @@ namespace kiwi
 			const char* const fragment_shader() noexcept;
 		}
 
+		namespace basic_3d_bicolor_point_dist
+		{
+			const char* const vertex_shader() noexcept;
+			const char* const fragment_shader() noexcept;
+		}
+
+		namespace basic_3d_bicolor_axis_dir
+		{
+			const char* const vertex_shader() noexcept;
+			const char* const fragment_shader() noexcept;
+		}
+
+		namespace basic_3d_bicolor_point_dir
+		{
+			const char* const vertex_shader() noexcept;
+			const char* const fragment_shader() noexcept;
+		}
+
 		namespace basic_3d_color_gradient
 		{
 			const char* const vertex_shader() noexcept;

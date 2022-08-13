@@ -82,12 +82,12 @@ kiwi::glyph_2d& kiwi::glyph_2d::use_default_atlas()
 }
 
 kiwi::glyph_2d& kiwi::glyph_2d::set_atlas(const kiwi::texture_buffer* const atlas_texture_ptr, std::function<void(const int, const int, GLfloat* ptr)> atlas_function,
-	GLfloat atlas_tile_width, GLfloat atlas_tile_height)
+	const kiwi::UV& UV_size)
 {
 	m_atlas_texture = atlas_texture_ptr;
 	m_atlas_coordinate_function = std::move(atlas_function);
-	m_XY_UV_size[2] = atlas_tile_width;
-	m_XY_UV_size[3] = atlas_tile_height;
+	m_XY_UV_size[2] = UV_size[0];
+	m_XY_UV_size[3] = UV_size[1];
 	m_glyph_count = 0;
 	return *this;
 }

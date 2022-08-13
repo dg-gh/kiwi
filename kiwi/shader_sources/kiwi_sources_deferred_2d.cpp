@@ -245,52 +245,7 @@ const char* const kiwi::source::deferred_2d_solid_color::fragment_shader() noexc
 		;
 }
 
-const char* const kiwi::source::deferred_2d_color_gradient_sRMEC::vertex_shader() noexcept
-{
-	return
-		"	#version 430 core									\n"
-		"	layout (location = 0) in vec3 in_XY;				\n"
-		"	layout (location = 6) in vec3 in_RGB;				\n"
-		"	out vec4 RGB1;										\n"
-
-		"	uniform mat3 u_mvp_M;								\n"
-
-		"	void main()											\n"
-		"	{													\n"
-		"		vec3 in_XYh = u_mvp_M * vec3(vec2(in_XY), 1.0);	\n"
-
-		"		gl_Position = vec4(in_XYh[0], in_XYh[1],		\n"
-		"			in_XY[2], 1.0);								\n"
-
-		"		RGB1 = vec4(in_RGB, 1.0);						\n"
-		"	}													\n"
-		;
-}
-const char* const kiwi::source::deferred_2d_color_gradient_sRMEC::fragment_shader() noexcept
-{
-	return
-		"	#version 430 core									\n"
-		"	in vec4 RGB1;										\n"
-
-		"	layout (location = 0) out vec4 g_albedo;			\n"
-		"	layout (location = 1) out vec4 g_N_dir;				\n"
-		"	layout (location = 2) out vec4 g_RMEC;				\n"
-		"	layout (location = 3) out vec4 g_lmap;				\n"
-
-		"	uniform vec4 u_RGBA;								\n"
-		"	uniform vec4 u_RMEC;								\n"
-
-		"	void main()											\n"
-		"	{													\n"
-		"		g_albedo = u_RGBA;								\n"
-		"		g_N_dir = vec4(0.0, 0.0, 1.0, 1.0);				\n"
-		"		g_RMEC = u_RMEC;								\n"
-		"		g_lmap = vec4(0.0);								\n"
-		"	}													\n"
-		;
-}
-
-const char* const kiwi::source::deferred_2d_color_gradient_vRMEC::vertex_shader() noexcept
+const char* const kiwi::source::deferred_2d_color_gradient::vertex_shader() noexcept
 {
 	return
 		"	#version 430 core									\n"
@@ -314,7 +269,7 @@ const char* const kiwi::source::deferred_2d_color_gradient_vRMEC::vertex_shader(
 		"	}													\n"
 		;
 }
-const char* const kiwi::source::deferred_2d_color_gradient_vRMEC::fragment_shader() noexcept
+const char* const kiwi::source::deferred_2d_color_gradient::fragment_shader() noexcept
 {
 	return
 		"	#version 430 core									\n"
@@ -338,113 +293,7 @@ const char* const kiwi::source::deferred_2d_color_gradient_vRMEC::fragment_shade
 		;
 }
 
-const char* const kiwi::source::deferred_2d_texture_sRMEC::vertex_shader() noexcept
-{
-	return
-		"	#version 430 core									\n"
-		"	layout (location = 0) in vec3 in_XY;				\n"
-		"	layout (location = 4) in vec2 in_UV;				\n"
-		"	layout (location = 5) in vec2 in_UV_lmap;			\n"
-		"	out vec2 UV;										\n"
-		"	out vec2 UV_lmap;									\n"
-
-		"	uniform mat3 u_mvp_M;								\n"
-
-		"	void main()											\n"
-		"	{													\n"
-		"		vec3 in_XYh = u_mvp_M * vec3(vec2(in_XY), 1.0);	\n"
-
-		"		gl_Position = vec4(in_XYh[0], in_XYh[1],		\n"
-		"			in_XY[2], 1.0);								\n"
-
-		"		UV = in_UV;										\n"
-		"		UV_lmap = in_UV_lmap;							\n"
-		"	}													\n"
-		;
-}
-const char* const kiwi::source::deferred_2d_texture_sRMEC::fragment_shader() noexcept
-{
-	return
-		"	#version 430 core									\n"
-		"	in vec2 UV;											\n"
-		"	in vec2 UV_lmap;									\n"
-
-		"	layout (location = 0) out vec4 g_albedo;			\n"
-		"	layout (location = 1) out vec4 g_N_dir;				\n"
-		"	layout (location = 2) out vec4 g_RMEC;				\n"
-		"	layout (location = 3) out vec4 g_lmap;				\n"
-
-		"	uniform vec4 u_RMEC;								\n"
-
-		"	layout (binding = 0) uniform sampler2D Tx;			\n"
-		"	layout (binding = 1) uniform sampler2D Tx_lmap;		\n"
-
-		"	void main()											\n"
-		"	{													\n"
-		"		g_albedo = texture(Tx, UV);						\n"
-		"		g_N_dir = vec4(0.0, 0.0, 1.0, 1.0);				\n"
-		"		g_RMEC = u_RMEC;								\n"
-		"		g_lmap = texture(Tx_lmap, UV);					\n"
-		"	}													\n"
-		;
-}
-
-const char* const kiwi::source::deferred_2d_texture_vRMEC::vertex_shader() noexcept
-{
-	return
-		"	#version 430 core									\n"
-		"	layout (location = 0) in vec3 in_XY;				\n"
-		"	layout (location = 4) in vec2 in_UV;				\n"
-		"	layout (location = 5) in vec2 in_UV_lmap;			\n"
-		"	layout (location = 7) in vec4 in_RMEC;				\n"
-		"	out vec2 UV;										\n"
-		"	out vec2 UV_lmap;									\n"
-		"	out vec4 RMEC;										\n"
-
-		"	uniform mat3 u_mvp_M;								\n"
-
-		"	void main()											\n"
-		"	{													\n"
-		"		vec3 in_XYh = u_mvp_M * vec3(vec2(in_XY), 1.0);	\n"
-
-		"		gl_Position = vec4(in_XYh[0], in_XYh[1],		\n"
-		"			in_XY[2], 1.0);								\n"
-
-		"		UV = in_UV;										\n"
-		"		UV_lmap = in_UV_lmap;							\n"
-		"		RMEC = in_RMEC;									\n"
-		"	}													\n"
-		;
-}
-const char* const kiwi::source::deferred_2d_texture_vRMEC::fragment_shader() noexcept
-{
-	return
-		"	#version 430 core									\n"
-		"	in vec2 UV;											\n"
-		"	in vec2 UV_lmap;									\n"
-		"	in vec4 RMEC;										\n"
-
-		"	layout (location = 0) out vec4 g_albedo;			\n"
-		"	layout (location = 1) out vec4 g_N_dir;				\n"
-		"	layout (location = 2) out vec4 g_RMEC;				\n"
-		"	layout (location = 3) out vec4 g_lmap;				\n"
-
-		"	uniform float u_C;									\n"
-
-		"	layout (binding = 0) uniform sampler2D Tx;			\n"
-		"	layout (binding = 1) uniform sampler2D Tx_lmap;		\n"
-
-		"	void main()											\n"
-		"	{													\n"
-		"		g_albedo = texture(Tx, UV);						\n"
-		"		g_N_dir = vec4(0.0, 0.0, 1.0, 1.0);				\n"
-		"		g_RMEC = vec4(vec3(RMEC), max(RMEC[3], u_C));	\n"
-		"		g_lmap = texture(Tx_lmap, UV);					\n"
-		"	}													\n"
-		;
-}
-
-const char* const kiwi::source::deferred_2d_texture_mRMEC::vertex_shader() noexcept
+const char* const kiwi::source::deferred_2d_texture::vertex_shader() noexcept
 {
 	return
 		"	#version 430 core									\n"
@@ -469,7 +318,7 @@ const char* const kiwi::source::deferred_2d_texture_mRMEC::vertex_shader() noexc
 		"	}													\n"
 		;
 }
-const char* const kiwi::source::deferred_2d_texture_mRMEC::fragment_shader() noexcept
+const char* const kiwi::source::deferred_2d_texture::fragment_shader() noexcept
 {
 	return
 		"	#version 430 core									\n"
@@ -498,131 +347,7 @@ const char* const kiwi::source::deferred_2d_texture_mRMEC::fragment_shader() noe
 		;
 }
 
-const char* const kiwi::source::deferred_2d_normal_sRMEC::vertex_shader() noexcept
-{
-	return
-		"	#version 430 core												\n"
-		"	layout (location = 0) in vec3 in_XY;							\n"
-		"	layout (location = 1) in vec2 in_T_dir;							\n"
-		"	layout (location = 2) in vec2 in_B_dir;							\n"
-		"	layout (location = 4) in vec2 in_UV;							\n"
-		"	layout (location = 5) in vec2 in_UV_lmap;						\n"
-		"	out vec2 UV;													\n"
-		"	out vec2 UV_lmap;												\n"
-		"	out mat2 moved_TB;												\n"
-
-		"	uniform mat3 u_mvp_M;											\n"
-		"	uniform mat3 u_m_M; 											\n"
-
-		"	void main()														\n"
-		"	{																\n"
-		"		vec3 in_XYh = u_mvp_M * vec3(vec2(in_XY), 1.0);				\n"
-
-		"		gl_Position = vec4(in_XYh[0], in_XYh[1],					\n"
-		"			in_XY[2], 1.0);											\n"
-
-		"		UV = in_UV;													\n"
-		"		UV_lmap = in_UV_lmap;										\n"
-		"		moved_TB = mat2(u_m_M) * mat2(in_T_dir, in_B_dir);			\n"
-		"	}																\n"
-		;
-}
-const char* const kiwi::source::deferred_2d_normal_sRMEC::fragment_shader() noexcept
-{
-	return
-		"	#version 430 core												\n"
-		"	in vec2 UV;														\n"
-		"	in vec2 UV_lmap;												\n"
-		"	in mat2 moved_TB;												\n"
-
-		"	layout (location = 0) out vec4 g_albedo;						\n"
-		"	layout (location = 1) out vec4 g_N_dir;							\n"
-		"	layout (location = 2) out vec4 g_RMEC;							\n"
-		"	layout (location = 3) out vec4 g_lmap;							\n"
-
-		"	uniform vec4 u_RMEC;											\n"
-
-		"	layout (binding = 0) uniform sampler2D Tx;						\n"
-		"	layout (binding = 1) uniform sampler2D Tx_lmap;					\n"
-		"	layout (binding = 2) uniform sampler2D Tx_nmap;					\n"
-
-		NORMAL_FUNC_2D
-
-		"	void main()														\n"
-		"	{																\n"
-		"		g_albedo = texture(Tx, UV);									\n"
-		"		g_N_dir = vec4(map_normal(Tx_nmap, UV, moved_TB), 1.0);		\n"
-		"		g_RMEC = u_RMEC;											\n"
-		"		g_lmap = texture(Tx_lmap, UV);								\n"
-		"	}																\n"
-		;
-}
-
-const char* const kiwi::source::deferred_2d_normal_vRMEC::vertex_shader() noexcept
-{
-	return
-		"	#version 430 core												\n"
-		"	layout (location = 0) in vec3 in_XY;							\n"
-		"	layout (location = 1) in vec2 in_T_dir;							\n"
-		"	layout (location = 2) in vec2 in_B_dir;							\n"
-		"	layout (location = 4) in vec2 in_UV;							\n"
-		"	layout (location = 5) in vec2 in_UV_lmap;						\n"
-		"	layout (location = 7) in vec4 in_RMEC;							\n"
-		"	out vec2 UV;													\n"
-		"	out vec2 UV_lmap;												\n"
-		"	out vec4 RMEC;													\n"
-		"	out mat2 moved_TB;												\n"
-
-		"	uniform mat3 u_mvp_M;											\n"
-		"	uniform mat3 u_m_M; 											\n"
-
-		"	void main()														\n"
-		"	{																\n"
-		"		vec3 in_XYh = u_mvp_M * vec3(vec2(in_XY), 1.0);				\n"
-
-		"		gl_Position = vec4(in_XYh[0], in_XYh[1],					\n"
-		"			in_XY[2], 1.0);											\n"
-
-		"		UV = in_UV;													\n"
-		"		UV_lmap = in_UV_lmap;										\n"
-		"		RMEC = in_RMEC;												\n"
-		"		moved_TB = mat2(u_m_M) * mat2(in_T_dir, in_B_dir);			\n"
-		"	}																\n"
-		;
-}
-const char* const kiwi::source::deferred_2d_normal_vRMEC::fragment_shader() noexcept
-{
-	return
-		"	#version 430 core												\n"
-		"	in vec2 UV;														\n"
-		"	in vec2 UV_lmap;												\n"
-		"	in vec4 RMEC;													\n"
-		"	in mat2 moved_TB;												\n"
-
-		"	layout (location = 0) out vec4 g_albedo;						\n"
-		"	layout (location = 1) out vec4 g_N_dir;							\n"
-		"	layout (location = 2) out vec4 g_RMEC;							\n"
-		"	layout (location = 3) out vec4 g_lmap;							\n"
-
-		"	uniform float u_C;												\n"
-
-		"	layout (binding = 0) uniform sampler2D Tx;						\n"
-		"	layout (binding = 1) uniform sampler2D Tx_lmap;					\n"
-		"	layout (binding = 2) uniform sampler2D Tx_nmap;					\n"
-
-		NORMAL_FUNC_2D
-
-		"	void main()														\n"
-		"	{																\n"
-		"		g_albedo = texture(Tx, UV);									\n"
-		"		g_N_dir = vec4(map_normal(Tx_nmap, UV, moved_TB), 1.0);		\n"
-		"		g_RMEC = vec4(vec3(RMEC), max(RMEC[3], u_C));				\n"
-		"		g_lmap = texture(Tx_lmap, UV);								\n"
-		"	}																\n"
-		;
-}
-
-const char* const kiwi::source::deferred_2d_normal_mRMEC::vertex_shader() noexcept
+const char* const kiwi::source::deferred_2d_normal::vertex_shader() noexcept
 {
 	return
 		"	#version 430 core												\n"
@@ -652,7 +377,7 @@ const char* const kiwi::source::deferred_2d_normal_mRMEC::vertex_shader() noexce
 		"	}																\n"
 		;
 }
-const char* const kiwi::source::deferred_2d_normal_mRMEC::fragment_shader() noexcept
+const char* const kiwi::source::deferred_2d_normal::fragment_shader() noexcept
 {
 	return
 		"	#version 430 core												\n"

@@ -252,6 +252,36 @@ namespace kiwi
 		GLfloat m_XYZ[3] = { static_cast<GLfloat>(0), static_cast<GLfloat>(0), static_cast<GLfloat>(0) };
 	};
 
+	class UV
+	{
+
+	public:
+
+		UV(GLfloat U, GLfloat V) noexcept;
+
+		UV() = default;
+		UV(const kiwi::UV&) = default;
+		kiwi::UV& operator=(const kiwi::UV&) = default;
+		UV(kiwi::UV&&) = default;
+		kiwi::UV& operator=(kiwi::UV&&) = default;
+		~UV() = default;
+
+		GLfloat& operator[](std::size_t offset) noexcept;
+		const GLfloat& operator[](std::size_t offset) const noexcept;
+
+		GLfloat& U() noexcept;
+		const GLfloat& U() const noexcept;
+		GLfloat& V() noexcept;
+		const GLfloat& V() const noexcept;
+
+		GLfloat* data() noexcept;
+		const GLfloat* data() const noexcept;
+
+	private:
+
+		GLfloat m_UV[2] = { static_cast<GLfloat>(0), static_cast<GLfloat>(0) };
+	};
+
 	class RMEC
 	{
 

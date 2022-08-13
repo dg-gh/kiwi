@@ -26,7 +26,7 @@ namespace kiwi
 
 		kiwi::glyph_3d& use_default_atlas();
 		kiwi::glyph_3d& set_atlas(const kiwi::texture_buffer* const atlas_texture_ptr, std::function<void(const int, const int, GLfloat* ptr)> atlas_function,
-			GLfloat atlas_tile_width, GLfloat atlas_tile_height);
+			const kiwi::UV& UV_size);
 		kiwi::glyph_3d& set_atlas_texture(const kiwi::texture_buffer* const atlas_texture_ptr);
 		const kiwi::texture_buffer* get_atlas_texture() const noexcept;
 

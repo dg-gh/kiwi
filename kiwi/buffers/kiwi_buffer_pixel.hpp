@@ -5,7 +5,11 @@
 
 namespace kiwi
 {
-	enum class pixel_buffer_type { texture_2d, cubemap };
+	enum class pixel_buffer_type {
+		texture_2d,
+		texture_array_2d,
+		cubemap
+	};
 
 	class pixel_buffer
 	{

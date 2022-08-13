@@ -151,7 +151,7 @@ kiwi::texture_buffer& kiwi::texture_buffer::load(const unsigned char* const text
 	GLsizei _size = static_cast<GLsizei>(m_width * m_height);
 	GLint _color_format;
 	GLint _internal_format;
-	GLint _mapping;
+	GLint _mapping_mag;
 	GLint _mapping_min;
 	GLint _borders;
 	bool mipmap = false;
@@ -167,12 +167,13 @@ kiwi::texture_buffer& kiwi::texture_buffer::load(const unsigned char* const text
 
 	switch (mapping)
 	{
-	case kiwi::texture_mapping::nearest: _mapping = GL_NEAREST; _mapping_min = GL_NEAREST; break;
-	case kiwi::texture_mapping::linear: _mapping = GL_LINEAR; _mapping_min = GL_LINEAR; break;
-	case kiwi::texture_mapping::nearest_mipmap_nearest: _mapping = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_NEAREST; mipmap = true; break;
-	case kiwi::texture_mapping::linear_mipmap_nearest: _mapping = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_NEAREST; mipmap = true; break;
-	case kiwi::texture_mapping::nearest_mipmap_linear: _mapping = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_LINEAR; mipmap = true; break;
-	case kiwi::texture_mapping::linear_mipmap_linear: _mapping = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_LINEAR; mipmap = true; break;
+	case kiwi::texture_mapping::nearest: _mapping_mag = GL_NEAREST; _mapping_min = GL_NEAREST; break;
+	case kiwi::texture_mapping::linear: _mapping_mag = GL_LINEAR; _mapping_min = GL_LINEAR; break;
+	case kiwi::texture_mapping::nearest_mipmap_nearest: _mapping_mag = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_NEAREST; mipmap = true; break;
+	case kiwi::texture_mapping::linear_mipmap_nearest: _mapping_mag = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_NEAREST; mipmap = true; break;
+	case kiwi::texture_mapping::nearest_mipmap_linear: _mapping_mag = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_LINEAR; mipmap = true; break;
+	case kiwi::texture_mapping::linear_mipmap_linear: _mapping_mag = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_LINEAR; mipmap = true; break;
+	default: _mapping_mag = GL_NEAREST; _mapping_min = GL_NEAREST; break;
 	}
 
 	switch (borders)
@@ -181,6 +182,7 @@ kiwi::texture_buffer& kiwi::texture_buffer::load(const unsigned char* const text
 	case kiwi::texture_borders::repeat_mirrored: _borders = GL_MIRRORED_REPEAT; break;
 	case kiwi::texture_borders::clamp: _borders = GL_CLAMP_TO_EDGE; break;
 	case kiwi::texture_borders::pad: _borders = GL_CLAMP_TO_BORDER; break;
+	default: _borders = GL_CLAMP_TO_BORDER; break;
 	}
 
 	if ((_size <= m_current_size) && (m_format == kiwi::texture_format::u8))
@@ -196,7 +198,7 @@ kiwi::texture_buffer& kiwi::texture_buffer::load(const unsigned char* const text
 
 	m_sampling = GL_TEXTURE_2D;
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, _mapping);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, _mapping_mag);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, _mapping_min);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, _borders);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, _borders);
@@ -234,7 +236,7 @@ kiwi::texture_buffer& kiwi::texture_buffer::load_u8(const unsigned char* const t
 	GLsizei _size = static_cast<GLsizei>(m_width * m_height);
 	GLint _color_format;
 	GLint _internal_format;
-	GLint _mapping;
+	GLint _mapping_mag;
 	GLint _mapping_min;
 	GLint _borders;
 	bool mipmap = false;
@@ -250,12 +252,13 @@ kiwi::texture_buffer& kiwi::texture_buffer::load_u8(const unsigned char* const t
 
 	switch (mapping)
 	{
-	case kiwi::texture_mapping::nearest: _mapping = GL_NEAREST; _mapping_min = GL_NEAREST; break;
-	case kiwi::texture_mapping::linear: _mapping = GL_LINEAR; _mapping_min = GL_LINEAR; break;
-	case kiwi::texture_mapping::nearest_mipmap_nearest: _mapping = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_NEAREST; mipmap = true; break;
-	case kiwi::texture_mapping::linear_mipmap_nearest: _mapping = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_NEAREST; mipmap = true; break;
-	case kiwi::texture_mapping::nearest_mipmap_linear: _mapping = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_LINEAR; mipmap = true; break;
-	case kiwi::texture_mapping::linear_mipmap_linear: _mapping = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_LINEAR; mipmap = true; break;
+	case kiwi::texture_mapping::nearest: _mapping_mag = GL_NEAREST; _mapping_min = GL_NEAREST; break;
+	case kiwi::texture_mapping::linear: _mapping_mag = GL_LINEAR; _mapping_min = GL_LINEAR; break;
+	case kiwi::texture_mapping::nearest_mipmap_nearest: _mapping_mag = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_NEAREST; mipmap = true; break;
+	case kiwi::texture_mapping::linear_mipmap_nearest: _mapping_mag = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_NEAREST; mipmap = true; break;
+	case kiwi::texture_mapping::nearest_mipmap_linear: _mapping_mag = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_LINEAR; mipmap = true; break;
+	case kiwi::texture_mapping::linear_mipmap_linear: _mapping_mag = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_LINEAR; mipmap = true; break;
+	default: _mapping_mag = GL_NEAREST; _mapping_min = GL_NEAREST; break;
 	}
 
 	switch (borders)
@@ -264,6 +267,7 @@ kiwi::texture_buffer& kiwi::texture_buffer::load_u8(const unsigned char* const t
 	case kiwi::texture_borders::repeat_mirrored: _borders = GL_MIRRORED_REPEAT; break;
 	case kiwi::texture_borders::clamp: _borders = GL_CLAMP_TO_EDGE; break;
 	case kiwi::texture_borders::pad: _borders = GL_CLAMP_TO_BORDER; break;
+	default: _borders = GL_CLAMP_TO_BORDER; break;
 	}
 
 	if ((_size <= m_current_size) && (m_format == kiwi::texture_format::u8))
@@ -279,7 +283,7 @@ kiwi::texture_buffer& kiwi::texture_buffer::load_u8(const unsigned char* const t
 
 	m_sampling = GL_TEXTURE_2D;
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, _mapping);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, _mapping_mag);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, _mapping_min);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, _borders);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, _borders);
@@ -317,7 +321,7 @@ kiwi::texture_buffer& kiwi::texture_buffer::load_u16(const GLushort* const textu
 	GLsizei _size = static_cast<GLsizei>(m_width * m_height);
 	GLint _color_format;
 	GLint _internal_format;
-	GLint _mapping;
+	GLint _mapping_mag;
 	GLint _mapping_min;
 	GLint _borders;
 	bool mipmap = false;
@@ -333,12 +337,13 @@ kiwi::texture_buffer& kiwi::texture_buffer::load_u16(const GLushort* const textu
 
 	switch (mapping)
 	{
-	case kiwi::texture_mapping::nearest: _mapping = GL_NEAREST; _mapping_min = GL_NEAREST; break;
-	case kiwi::texture_mapping::linear: _mapping = GL_LINEAR; _mapping_min = GL_LINEAR; break;
-	case kiwi::texture_mapping::nearest_mipmap_nearest: _mapping = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_NEAREST; mipmap = true; break;
-	case kiwi::texture_mapping::linear_mipmap_nearest: _mapping = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_NEAREST; mipmap = true; break;
-	case kiwi::texture_mapping::nearest_mipmap_linear: _mapping = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_LINEAR; mipmap = true; break;
-	case kiwi::texture_mapping::linear_mipmap_linear: _mapping = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_LINEAR; mipmap = true; break;
+	case kiwi::texture_mapping::nearest: _mapping_mag = GL_NEAREST; _mapping_min = GL_NEAREST; break;
+	case kiwi::texture_mapping::linear: _mapping_mag = GL_LINEAR; _mapping_min = GL_LINEAR; break;
+	case kiwi::texture_mapping::nearest_mipmap_nearest: _mapping_mag = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_NEAREST; mipmap = true; break;
+	case kiwi::texture_mapping::linear_mipmap_nearest: _mapping_mag = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_NEAREST; mipmap = true; break;
+	case kiwi::texture_mapping::nearest_mipmap_linear: _mapping_mag = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_LINEAR; mipmap = true; break;
+	case kiwi::texture_mapping::linear_mipmap_linear: _mapping_mag = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_LINEAR; mipmap = true; break;
+	default: _mapping_mag = GL_NEAREST; _mapping_min = GL_NEAREST; break;
 	}
 
 	switch (borders)
@@ -347,6 +352,7 @@ kiwi::texture_buffer& kiwi::texture_buffer::load_u16(const GLushort* const textu
 	case kiwi::texture_borders::repeat_mirrored: _borders = GL_MIRRORED_REPEAT; break;
 	case kiwi::texture_borders::clamp: _borders = GL_CLAMP_TO_EDGE; break;
 	case kiwi::texture_borders::pad: _borders = GL_CLAMP_TO_BORDER; break;
+	default: _borders = GL_CLAMP_TO_BORDER; break;
 	}
 
 	if ((_size <= m_current_size) && (m_format == kiwi::texture_format::u16))
@@ -362,7 +368,7 @@ kiwi::texture_buffer& kiwi::texture_buffer::load_u16(const GLushort* const textu
 
 	m_sampling = GL_TEXTURE_2D;
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, _mapping);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, _mapping_mag);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, _mapping_min);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, _borders);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, _borders);
@@ -400,7 +406,7 @@ kiwi::texture_buffer& kiwi::texture_buffer::load_f32(const GLfloat* const textur
 	GLsizei _size = static_cast<GLsizei>(m_width * m_height);
 	GLint _color_format;
 	GLint _internal_format;
-	GLint _mapping;
+	GLint _mapping_mag;
 	GLint _mapping_min;
 	GLint _borders;
 	bool mipmap = false;
@@ -416,12 +422,13 @@ kiwi::texture_buffer& kiwi::texture_buffer::load_f32(const GLfloat* const textur
 
 	switch (mapping)
 	{
-	case kiwi::texture_mapping::nearest: _mapping = GL_NEAREST; _mapping_min = GL_NEAREST; break;
-	case kiwi::texture_mapping::linear: _mapping = GL_LINEAR; _mapping_min = GL_LINEAR; break;
-	case kiwi::texture_mapping::nearest_mipmap_nearest: _mapping = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_NEAREST; mipmap = true; break;
-	case kiwi::texture_mapping::linear_mipmap_nearest: _mapping = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_NEAREST; mipmap = true; break;
-	case kiwi::texture_mapping::nearest_mipmap_linear: _mapping = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_LINEAR; mipmap = true; break;
-	case kiwi::texture_mapping::linear_mipmap_linear: _mapping = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_LINEAR; mipmap = true; break;
+	case kiwi::texture_mapping::nearest: _mapping_mag = GL_NEAREST; _mapping_min = GL_NEAREST; break;
+	case kiwi::texture_mapping::linear: _mapping_mag = GL_LINEAR; _mapping_min = GL_LINEAR; break;
+	case kiwi::texture_mapping::nearest_mipmap_nearest: _mapping_mag = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_NEAREST; mipmap = true; break;
+	case kiwi::texture_mapping::linear_mipmap_nearest: _mapping_mag = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_NEAREST; mipmap = true; break;
+	case kiwi::texture_mapping::nearest_mipmap_linear: _mapping_mag = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_LINEAR; mipmap = true; break;
+	case kiwi::texture_mapping::linear_mipmap_linear: _mapping_mag = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_LINEAR; mipmap = true; break;
+	default: _mapping_mag = GL_NEAREST; _mapping_min = GL_NEAREST; break;
 	}
 
 	switch (borders)
@@ -430,6 +437,7 @@ kiwi::texture_buffer& kiwi::texture_buffer::load_f32(const GLfloat* const textur
 	case kiwi::texture_borders::repeat_mirrored: _borders = GL_MIRRORED_REPEAT; break;
 	case kiwi::texture_borders::clamp: _borders = GL_CLAMP_TO_EDGE; break;
 	case kiwi::texture_borders::pad: _borders = GL_CLAMP_TO_BORDER; break;
+	default: _borders = GL_CLAMP_TO_BORDER; break;
 	}
 
 	if ((_size <= m_current_size) && (m_format == kiwi::texture_format::f32))
@@ -445,7 +453,7 @@ kiwi::texture_buffer& kiwi::texture_buffer::load_f32(const GLfloat* const textur
 
 	m_sampling = GL_TEXTURE_2D;
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, _mapping);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, _mapping_mag);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, _mapping_min);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, _borders);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, _borders);
@@ -484,7 +492,7 @@ kiwi::texture_buffer& kiwi::texture_buffer::load_u8u(const unsigned char* const 
 	GLsizei _size = static_cast<GLsizei>(m_width * m_height);
 	GLint _color_format;
 	GLint _internal_format;
-	GLint _mapping;
+	GLint _mapping_mag;
 	GLint _mapping_min;
 	GLint _borders;
 	bool mipmap = false;
@@ -500,12 +508,13 @@ kiwi::texture_buffer& kiwi::texture_buffer::load_u8u(const unsigned char* const 
 
 	switch (mapping)
 	{
-	case kiwi::texture_mapping::nearest: _mapping = GL_NEAREST; _mapping_min = GL_NEAREST; break;
-	case kiwi::texture_mapping::linear: _mapping = GL_LINEAR; _mapping_min = GL_LINEAR; break;
-	case kiwi::texture_mapping::nearest_mipmap_nearest: _mapping = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_NEAREST; mipmap = true; break;
-	case kiwi::texture_mapping::linear_mipmap_nearest: _mapping = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_NEAREST; mipmap = true; break;
-	case kiwi::texture_mapping::nearest_mipmap_linear: _mapping = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_LINEAR; mipmap = true; break;
-	case kiwi::texture_mapping::linear_mipmap_linear: _mapping = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_LINEAR; mipmap = true; break;
+	case kiwi::texture_mapping::nearest: _mapping_mag = GL_NEAREST; _mapping_min = GL_NEAREST; break;
+	case kiwi::texture_mapping::linear: _mapping_mag = GL_LINEAR; _mapping_min = GL_LINEAR; break;
+	case kiwi::texture_mapping::nearest_mipmap_nearest: _mapping_mag = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_NEAREST; mipmap = true; break;
+	case kiwi::texture_mapping::linear_mipmap_nearest: _mapping_mag = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_NEAREST; mipmap = true; break;
+	case kiwi::texture_mapping::nearest_mipmap_linear: _mapping_mag = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_LINEAR; mipmap = true; break;
+	case kiwi::texture_mapping::linear_mipmap_linear: _mapping_mag = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_LINEAR; mipmap = true; break;
+	default: _mapping_mag = GL_NEAREST; _mapping_min = GL_NEAREST; break;
 	}
 
 	switch (borders)
@@ -514,6 +523,7 @@ kiwi::texture_buffer& kiwi::texture_buffer::load_u8u(const unsigned char* const 
 	case kiwi::texture_borders::repeat_mirrored: _borders = GL_MIRRORED_REPEAT; break;
 	case kiwi::texture_borders::clamp: _borders = GL_CLAMP_TO_EDGE; break;
 	case kiwi::texture_borders::pad: _borders = GL_CLAMP_TO_BORDER; break;
+	default: _borders = GL_CLAMP_TO_BORDER; break;
 	}
 
 	if ((_size <= m_current_size) && (m_format == kiwi::texture_format::u8u))
@@ -529,7 +539,7 @@ kiwi::texture_buffer& kiwi::texture_buffer::load_u8u(const unsigned char* const 
 
 	m_sampling = GL_TEXTURE_2D;
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, _mapping);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, _mapping_mag);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, _mapping_min);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, _borders);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, _borders);
@@ -567,7 +577,7 @@ kiwi::texture_buffer& kiwi::texture_buffer::load_u16u(const GLushort* const text
 	GLsizei _size = static_cast<GLsizei>(m_width * m_height);
 	GLint _color_format;
 	GLint _internal_format;
-	GLint _mapping;
+	GLint _mapping_mag;
 	GLint _mapping_min;
 	GLint _borders;
 	bool mipmap = false;
@@ -583,12 +593,13 @@ kiwi::texture_buffer& kiwi::texture_buffer::load_u16u(const GLushort* const text
 
 	switch (mapping)
 	{
-	case kiwi::texture_mapping::nearest: _mapping = GL_NEAREST; _mapping_min = GL_NEAREST; break;
-	case kiwi::texture_mapping::linear: _mapping = GL_LINEAR; _mapping_min = GL_LINEAR; break;
-	case kiwi::texture_mapping::nearest_mipmap_nearest: _mapping = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_NEAREST; mipmap = true; break;
-	case kiwi::texture_mapping::linear_mipmap_nearest: _mapping = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_NEAREST; mipmap = true; break;
-	case kiwi::texture_mapping::nearest_mipmap_linear: _mapping = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_LINEAR; mipmap = true; break;
-	case kiwi::texture_mapping::linear_mipmap_linear: _mapping = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_LINEAR; mipmap = true; break;
+	case kiwi::texture_mapping::nearest: _mapping_mag = GL_NEAREST; _mapping_min = GL_NEAREST; break;
+	case kiwi::texture_mapping::linear: _mapping_mag = GL_LINEAR; _mapping_min = GL_LINEAR; break;
+	case kiwi::texture_mapping::nearest_mipmap_nearest: _mapping_mag = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_NEAREST; mipmap = true; break;
+	case kiwi::texture_mapping::linear_mipmap_nearest: _mapping_mag = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_NEAREST; mipmap = true; break;
+	case kiwi::texture_mapping::nearest_mipmap_linear: _mapping_mag = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_LINEAR; mipmap = true; break;
+	case kiwi::texture_mapping::linear_mipmap_linear: _mapping_mag = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_LINEAR; mipmap = true; break;
+	default: _mapping_mag = GL_NEAREST; _mapping_min = GL_NEAREST; break;
 	}
 
 	switch (borders)
@@ -597,6 +608,7 @@ kiwi::texture_buffer& kiwi::texture_buffer::load_u16u(const GLushort* const text
 	case kiwi::texture_borders::repeat_mirrored: _borders = GL_MIRRORED_REPEAT; break;
 	case kiwi::texture_borders::clamp: _borders = GL_CLAMP_TO_EDGE; break;
 	case kiwi::texture_borders::pad: _borders = GL_CLAMP_TO_BORDER; break;
+	default: _borders = GL_CLAMP_TO_BORDER; break;
 	}
 
 	if ((_size <= m_current_size) && (m_format == kiwi::texture_format::u16u))
@@ -612,7 +624,7 @@ kiwi::texture_buffer& kiwi::texture_buffer::load_u16u(const GLushort* const text
 
 	m_sampling = GL_TEXTURE_2D;
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, _mapping);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, _mapping_mag);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, _mapping_min);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, _borders);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, _borders);
@@ -650,7 +662,7 @@ kiwi::texture_buffer& kiwi::texture_buffer::load_u32u(const GLuint* const textur
 	GLsizei _size = static_cast<GLsizei>(m_width * m_height);
 	GLint _color_format;
 	GLint _internal_format;
-	GLint _mapping;
+	GLint _mapping_mag;
 	GLint _mapping_min;
 	GLint _borders;
 	bool mipmap = false;
@@ -666,12 +678,13 @@ kiwi::texture_buffer& kiwi::texture_buffer::load_u32u(const GLuint* const textur
 
 	switch (mapping)
 	{
-	case kiwi::texture_mapping::nearest: _mapping = GL_NEAREST; _mapping_min = GL_NEAREST; break;
-	case kiwi::texture_mapping::linear: _mapping = GL_LINEAR; _mapping_min = GL_LINEAR; break;
-	case kiwi::texture_mapping::nearest_mipmap_nearest: _mapping = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_NEAREST; mipmap = true; break;
-	case kiwi::texture_mapping::linear_mipmap_nearest: _mapping = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_NEAREST; mipmap = true; break;
-	case kiwi::texture_mapping::nearest_mipmap_linear: _mapping = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_LINEAR; mipmap = true; break;
-	case kiwi::texture_mapping::linear_mipmap_linear: _mapping = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_LINEAR; mipmap = true; break;
+	case kiwi::texture_mapping::nearest: _mapping_mag = GL_NEAREST; _mapping_min = GL_NEAREST; break;
+	case kiwi::texture_mapping::linear: _mapping_mag = GL_LINEAR; _mapping_min = GL_LINEAR; break;
+	case kiwi::texture_mapping::nearest_mipmap_nearest: _mapping_mag = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_NEAREST; mipmap = true; break;
+	case kiwi::texture_mapping::linear_mipmap_nearest: _mapping_mag = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_NEAREST; mipmap = true; break;
+	case kiwi::texture_mapping::nearest_mipmap_linear: _mapping_mag = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_LINEAR; mipmap = true; break;
+	case kiwi::texture_mapping::linear_mipmap_linear: _mapping_mag = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_LINEAR; mipmap = true; break;
+	default: _mapping_mag = GL_NEAREST; _mapping_min = GL_NEAREST; break;
 	}
 
 	switch (borders)
@@ -680,6 +693,7 @@ kiwi::texture_buffer& kiwi::texture_buffer::load_u32u(const GLuint* const textur
 	case kiwi::texture_borders::repeat_mirrored: _borders = GL_MIRRORED_REPEAT; break;
 	case kiwi::texture_borders::clamp: _borders = GL_CLAMP_TO_EDGE; break;
 	case kiwi::texture_borders::pad: _borders = GL_CLAMP_TO_BORDER; break;
+	default: _borders = GL_CLAMP_TO_BORDER; break;
 	}
 
 	if ((_size <= m_current_size) && (m_format == kiwi::texture_format::u32u))
@@ -695,7 +709,7 @@ kiwi::texture_buffer& kiwi::texture_buffer::load_u32u(const GLuint* const textur
 
 	m_sampling = GL_TEXTURE_2D;
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, _mapping);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, _mapping_mag);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, _mapping_min);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, _borders);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, _borders);
@@ -734,7 +748,7 @@ kiwi::texture_buffer& kiwi::texture_buffer::load_i8u(const char* const texture_d
 	GLsizei _size = static_cast<GLsizei>(m_width * m_height);
 	GLint _color_format;
 	GLint _internal_format;
-	GLint _mapping;
+	GLint _mapping_mag;
 	GLint _mapping_min;
 	GLint _borders;
 	bool mipmap = false;
@@ -750,12 +764,13 @@ kiwi::texture_buffer& kiwi::texture_buffer::load_i8u(const char* const texture_d
 
 	switch (mapping)
 	{
-	case kiwi::texture_mapping::nearest: _mapping = GL_NEAREST; _mapping_min = GL_NEAREST; break;
-	case kiwi::texture_mapping::linear: _mapping = GL_LINEAR; _mapping_min = GL_LINEAR; break;
-	case kiwi::texture_mapping::nearest_mipmap_nearest: _mapping = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_NEAREST; mipmap = true; break;
-	case kiwi::texture_mapping::linear_mipmap_nearest: _mapping = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_NEAREST; mipmap = true; break;
-	case kiwi::texture_mapping::nearest_mipmap_linear: _mapping = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_LINEAR; mipmap = true; break;
-	case kiwi::texture_mapping::linear_mipmap_linear: _mapping = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_LINEAR; mipmap = true; break;
+	case kiwi::texture_mapping::nearest: _mapping_mag = GL_NEAREST; _mapping_min = GL_NEAREST; break;
+	case kiwi::texture_mapping::linear: _mapping_mag = GL_LINEAR; _mapping_min = GL_LINEAR; break;
+	case kiwi::texture_mapping::nearest_mipmap_nearest: _mapping_mag = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_NEAREST; mipmap = true; break;
+	case kiwi::texture_mapping::linear_mipmap_nearest: _mapping_mag = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_NEAREST; mipmap = true; break;
+	case kiwi::texture_mapping::nearest_mipmap_linear: _mapping_mag = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_LINEAR; mipmap = true; break;
+	case kiwi::texture_mapping::linear_mipmap_linear: _mapping_mag = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_LINEAR; mipmap = true; break;
+	default: _mapping_mag = GL_NEAREST; _mapping_min = GL_NEAREST; break;
 	}
 
 	switch (borders)
@@ -764,6 +779,7 @@ kiwi::texture_buffer& kiwi::texture_buffer::load_i8u(const char* const texture_d
 	case kiwi::texture_borders::repeat_mirrored: _borders = GL_MIRRORED_REPEAT; break;
 	case kiwi::texture_borders::clamp: _borders = GL_CLAMP_TO_EDGE; break;
 	case kiwi::texture_borders::pad: _borders = GL_CLAMP_TO_BORDER; break;
+	default: _borders = GL_REPEAT; break;
 	}
 
 	if ((_size <= m_current_size) && (m_format == kiwi::texture_format::i8u))
@@ -779,7 +795,7 @@ kiwi::texture_buffer& kiwi::texture_buffer::load_i8u(const char* const texture_d
 
 	m_sampling = GL_TEXTURE_2D;
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, _mapping);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, _mapping_mag);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, _mapping_min);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, _borders);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, _borders);
@@ -817,7 +833,7 @@ kiwi::texture_buffer& kiwi::texture_buffer::load_i16u(const GLshort* const textu
 	GLsizei _size = static_cast<GLsizei>(m_width * m_height);
 	GLint _color_format;
 	GLint _internal_format;
-	GLint _mapping;
+	GLint _mapping_mag;
 	GLint _mapping_min;
 	GLint _borders;
 	bool mipmap = false;
@@ -833,12 +849,13 @@ kiwi::texture_buffer& kiwi::texture_buffer::load_i16u(const GLshort* const textu
 
 	switch (mapping)
 	{
-	case kiwi::texture_mapping::nearest: _mapping = GL_NEAREST; _mapping_min = GL_NEAREST; break;
-	case kiwi::texture_mapping::linear: _mapping = GL_LINEAR; _mapping_min = GL_LINEAR; break;
-	case kiwi::texture_mapping::nearest_mipmap_nearest: _mapping = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_NEAREST; mipmap = true; break;
-	case kiwi::texture_mapping::linear_mipmap_nearest: _mapping = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_NEAREST; mipmap = true; break;
-	case kiwi::texture_mapping::nearest_mipmap_linear: _mapping = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_LINEAR; mipmap = true; break;
-	case kiwi::texture_mapping::linear_mipmap_linear: _mapping = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_LINEAR; mipmap = true; break;
+	case kiwi::texture_mapping::nearest: _mapping_mag = GL_NEAREST; _mapping_min = GL_NEAREST; break;
+	case kiwi::texture_mapping::linear: _mapping_mag = GL_LINEAR; _mapping_min = GL_LINEAR; break;
+	case kiwi::texture_mapping::nearest_mipmap_nearest: _mapping_mag = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_NEAREST; mipmap = true; break;
+	case kiwi::texture_mapping::linear_mipmap_nearest: _mapping_mag = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_NEAREST; mipmap = true; break;
+	case kiwi::texture_mapping::nearest_mipmap_linear: _mapping_mag = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_LINEAR; mipmap = true; break;
+	case kiwi::texture_mapping::linear_mipmap_linear: _mapping_mag = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_LINEAR; mipmap = true; break;
+	default: _mapping_mag = GL_NEAREST; _mapping_min = GL_NEAREST; break;
 	}
 
 	switch (borders)
@@ -847,6 +864,7 @@ kiwi::texture_buffer& kiwi::texture_buffer::load_i16u(const GLshort* const textu
 	case kiwi::texture_borders::repeat_mirrored: _borders = GL_MIRRORED_REPEAT; break;
 	case kiwi::texture_borders::clamp: _borders = GL_CLAMP_TO_EDGE; break;
 	case kiwi::texture_borders::pad: _borders = GL_CLAMP_TO_BORDER; break;
+	default: _borders = GL_CLAMP_TO_BORDER; break;
 	}
 
 	if ((_size <= m_current_size) && (m_format == kiwi::texture_format::i16u))
@@ -862,7 +880,7 @@ kiwi::texture_buffer& kiwi::texture_buffer::load_i16u(const GLshort* const textu
 
 	m_sampling = GL_TEXTURE_2D;
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, _mapping);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, _mapping_mag);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, _mapping_min);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, _borders);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, _borders);
@@ -900,7 +918,7 @@ kiwi::texture_buffer& kiwi::texture_buffer::load_i32u(const GLint* const texture
 	GLsizei _size = static_cast<GLsizei>(m_width * m_height);
 	GLint _color_format;
 	GLint _internal_format;
-	GLint _mapping;
+	GLint _mapping_mag;
 	GLint _mapping_min;
 	GLint _borders;
 	bool mipmap = false;
@@ -916,12 +934,13 @@ kiwi::texture_buffer& kiwi::texture_buffer::load_i32u(const GLint* const texture
 
 	switch (mapping)
 	{
-	case kiwi::texture_mapping::nearest: _mapping = GL_NEAREST; _mapping_min = GL_NEAREST; break;
-	case kiwi::texture_mapping::linear: _mapping = GL_LINEAR; _mapping_min = GL_LINEAR; break;
-	case kiwi::texture_mapping::nearest_mipmap_nearest: _mapping = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_NEAREST; mipmap = true; break;
-	case kiwi::texture_mapping::linear_mipmap_nearest: _mapping = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_NEAREST; mipmap = true; break;
-	case kiwi::texture_mapping::nearest_mipmap_linear: _mapping = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_LINEAR; mipmap = true; break;
-	case kiwi::texture_mapping::linear_mipmap_linear: _mapping = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_LINEAR; mipmap = true; break;
+	case kiwi::texture_mapping::nearest: _mapping_mag = GL_NEAREST; _mapping_min = GL_NEAREST; break;
+	case kiwi::texture_mapping::linear: _mapping_mag = GL_LINEAR; _mapping_min = GL_LINEAR; break;
+	case kiwi::texture_mapping::nearest_mipmap_nearest: _mapping_mag = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_NEAREST; mipmap = true; break;
+	case kiwi::texture_mapping::linear_mipmap_nearest: _mapping_mag = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_NEAREST; mipmap = true; break;
+	case kiwi::texture_mapping::nearest_mipmap_linear: _mapping_mag = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_LINEAR; mipmap = true; break;
+	case kiwi::texture_mapping::linear_mipmap_linear: _mapping_mag = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_LINEAR; mipmap = true; break;
+	default: _mapping_mag = GL_NEAREST; _mapping_min = GL_NEAREST; break;
 	}
 
 	switch (borders)
@@ -930,6 +949,7 @@ kiwi::texture_buffer& kiwi::texture_buffer::load_i32u(const GLint* const texture
 	case kiwi::texture_borders::repeat_mirrored: _borders = GL_MIRRORED_REPEAT; break;
 	case kiwi::texture_borders::clamp: _borders = GL_CLAMP_TO_EDGE; break;
 	case kiwi::texture_borders::pad: _borders = GL_CLAMP_TO_BORDER; break;
+	default: _borders = GL_CLAMP_TO_BORDER; break;
 	}
 
 	if ((_size <= m_current_size) && (m_format == kiwi::texture_format::i32u))
@@ -945,7 +965,7 @@ kiwi::texture_buffer& kiwi::texture_buffer::load_i32u(const GLint* const texture
 
 	m_sampling = GL_TEXTURE_2D;
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, _mapping);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, _mapping_mag);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, _mapping_min);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, _borders);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, _borders);
@@ -986,7 +1006,7 @@ kiwi::texture_buffer& kiwi::texture_buffer::allocate(kiwi::texture_format format
 	GLenum _type;
 	GLenum _color_format;
 	GLint _internal_format;
-	GLint _mapping;
+	GLint _mapping_mag;
 	GLint _mapping_min;
 	GLint _borders;
 	bool mipmap = false;
@@ -995,10 +1015,11 @@ kiwi::texture_buffer& kiwi::texture_buffer::allocate(kiwi::texture_format format
 
 	switch (mapping)
 	{
-	case kiwi::texture_mapping::nearest: _mapping = GL_NEAREST; _mapping_min = GL_NEAREST; break;
-	case kiwi::texture_mapping::linear: _mapping = GL_LINEAR; _mapping_min = GL_LINEAR; break;
-	case kiwi::texture_mapping::nearest_mipmap_nearest: _mapping = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_NEAREST; break;
-	case kiwi::texture_mapping::linear_mipmap_linear: _mapping = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_LINEAR; break;
+	case kiwi::texture_mapping::nearest: _mapping_mag = GL_NEAREST; _mapping_min = GL_NEAREST; break;
+	case kiwi::texture_mapping::linear: _mapping_mag = GL_LINEAR; _mapping_min = GL_LINEAR; break;
+	case kiwi::texture_mapping::nearest_mipmap_nearest: _mapping_mag = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_NEAREST; break;
+	case kiwi::texture_mapping::linear_mipmap_linear: _mapping_mag = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_LINEAR; break;
+	default: _mapping_mag = GL_NEAREST; _mapping_min = GL_NEAREST; break;
 	}
 
 	switch (borders)
@@ -1007,6 +1028,7 @@ kiwi::texture_buffer& kiwi::texture_buffer::allocate(kiwi::texture_format format
 	case kiwi::texture_borders::repeat_mirrored: _borders = GL_MIRRORED_REPEAT; break;
 	case kiwi::texture_borders::clamp: _borders = GL_CLAMP_TO_EDGE; break;
 	case kiwi::texture_borders::pad: _borders = GL_CLAMP_TO_BORDER; break;
+	default: _borders = GL_CLAMP_TO_BORDER; break;
 	}
 
 	switch (m_sampling)
@@ -1015,7 +1037,7 @@ kiwi::texture_buffer& kiwi::texture_buffer::allocate(kiwi::texture_format format
 	case GL_TEXTURE_2D:
 		glTexImage2D(GL_TEXTURE_2D, 0, _internal_format, static_cast<GLsizei>(m_width), static_cast<GLsizei>(m_height), 0, _color_format, _type, nullptr);
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, _mapping);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, _mapping_mag);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, _mapping_min);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, _borders);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, _borders);
@@ -1023,7 +1045,7 @@ kiwi::texture_buffer& kiwi::texture_buffer::allocate(kiwi::texture_format format
 
 	case GL_TEXTURE_2D_MULTISAMPLE:
 		glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, 4, _color_format, static_cast<GLsizei>(m_width), static_cast<GLsizei>(m_height), GL_TRUE);
-		glTexParameteri(GL_TEXTURE_2D_MULTISAMPLE, GL_TEXTURE_MAG_FILTER, _mapping);
+		glTexParameteri(GL_TEXTURE_2D_MULTISAMPLE, GL_TEXTURE_MAG_FILTER, _mapping_mag);
 		glTexParameteri(GL_TEXTURE_2D_MULTISAMPLE, GL_TEXTURE_MIN_FILTER, _mapping_min);
 		glTexParameteri(GL_TEXTURE_2D_MULTISAMPLE, GL_TEXTURE_WRAP_S, _borders);
 		glTexParameteri(GL_TEXTURE_2D_MULTISAMPLE, GL_TEXTURE_WRAP_T, _borders);

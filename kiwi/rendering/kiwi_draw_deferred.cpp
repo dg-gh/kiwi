@@ -5,27 +5,15 @@
 namespace kiwi
 {
 	class deferred_2d_solid_color;
-	class deferred_2d_color_gradient_sRMEC;
-	class deferred_2d_color_gradient_vRMEC;
-	class deferred_2d_texture_sRMEC;
-	class deferred_2d_texture_vRMEC;
-	class deferred_2d_texture_mRMEC;
-	class deferred_2d_normal_sRMEC;
-	class deferred_2d_normal_vRMEC;
-	class deferred_2d_normal_mRMEC;
+	class deferred_2d_color_gradient;
+	class deferred_2d_texture;
+	class deferred_2d_normal;
 
 	class deferred_3d_solid_color;
-	class deferred_3d_color_gradient_sRMEC;
-	class deferred_3d_color_gradient_vRMEC;
-	class deferred_3d_texture_sRMEC;
-	class deferred_3d_texture_vRMEC;
-	class deferred_3d_texture_mRMEC;
-	class deferred_3d_normal_sRMEC;
-	class deferred_3d_normal_vRMEC;
-	class deferred_3d_normal_mRMEC;
-	class deferred_3d_normal_sRMEC;
-	class deferred_3d_normal_vRMEC;
-	class deferred_3d_normal_mRMEC;
+	class deferred_3d_color_gradient;
+	class deferred_3d_texture;
+	class deferred_3d_normal;
+	class deferred_3d_parallax;
 
 
 	class deferred_2d_solid_color
@@ -44,21 +32,7 @@ namespace kiwi
 		GLint RGB_location = -1;
 	};
 
-	class deferred_2d_color_gradient_sRMEC
-	{
-
-	public:
-
-		bool init() noexcept;
-
-		kiwi::program program;
-
-		GLint mvp_matrix_location = -1;
-
-		GLint RMEC_location = -1;
-	};
-
-	class deferred_2d_color_gradient_vRMEC
+	class deferred_2d_color_gradient
 	{
 
 	public:
@@ -72,21 +46,7 @@ namespace kiwi
 		GLint C_location = -1;
 	};
 
-	class deferred_2d_texture_sRMEC
-	{
-
-	public:
-
-		bool init() noexcept;
-
-		kiwi::program program;
-
-		GLint mvp_matrix_location = -1;
-
-		GLint RMEC_location = -1;
-	};
-
-	class deferred_2d_texture_vRMEC
+	class deferred_2d_texture
 	{
 
 	public:
@@ -100,51 +60,7 @@ namespace kiwi
 		GLint C_location = -1;
 	};
 
-	class deferred_2d_texture_mRMEC
-	{
-
-	public:
-
-		bool init() noexcept;
-
-		kiwi::program program;
-
-		GLint mvp_matrix_location = -1;
-
-		GLint C_location = -1;
-	};
-
-	class deferred_2d_normal_sRMEC
-	{
-
-	public:
-
-		bool init() noexcept;
-
-		kiwi::program program;
-
-		GLint mvp_matrix_location = -1;
-		GLint m_matrix_location = -1;
-
-		GLint RMEC_location = -1;
-	};
-
-	class deferred_2d_normal_vRMEC
-	{
-
-	public:
-
-		bool init() noexcept;
-
-		kiwi::program program;
-
-		GLint mvp_matrix_location = -1;
-		GLint m_matrix_location = -1;
-
-		GLint C_location = -1;
-	};
-
-	class deferred_2d_normal_mRMEC
+	class deferred_2d_normal
 	{
 
 	public:
@@ -179,22 +95,7 @@ namespace kiwi
 		GLint RGB_location = -1;
 	};
 
-	class deferred_3d_color_gradient_sRMEC
-	{
-
-	public:
-
-		bool init() noexcept;
-
-		kiwi::program program;
-
-		GLint mvp_matrix_location = -1;
-		GLint m_matrix_location = -1;
-
-		GLint RMEC_location = -1;
-	};
-
-	class deferred_3d_color_gradient_vRMEC
+	class deferred_3d_color_gradient
 	{
 
 	public:
@@ -209,22 +110,7 @@ namespace kiwi
 		GLint C_location = -1;
 	};
 
-	class deferred_3d_texture_sRMEC
-	{
-
-	public:
-
-		bool init() noexcept;
-
-		kiwi::program program;
-
-		GLint mvp_matrix_location = -1;
-		GLint m_matrix_location = -1;
-
-		GLint RMEC_location = -1;
-	};
-
-	class deferred_3d_texture_vRMEC
+	class deferred_3d_texture
 	{
 
 	public:
@@ -239,7 +125,7 @@ namespace kiwi
 		GLint C_location = -1;
 	};
 
-	class deferred_3d_texture_mRMEC
+	class deferred_3d_normal
 	{
 
 	public:
@@ -254,86 +140,7 @@ namespace kiwi
 		GLint C_location = -1;
 	};
 
-	class deferred_3d_normal_sRMEC
-	{
-
-	public:
-
-		bool init() noexcept;
-
-		kiwi::program program;
-
-		GLint mvp_matrix_location = -1;
-		GLint m_matrix_location = -1;
-
-		GLint RMEC_location = -1;
-	};
-
-	class deferred_3d_normal_vRMEC
-	{
-
-	public:
-
-		bool init() noexcept;
-
-		kiwi::program program;
-
-		GLint mvp_matrix_location = -1;
-		GLint m_matrix_location = -1;
-
-		GLint C_location = -1;
-	};
-
-	class deferred_3d_normal_mRMEC
-	{
-
-	public:
-
-		bool init() noexcept;
-
-		kiwi::program program;
-
-		GLint mvp_matrix_location = -1;
-		GLint m_matrix_location = -1;
-
-		GLint C_location = -1;
-	};
-
-	class deferred_3d_parallax_sRMEC
-	{
-
-	public:
-
-		bool init() noexcept;
-
-		kiwi::program program;
-
-		GLint mvp_matrix_location = -1;
-		GLint m_matrix_location = -1;
-		GLint view_XYZ_location = -1;
-
-		GLint RMEC_location = -1;
-		GLint parallax_shift_location = -1;
-	};
-
-	class deferred_3d_parallax_vRMEC
-	{
-
-	public:
-
-		bool init() noexcept;
-
-		kiwi::program program;
-
-		GLint mvp_matrix_location = -1;
-		GLint m_matrix_location = -1;
-		GLint view_XYZ_location = -1;
-
-		GLint C_location = -1;
-		GLint parallax_shift_location = -1;
-	};
-
-	class deferred_3d_parallax_mRMEC
+	class deferred_3d_parallax
 	{
 
 	public:
@@ -369,37 +176,16 @@ namespace kiwi
 		kiwi::deferred_buffers& operator=(kiwi::deferred_buffers&&) = delete;
 		~deferred_buffers() = default;
 
-		
 		kiwi::deferred_2d_solid_color m_program_solid_color_2d;
+		kiwi::deferred_2d_color_gradient m_program_color_gradient_2d;
+		kiwi::deferred_2d_texture m_program_texture_2d;
+		kiwi::deferred_2d_normal m_program_normal_mRMEC_2d;
 
-		kiwi::deferred_2d_color_gradient_sRMEC m_program_color_gradient_sRMEC_2d;
-		kiwi::deferred_2d_color_gradient_vRMEC m_program_color_gradient_vRMEC_2d;
-
-		kiwi::deferred_2d_texture_sRMEC m_program_texture_sRMEC_2d;
-		kiwi::deferred_2d_texture_vRMEC m_program_texture_vRMEC_2d;
-		kiwi::deferred_2d_texture_mRMEC m_program_texture_mRMEC_2d;
-
-		kiwi::deferred_2d_normal_sRMEC m_program_normal_sRMEC_2d;
-		kiwi::deferred_2d_normal_vRMEC m_program_normal_vRMEC_2d;
-		kiwi::deferred_2d_normal_mRMEC m_program_normal_mRMEC_2d;
-
-		
 		kiwi::deferred_3d_solid_color m_program_solid_color_3d;
-
-		kiwi::deferred_3d_color_gradient_sRMEC m_program_color_gradient_sRMEC_3d;
-		kiwi::deferred_3d_color_gradient_vRMEC m_program_color_gradient_vRMEC_3d;
-
-		kiwi::deferred_3d_texture_sRMEC m_program_texture_sRMEC_3d;
-		kiwi::deferred_3d_texture_vRMEC m_program_texture_vRMEC_3d;
-		kiwi::deferred_3d_texture_mRMEC m_program_texture_mRMEC_3d;
-		
-		kiwi::deferred_3d_normal_sRMEC m_program_normal_sRMEC_3d;
-		kiwi::deferred_3d_normal_vRMEC m_program_normal_vRMEC_3d;
-		kiwi::deferred_3d_normal_mRMEC m_program_normal_mRMEC_3d;
-
-		kiwi::deferred_3d_parallax_sRMEC m_program_parallax_sRMEC_3d;
-		kiwi::deferred_3d_parallax_vRMEC m_program_parallax_vRMEC_3d;
-		kiwi::deferred_3d_parallax_mRMEC m_program_parallax_mRMEC_3d;
+		kiwi::deferred_3d_color_gradient m_program_color_gradient_3d;
+		kiwi::deferred_3d_texture m_program_texture_3d;
+		kiwi::deferred_3d_normal m_program_normal_3d;
+		kiwi::deferred_3d_parallax m_program_parallax_3d;
 
 		GLfloat m_identity_matrix_3d[16] = {
 			GL1, GL0, GL0, GL0,
@@ -451,37 +237,16 @@ bool kiwi::draw_deferred_init()
 
 			kiwi::global_type<kiwi::deferred_buffers> buffers = kiwi::get_global_type<kiwi::deferred_buffers>();
 
-			
 			success &= buffers.m_program_solid_color_2d.init();
-
-			success &= buffers.m_program_color_gradient_sRMEC_2d.init();
-			success &= buffers.m_program_color_gradient_vRMEC_2d.init();
-
-			success &= buffers.m_program_texture_sRMEC_2d.init();
-			success &= buffers.m_program_texture_vRMEC_2d.init();
-			success &= buffers.m_program_texture_mRMEC_2d.init();
-			
-			success &= buffers.m_program_normal_sRMEC_2d.init();
-			success &= buffers.m_program_normal_vRMEC_2d.init();
+			success &= buffers.m_program_color_gradient_2d.init();
+			success &= buffers.m_program_texture_2d.init();
 			success &= buffers.m_program_normal_mRMEC_2d.init();
 
-
 			success &= buffers.m_program_solid_color_3d.init();
-
-			success &= buffers.m_program_color_gradient_sRMEC_3d.init();
-			success &= buffers.m_program_color_gradient_vRMEC_3d.init();
-
-			success &= buffers.m_program_texture_sRMEC_3d.init();
-			success &= buffers.m_program_texture_vRMEC_3d.init();
-			success &= buffers.m_program_texture_mRMEC_3d.init();
-			
-			success &= buffers.m_program_normal_sRMEC_3d.init();
-			success &= buffers.m_program_normal_vRMEC_3d.init();
-			success &= buffers.m_program_normal_mRMEC_3d.init();
-
-			success &= buffers.m_program_parallax_sRMEC_3d.init();
-			success &= buffers.m_program_parallax_vRMEC_3d.init();
-			success &= buffers.m_program_parallax_mRMEC_3d.init();
+			success &= buffers.m_program_color_gradient_3d.init();
+			success &= buffers.m_program_texture_3d.init();
+			success &= buffers.m_program_normal_3d.init();
+			success &= buffers.m_program_parallax_3d.init();
 
 			buffers.init_black_lightmap();
 		}
@@ -536,6 +301,8 @@ kiwi::_load_deferred_3d_proxy kiwi::draw_deferred_3d_with(const GLfloat* const m
 }
 
 
+// 2D
+
 kiwi::_draw_deferred_proxy kiwi::_load_deferred_2d_proxy::using_solid_color(const kiwi::vertex_buffer& vertex_buffer,
 	const kiwi::RGBA& solid_color, const kiwi::RMEC& RMEC) noexcept
 {
@@ -553,22 +320,6 @@ kiwi::_draw_deferred_proxy kiwi::_load_deferred_2d_proxy::using_solid_color(cons
 }
 
 kiwi::_draw_deferred_proxy kiwi::_load_deferred_2d_proxy::using_color_gradient(const kiwi::vertex_buffer& vertex_buffer,
-	const kiwi::vertex_buffer& color_vertex_buffer, const kiwi::RMEC& RMEC) noexcept
-{
-	kiwi::global_type<kiwi::deferred_buffers> buffers = kiwi::get_global_type<kiwi::deferred_buffers>();
-
-	vertex_buffer.to_location(0);
-	color_vertex_buffer.to_location(6);
-
-	buffers.m_program_color_gradient_sRMEC_2d.program.set_uniform_3x3f(buffers.m_program_color_gradient_sRMEC_2d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_4f(buffers.m_program_color_gradient_sRMEC_2d.RMEC_location, RMEC.data());
-
-	kiwi::_draw_deferred_proxy proxy;
-	proxy.m_vertex_count = vertex_buffer.vertex_count();
-	return proxy;
-}
-
-kiwi::_draw_deferred_proxy kiwi::_load_deferred_2d_proxy::using_color_gradient(const kiwi::vertex_buffer& vertex_buffer,
 	const kiwi::vertex_buffer& color_vertex_buffer, const kiwi::vertex_buffer& RMEC_vertex_buffer) noexcept
 {
 	kiwi::global_type<kiwi::deferred_buffers> buffers = kiwi::get_global_type<kiwi::deferred_buffers>();
@@ -577,8 +328,8 @@ kiwi::_draw_deferred_proxy kiwi::_load_deferred_2d_proxy::using_color_gradient(c
 	color_vertex_buffer.to_location(6);
 	RMEC_vertex_buffer.to_location(7);
 
-	buffers.m_program_color_gradient_vRMEC_2d.program.set_uniform_3x3f(buffers.m_program_color_gradient_vRMEC_2d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_1f(buffers.m_program_color_gradient_vRMEC_2d.C_location, static_cast<GLfloat>(1));
+	buffers.m_program_color_gradient_2d.program.set_uniform_3x3f(buffers.m_program_color_gradient_2d.mvp_matrix_location, m_mvp_matrix_ptr)
+		.set_uniform_1f(buffers.m_program_color_gradient_2d.C_location, static_cast<GLfloat>(1));
 
 	kiwi::_draw_deferred_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -594,8 +345,8 @@ kiwi::_draw_deferred_proxy kiwi::_load_deferred_2d_proxy::using_color_gradient(c
 	color_vertex_buffer.to_location(6);
 	RMEC_vertex_buffer.to_location(7);
 
-	buffers.m_program_color_gradient_vRMEC_2d.program.set_uniform_3x3f(buffers.m_program_color_gradient_vRMEC_2d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_1f(buffers.m_program_color_gradient_vRMEC_2d.C_location, static_cast<GLfloat>(color_ceiling));
+	buffers.m_program_color_gradient_2d.program.set_uniform_3x3f(buffers.m_program_color_gradient_2d.mvp_matrix_location, m_mvp_matrix_ptr)
+		.set_uniform_1f(buffers.m_program_color_gradient_2d.C_location, static_cast<GLfloat>(color_ceiling));
 
 	kiwi::_draw_deferred_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -604,132 +355,6 @@ kiwi::_draw_deferred_proxy kiwi::_load_deferred_2d_proxy::using_color_gradient(c
 
 
 // TEXTURE 2D
-
-kiwi::_draw_deferred_proxy kiwi::_load_deferred_2d_proxy::using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer,
-	const kiwi::texture_buffer& texture, const kiwi::RMEC& RMEC) noexcept
-{
-	kiwi::global_type<kiwi::deferred_buffers> buffers = kiwi::get_global_type<kiwi::deferred_buffers>();
-
-	vertex_buffer.to_location(0);
-	UV_buffer.to_location(4);
-	buffers.m_lightmap_black_vertex.to_location(5);
-
-	texture.to_binding(0);
-	buffers.m_lightmap_black.to_binding(3);
-
-	buffers.m_program_texture_sRMEC_2d.program.set_uniform_3x3f(buffers.m_program_texture_sRMEC_2d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_4f(buffers.m_program_texture_sRMEC_2d.RMEC_location, RMEC.data());
-
-	kiwi::_draw_deferred_proxy proxy;
-	proxy.m_vertex_count = vertex_buffer.vertex_count();
-	return proxy;
-}
-
-kiwi::_draw_deferred_proxy kiwi::_load_deferred_2d_proxy::using_texture_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer,
-	const kiwi::texture_buffer& texture, const kiwi::RMEC& RMEC, const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
-{
-	kiwi::global_type<kiwi::deferred_buffers> buffers = kiwi::get_global_type<kiwi::deferred_buffers>();
-
-	vertex_buffer.to_location(0);
-	UV_buffer.to_location(4);
-	lightmap_UV_buffer.to_location(5);
-
-	texture.to_binding(0);
-	lightmap.to_binding(3);
-
-	buffers.m_program_texture_sRMEC_2d.program.set_uniform_3x3f(buffers.m_program_texture_sRMEC_2d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_4f(buffers.m_program_texture_sRMEC_2d.RMEC_location, RMEC.data());
-
-	kiwi::_draw_deferred_proxy proxy;
-	proxy.m_vertex_count = vertex_buffer.vertex_count();
-	return proxy;
-}
-
-kiwi::_draw_deferred_proxy kiwi::_load_deferred_2d_proxy::using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer,
-	const kiwi::texture_buffer& texture, const kiwi::vertex_buffer& RMEC_vertex_buffer) noexcept
-{
-	kiwi::global_type<kiwi::deferred_buffers> buffers = kiwi::get_global_type<kiwi::deferred_buffers>();
-
-	vertex_buffer.to_location(0);
-	UV_buffer.to_location(4);
-	buffers.m_lightmap_black_vertex.to_location(5);
-	RMEC_vertex_buffer.to_location(7);
-
-	texture.to_binding(0);
-	buffers.m_lightmap_black.to_binding(3);
-
-	buffers.m_program_texture_vRMEC_2d.program.set_uniform_3x3f(buffers.m_program_texture_vRMEC_2d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_1f(buffers.m_program_texture_vRMEC_2d.C_location, static_cast<GLfloat>(1));
-
-	kiwi::_draw_deferred_proxy proxy;
-	proxy.m_vertex_count = vertex_buffer.vertex_count();
-	return proxy;
-}
-
-kiwi::_draw_deferred_proxy kiwi::_load_deferred_2d_proxy::using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer,
-	const kiwi::texture_buffer& texture, const kiwi::vertex_buffer& RMEC_vertex_buffer, GLfloat color_ceiling) noexcept
-{
-	kiwi::global_type<kiwi::deferred_buffers> buffers = kiwi::get_global_type<kiwi::deferred_buffers>();
-
-	vertex_buffer.to_location(0);
-	UV_buffer.to_location(4);
-	buffers.m_lightmap_black_vertex.to_location(5);
-	RMEC_vertex_buffer.to_location(7);
-
-	texture.to_binding(0);
-	buffers.m_lightmap_black.to_binding(3);
-
-	buffers.m_program_texture_vRMEC_2d.program.set_uniform_3x3f(buffers.m_program_texture_vRMEC_2d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_1f(buffers.m_program_texture_vRMEC_2d.C_location, static_cast<GLfloat>(color_ceiling));
-
-	kiwi::_draw_deferred_proxy proxy;
-	proxy.m_vertex_count = vertex_buffer.vertex_count();
-	return proxy;
-}
-
-kiwi::_draw_deferred_proxy kiwi::_load_deferred_2d_proxy::using_texture_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer,
-	const kiwi::texture_buffer& texture, const kiwi::vertex_buffer& RMEC_vertex_buffer,
-	const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
-{
-	kiwi::global_type<kiwi::deferred_buffers> buffers = kiwi::get_global_type<kiwi::deferred_buffers>();
-
-	vertex_buffer.to_location(0);
-	UV_buffer.to_location(4);
-	lightmap_UV_buffer.to_location(5);
-	RMEC_vertex_buffer.to_location(7);
-
-	texture.to_binding(0);
-	lightmap.to_binding(3);
-
-	buffers.m_program_texture_vRMEC_2d.program.set_uniform_3x3f(buffers.m_program_texture_vRMEC_2d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_1f(buffers.m_program_texture_vRMEC_2d.C_location, static_cast<GLfloat>(1));
-
-	kiwi::_draw_deferred_proxy proxy;
-	proxy.m_vertex_count = vertex_buffer.vertex_count();
-	return proxy;
-}
-
-kiwi::_draw_deferred_proxy kiwi::_load_deferred_2d_proxy::using_texture_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer,
-	const kiwi::texture_buffer& texture, const kiwi::vertex_buffer& RMEC_vertex_buffer, GLfloat color_ceiling,
-	const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
-{
-	kiwi::global_type<kiwi::deferred_buffers> buffers = kiwi::get_global_type<kiwi::deferred_buffers>();
-
-	vertex_buffer.to_location(0);
-	UV_buffer.to_location(4);
-	lightmap_UV_buffer.to_location(5);
-	RMEC_vertex_buffer.to_location(7);
-
-	texture.to_binding(0);
-	lightmap.to_binding(3);
-
-	buffers.m_program_texture_vRMEC_2d.program.set_uniform_3x3f(buffers.m_program_texture_vRMEC_2d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_1f(buffers.m_program_texture_vRMEC_2d.C_location, static_cast<GLfloat>(color_ceiling));
-
-	kiwi::_draw_deferred_proxy proxy;
-	proxy.m_vertex_count = vertex_buffer.vertex_count();
-	return proxy;
-}
 
 kiwi::_draw_deferred_proxy kiwi::_load_deferred_2d_proxy::using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer,
 	const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer) noexcept
@@ -744,8 +369,8 @@ kiwi::_draw_deferred_proxy kiwi::_load_deferred_2d_proxy::using_texture(const ki
 	buffers.m_lightmap_black.to_binding(1);
 	RMEC_texture_buffer.to_binding(3);
 
-	buffers.m_program_texture_mRMEC_2d.program.set_uniform_3x3f(buffers.m_program_texture_mRMEC_2d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_1f(buffers.m_program_texture_mRMEC_2d.C_location, static_cast<GLfloat>(1));
+	buffers.m_program_texture_2d.program.set_uniform_3x3f(buffers.m_program_texture_2d.mvp_matrix_location, m_mvp_matrix_ptr)
+		.set_uniform_1f(buffers.m_program_texture_2d.C_location, static_cast<GLfloat>(1));
 
 	kiwi::_draw_deferred_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -765,8 +390,8 @@ kiwi::_draw_deferred_proxy kiwi::_load_deferred_2d_proxy::using_texture(const ki
 	buffers.m_lightmap_black.to_binding(1);
 	RMEC_texture_buffer.to_binding(3);
 
-	buffers.m_program_texture_mRMEC_2d.program.set_uniform_3x3f(buffers.m_program_texture_mRMEC_2d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_1f(buffers.m_program_texture_mRMEC_2d.C_location, static_cast<GLfloat>(color_ceiling));
+	buffers.m_program_texture_2d.program.set_uniform_3x3f(buffers.m_program_texture_2d.mvp_matrix_location, m_mvp_matrix_ptr)
+		.set_uniform_1f(buffers.m_program_texture_2d.C_location, static_cast<GLfloat>(color_ceiling));
 
 	kiwi::_draw_deferred_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -787,8 +412,8 @@ kiwi::_draw_deferred_proxy kiwi::_load_deferred_2d_proxy::using_texture_lightmap
 	lightmap.to_binding(1);
 	RMEC_texture_buffer.to_binding(3);
 
-	buffers.m_program_texture_mRMEC_2d.program.set_uniform_3x3f(buffers.m_program_texture_mRMEC_2d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_1f(buffers.m_program_texture_mRMEC_2d.C_location, static_cast<GLfloat>(1));
+	buffers.m_program_texture_2d.program.set_uniform_3x3f(buffers.m_program_texture_2d.mvp_matrix_location, m_mvp_matrix_ptr)
+		.set_uniform_1f(buffers.m_program_texture_2d.C_location, static_cast<GLfloat>(1));
 
 	kiwi::_draw_deferred_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -809,8 +434,8 @@ kiwi::_draw_deferred_proxy kiwi::_load_deferred_2d_proxy::using_texture_lightmap
 	lightmap.to_binding(1);
 	RMEC_texture_buffer.to_binding(3);
 
-	buffers.m_program_texture_mRMEC_2d.program.set_uniform_3x3f(buffers.m_program_texture_mRMEC_2d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_1f(buffers.m_program_texture_mRMEC_2d.C_location, static_cast<GLfloat>(color_ceiling));
+	buffers.m_program_texture_2d.program.set_uniform_3x3f(buffers.m_program_texture_2d.mvp_matrix_location, m_mvp_matrix_ptr)
+		.set_uniform_1f(buffers.m_program_texture_2d.C_location, static_cast<GLfloat>(color_ceiling));
 
 	kiwi::_draw_deferred_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -819,158 +444,6 @@ kiwi::_draw_deferred_proxy kiwi::_load_deferred_2d_proxy::using_texture_lightmap
 
 
 // NORMAL 2D
-
-kiwi::_draw_deferred_proxy kiwi::_load_deferred_2d_proxy::using_normal(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TB_buffer,
-	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& normal_map, const kiwi::RMEC& RMEC) noexcept
-{
-	kiwi::global_type<kiwi::deferred_buffers> buffers = kiwi::get_global_type<kiwi::deferred_buffers>();
-
-	vertex_buffer.to_location(0);
-	TB_buffer.to_location(1, 0, 2);
-	TB_buffer.to_location(2, 2, 2);
-	UV_buffer.to_location(4);
-	buffers.m_lightmap_black_vertex.to_location(5);
-
-	texture.to_binding(0);
-	buffers.m_lightmap_black.to_binding(1);
-	normal_map.to_binding(2);
-
-	buffers.m_program_normal_sRMEC_2d.program.set_uniform_3x3f(buffers.m_program_normal_sRMEC_2d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_3x3f(buffers.m_program_normal_sRMEC_2d.m_matrix_location, m_m_matrix_ptr)
-		.set_uniform_4f(buffers.m_program_normal_sRMEC_2d.RMEC_location, RMEC.data());
-
-	kiwi::_draw_deferred_proxy proxy;
-	proxy.m_vertex_count = vertex_buffer.vertex_count();
-	return proxy;
-}
-
-kiwi::_draw_deferred_proxy kiwi::_load_deferred_2d_proxy::using_normal_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TB_buffer,
-	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& normal_map,
-	const kiwi::RMEC& RMEC, const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
-{
-	kiwi::global_type<kiwi::deferred_buffers> buffers = kiwi::get_global_type<kiwi::deferred_buffers>();
-
-	vertex_buffer.to_location(0);
-	TB_buffer.to_location(1, 0, 2);
-	TB_buffer.to_location(2, 2, 2);
-	UV_buffer.to_location(4);
-	lightmap_UV_buffer.to_location(5);
-
-	texture.to_binding(0);
-	lightmap.to_binding(1);
-	normal_map.to_binding(2);
-
-	buffers.m_program_normal_sRMEC_2d.program.set_uniform_3x3f(buffers.m_program_normal_sRMEC_2d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_3x3f(buffers.m_program_normal_sRMEC_2d.m_matrix_location, m_m_matrix_ptr)
-		.set_uniform_4f(buffers.m_program_normal_sRMEC_2d.RMEC_location, RMEC.data());
-
-	kiwi::_draw_deferred_proxy proxy;
-	proxy.m_vertex_count = vertex_buffer.vertex_count();
-	return proxy;
-}
-
-kiwi::_draw_deferred_proxy kiwi::_load_deferred_2d_proxy::using_normal(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TB_buffer,
-	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& normal_map, const kiwi::vertex_buffer& RMEC_vertex_buffer) noexcept
-{
-	kiwi::global_type<kiwi::deferred_buffers> buffers = kiwi::get_global_type<kiwi::deferred_buffers>();
-
-	vertex_buffer.to_location(0);
-	TB_buffer.to_location(1, 0, 2);
-	TB_buffer.to_location(2, 2, 2);
-	UV_buffer.to_location(4);
-	buffers.m_lightmap_black_vertex.to_location(5);
-	RMEC_vertex_buffer.to_location(7);
-
-	texture.to_binding(0);
-	buffers.m_lightmap_black.to_binding(1);
-	normal_map.to_binding(2);
-
-	buffers.m_program_normal_vRMEC_2d.program.set_uniform_3x3f(buffers.m_program_normal_vRMEC_2d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_3x3f(buffers.m_program_normal_vRMEC_2d.m_matrix_location, m_m_matrix_ptr)
-		.set_uniform_1f(buffers.m_program_normal_vRMEC_2d.C_location, static_cast<GLfloat>(1));
-
-	kiwi::_draw_deferred_proxy proxy;
-	proxy.m_vertex_count = vertex_buffer.vertex_count();
-	return proxy;
-}
-
-kiwi::_draw_deferred_proxy kiwi::_load_deferred_2d_proxy::using_normal(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TB_buffer,
-	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& normal_map,
-	const kiwi::vertex_buffer& RMEC_vertex_buffer, GLfloat color_ceiling) noexcept
-{
-	kiwi::global_type<kiwi::deferred_buffers> buffers = kiwi::get_global_type<kiwi::deferred_buffers>();
-
-	vertex_buffer.to_location(0);
-	TB_buffer.to_location(1, 0, 2);
-	TB_buffer.to_location(2, 2, 2);
-	UV_buffer.to_location(4);
-	buffers.m_lightmap_black_vertex.to_location(5);
-	RMEC_vertex_buffer.to_location(7);
-
-	texture.to_binding(0);
-	buffers.m_lightmap_black.to_binding(1);
-	normal_map.to_binding(2);
-
-	buffers.m_program_normal_vRMEC_2d.program.set_uniform_3x3f(buffers.m_program_normal_vRMEC_2d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_3x3f(buffers.m_program_normal_vRMEC_2d.m_matrix_location, m_m_matrix_ptr)
-		.set_uniform_1f(buffers.m_program_normal_vRMEC_2d.C_location, static_cast<GLfloat>(color_ceiling));
-
-	kiwi::_draw_deferred_proxy proxy;
-	proxy.m_vertex_count = vertex_buffer.vertex_count();
-	return proxy;
-}
-
-kiwi::_draw_deferred_proxy kiwi::_load_deferred_2d_proxy::using_normal_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TB_buffer,
-	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& normal_map, const kiwi::vertex_buffer& RMEC_vertex_buffer,
-	const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
-{
-	kiwi::global_type<kiwi::deferred_buffers> buffers = kiwi::get_global_type<kiwi::deferred_buffers>();
-
-	vertex_buffer.to_location(0);
-	TB_buffer.to_location(1, 0, 2);
-	TB_buffer.to_location(2, 2, 2);
-	UV_buffer.to_location(4);
-	lightmap_UV_buffer.to_location(5);
-	RMEC_vertex_buffer.to_location(7);
-
-	texture.to_binding(0);
-	lightmap.to_binding(1);
-	normal_map.to_binding(2);
-
-	buffers.m_program_normal_vRMEC_2d.program.set_uniform_3x3f(buffers.m_program_normal_vRMEC_2d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_3x3f(buffers.m_program_normal_vRMEC_2d.m_matrix_location, m_m_matrix_ptr)
-		.set_uniform_1f(buffers.m_program_normal_vRMEC_2d.C_location, static_cast<GLfloat>(1));
-
-	kiwi::_draw_deferred_proxy proxy;
-	proxy.m_vertex_count = vertex_buffer.vertex_count();
-	return proxy;
-}
-
-kiwi::_draw_deferred_proxy kiwi::_load_deferred_2d_proxy::using_normal_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TB_buffer,
-	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& normal_map, const kiwi::vertex_buffer& RMEC_vertex_buffer,
-	GLfloat color_ceiling, const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
-{
-	kiwi::global_type<kiwi::deferred_buffers> buffers = kiwi::get_global_type<kiwi::deferred_buffers>();
-
-	vertex_buffer.to_location(0);
-	TB_buffer.to_location(1, 0, 2);
-	TB_buffer.to_location(2, 2, 2);
-	UV_buffer.to_location(4);
-	lightmap_UV_buffer.to_location(5);
-	RMEC_vertex_buffer.to_location(7);
-
-	texture.to_binding(0);
-	lightmap.to_binding(1);
-	normal_map.to_binding(2);
-
-	buffers.m_program_normal_vRMEC_2d.program.set_uniform_3x3f(buffers.m_program_normal_vRMEC_2d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_3x3f(buffers.m_program_normal_vRMEC_2d.m_matrix_location, m_m_matrix_ptr)
-		.set_uniform_1f(buffers.m_program_normal_vRMEC_2d.C_location, static_cast<GLfloat>(color_ceiling));
-
-	kiwi::_draw_deferred_proxy proxy;
-	proxy.m_vertex_count = vertex_buffer.vertex_count();
-	return proxy;
-}
 
 kiwi::_draw_deferred_proxy kiwi::_load_deferred_2d_proxy::using_normal(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TB_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& normal_map, const kiwi::texture_buffer& RMEC_texture_buffer) noexcept
@@ -1014,9 +487,9 @@ kiwi::_draw_deferred_proxy kiwi::_load_deferred_2d_proxy::using_normal(const kiw
 	normal_map.to_binding(2);
 	RMEC_texture_buffer.to_binding(3);
 
-	buffers.m_program_texture_mRMEC_2d.program.set_uniform_3x3f(buffers.m_program_texture_mRMEC_2d.mvp_matrix_location, m_mvp_matrix_ptr)
+	buffers.m_program_texture_2d.program.set_uniform_3x3f(buffers.m_program_texture_2d.mvp_matrix_location, m_mvp_matrix_ptr)
 		.set_uniform_3x3f(buffers.m_program_normal_mRMEC_2d.m_matrix_location, m_m_matrix_ptr)
-		.set_uniform_1f(buffers.m_program_texture_mRMEC_2d.C_location, static_cast<GLfloat>(color_ceiling));
+		.set_uniform_1f(buffers.m_program_texture_2d.C_location, static_cast<GLfloat>(color_ceiling));
 
 	kiwi::_draw_deferred_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -1040,9 +513,9 @@ kiwi::_draw_deferred_proxy kiwi::_load_deferred_2d_proxy::using_normal_lightmapp
 	normal_map.to_binding(2);
 	RMEC_texture_buffer.to_binding(3);
 
-	buffers.m_program_texture_mRMEC_2d.program.set_uniform_3x3f(buffers.m_program_texture_mRMEC_2d.mvp_matrix_location, m_mvp_matrix_ptr)
+	buffers.m_program_texture_2d.program.set_uniform_3x3f(buffers.m_program_texture_2d.mvp_matrix_location, m_mvp_matrix_ptr)
 		.set_uniform_3x3f(buffers.m_program_normal_mRMEC_2d.m_matrix_location, m_m_matrix_ptr)
-		.set_uniform_1f(buffers.m_program_texture_mRMEC_2d.C_location, static_cast<GLfloat>(1));
+		.set_uniform_1f(buffers.m_program_texture_2d.C_location, static_cast<GLfloat>(1));
 
 	kiwi::_draw_deferred_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -1066,9 +539,9 @@ kiwi::_draw_deferred_proxy kiwi::_load_deferred_2d_proxy::using_normal_lightmapp
 	normal_map.to_binding(2);
 	RMEC_texture_buffer.to_binding(3);
 
-	buffers.m_program_texture_mRMEC_2d.program.set_uniform_3x3f(buffers.m_program_texture_mRMEC_2d.mvp_matrix_location, m_mvp_matrix_ptr)
+	buffers.m_program_texture_2d.program.set_uniform_3x3f(buffers.m_program_texture_2d.mvp_matrix_location, m_mvp_matrix_ptr)
 		.set_uniform_3x3f(buffers.m_program_normal_mRMEC_2d.m_matrix_location, m_m_matrix_ptr)
-		.set_uniform_1f(buffers.m_program_texture_mRMEC_2d.C_location, static_cast<GLfloat>(color_ceiling));
+		.set_uniform_1f(buffers.m_program_texture_2d.C_location, static_cast<GLfloat>(color_ceiling));
 
 	kiwi::_draw_deferred_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -1098,24 +571,6 @@ kiwi::_draw_deferred_proxy kiwi::_load_deferred_3d_proxy::using_solid_color(cons
 }
 
 kiwi::_draw_deferred_proxy kiwi::_load_deferred_3d_proxy::using_color_gradient(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
-	const kiwi::vertex_buffer& color_vertex_buffer, const kiwi::RMEC& RMEC) noexcept
-{
-	kiwi::global_type<kiwi::deferred_buffers> buffers = kiwi::get_global_type<kiwi::deferred_buffers>();
-
-	vertex_buffer.to_location(0);
-	N_buffer.to_location(1);
-	color_vertex_buffer.to_location(6);
-
-	buffers.m_program_color_gradient_sRMEC_3d.program.set_uniform_4x4f(buffers.m_program_color_gradient_sRMEC_3d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_4x4f(buffers.m_program_color_gradient_sRMEC_3d.m_matrix_location, m_m_matrix_ptr)
-		.set_uniform_4f(buffers.m_program_color_gradient_sRMEC_3d.RMEC_location, RMEC.data());
-
-	kiwi::_draw_deferred_proxy proxy;
-	proxy.m_vertex_count = vertex_buffer.vertex_count();
-	return proxy;
-}
-
-kiwi::_draw_deferred_proxy kiwi::_load_deferred_3d_proxy::using_color_gradient(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
 	const kiwi::vertex_buffer& color_vertex_buffer, const kiwi::vertex_buffer& RMEC_vertex_buffer) noexcept
 {
 	kiwi::global_type<kiwi::deferred_buffers> buffers = kiwi::get_global_type<kiwi::deferred_buffers>();
@@ -1125,9 +580,9 @@ kiwi::_draw_deferred_proxy kiwi::_load_deferred_3d_proxy::using_color_gradient(c
 	color_vertex_buffer.to_location(6);
 	RMEC_vertex_buffer.to_location(7);
 
-	buffers.m_program_color_gradient_vRMEC_3d.program.set_uniform_4x4f(buffers.m_program_color_gradient_vRMEC_3d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_4x4f(buffers.m_program_color_gradient_vRMEC_3d.m_matrix_location, m_m_matrix_ptr)
-		.set_uniform_1f(buffers.m_program_color_gradient_vRMEC_3d.C_location, static_cast<GLfloat>(1));
+	buffers.m_program_color_gradient_3d.program.set_uniform_4x4f(buffers.m_program_color_gradient_3d.mvp_matrix_location, m_mvp_matrix_ptr)
+		.set_uniform_4x4f(buffers.m_program_color_gradient_3d.m_matrix_location, m_m_matrix_ptr)
+		.set_uniform_1f(buffers.m_program_color_gradient_3d.C_location, static_cast<GLfloat>(1));
 
 	kiwi::_draw_deferred_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -1144,9 +599,9 @@ kiwi::_draw_deferred_proxy kiwi::_load_deferred_3d_proxy::using_color_gradient(c
 	color_vertex_buffer.to_location(6);
 	RMEC_vertex_buffer.to_location(7);
 
-	buffers.m_program_color_gradient_vRMEC_3d.program.set_uniform_4x4f(buffers.m_program_color_gradient_vRMEC_3d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_4x4f(buffers.m_program_color_gradient_vRMEC_3d.m_matrix_location, m_m_matrix_ptr)
-		.set_uniform_1f(buffers.m_program_color_gradient_vRMEC_3d.C_location, color_ceiling);
+	buffers.m_program_color_gradient_3d.program.set_uniform_4x4f(buffers.m_program_color_gradient_3d.mvp_matrix_location, m_mvp_matrix_ptr)
+		.set_uniform_4x4f(buffers.m_program_color_gradient_3d.m_matrix_location, m_m_matrix_ptr)
+		.set_uniform_1f(buffers.m_program_color_gradient_3d.C_location, color_ceiling);
 
 	kiwi::_draw_deferred_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -1155,147 +610,6 @@ kiwi::_draw_deferred_proxy kiwi::_load_deferred_3d_proxy::using_color_gradient(c
 
 
 // TEXTURE 3D
-
-kiwi::_draw_deferred_proxy kiwi::_load_deferred_3d_proxy::using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
-	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::RMEC& RMEC) noexcept
-{
-	kiwi::global_type<kiwi::deferred_buffers> buffers = kiwi::get_global_type<kiwi::deferred_buffers>();
-
-	vertex_buffer.to_location(0);
-	N_buffer.to_location(1);
-	UV_buffer.to_location(4);
-	buffers.m_lightmap_black_vertex.to_location(5);
-
-	texture.to_binding(0);
-	buffers.m_lightmap_black.to_binding(1);
-
-	buffers.m_program_texture_sRMEC_3d.program.set_uniform_4x4f(buffers.m_program_texture_sRMEC_3d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_4x4f(buffers.m_program_texture_sRMEC_3d.m_matrix_location, m_m_matrix_ptr)
-		.set_uniform_4f(buffers.m_program_texture_sRMEC_3d.RMEC_location, RMEC.data());
-
-	kiwi::_draw_deferred_proxy proxy;
-	proxy.m_vertex_count = vertex_buffer.vertex_count();
-	return proxy;
-}
-
-kiwi::_draw_deferred_proxy kiwi::_load_deferred_3d_proxy::using_texture_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
-	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::RMEC& RMEC,
-	const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
-{
-	kiwi::global_type<kiwi::deferred_buffers> buffers = kiwi::get_global_type<kiwi::deferred_buffers>();
-
-	vertex_buffer.to_location(0);
-	N_buffer.to_location(1);
-	UV_buffer.to_location(4);
-	lightmap_UV_buffer.to_location(5);
-
-	texture.to_binding(0);
-	lightmap.to_binding(1);
-
-	buffers.m_program_texture_sRMEC_3d.program.set_uniform_4x4f(buffers.m_program_texture_sRMEC_3d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_4x4f(buffers.m_program_texture_sRMEC_3d.m_matrix_location, m_m_matrix_ptr)
-		.set_uniform_4f(buffers.m_program_texture_sRMEC_3d.RMEC_location, RMEC.data());
-
-	kiwi::_draw_deferred_proxy proxy;
-	proxy.m_vertex_count = vertex_buffer.vertex_count();
-	return proxy;
-}
-
-
-kiwi::_draw_deferred_proxy kiwi::_load_deferred_3d_proxy::using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
-	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::vertex_buffer& RMEC_vertex_buffer) noexcept
-{
-	kiwi::global_type<kiwi::deferred_buffers> buffers = kiwi::get_global_type<kiwi::deferred_buffers>();
-
-	vertex_buffer.to_location(0);
-	N_buffer.to_location(1);
-	UV_buffer.to_location(4);
-	buffers.m_lightmap_black_vertex.to_location(5);
-	RMEC_vertex_buffer.to_location(7);
-
-	texture.to_binding(0);
-	buffers.m_lightmap_black.to_binding(1);
-
-	buffers.m_program_texture_vRMEC_3d.program.set_uniform_4x4f(buffers.m_program_texture_vRMEC_3d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_4x4f(buffers.m_program_texture_vRMEC_3d.m_matrix_location, m_m_matrix_ptr)
-		.set_uniform_1f(buffers.m_program_texture_vRMEC_3d.C_location, static_cast<GLfloat>(1));
-
-	kiwi::_draw_deferred_proxy proxy;
-	proxy.m_vertex_count = vertex_buffer.vertex_count();
-	return proxy;
-}
-
-kiwi::_draw_deferred_proxy kiwi::_load_deferred_3d_proxy::using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
-	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::vertex_buffer& RMEC_vertex_buffer, GLfloat color_ceiling) noexcept
-{
-	kiwi::global_type<kiwi::deferred_buffers> buffers = kiwi::get_global_type<kiwi::deferred_buffers>();
-
-	vertex_buffer.to_location(0);
-	N_buffer.to_location(1);
-	UV_buffer.to_location(4);
-	buffers.m_lightmap_black_vertex.to_location(5);
-	RMEC_vertex_buffer.to_location(7);
-
-	texture.to_binding(0);
-	buffers.m_lightmap_black.to_binding(1);
-
-	buffers.m_program_texture_vRMEC_3d.program.set_uniform_4x4f(buffers.m_program_texture_vRMEC_3d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_4x4f(buffers.m_program_texture_vRMEC_3d.m_matrix_location, m_m_matrix_ptr)
-		.set_uniform_1f(buffers.m_program_texture_vRMEC_3d.C_location, color_ceiling);
-
-	kiwi::_draw_deferred_proxy proxy;
-	proxy.m_vertex_count = vertex_buffer.vertex_count();
-	return proxy;
-}
-
-kiwi::_draw_deferred_proxy kiwi::_load_deferred_3d_proxy::using_texture_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
-	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::vertex_buffer& RMEC_vertex_buffer,
-	const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
-{
-	kiwi::global_type<kiwi::deferred_buffers> buffers = kiwi::get_global_type<kiwi::deferred_buffers>();
-
-	vertex_buffer.to_location(0);
-	N_buffer.to_location(1);
-	UV_buffer.to_location(4);
-	lightmap_UV_buffer.to_location(5);
-	RMEC_vertex_buffer.to_location(7);
-
-	texture.to_binding(0);
-	lightmap.to_binding(1);
-
-	buffers.m_program_texture_vRMEC_3d.program.set_uniform_4x4f(buffers.m_program_texture_vRMEC_3d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_4x4f(buffers.m_program_texture_vRMEC_3d.m_matrix_location, m_m_matrix_ptr)
-		.set_uniform_1f(buffers.m_program_texture_vRMEC_3d.C_location, static_cast<GLfloat>(1));
-
-	kiwi::_draw_deferred_proxy proxy;
-	proxy.m_vertex_count = vertex_buffer.vertex_count();
-	return proxy;
-}
-
-kiwi::_draw_deferred_proxy kiwi::_load_deferred_3d_proxy::using_texture_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
-	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::vertex_buffer& RMEC_vertex_buffer, GLfloat color_ceiling,
-	const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
-{
-	kiwi::global_type<kiwi::deferred_buffers> buffers = kiwi::get_global_type<kiwi::deferred_buffers>();
-
-	vertex_buffer.to_location(0);
-	N_buffer.to_location(1);
-	UV_buffer.to_location(4);
-	lightmap_UV_buffer.to_location(5);
-	RMEC_vertex_buffer.to_location(7);
-
-	texture.to_binding(0);
-	lightmap.to_binding(1);
-
-	buffers.m_program_texture_vRMEC_3d.program.set_uniform_4x4f(buffers.m_program_texture_vRMEC_3d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_4x4f(buffers.m_program_texture_vRMEC_3d.m_matrix_location, m_m_matrix_ptr)
-		.set_uniform_1f(buffers.m_program_texture_vRMEC_3d.C_location, color_ceiling);
-
-	kiwi::_draw_deferred_proxy proxy;
-	proxy.m_vertex_count = vertex_buffer.vertex_count();
-	return proxy;
-}
-
 
 kiwi::_draw_deferred_proxy kiwi::_load_deferred_3d_proxy::using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer) noexcept
@@ -1311,9 +625,9 @@ kiwi::_draw_deferred_proxy kiwi::_load_deferred_3d_proxy::using_texture(const ki
 	buffers.m_lightmap_black.to_binding(1);
 	RMEC_texture_buffer.to_binding(3);
 
-	buffers.m_program_texture_mRMEC_3d.program.set_uniform_4x4f(buffers.m_program_texture_mRMEC_3d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_4x4f(buffers.m_program_texture_mRMEC_3d.m_matrix_location, m_m_matrix_ptr)
-		.set_uniform_1f(buffers.m_program_texture_mRMEC_3d.C_location, static_cast<GLfloat>(1));
+	buffers.m_program_texture_3d.program.set_uniform_4x4f(buffers.m_program_texture_3d.mvp_matrix_location, m_mvp_matrix_ptr)
+		.set_uniform_4x4f(buffers.m_program_texture_3d.m_matrix_location, m_m_matrix_ptr)
+		.set_uniform_1f(buffers.m_program_texture_3d.C_location, static_cast<GLfloat>(1));
 
 	kiwi::_draw_deferred_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -1334,9 +648,9 @@ kiwi::_draw_deferred_proxy kiwi::_load_deferred_3d_proxy::using_texture(const ki
 	buffers.m_lightmap_black.to_binding(1);
 	RMEC_texture_buffer.to_binding(3);
 
-	buffers.m_program_texture_mRMEC_3d.program.set_uniform_4x4f(buffers.m_program_texture_mRMEC_3d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_4x4f(buffers.m_program_texture_mRMEC_3d.m_matrix_location, m_m_matrix_ptr)
-		.set_uniform_1f(buffers.m_program_texture_mRMEC_3d.C_location, color_ceiling);
+	buffers.m_program_texture_3d.program.set_uniform_4x4f(buffers.m_program_texture_3d.mvp_matrix_location, m_mvp_matrix_ptr)
+		.set_uniform_4x4f(buffers.m_program_texture_3d.m_matrix_location, m_m_matrix_ptr)
+		.set_uniform_1f(buffers.m_program_texture_3d.C_location, color_ceiling);
 
 	kiwi::_draw_deferred_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -1358,9 +672,9 @@ kiwi::_draw_deferred_proxy kiwi::_load_deferred_3d_proxy::using_texture_lightmap
 	lightmap.to_binding(1);
 	RMEC_texture_buffer.to_binding(3);
 
-	buffers.m_program_texture_mRMEC_3d.program.set_uniform_4x4f(buffers.m_program_texture_mRMEC_3d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_4x4f(buffers.m_program_texture_mRMEC_3d.m_matrix_location, m_m_matrix_ptr)
-		.set_uniform_1f(buffers.m_program_texture_mRMEC_3d.C_location, static_cast<GLfloat>(1));
+	buffers.m_program_texture_3d.program.set_uniform_4x4f(buffers.m_program_texture_3d.mvp_matrix_location, m_mvp_matrix_ptr)
+		.set_uniform_4x4f(buffers.m_program_texture_3d.m_matrix_location, m_m_matrix_ptr)
+		.set_uniform_1f(buffers.m_program_texture_3d.C_location, static_cast<GLfloat>(1));
 
 	kiwi::_draw_deferred_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -1382,9 +696,9 @@ kiwi::_draw_deferred_proxy kiwi::_load_deferred_3d_proxy::using_texture_lightmap
 	lightmap.to_binding(1);
 	RMEC_texture_buffer.to_binding(3);
 
-	buffers.m_program_texture_mRMEC_3d.program.set_uniform_4x4f(buffers.m_program_texture_mRMEC_3d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_4x4f(buffers.m_program_texture_mRMEC_3d.m_matrix_location, m_m_matrix_ptr)
-		.set_uniform_1f(buffers.m_program_texture_mRMEC_3d.C_location, color_ceiling);
+	buffers.m_program_texture_3d.program.set_uniform_4x4f(buffers.m_program_texture_3d.mvp_matrix_location, m_mvp_matrix_ptr)
+		.set_uniform_4x4f(buffers.m_program_texture_3d.m_matrix_location, m_m_matrix_ptr)
+		.set_uniform_1f(buffers.m_program_texture_3d.C_location, color_ceiling);
 
 	kiwi::_draw_deferred_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -1395,168 +709,6 @@ kiwi::_draw_deferred_proxy kiwi::_load_deferred_3d_proxy::using_texture_lightmap
 // NORMAL 3D
 
 kiwi::_draw_deferred_proxy kiwi::_load_deferred_3d_proxy::using_normal(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
-	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::RMEC& RMEC,
-	const kiwi::texture_buffer& normal_map) noexcept
-{
-	kiwi::global_type<kiwi::deferred_buffers> buffers = kiwi::get_global_type<kiwi::deferred_buffers>();
-
-	vertex_buffer.to_location(0);
-	TBN_buffer.to_location(1, 0, 3);
-	TBN_buffer.to_location(2, 3, 3);
-	TBN_buffer.to_location(3, 6, 3);
-	UV_buffer.to_location(4);
-	buffers.m_lightmap_black_vertex.to_location(5);
-
-	texture.to_binding(0);
-	buffers.m_lightmap_black.to_binding(1);
-	normal_map.to_binding(2);
-
-	buffers.m_program_normal_sRMEC_3d.program.set_uniform_4x4f(buffers.m_program_normal_sRMEC_3d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_4x4f(buffers.m_program_normal_sRMEC_3d.m_matrix_location, m_m_matrix_ptr)
-		.set_uniform_4f(buffers.m_program_normal_sRMEC_3d.RMEC_location, RMEC.data());
-
-	kiwi::_draw_deferred_proxy proxy;
-	proxy.m_vertex_count = vertex_buffer.vertex_count();
-	return proxy;
-}
-
-kiwi::_draw_deferred_proxy kiwi::_load_deferred_3d_proxy::using_normal_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
-	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::RMEC& RMEC,
-	const kiwi::texture_buffer& normal_map, const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
-{
-	kiwi::global_type<kiwi::deferred_buffers> buffers = kiwi::get_global_type<kiwi::deferred_buffers>();
-
-	vertex_buffer.to_location(0);
-	TBN_buffer.to_location(1, 0, 3);
-	TBN_buffer.to_location(2, 3, 3);
-	TBN_buffer.to_location(3, 6, 3);
-	UV_buffer.to_location(4);
-	lightmap_UV_buffer.to_location(5);
-
-	texture.to_binding(0);
-	lightmap.to_binding(1);
-	normal_map.to_binding(2);
-
-	buffers.m_program_normal_sRMEC_3d.program.set_uniform_4x4f(buffers.m_program_normal_sRMEC_3d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_4x4f(buffers.m_program_normal_sRMEC_3d.m_matrix_location, m_m_matrix_ptr)
-		.set_uniform_4f(buffers.m_program_normal_sRMEC_3d.RMEC_location, RMEC.data());
-
-	kiwi::_draw_deferred_proxy proxy;
-	proxy.m_vertex_count = vertex_buffer.vertex_count();
-	return proxy;
-}
-
-
-kiwi::_draw_deferred_proxy kiwi::_load_deferred_3d_proxy::using_normal(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
-	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::vertex_buffer& RMEC_vertex_buffer,
-	const kiwi::texture_buffer& normal_map) noexcept
-{
-	kiwi::global_type<kiwi::deferred_buffers> buffers = kiwi::get_global_type<kiwi::deferred_buffers>();
-
-	vertex_buffer.to_location(0);
-	TBN_buffer.to_location(1, 0, 3);
-	TBN_buffer.to_location(2, 3, 3);
-	TBN_buffer.to_location(3, 6, 3);
-	UV_buffer.to_location(4);
-	buffers.m_lightmap_black_vertex.to_location(5);
-	RMEC_vertex_buffer.to_location(7);
-
-	texture.to_binding(0);
-	buffers.m_lightmap_black.to_binding(1);
-	normal_map.to_binding(2);
-
-	buffers.m_program_normal_vRMEC_3d.program.set_uniform_4x4f(buffers.m_program_normal_vRMEC_3d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_4x4f(buffers.m_program_normal_vRMEC_3d.m_matrix_location, m_m_matrix_ptr)
-		.set_uniform_1f(buffers.m_program_normal_vRMEC_3d.C_location, static_cast<GLfloat>(1));
-
-	kiwi::_draw_deferred_proxy proxy;
-	proxy.m_vertex_count = vertex_buffer.vertex_count();
-	return proxy;
-}
-
-kiwi::_draw_deferred_proxy kiwi::_load_deferred_3d_proxy::using_normal(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
-	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::vertex_buffer& RMEC_vertex_buffer, GLfloat color_ceiling,
-	const kiwi::texture_buffer& normal_map) noexcept
-{
-	kiwi::global_type<kiwi::deferred_buffers> buffers = kiwi::get_global_type<kiwi::deferred_buffers>();
-
-	vertex_buffer.to_location(0);
-	TBN_buffer.to_location(1, 0, 3);
-	TBN_buffer.to_location(2, 3, 3);
-	TBN_buffer.to_location(3, 6, 3);
-	UV_buffer.to_location(4);
-	buffers.m_lightmap_black_vertex.to_location(5);
-	RMEC_vertex_buffer.to_location(7);
-
-	texture.to_binding(0);
-	buffers.m_lightmap_black.to_binding(1);
-	normal_map.to_binding(2);
-
-	buffers.m_program_normal_vRMEC_3d.program.set_uniform_4x4f(buffers.m_program_normal_vRMEC_3d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_4x4f(buffers.m_program_normal_vRMEC_3d.m_matrix_location, m_m_matrix_ptr)
-		.set_uniform_1f(buffers.m_program_normal_vRMEC_3d.C_location, color_ceiling);
-
-	kiwi::_draw_deferred_proxy proxy;
-	proxy.m_vertex_count = vertex_buffer.vertex_count();
-	return proxy;
-}
-
-kiwi::_draw_deferred_proxy kiwi::_load_deferred_3d_proxy::using_normal_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
-	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::vertex_buffer& RMEC_vertex_buffer,
-	const kiwi::texture_buffer& normal_map, const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
-{
-	kiwi::global_type<kiwi::deferred_buffers> buffers = kiwi::get_global_type<kiwi::deferred_buffers>();
-
-	vertex_buffer.to_location(0);
-	TBN_buffer.to_location(1, 0, 3);
-	TBN_buffer.to_location(2, 3, 3);
-	TBN_buffer.to_location(3, 6, 3);
-	UV_buffer.to_location(4);
-	lightmap_UV_buffer.to_location(5);
-	RMEC_vertex_buffer.to_location(7);
-
-	texture.to_binding(0);
-	lightmap.to_binding(1);
-	normal_map.to_binding(2);
-
-	buffers.m_program_normal_vRMEC_3d.program.set_uniform_4x4f(buffers.m_program_normal_vRMEC_3d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_4x4f(buffers.m_program_normal_vRMEC_3d.m_matrix_location, m_m_matrix_ptr)
-		.set_uniform_1f(buffers.m_program_normal_vRMEC_3d.C_location, static_cast<GLfloat>(1));
-
-	kiwi::_draw_deferred_proxy proxy;
-	proxy.m_vertex_count = vertex_buffer.vertex_count();
-	return proxy;
-}
-
-kiwi::_draw_deferred_proxy kiwi::_load_deferred_3d_proxy::using_normal_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
-	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::vertex_buffer& RMEC_vertex_buffer, GLfloat color_ceiling,
-	const kiwi::texture_buffer& normal_map, const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
-{
-	kiwi::global_type<kiwi::deferred_buffers> buffers = kiwi::get_global_type<kiwi::deferred_buffers>();
-
-	vertex_buffer.to_location(0);
-	TBN_buffer.to_location(1, 0, 3);
-	TBN_buffer.to_location(2, 3, 3);
-	TBN_buffer.to_location(3, 6, 3);
-	UV_buffer.to_location(4);
-	lightmap_UV_buffer.to_location(5);
-	RMEC_vertex_buffer.to_location(7);
-
-	texture.to_binding(0);
-	lightmap.to_binding(1);
-	normal_map.to_binding(2);
-
-	buffers.m_program_normal_vRMEC_3d.program.set_uniform_4x4f(buffers.m_program_normal_vRMEC_3d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_4x4f(buffers.m_program_normal_vRMEC_3d.m_matrix_location, m_m_matrix_ptr)
-		.set_uniform_1f(buffers.m_program_normal_vRMEC_3d.C_location, static_cast<GLfloat>(1));
-
-	kiwi::_draw_deferred_proxy proxy;
-	proxy.m_vertex_count = vertex_buffer.vertex_count();
-	return proxy;
-}
-
-
-kiwi::_draw_deferred_proxy kiwi::_load_deferred_3d_proxy::using_normal(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer,
 	const kiwi::texture_buffer& normal_map) noexcept
 {
@@ -1574,9 +726,9 @@ kiwi::_draw_deferred_proxy kiwi::_load_deferred_3d_proxy::using_normal(const kiw
 	normal_map.to_binding(2);
 	RMEC_texture_buffer.to_binding(3);
 
-	buffers.m_program_normal_mRMEC_3d.program.set_uniform_4x4f(buffers.m_program_normal_mRMEC_3d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_4x4f(buffers.m_program_normal_mRMEC_3d.m_matrix_location, m_m_matrix_ptr)
-		.set_uniform_1f(buffers.m_program_normal_mRMEC_3d.C_location, static_cast<GLfloat>(1));
+	buffers.m_program_normal_3d.program.set_uniform_4x4f(buffers.m_program_normal_3d.mvp_matrix_location, m_mvp_matrix_ptr)
+		.set_uniform_4x4f(buffers.m_program_normal_3d.m_matrix_location, m_m_matrix_ptr)
+		.set_uniform_1f(buffers.m_program_normal_3d.C_location, static_cast<GLfloat>(1));
 
 	kiwi::_draw_deferred_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -1601,9 +753,9 @@ kiwi::_draw_deferred_proxy kiwi::_load_deferred_3d_proxy::using_normal(const kiw
 	normal_map.to_binding(2);
 	RMEC_texture_buffer.to_binding(3);
 
-	buffers.m_program_normal_mRMEC_3d.program.set_uniform_4x4f(buffers.m_program_normal_mRMEC_3d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_4x4f(buffers.m_program_normal_mRMEC_3d.m_matrix_location, m_m_matrix_ptr)
-		.set_uniform_1f(buffers.m_program_normal_mRMEC_3d.C_location, color_ceiling);
+	buffers.m_program_normal_3d.program.set_uniform_4x4f(buffers.m_program_normal_3d.mvp_matrix_location, m_mvp_matrix_ptr)
+		.set_uniform_4x4f(buffers.m_program_normal_3d.m_matrix_location, m_m_matrix_ptr)
+		.set_uniform_1f(buffers.m_program_normal_3d.C_location, color_ceiling);
 
 	kiwi::_draw_deferred_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -1628,9 +780,9 @@ kiwi::_draw_deferred_proxy kiwi::_load_deferred_3d_proxy::using_normal_lightmapp
 	normal_map.to_binding(2);
 	RMEC_texture_buffer.to_binding(3);
 
-	buffers.m_program_normal_mRMEC_3d.program.set_uniform_4x4f(buffers.m_program_normal_mRMEC_3d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_4x4f(buffers.m_program_normal_mRMEC_3d.m_matrix_location, m_m_matrix_ptr)
-		.set_uniform_1f(buffers.m_program_normal_mRMEC_3d.C_location, static_cast<GLfloat>(1));
+	buffers.m_program_normal_3d.program.set_uniform_4x4f(buffers.m_program_normal_3d.mvp_matrix_location, m_mvp_matrix_ptr)
+		.set_uniform_4x4f(buffers.m_program_normal_3d.m_matrix_location, m_m_matrix_ptr)
+		.set_uniform_1f(buffers.m_program_normal_3d.C_location, static_cast<GLfloat>(1));
 
 	kiwi::_draw_deferred_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -1655,9 +807,9 @@ kiwi::_draw_deferred_proxy kiwi::_load_deferred_3d_proxy::using_normal_lightmapp
 	normal_map.to_binding(2);
 	RMEC_texture_buffer.to_binding(3);
 
-	buffers.m_program_normal_mRMEC_3d.program.set_uniform_4x4f(buffers.m_program_normal_mRMEC_3d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_4x4f(buffers.m_program_normal_mRMEC_3d.m_matrix_location, m_m_matrix_ptr)
-		.set_uniform_1f(buffers.m_program_normal_mRMEC_3d.C_location, static_cast<GLfloat>(1));
+	buffers.m_program_normal_3d.program.set_uniform_4x4f(buffers.m_program_normal_3d.mvp_matrix_location, m_mvp_matrix_ptr)
+		.set_uniform_4x4f(buffers.m_program_normal_3d.m_matrix_location, m_m_matrix_ptr)
+		.set_uniform_1f(buffers.m_program_normal_3d.C_location, static_cast<GLfloat>(1));
 
 	kiwi::_draw_deferred_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -1668,183 +820,6 @@ kiwi::_draw_deferred_proxy kiwi::_load_deferred_3d_proxy::using_normal_lightmapp
 // PARALLAX 3D
 
 kiwi::_draw_deferred_proxy kiwi::_load_deferred_3d_proxy::using_parallax(const GLfloat* const view_XYZ_ptr, const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
-	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::RMEC& RMEC,
-	const kiwi::texture_buffer& normal_parallax_map, GLfloat parallax_shift_factor) noexcept
-{
-	kiwi::global_type<kiwi::deferred_buffers> buffers = kiwi::get_global_type<kiwi::deferred_buffers>();
-
-	vertex_buffer.to_location(0);
-	TBN_buffer.to_location(1, 0, 3);
-	TBN_buffer.to_location(2, 3, 3);
-	TBN_buffer.to_location(3, 6, 3);
-	UV_buffer.to_location(4);
-	buffers.m_lightmap_black_vertex.to_location(5);
-
-	texture.to_binding(0);
-	buffers.m_lightmap_black.to_binding(1);
-	normal_parallax_map.to_binding(2);
-
-	buffers.m_program_parallax_sRMEC_3d.program.set_uniform_4x4f(buffers.m_program_parallax_sRMEC_3d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_4x4f(buffers.m_program_parallax_sRMEC_3d.m_matrix_location, m_m_matrix_ptr)
-		.set_uniform_3f(buffers.m_program_parallax_sRMEC_3d.view_XYZ_location, view_XYZ_ptr)
-		.set_uniform_4f(buffers.m_program_parallax_sRMEC_3d.RMEC_location, RMEC.data())
-		.set_uniform_1f(buffers.m_program_parallax_sRMEC_3d.parallax_shift_location, parallax_shift_factor);
-
-	kiwi::_draw_deferred_proxy proxy;
-	proxy.m_vertex_count = vertex_buffer.vertex_count();
-	return proxy;
-}
-
-kiwi::_draw_deferred_proxy kiwi::_load_deferred_3d_proxy::using_parallax_lightmapped(const GLfloat* const view_XYZ_ptr, const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
-	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::RMEC& RMEC,
-	const kiwi::texture_buffer& normal_parallax_map, GLfloat parallax_shift_factor,
-	const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
-{
-	kiwi::global_type<kiwi::deferred_buffers> buffers = kiwi::get_global_type<kiwi::deferred_buffers>();
-
-	vertex_buffer.to_location(0);
-	TBN_buffer.to_location(1, 0, 3);
-	TBN_buffer.to_location(2, 3, 3);
-	TBN_buffer.to_location(3, 6, 3);
-	UV_buffer.to_location(4);
-	lightmap_UV_buffer.to_location(5);
-
-	texture.to_binding(0);
-	lightmap.to_binding(1);
-	normal_parallax_map.to_binding(2);
-
-	buffers.m_program_parallax_sRMEC_3d.program.set_uniform_4x4f(buffers.m_program_parallax_sRMEC_3d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_4x4f(buffers.m_program_parallax_sRMEC_3d.m_matrix_location, m_m_matrix_ptr)
-		.set_uniform_3f(buffers.m_program_parallax_sRMEC_3d.view_XYZ_location, view_XYZ_ptr)
-		.set_uniform_4f(buffers.m_program_parallax_sRMEC_3d.RMEC_location, RMEC.data())
-		.set_uniform_1f(buffers.m_program_parallax_sRMEC_3d.parallax_shift_location, parallax_shift_factor);
-
-	kiwi::_draw_deferred_proxy proxy;
-	proxy.m_vertex_count = vertex_buffer.vertex_count();
-	return proxy;
-}
-
-
-kiwi::_draw_deferred_proxy kiwi::_load_deferred_3d_proxy::using_parallax(const GLfloat* const view_XYZ_ptr, const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
-	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::vertex_buffer& RMEC_vertex_buffer,
-	const kiwi::texture_buffer& normal_parallax_map, GLfloat parallax_shift_factor) noexcept
-{
-	kiwi::global_type<kiwi::deferred_buffers> buffers = kiwi::get_global_type<kiwi::deferred_buffers>();
-
-	vertex_buffer.to_location(0);
-	TBN_buffer.to_location(1, 0, 3);
-	TBN_buffer.to_location(2, 3, 3);
-	TBN_buffer.to_location(3, 6, 3);
-	UV_buffer.to_location(4);
-	buffers.m_lightmap_black_vertex.to_location(5);
-	RMEC_vertex_buffer.to_location(7);
-
-	texture.to_binding(0);
-	buffers.m_lightmap_black.to_binding(1);
-	normal_parallax_map.to_binding(2);
-
-	buffers.m_program_parallax_vRMEC_3d.program.set_uniform_4x4f(buffers.m_program_parallax_vRMEC_3d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_4x4f(buffers.m_program_parallax_vRMEC_3d.m_matrix_location, m_m_matrix_ptr)
-		.set_uniform_3f(buffers.m_program_parallax_vRMEC_3d.view_XYZ_location, view_XYZ_ptr)
-		.set_uniform_1f(buffers.m_program_parallax_vRMEC_3d.C_location, static_cast<GLfloat>(1))
-		.set_uniform_1f(buffers.m_program_parallax_vRMEC_3d.parallax_shift_location, parallax_shift_factor);
-
-	kiwi::_draw_deferred_proxy proxy;
-	proxy.m_vertex_count = vertex_buffer.vertex_count();
-	return proxy;
-}
-
-kiwi::_draw_deferred_proxy kiwi::_load_deferred_3d_proxy::using_parallax(const GLfloat* const view_XYZ_ptr, const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
-	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::vertex_buffer& RMEC_vertex_buffer, GLfloat color_ceiling,
-	const kiwi::texture_buffer& normal_parallax_map, GLfloat parallax_shift_factor) noexcept
-{
-	kiwi::global_type<kiwi::deferred_buffers> buffers = kiwi::get_global_type<kiwi::deferred_buffers>();
-
-	vertex_buffer.to_location(0);
-	TBN_buffer.to_location(1, 0, 3);
-	TBN_buffer.to_location(2, 3, 3);
-	TBN_buffer.to_location(3, 6, 3);
-	UV_buffer.to_location(4);
-	buffers.m_lightmap_black_vertex.to_location(5);
-	RMEC_vertex_buffer.to_location(7);
-
-	texture.to_binding(0);
-	buffers.m_lightmap_black.to_binding(1);
-	normal_parallax_map.to_binding(2);
-
-	buffers.m_program_parallax_vRMEC_3d.program.set_uniform_4x4f(buffers.m_program_parallax_vRMEC_3d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_4x4f(buffers.m_program_parallax_vRMEC_3d.m_matrix_location, m_m_matrix_ptr)
-		.set_uniform_3f(buffers.m_program_parallax_vRMEC_3d.view_XYZ_location, view_XYZ_ptr)
-		.set_uniform_1f(buffers.m_program_parallax_vRMEC_3d.C_location, color_ceiling)
-		.set_uniform_1f(buffers.m_program_parallax_vRMEC_3d.parallax_shift_location, parallax_shift_factor);
-
-	kiwi::_draw_deferred_proxy proxy;
-	proxy.m_vertex_count = vertex_buffer.vertex_count();
-	return proxy;
-}
-
-kiwi::_draw_deferred_proxy kiwi::_load_deferred_3d_proxy::using_parallax_lightmapped(const GLfloat* const view_XYZ_ptr, const kiwi::vertex_buffer& vertex_buffer,
-	const kiwi::vertex_buffer& TBN_buffer, const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::vertex_buffer& RMEC_vertex_buffer,
-	const kiwi::texture_buffer& normal_parallax_map, GLfloat parallax_shift_factor,
-	const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
-{
-	kiwi::global_type<kiwi::deferred_buffers> buffers = kiwi::get_global_type<kiwi::deferred_buffers>();
-
-	vertex_buffer.to_location(0);
-	TBN_buffer.to_location(1, 0, 3);
-	TBN_buffer.to_location(2, 3, 3);
-	TBN_buffer.to_location(3, 6, 3);
-	UV_buffer.to_location(4);
-	lightmap_UV_buffer.to_location(5);
-	RMEC_vertex_buffer.to_location(7);
-
-	texture.to_binding(0);
-	lightmap.to_binding(1);
-	normal_parallax_map.to_binding(2);
-
-	buffers.m_program_parallax_vRMEC_3d.program.set_uniform_4x4f(buffers.m_program_parallax_vRMEC_3d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_4x4f(buffers.m_program_parallax_vRMEC_3d.m_matrix_location, m_m_matrix_ptr)
-		.set_uniform_3f(buffers.m_program_parallax_vRMEC_3d.view_XYZ_location, view_XYZ_ptr)
-		.set_uniform_1f(buffers.m_program_parallax_vRMEC_3d.C_location, static_cast<GLfloat>(1))
-		.set_uniform_1f(buffers.m_program_parallax_vRMEC_3d.parallax_shift_location, parallax_shift_factor);
-
-	kiwi::_draw_deferred_proxy proxy;
-	proxy.m_vertex_count = vertex_buffer.vertex_count();
-	return proxy;
-}
-
-kiwi::_draw_deferred_proxy kiwi::_load_deferred_3d_proxy::using_parallax_lightmapped(const GLfloat* const view_XYZ_ptr, const kiwi::vertex_buffer& vertex_buffer,
-	const kiwi::vertex_buffer& TBN_buffer, const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::vertex_buffer& RMEC_vertex_buffer, GLfloat color_ceiling,
-	const kiwi::texture_buffer& normal_parallax_map, GLfloat parallax_shift_factor,
-	const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
-{
-	kiwi::global_type<kiwi::deferred_buffers> buffers = kiwi::get_global_type<kiwi::deferred_buffers>();
-
-	vertex_buffer.to_location(0);
-	TBN_buffer.to_location(1, 0, 3);
-	TBN_buffer.to_location(2, 3, 3);
-	TBN_buffer.to_location(3, 6, 3);
-	UV_buffer.to_location(4);
-	lightmap_UV_buffer.to_location(5);
-	RMEC_vertex_buffer.to_location(7);
-
-	texture.to_binding(0);
-	lightmap.to_binding(1);
-	normal_parallax_map.to_binding(2);
-
-	buffers.m_program_parallax_vRMEC_3d.program.set_uniform_4x4f(buffers.m_program_parallax_vRMEC_3d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_4x4f(buffers.m_program_parallax_vRMEC_3d.m_matrix_location, m_m_matrix_ptr)
-		.set_uniform_3f(buffers.m_program_parallax_vRMEC_3d.view_XYZ_location, view_XYZ_ptr)
-		.set_uniform_1f(buffers.m_program_parallax_vRMEC_3d.C_location, color_ceiling)
-		.set_uniform_1f(buffers.m_program_parallax_vRMEC_3d.parallax_shift_location, parallax_shift_factor);
-
-	kiwi::_draw_deferred_proxy proxy;
-	proxy.m_vertex_count = vertex_buffer.vertex_count();
-	return proxy;
-}
-
-
-kiwi::_draw_deferred_proxy kiwi::_load_deferred_3d_proxy::using_parallax(const GLfloat* const view_XYZ_ptr, const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer,
 	const kiwi::texture_buffer& normal_parallax_map, GLfloat parallax_shift_factor) noexcept
 {
@@ -1862,11 +837,11 @@ kiwi::_draw_deferred_proxy kiwi::_load_deferred_3d_proxy::using_parallax(const G
 	normal_parallax_map.to_binding(2);
 	RMEC_texture_buffer.to_binding(3);
 
-	buffers.m_program_parallax_mRMEC_3d.program.set_uniform_4x4f(buffers.m_program_parallax_mRMEC_3d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_4x4f(buffers.m_program_parallax_mRMEC_3d.m_matrix_location, m_m_matrix_ptr)
-		.set_uniform_3f(buffers.m_program_parallax_mRMEC_3d.view_XYZ_location, view_XYZ_ptr)
-		.set_uniform_1f(buffers.m_program_parallax_mRMEC_3d.C_location, static_cast<GLfloat>(1))
-		.set_uniform_1f(buffers.m_program_parallax_mRMEC_3d.parallax_shift_location, parallax_shift_factor);
+	buffers.m_program_parallax_3d.program.set_uniform_4x4f(buffers.m_program_parallax_3d.mvp_matrix_location, m_mvp_matrix_ptr)
+		.set_uniform_4x4f(buffers.m_program_parallax_3d.m_matrix_location, m_m_matrix_ptr)
+		.set_uniform_3f(buffers.m_program_parallax_3d.view_XYZ_location, view_XYZ_ptr)
+		.set_uniform_1f(buffers.m_program_parallax_3d.C_location, static_cast<GLfloat>(1))
+		.set_uniform_1f(buffers.m_program_parallax_3d.parallax_shift_location, parallax_shift_factor);
 
 	kiwi::_draw_deferred_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -1891,11 +866,11 @@ kiwi::_draw_deferred_proxy kiwi::_load_deferred_3d_proxy::using_parallax(const G
 	normal_parallax_map.to_binding(2);
 	RMEC_texture_buffer.to_binding(3);
 
-	buffers.m_program_parallax_mRMEC_3d.program.set_uniform_4x4f(buffers.m_program_parallax_mRMEC_3d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_4x4f(buffers.m_program_parallax_mRMEC_3d.m_matrix_location, m_m_matrix_ptr)
-		.set_uniform_3f(buffers.m_program_parallax_mRMEC_3d.view_XYZ_location, view_XYZ_ptr)
-		.set_uniform_1f(buffers.m_program_parallax_mRMEC_3d.C_location, color_ceiling)
-		.set_uniform_1f(buffers.m_program_parallax_mRMEC_3d.parallax_shift_location, parallax_shift_factor);
+	buffers.m_program_parallax_3d.program.set_uniform_4x4f(buffers.m_program_parallax_3d.mvp_matrix_location, m_mvp_matrix_ptr)
+		.set_uniform_4x4f(buffers.m_program_parallax_3d.m_matrix_location, m_m_matrix_ptr)
+		.set_uniform_3f(buffers.m_program_parallax_3d.view_XYZ_location, view_XYZ_ptr)
+		.set_uniform_1f(buffers.m_program_parallax_3d.C_location, color_ceiling)
+		.set_uniform_1f(buffers.m_program_parallax_3d.parallax_shift_location, parallax_shift_factor);
 
 	kiwi::_draw_deferred_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -1921,11 +896,11 @@ kiwi::_draw_deferred_proxy kiwi::_load_deferred_3d_proxy::using_parallax_lightma
 	normal_parallax_map.to_binding(2);
 	RMEC_texture_buffer.to_binding(3);
 
-	buffers.m_program_parallax_mRMEC_3d.program.set_uniform_4x4f(buffers.m_program_parallax_mRMEC_3d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_4x4f(buffers.m_program_parallax_mRMEC_3d.m_matrix_location, m_m_matrix_ptr)
-		.set_uniform_3f(buffers.m_program_parallax_mRMEC_3d.view_XYZ_location, view_XYZ_ptr)
-		.set_uniform_1f(buffers.m_program_parallax_mRMEC_3d.C_location, static_cast<GLfloat>(1))
-		.set_uniform_1f(buffers.m_program_parallax_mRMEC_3d.parallax_shift_location, parallax_shift_factor);
+	buffers.m_program_parallax_3d.program.set_uniform_4x4f(buffers.m_program_parallax_3d.mvp_matrix_location, m_mvp_matrix_ptr)
+		.set_uniform_4x4f(buffers.m_program_parallax_3d.m_matrix_location, m_m_matrix_ptr)
+		.set_uniform_3f(buffers.m_program_parallax_3d.view_XYZ_location, view_XYZ_ptr)
+		.set_uniform_1f(buffers.m_program_parallax_3d.C_location, static_cast<GLfloat>(1))
+		.set_uniform_1f(buffers.m_program_parallax_3d.parallax_shift_location, parallax_shift_factor);
 
 	kiwi::_draw_deferred_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -1951,11 +926,11 @@ kiwi::_draw_deferred_proxy kiwi::_load_deferred_3d_proxy::using_parallax_lightma
 	normal_parallax_map.to_binding(2);
 	RMEC_texture_buffer.to_binding(3);
 
-	buffers.m_program_parallax_mRMEC_3d.program.set_uniform_4x4f(buffers.m_program_parallax_mRMEC_3d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_4x4f(buffers.m_program_parallax_mRMEC_3d.m_matrix_location, m_m_matrix_ptr)
-		.set_uniform_3f(buffers.m_program_parallax_mRMEC_3d.view_XYZ_location, view_XYZ_ptr)
-		.set_uniform_1f(buffers.m_program_parallax_mRMEC_3d.C_location, color_ceiling)
-		.set_uniform_1f(buffers.m_program_parallax_mRMEC_3d.parallax_shift_location, parallax_shift_factor);
+	buffers.m_program_parallax_3d.program.set_uniform_4x4f(buffers.m_program_parallax_3d.mvp_matrix_location, m_mvp_matrix_ptr)
+		.set_uniform_4x4f(buffers.m_program_parallax_3d.m_matrix_location, m_m_matrix_ptr)
+		.set_uniform_3f(buffers.m_program_parallax_3d.view_XYZ_location, view_XYZ_ptr)
+		.set_uniform_1f(buffers.m_program_parallax_3d.C_location, color_ceiling)
+		.set_uniform_1f(buffers.m_program_parallax_3d.parallax_shift_location, parallax_shift_factor);
 
 	kiwi::_draw_deferred_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -2009,28 +984,11 @@ bool kiwi::deferred_2d_solid_color::init() noexcept
 	return success;
 }
 
-bool kiwi::deferred_2d_color_gradient_sRMEC::init() noexcept
+bool kiwi::deferred_2d_color_gradient::init() noexcept
 {
 	bool success = program.new_program(
-		kiwi::source::deferred_2d_color_gradient_sRMEC::vertex_shader(),
-		kiwi::source::deferred_2d_color_gradient_sRMEC::fragment_shader()
-	);
-
-	if (success)
-	{
-		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
-
-		RMEC_location = program.new_uniform_location("u_RMEC");
-	}
-
-	return success;
-}
-
-bool kiwi::deferred_2d_color_gradient_vRMEC::init() noexcept
-{
-	bool success = program.new_program(
-		kiwi::source::deferred_2d_color_gradient_vRMEC::vertex_shader(),
-		kiwi::source::deferred_2d_color_gradient_vRMEC::fragment_shader()
+		kiwi::source::deferred_2d_color_gradient::vertex_shader(),
+		kiwi::source::deferred_2d_color_gradient::fragment_shader()
 	);
 
 	if (success)
@@ -2043,28 +1001,11 @@ bool kiwi::deferred_2d_color_gradient_vRMEC::init() noexcept
 	return success;
 }
 
-bool kiwi::deferred_2d_texture_sRMEC::init() noexcept
+bool kiwi::deferred_2d_texture::init() noexcept
 {
 	bool success = program.new_program(
-		kiwi::source::deferred_2d_texture_sRMEC::vertex_shader(),
-		kiwi::source::deferred_2d_texture_sRMEC::fragment_shader()
-	);
-
-	if (success)
-	{
-		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
-
-		RMEC_location = program.new_uniform_location("u_RMEC");
-	}
-
-	return success;
-}
-
-bool kiwi::deferred_2d_texture_vRMEC::init() noexcept
-{
-	bool success = program.new_program(
-		kiwi::source::deferred_2d_texture_vRMEC::vertex_shader(),
-		kiwi::source::deferred_2d_texture_vRMEC::fragment_shader()
+		kiwi::source::deferred_2d_texture::vertex_shader(),
+		kiwi::source::deferred_2d_texture::fragment_shader()
 	);
 
 	if (success)
@@ -2077,64 +1018,11 @@ bool kiwi::deferred_2d_texture_vRMEC::init() noexcept
 	return success;
 }
 
-bool kiwi::deferred_2d_texture_mRMEC::init() noexcept
+bool kiwi::deferred_2d_normal::init() noexcept
 {
 	bool success = program.new_program(
-		kiwi::source::deferred_2d_texture_mRMEC::vertex_shader(),
-		kiwi::source::deferred_2d_texture_mRMEC::fragment_shader()
-	);
-
-	if (success)
-	{
-		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
-
-		C_location = program.new_uniform_location("u_C");
-	}
-
-	return success;
-}
-
-bool kiwi::deferred_2d_normal_sRMEC::init() noexcept
-{
-	bool success = program.new_program(
-		kiwi::source::deferred_2d_normal_sRMEC::vertex_shader(),
-		kiwi::source::deferred_2d_normal_sRMEC::fragment_shader()
-	);
-
-	if (success)
-	{
-		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
-		m_matrix_location = program.new_uniform_location("u_m_M");
-
-		RMEC_location = program.new_uniform_location("u_RMEC");
-	}
-
-	return success;
-}
-
-bool kiwi::deferred_2d_normal_vRMEC::init() noexcept
-{
-	bool success = program.new_program(
-		kiwi::source::deferred_2d_normal_vRMEC::vertex_shader(),
-		kiwi::source::deferred_2d_normal_vRMEC::fragment_shader()
-	);
-
-	if (success)
-	{
-		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
-		m_matrix_location = program.new_uniform_location("u_m_M");
-
-		C_location = program.new_uniform_location("u_C");
-	}
-
-	return success;
-}
-
-bool kiwi::deferred_2d_normal_mRMEC::init() noexcept
-{
-	bool success = program.new_program(
-		kiwi::source::deferred_2d_normal_mRMEC::vertex_shader(),
-		kiwi::source::deferred_2d_normal_mRMEC::fragment_shader()
+		kiwi::source::deferred_2d_normal::vertex_shader(),
+		kiwi::source::deferred_2d_normal::fragment_shader()
 	);
 
 	if (success)
@@ -2168,25 +1056,7 @@ bool kiwi::deferred_3d_solid_color::init() noexcept
 	return success;
 }
 
-bool kiwi::deferred_3d_color_gradient_sRMEC::init() noexcept
-{
-	bool success = program.new_program(
-		kiwi::source::deferred_3d_color_gradient_sRMEC::vertex_shader(),
-		kiwi::source::deferred_3d_color_gradient_sRMEC::fragment_shader()
-	);
-
-	if (success)
-	{
-		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
-		m_matrix_location = program.new_uniform_location("u_m_M");
-
-		RMEC_location = program.new_uniform_location("u_RMEC");
-	}
-
-	return success;
-}
-
-bool kiwi::deferred_3d_color_gradient_vRMEC::init() noexcept
+bool kiwi::deferred_3d_color_gradient::init() noexcept
 {
 	bool success = program.new_program(
 		kiwi::source::deferred_3d_color_gradient_vRMEC::vertex_shader(),
@@ -2204,43 +1074,7 @@ bool kiwi::deferred_3d_color_gradient_vRMEC::init() noexcept
 	return success;
 }
 
-bool kiwi::deferred_3d_texture_sRMEC::init() noexcept
-{
-	bool success = program.new_program(
-		kiwi::source::deferred_3d_texture_sRMEC::vertex_shader(),
-		kiwi::source::deferred_3d_texture_sRMEC::fragment_shader()
-	);
-
-	if (success)
-	{
-		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
-		m_matrix_location = program.new_uniform_location("u_m_M");
-
-		RMEC_location = program.new_uniform_location("u_RMEC");
-	}
-
-	return success;
-}
-
-bool kiwi::deferred_3d_texture_vRMEC::init() noexcept
-{
-	bool success = program.new_program(
-		kiwi::source::deferred_3d_texture_vRMEC::vertex_shader(),
-		kiwi::source::deferred_3d_texture_vRMEC::fragment_shader()
-	);
-
-	if (success)
-	{
-		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
-		m_matrix_location = program.new_uniform_location("u_m_M");
-
-		C_location = program.new_uniform_location("u_C");
-	}
-
-	return success;
-}
-
-bool kiwi::deferred_3d_texture_mRMEC::init() noexcept
+bool kiwi::deferred_3d_texture::init() noexcept
 {
 	bool success = program.new_program(
 		kiwi::source::deferred_3d_texture_mRMEC::vertex_shader(),
@@ -2258,29 +1092,11 @@ bool kiwi::deferred_3d_texture_mRMEC::init() noexcept
 	return success;
 }
 
-bool kiwi::deferred_3d_normal_sRMEC::init() noexcept
+bool kiwi::deferred_3d_normal::init() noexcept
 {
 	bool success = program.new_program(
-		kiwi::source::deferred_3d_normal_sRMEC::vertex_shader(),
-		kiwi::source::deferred_3d_normal_sRMEC::fragment_shader()
-	);
-
-	if (success)
-	{
-		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
-		m_matrix_location = program.new_uniform_location("u_m_M");
-
-		RMEC_location = program.new_uniform_location("u_RMEC");
-	}
-
-	return success;
-}
-
-bool kiwi::deferred_3d_normal_vRMEC::init() noexcept
-{
-	bool success = program.new_program(
-		kiwi::source::deferred_3d_normal_vRMEC::vertex_shader(),
-		kiwi::source::deferred_3d_normal_vRMEC::fragment_shader()
+		kiwi::source::deferred_3d_normal::vertex_shader(),
+		kiwi::source::deferred_3d_normal::fragment_shader()
 	);
 
 	if (success)
@@ -2294,65 +1110,7 @@ bool kiwi::deferred_3d_normal_vRMEC::init() noexcept
 	return success;
 }
 
-bool kiwi::deferred_3d_normal_mRMEC::init() noexcept
-{
-	bool success = program.new_program(
-		kiwi::source::deferred_3d_normal_mRMEC::vertex_shader(),
-		kiwi::source::deferred_3d_normal_mRMEC::fragment_shader()
-	);
-
-	if (success)
-	{
-		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
-		m_matrix_location = program.new_uniform_location("u_m_M");
-
-		C_location = program.new_uniform_location("u_C");
-	}
-
-	return success;
-}
-
-bool kiwi::deferred_3d_parallax_sRMEC::init() noexcept
-{
-	bool success = program.new_program(
-		kiwi::source::deferred_3d_parallax_sRMEC::vertex_shader(),
-		kiwi::source::deferred_3d_parallax_sRMEC::fragment_shader()
-	);
-
-	if (success)
-	{
-		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
-		view_XYZ_location = program.new_uniform_location("u_view_XYZ");
-		m_matrix_location = program.new_uniform_location("u_m_M");
-
-		RMEC_location = program.new_uniform_location("u_RMEC");
-		parallax_shift_location = program.new_uniform_location("u_shift_factor");
-	}
-
-	return success;
-}
-
-bool kiwi::deferred_3d_parallax_vRMEC::init() noexcept
-{
-	bool success = program.new_program(
-		kiwi::source::deferred_3d_parallax_vRMEC::vertex_shader(),
-		kiwi::source::deferred_3d_parallax_vRMEC::fragment_shader()
-	);
-
-	if (success)
-	{
-		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
-		view_XYZ_location = program.new_uniform_location("u_view_XYZ");
-		m_matrix_location = program.new_uniform_location("u_m_M");
-
-		C_location = program.new_uniform_location("u_C");
-		parallax_shift_location = program.new_uniform_location("u_shift_factor");
-	}
-
-	return success;
-}
-
-bool kiwi::deferred_3d_parallax_mRMEC::init() noexcept
+bool kiwi::deferred_3d_parallax::init() noexcept
 {
 	bool success = program.new_program(
 		kiwi::source::deferred_3d_parallax_mRMEC::vertex_shader(),

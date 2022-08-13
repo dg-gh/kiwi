@@ -17,61 +17,19 @@ namespace kiwi
 			const char* const fragment_shader() noexcept;
 		}
 
-		namespace deferred_2d_color_gradient_sRMEC
+		namespace deferred_2d_color_gradient
 		{
 			const char* const vertex_shader() noexcept;
 			const char* const fragment_shader() noexcept;
 		}
 
-		namespace deferred_2d_color_gradient_vRMEC
+		namespace deferred_2d_texture
 		{
 			const char* const vertex_shader() noexcept;
 			const char* const fragment_shader() noexcept;
 		}
 
-		namespace deferred_2d_texture_sRMEC
-		{
-			const char* const vertex_shader() noexcept;
-			const char* const fragment_shader() noexcept;
-		}
-
-		namespace deferred_2d_texture_vRMEC
-		{
-			const char* const vertex_shader() noexcept;
-			const char* const fragment_shader() noexcept;
-		}
-
-		namespace deferred_2d_texture_mRMEC
-		{
-			const char* const vertex_shader() noexcept;
-			const char* const fragment_shader() noexcept;
-		}
-
-		namespace deferred_2d_normal_sRMEC
-		{
-			const char* const vertex_shader() noexcept;
-			const char* const fragment_shader() noexcept;
-		}
-
-		namespace deferred_2d_normal_vRMEC
-		{
-			const char* const vertex_shader() noexcept;
-			const char* const fragment_shader() noexcept;
-		}
-
-		namespace deferred_2d_normal_mRMEC
-		{
-			const char* const vertex_shader() noexcept;
-			const char* const fragment_shader() noexcept;
-		}
-
-		namespace deferred_2d_parallax_sRMEC
-		{
-			const char* const vertex_shader() noexcept;
-			const char* const fragment_shader() noexcept;
-		}
-
-		namespace deferred_2d_parallax_vRMEC
+		namespace deferred_2d_normal
 		{
 			const char* const vertex_shader() noexcept;
 			const char* const fragment_shader() noexcept;

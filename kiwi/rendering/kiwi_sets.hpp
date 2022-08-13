@@ -6,23 +6,31 @@
 #include "buffers/kiwi_buffer_storage.hpp"
 
 
+// XYZA_RGBA
 
 namespace kiwi
 {
-	class _XY_RGBA_proxy;
+	class _XYZA_RGBA_proxy;
+	class XYZA_RGBA_loader;
+	class _XYZA_RGBA_loader_proxy;
 
-	class XY_RGBA_set
+	class XYZA_RGBA_set
 	{
 
 	public:
 
-		friend class _XY_RGBA_proxy;
+		friend class _XYZA_RGBA_proxy;
+		friend class XYZA_RGBA_loader;
 
-		kiwi::XY_RGBA_set& allocate(std::size_t number_of_instances) noexcept;
-		kiwi::_XY_RGBA_proxy select(std::size_t number) noexcept;
-		kiwi::XY_RGBA_set& to_binding(GLuint binding) noexcept;
-		const kiwi::XY_RGBA_set& to_binding(GLuint binding) const noexcept;
+		kiwi::XYZA_RGBA_set& allocate(std::size_t number_of_instances) noexcept;
+		kiwi::_XYZA_RGBA_proxy select(std::size_t number) noexcept;
+		kiwi::XYZA_RGBA_set& to_binding(GLuint binding) noexcept;
+		const kiwi::XYZA_RGBA_set& to_binding(GLuint binding) const noexcept;
 		std::size_t instance_count() const noexcept;
+
+		kiwi::XYZA_RGBA_loader get_loader(void* ptr) noexcept;
+		kiwi::XYZA_RGBA_loader get_loader(void* ptr, std::size_t count) noexcept;
+		kiwi::XYZA_RGBA_loader get_loader(void* ptr, std::size_t first, std::size_t count) noexcept;
 
 	private:
 
@@ -30,42 +38,106 @@ namespace kiwi
 		std::size_t m_instance_count;
 	};
 
-	class _XY_RGBA_proxy
+	class _XYZA_RGBA_proxy
+	{
+
+	public:
+
+		friend class XYZA_RGBA_set;
+
+		kiwi::_XYZA_RGBA_proxy& set_XY(GLfloat X, GLfloat Y) noexcept;
+		kiwi::_XYZA_RGBA_proxy& set_XY(const GLfloat* const XY_ptr) noexcept;
+		kiwi::_XYZA_RGBA_proxy& set_XYZ(GLfloat X, GLfloat Y, GLfloat Z) noexcept;
+		kiwi::_XYZA_RGBA_proxy& set_XYZ(const GLfloat* const XYZ_ptr) noexcept;
+		kiwi::_XYZA_RGBA_proxy& set_angle(GLfloat angle) noexcept;
+		kiwi::_XYZA_RGBA_proxy& set_XYZA(GLfloat X, GLfloat Y, GLfloat Z, GLfloat angle) noexcept;
+		kiwi::_XYZA_RGBA_proxy& set_XYZA(const GLfloat* const XYZA_ptr) noexcept;
+		kiwi::_XYZA_RGBA_proxy& set_RGBA(GLfloat R, GLfloat G, GLfloat B, GLfloat A = static_cast<GLfloat>(1)) noexcept;
+		kiwi::_XYZA_RGBA_proxy& set_RGBA(const GLfloat* const RGBA_ptr) noexcept;
+
+	private:
+
+		kiwi::XYZA_RGBA_set* m_set_ptr;
+		std::size_t m_number;
+	};
+
+	class XYZA_RGBA_loader
 	{
 
 	private:
 
-		kiwi::XY_RGBA_set* m_set_ptr;
-		std::size_t m_number;
+		XYZA_RGBA_loader() noexcept;
 
 	public:
 
-		friend class XY_RGBA_set;
+		XYZA_RGBA_loader(const kiwi::XYZA_RGBA_loader& rhs) = delete;
+		kiwi::XYZA_RGBA_loader& operator=(const kiwi::XYZA_RGBA_loader& rhs) = delete;
+		XYZA_RGBA_loader(kiwi::XYZA_RGBA_loader&& rhs) noexcept;
+		kiwi::XYZA_RGBA_loader& operator=(kiwi::XYZA_RGBA_loader&& rhs) noexcept;
+		~XYZA_RGBA_loader();
 
-		kiwi::_XY_RGBA_proxy& set_XY(GLfloat X, GLfloat Y) noexcept;
-		kiwi::_XY_RGBA_proxy& set_XY(const GLfloat* const XY_ptr) noexcept;
-		kiwi::_XY_RGBA_proxy& set_RGBA(GLfloat R, GLfloat G, GLfloat B, GLfloat A = static_cast<GLfloat>(1)) noexcept;
-		kiwi::_XY_RGBA_proxy& set_RGBA(const GLfloat* const RGBA_ptr) noexcept;
+		kiwi::_XYZA_RGBA_loader_proxy select(std::size_t number) noexcept;
+		void cancel() noexcept;
+
+	private:
+
+		friend class XYZA_RGBA_set;
+
+		char* m_data_ptr;
+		kiwi::XYZA_RGBA_set* m_set_ptr;
+		std::size_t m_first;
+		std::size_t m_count;
+	};
+
+	class _XYZA_RGBA_loader_proxy
+	{
+
+	private:
+
+		GLfloat* m_buffer_ptr;
+
+	public:
+
+		friend class XYZA_RGBA_loader;
+
+		kiwi::_XYZA_RGBA_loader_proxy& set_XY(GLfloat X, GLfloat Y) noexcept;
+		kiwi::_XYZA_RGBA_loader_proxy& set_XY(const GLfloat* const XY_ptr) noexcept;
+		kiwi::_XYZA_RGBA_loader_proxy& set_XYZ(GLfloat X, GLfloat Y, GLfloat Z) noexcept;
+		kiwi::_XYZA_RGBA_loader_proxy& set_XYZ(const GLfloat* const XYZ_ptr) noexcept;
+		kiwi::_XYZA_RGBA_loader_proxy& set_XYZA(GLfloat X, GLfloat Y, GLfloat Z, GLfloat A) noexcept;
+		kiwi::_XYZA_RGBA_loader_proxy& set_XYZA(const GLfloat* const XYZA_ptr) noexcept;
+		kiwi::_XYZA_RGBA_loader_proxy& set_angle(GLfloat angle) noexcept;
+		kiwi::_XYZA_RGBA_loader_proxy& set_RGBA(GLfloat X, GLfloat Y, GLfloat Z, GLfloat A = static_cast<GLfloat>(1)) noexcept;
+		kiwi::_XYZA_RGBA_loader_proxy& set_RGBA(const GLfloat* const RGBA_ptr) noexcept;
 	};
 }
 
 
+// XYZA
+
 namespace kiwi
 {
-	class _XYZ_RGBA_proxy;
+	class _XYZA_proxy;
+	class XYZA_loader;
+	class _XYZA_loader_proxy;
 
-	class XYZ_RGBA_set
+	class XYZA_set
 	{
 
 	public:
 
-		friend class _XYZ_RGBA_proxy;
+		friend class _XYZA_proxy;
+		friend class XYZA_loader;
 
-		kiwi::XYZ_RGBA_set& allocate(std::size_t number_of_instances) noexcept;
-		kiwi::_XYZ_RGBA_proxy select(std::size_t number) noexcept;
-		kiwi::XYZ_RGBA_set& to_binding(GLuint binding) noexcept;
-		const kiwi::XYZ_RGBA_set& to_binding(GLuint binding) const noexcept;
+		kiwi::XYZA_set& allocate(std::size_t number_of_instances) noexcept;
+		kiwi::_XYZA_proxy select(std::size_t number) noexcept;
+		kiwi::XYZA_set& to_binding(GLuint binding) noexcept;
+		const kiwi::XYZA_set& to_binding(GLuint binding) const noexcept;
 		std::size_t instance_count() const noexcept;
+
+		kiwi::XYZA_loader get_loader(void* ptr) noexcept;
+		kiwi::XYZA_loader get_loader(void* ptr, std::size_t count) noexcept;
+		kiwi::XYZA_loader get_loader(void* ptr, std::size_t first, std::size_t count) noexcept;
 
 	private:
 
@@ -73,111 +145,84 @@ namespace kiwi
 		std::size_t m_instance_count;
 	};
 
-	class _XYZ_RGBA_proxy
-	{
-
-	public:
-
-		friend class XYZ_RGBA_set;
-
-		kiwi::_XYZ_RGBA_proxy& set_XYZ(GLfloat X, GLfloat Y, GLfloat Z) noexcept;
-		kiwi::_XYZ_RGBA_proxy& set_XYZ(const GLfloat* const XYZ_ptr) noexcept;
-		kiwi::_XYZ_RGBA_proxy& set_RGBA(GLfloat R, GLfloat G, GLfloat B, GLfloat A = static_cast<GLfloat>(1)) noexcept;
-		kiwi::_XYZ_RGBA_proxy& set_RGBA(const GLfloat* const RGBA_ptr) noexcept;
-
-	private:
-
-		kiwi::XYZ_RGBA_set* m_set_ptr;
-		std::size_t m_number;
-	};
-}
-
-
-namespace kiwi
-{
-	class _XY_proxy;
-
-	class XY_set
-	{
-
-	public:
-
-		friend class _XY_proxy;
-
-		kiwi::XY_set& allocate(std::size_t number_of_instances) noexcept;
-		kiwi::_XY_proxy select(std::size_t number) noexcept;
-		kiwi::XY_set& to_binding(GLuint binding) noexcept;
-		const kiwi::XY_set& to_binding(GLuint binding) const noexcept;
-		std::size_t instance_count() const noexcept;
-
-	private:
-
-		kiwi::storage_buffer m_storage;
-		std::size_t m_instance_count;
-	};
-
-	class _XY_proxy
-	{
-
-	public:
-
-		friend class XY_set;
-
-		kiwi::_XY_proxy& set_XY(GLfloat X, GLfloat Y) noexcept;
-		kiwi::_XY_proxy& set_XY(const GLfloat* const XY_ptr) noexcept;
-
-	private:
-
-		kiwi::XY_set* m_set_ptr;
-		std::size_t m_number;
-	};
-}
-
-
-namespace kiwi
-{
-	class _XYZ_proxy;
-
-	class XYZ_set
-	{
-
-	public:
-
-		friend class _XYZ_proxy;
-
-		kiwi::XYZ_set& allocate(std::size_t number_of_instances) noexcept;
-		kiwi::_XYZ_proxy select(std::size_t number) noexcept;
-		kiwi::XYZ_set& to_binding(GLuint binding) noexcept;
-		const kiwi::XYZ_set& to_binding(GLuint binding) const noexcept;
-		std::size_t instance_count() const noexcept;
-
-	private:
-
-		kiwi::storage_buffer m_storage;
-		std::size_t m_instance_count;
-	};
-
-	class _XYZ_proxy
+	class _XYZA_proxy
 	{
 
 	private:
 
-		kiwi::XYZ_set* m_set_ptr;
+		kiwi::XYZA_set* m_set_ptr;
 		std::size_t m_number;
 
 	public:
 
-		friend class XYZ_set;
+		friend class XYZA_set;
 
-		kiwi::_XYZ_proxy& set_XYZ(GLfloat X, GLfloat Y, GLfloat Z) noexcept;
-		kiwi::_XYZ_proxy& set_XYZ(const GLfloat* const XYZ_ptr) noexcept;
+		kiwi::_XYZA_proxy& set_XY(GLfloat X, GLfloat Y) noexcept;
+		kiwi::_XYZA_proxy& set_XY(const GLfloat* const XY_ptr) noexcept;
+		kiwi::_XYZA_proxy& set_XYZ(GLfloat X, GLfloat Y, GLfloat Z) noexcept;
+		kiwi::_XYZA_proxy& set_XYZ(const GLfloat* const XYZ_ptr) noexcept;
+		kiwi::_XYZA_proxy& set_XYZA(GLfloat X, GLfloat Y, GLfloat Z, GLfloat angle) noexcept;
+		kiwi::_XYZA_proxy& set_XYZA(const GLfloat* const XYZA_ptr) noexcept;
+		kiwi::_XYZA_proxy& set_angle(GLfloat angle) noexcept;
+	};
+
+	class XYZA_loader
+	{
+
+	private:
+
+		XYZA_loader() noexcept;
+
+	public:
+
+		XYZA_loader(const kiwi::XYZA_loader& rhs) = delete;
+		kiwi::XYZA_loader& operator=(const kiwi::XYZA_loader& rhs) = delete;
+		XYZA_loader(kiwi::XYZA_loader&& rhs) noexcept;
+		kiwi::XYZA_loader& operator=(kiwi::XYZA_loader&& rhs) noexcept;
+		~XYZA_loader();
+
+		kiwi::_XYZA_loader_proxy select(std::size_t number) noexcept;
+		void cancel() noexcept;
+
+	private:
+
+		friend class XYZA_set;
+
+		char* m_data_ptr;
+		kiwi::XYZA_set* m_set_ptr;
+		std::size_t m_first;
+		std::size_t m_count;
+	};
+
+	class _XYZA_loader_proxy
+	{
+
+	private:
+
+		GLfloat* m_buffer_ptr;
+
+	public:
+
+		friend class XYZA_loader;
+
+		kiwi::_XYZA_loader_proxy& set_XY(GLfloat X, GLfloat Y) noexcept;
+		kiwi::_XYZA_loader_proxy& set_XY(const GLfloat* const XY_ptr) noexcept;
+		kiwi::_XYZA_loader_proxy& set_XYZ(GLfloat X, GLfloat Y, GLfloat Z) noexcept;
+		kiwi::_XYZA_loader_proxy& set_XYZ(const GLfloat* const XYZ_ptr) noexcept;
+		kiwi::_XYZA_loader_proxy& set_XYZA(GLfloat X, GLfloat Y, GLfloat Z, GLfloat A) noexcept;
+		kiwi::_XYZA_loader_proxy& set_XYZA(const GLfloat* const XYZA_ptr) noexcept;
+		kiwi::_XYZA_loader_proxy& set_angle(GLfloat angle) noexcept;
 	};
 }
 
+
+// RGBA
 
 namespace kiwi
 {
 	class _RGBA_proxy;
+	class RGBA_loader;
+	class _RGBA_loader_proxy;
 
 	class RGBA_set
 	{
@@ -185,12 +230,17 @@ namespace kiwi
 	public:
 
 		friend class _RGBA_proxy;
+		friend class RGBA_loader;
 
 		kiwi::RGBA_set& allocate(std::size_t number_of_instances) noexcept;
 		kiwi::_RGBA_proxy select(std::size_t number) noexcept;
 		kiwi::RGBA_set& to_binding(GLuint binding) noexcept;
 		const kiwi::RGBA_set& to_binding(GLuint binding) const noexcept;
 		std::size_t instance_count() const noexcept;
+
+		kiwi::RGBA_loader get_loader(void* ptr) noexcept;
+		kiwi::RGBA_loader get_loader(void* ptr, std::size_t count) noexcept;
+		kiwi::RGBA_loader get_loader(void* ptr, std::size_t first, std::size_t count) noexcept;
 
 	private:
 
@@ -213,110 +263,58 @@ namespace kiwi
 		kiwi::RGBA_set* m_set_ptr;
 		std::size_t m_number;
 	};
-}
 
-
-namespace kiwi
-{
-	class _XY_UV_proxy;
-
-	class XY_UV_set
+	class RGBA_loader
 	{
-
-	public:
-
-		friend class _XY_UV_proxy;
-
-		kiwi::XY_UV_set& allocate(std::size_t number_of_instances) noexcept;
-		kiwi::_XY_UV_proxy select(std::size_t number) noexcept;
-		kiwi::XY_UV_set& to_binding(GLuint storage_binding, GLuint texture_binding) noexcept;
-		const kiwi::XY_UV_set& to_binding(GLuint storage_binding, GLuint texture_binding) const noexcept;
-		std::size_t instance_count() const noexcept;
-
-		kiwi::XY_UV_set& set_atlas(const kiwi::texture_buffer* const atlas_texture_ptr,
-			std::function<void(const int, GLfloat* ptr)> atlas_function) noexcept;
 
 	private:
 
-		kiwi::storage_buffer m_storage;
-		std::size_t m_instance_count;
-		const kiwi::texture_buffer* m_atlas_texture = nullptr;
-		std::function<void(const int, GLfloat*)> m_atlas_coordinate_function;
+		RGBA_loader() noexcept;
+
+	public:
+
+		RGBA_loader(const kiwi::RGBA_loader& rhs) = delete;
+		kiwi::RGBA_loader& operator=(const kiwi::RGBA_loader& rhs) = delete;
+		RGBA_loader(kiwi::RGBA_loader&& rhs) noexcept;
+		kiwi::RGBA_loader& operator=(kiwi::RGBA_loader&& rhs) noexcept;
+		~RGBA_loader();
+
+		kiwi::_RGBA_loader_proxy select(std::size_t number) noexcept;
+		void cancel() noexcept;
+
+	private:
+
+		friend class RGBA_set;
+
+		char* m_data_ptr;
+		kiwi::RGBA_set* m_set_ptr;
+		std::size_t m_first;
+		std::size_t m_count;
 	};
 
-	class _XY_UV_proxy
+	class _RGBA_loader_proxy
 	{
 
 	private:
 
-		kiwi::XY_UV_set* m_set_ptr;
-		std::size_t m_number;
+		GLfloat* m_buffer_ptr;
 
 	public:
 
-		friend class XY_UV_set;
-
-		kiwi::_XY_UV_proxy& set_XY(GLfloat X, GLfloat Y) noexcept;
-		kiwi::_XY_UV_proxy& set_XY(const GLfloat* const XY_ptr) noexcept;
-		kiwi::_XY_UV_proxy& set_UV(GLfloat U, GLfloat V) noexcept;
-		kiwi::_XY_UV_proxy& set_UV(const GLfloat* const UV_ptr) noexcept;
-		kiwi::_XY_UV_proxy& set_tile(int tile) noexcept;
+		friend class RGBA_loader;
+		kiwi::_RGBA_loader_proxy& set_RGBA(GLfloat X, GLfloat Y, GLfloat Z, GLfloat A = static_cast<GLfloat>(1)) noexcept;
+		kiwi::_RGBA_loader_proxy& set_RGBA(const GLfloat* const RGBA_ptr) noexcept;
 	};
 }
 
 
-namespace kiwi
-{
-	class _XYZ_UV_proxy;
-
-	class XYZ_UV_set
-	{
-
-	public:
-
-		friend class _XYZ_UV_proxy;
-
-		kiwi::XYZ_UV_set& allocate(std::size_t number_of_instances) noexcept;
-		kiwi::_XYZ_UV_proxy select(std::size_t number) noexcept;
-		kiwi::XYZ_UV_set& to_binding(GLuint storage_binding, GLuint texture_binding) noexcept;
-		const kiwi::XYZ_UV_set& to_binding(GLuint storage_binding, GLuint texture_binding) const noexcept;
-		std::size_t instance_count() const noexcept;
-
-		kiwi::XYZ_UV_set& set_atlas(const kiwi::texture_buffer* const atlas_texture_ptr,
-			std::function<void(const int, GLfloat* ptr)> atlas_function) noexcept;
-
-	private:
-
-		kiwi::storage_buffer m_storage;
-		std::size_t m_instance_count;
-		const kiwi::texture_buffer* m_atlas_texture = nullptr;
-		std::function<void(const int, GLfloat*)> m_atlas_coordinate_function;
-	};
-
-	class _XYZ_UV_proxy
-	{
-
-	public:
-
-		friend class XYZ_UV_set;
-
-		kiwi::_XYZ_UV_proxy& set_XYZ(GLfloat X, GLfloat Y, GLfloat Z) noexcept;
-		kiwi::_XYZ_UV_proxy& set_XYZ(const GLfloat* const XYZ_ptr) noexcept;
-		kiwi::_XYZ_UV_proxy& set_UV(GLfloat U, GLfloat V) noexcept;
-		kiwi::_XYZ_UV_proxy& set_UV(const GLfloat* const UV_ptr) noexcept;
-		kiwi::_XYZ_UV_proxy& set_tile(int tile) noexcept;
-
-	private:
-
-		kiwi::XYZ_UV_set* m_set_ptr;
-		std::size_t m_number;
-	};
-}
-
+// UV
 
 namespace kiwi
 {
 	class _UV_proxy;
+	class UV_loader;
+	class _UV_loader_proxy;
 
 	class UV_set
 	{
@@ -324,6 +322,7 @@ namespace kiwi
 	public:
 
 		friend class _UV_proxy;
+		friend class UV_loader;
 
 		kiwi::UV_set& allocate(std::size_t number_of_instances) noexcept;
 		kiwi::_UV_proxy select(std::size_t number) noexcept;
@@ -332,7 +331,14 @@ namespace kiwi
 		std::size_t instance_count() const noexcept;
 
 		kiwi::UV_set& set_atlas(const kiwi::texture_buffer* const atlas_texture_ptr,
-			std::function<void(const int, GLfloat* ptr)> atlas_function) noexcept;
+			std::function<void(const int, GLfloat* ptr)> atlas_function, const kiwi::UV& UV_size) noexcept;
+
+		kiwi::UV_loader get_loader(void* ptr) noexcept;
+		kiwi::UV_loader get_loader(void* ptr, std::size_t count) noexcept;
+		kiwi::UV_loader get_loader(void* ptr, std::size_t first, std::size_t count) noexcept;
+
+		GLfloat get_U_size() const noexcept;
+		GLfloat get_V_size() const noexcept;
 
 	private:
 
@@ -340,6 +346,7 @@ namespace kiwi
 		std::size_t m_instance_count;
 		const kiwi::texture_buffer* m_atlas_texture = nullptr;
 		std::function<void(const int, GLfloat*)> m_atlas_coordinate_function;
+		GLfloat m_UV_size[2] = { static_cast<GLfloat>(0) };
 	};
 
 	class _UV_proxy
@@ -357,6 +364,166 @@ namespace kiwi
 		kiwi::_UV_proxy& set_UV(GLfloat U, GLfloat V) noexcept;
 		kiwi::_UV_proxy& set_UV(const GLfloat* const UV_ptr) noexcept;
 		kiwi::_UV_proxy& set_tile(int tile) noexcept;
+	};
+
+	class UV_loader
+	{
+
+	private:
+
+		UV_loader() noexcept;
+
+	public:
+
+		UV_loader(const kiwi::UV_loader& rhs) = delete;
+		kiwi::UV_loader& operator=(const kiwi::UV_loader& rhs) = delete;
+		UV_loader(kiwi::UV_loader&& rhs) noexcept;
+		kiwi::UV_loader& operator=(kiwi::UV_loader&& rhs) noexcept;
+		~UV_loader();
+
+		kiwi::_UV_loader_proxy select(std::size_t number) noexcept;
+		void cancel() noexcept;
+
+	private:
+
+		friend class UV_set;
+
+		char* m_data_ptr;
+		kiwi::UV_set* m_set_ptr;
+		std::size_t m_first;
+		std::size_t m_count;
+	};
+
+	class _UV_loader_proxy
+	{
+
+	private:
+
+		GLfloat* m_buffer_ptr;
+		std::function<void(const int, GLfloat*)>* m_altas_coordinate_function_ptr;
+
+	public:
+
+		friend class UV_loader;
+
+		kiwi::_UV_loader_proxy& set_UV(GLfloat U, GLfloat V) noexcept;
+		kiwi::_UV_loader_proxy& set_UV(const GLfloat* const UV_ptr) noexcept;
+		kiwi::_UV_loader_proxy& set_tile(int tile) noexcept;
+	};
+}
+
+namespace kiwi
+{
+	class _XYZA_UV_proxy;
+	class XYZA_UV_loader;
+	class _XYZA_UV_loader_proxy;
+	class XYZA_UV_set
+	{
+
+	public:
+
+		friend class _XYZA_UV_proxy;
+		friend class XYZA_UV_loader;
+
+		kiwi::XYZA_UV_set& allocate(std::size_t number_of_instances) noexcept;
+		kiwi::_XYZA_UV_proxy select(std::size_t number) noexcept;
+		kiwi::XYZA_UV_set& to_binding(GLuint storage_binding, GLuint texture_binding) noexcept;
+		const kiwi::XYZA_UV_set& to_binding(GLuint storage_binding, GLuint texture_binding) const noexcept;
+		std::size_t instance_count() const noexcept;
+
+		kiwi::XYZA_UV_set& set_atlas(const kiwi::texture_buffer* const atlas_texture_ptr,
+			std::function<void(const int, GLfloat* ptr)> atlas_function, const kiwi::UV& UV_size) noexcept;
+
+		kiwi::XYZA_UV_loader get_loader(void* ptr) noexcept;
+		kiwi::XYZA_UV_loader get_loader(void* ptr, std::size_t count) noexcept;
+		kiwi::XYZA_UV_loader get_loader(void* ptr, std::size_t first, std::size_t count) noexcept;
+
+		GLfloat get_U_size() const noexcept;
+		GLfloat get_V_size() const noexcept;
+
+	private:
+
+		kiwi::storage_buffer m_storage;
+		std::size_t m_instance_count;
+		const kiwi::texture_buffer* m_atlas_texture = nullptr;
+		std::function<void(const int, GLfloat*)> m_atlas_coordinate_function;
+		GLfloat m_UV_size[2] = { static_cast<GLfloat>(0) };
+	};
+
+	class _XYZA_UV_proxy
+	{
+
+	private:
+
+		kiwi::XYZA_UV_set* m_set_ptr;
+		std::size_t m_number;
+
+	public:
+
+		friend class XYZA_UV_set;
+
+		kiwi::_XYZA_UV_proxy& set_XY(GLfloat X, GLfloat Y) noexcept;
+		kiwi::_XYZA_UV_proxy& set_XY(const GLfloat* const XY_ptr) noexcept;
+		kiwi::_XYZA_UV_proxy& set_XYZ(GLfloat X, GLfloat Y, GLfloat Z) noexcept;
+		kiwi::_XYZA_UV_proxy& set_XYZ(const GLfloat* const XYZ_ptr) noexcept;
+		kiwi::_XYZA_UV_proxy& set_XYZA(GLfloat X, GLfloat Y, GLfloat Z, GLfloat A) noexcept;
+		kiwi::_XYZA_UV_proxy& set_XYZA(const GLfloat* const XYZA_ptr) noexcept;
+		kiwi::_XYZA_UV_proxy& set_angle(GLfloat angle) noexcept;
+		kiwi::_XYZA_UV_proxy& set_UV(GLfloat U, GLfloat V) noexcept;
+		kiwi::_XYZA_UV_proxy& set_UV(const GLfloat* const UV_ptr) noexcept;
+		kiwi::_XYZA_UV_proxy& set_tile(int tile) noexcept;
+	};
+
+	class XYZA_UV_loader
+	{
+
+	private:
+
+		XYZA_UV_loader() noexcept;
+
+	public:
+
+		XYZA_UV_loader(const kiwi::XYZA_UV_loader& rhs) = delete;
+		kiwi::XYZA_UV_loader& operator=(const kiwi::XYZA_UV_loader& rhs) = delete;
+		XYZA_UV_loader(kiwi::XYZA_UV_loader&& rhs) noexcept;
+		kiwi::XYZA_UV_loader& operator=(kiwi::XYZA_UV_loader&& rhs) noexcept;
+		~XYZA_UV_loader();
+
+		kiwi::_XYZA_UV_loader_proxy select(std::size_t number) noexcept;
+		void cancel() noexcept;
+
+	private:
+
+		friend class XYZA_UV_set;
+
+		char* m_data_ptr;
+		kiwi::XYZA_UV_set* m_set_ptr;
+		std::size_t m_first;
+		std::size_t m_count;
+	};
+
+	class _XYZA_UV_loader_proxy
+	{
+
+	private:
+
+		GLfloat* m_buffer_ptr;
+		std::function<void(const int, GLfloat*)>* m_altas_coordinate_function_ptr;
+
+	public:
+
+		friend class XYZA_UV_loader;
+
+		kiwi::_XYZA_UV_loader_proxy& set_XY(GLfloat X, GLfloat Y) noexcept;
+		kiwi::_XYZA_UV_loader_proxy& set_XY(const GLfloat* const XY_ptr) noexcept;
+		kiwi::_XYZA_UV_loader_proxy& set_XYZ(GLfloat X, GLfloat Y, GLfloat Z) noexcept;
+		kiwi::_XYZA_UV_loader_proxy& set_XYZ(const GLfloat* const XYZ_ptr) noexcept;
+		kiwi::_XYZA_UV_loader_proxy& set_XYZA(GLfloat X, GLfloat Y, GLfloat Z, GLfloat A) noexcept;
+		kiwi::_XYZA_UV_loader_proxy& set_XYZA(const GLfloat* const XYZA_ptr) noexcept;
+		kiwi::_XYZA_UV_loader_proxy& set_angle(GLfloat angle) noexcept;
+		kiwi::_XYZA_UV_loader_proxy& set_UV(GLfloat U, GLfloat V) noexcept;
+		kiwi::_XYZA_UV_loader_proxy& set_UV(const GLfloat* const UV_ptr) noexcept;
+		kiwi::_XYZA_UV_loader_proxy& set_tile(int tile) noexcept;
 	};
 }
 

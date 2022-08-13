@@ -660,6 +660,49 @@ const GLfloat* kiwi::XYZ::data() const noexcept
 }
 
 
+kiwi::UV::UV(GLfloat U, GLfloat V) noexcept : m_UV{ U, V } {}
+
+GLfloat& kiwi::UV::operator[](std::size_t offset) noexcept
+{
+	return m_UV[offset];
+}
+
+const GLfloat& kiwi::UV::operator[](std::size_t offset) const noexcept
+{
+	return m_UV[offset];
+}
+
+GLfloat& kiwi::UV::U() noexcept
+{
+	return m_UV[0];
+}
+
+const GLfloat& kiwi::UV::U() const noexcept
+{
+	return m_UV[0];
+}
+
+GLfloat& kiwi::UV::V() noexcept
+{
+	return m_UV[1];
+}
+
+const GLfloat& kiwi::UV::V() const noexcept
+{
+	return m_UV[1];
+}
+
+GLfloat* kiwi::UV::data() noexcept
+{
+	return static_cast<GLfloat*>(m_UV);
+}
+
+const GLfloat* kiwi::UV::data() const noexcept
+{
+	return static_cast<const GLfloat*>(m_UV);
+}
+
+
 kiwi::RMEC::RMEC(GLfloat roughness) noexcept : m_RMEC{ roughness, static_cast<GLfloat>(0), static_cast<GLfloat>(0), static_cast<GLfloat>(1) } {}
 
 kiwi::RMEC::RMEC(GLfloat roughness, GLfloat metalness) noexcept : m_RMEC{ roughness, metalness, static_cast<GLfloat>(0), static_cast<GLfloat>(1) } {}

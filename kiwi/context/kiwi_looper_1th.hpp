@@ -39,7 +39,7 @@ namespace kiwi
 		// }
 
 		virtual bool exit_condition(); // { return false; }
-		virtual void exit();
+		virtual int exit();
 		// {
 			// terminate buffers, shaders and programs
 
@@ -50,7 +50,7 @@ namespace kiwi
 
 	public:
 
-		bool show(const kiwi::size& size_2d, const char* const new_title);
+		int show(const kiwi::size& size_2d, const char* const new_title);
 
 		kiwi::looper_1th& set_window_resizable(bool window_resizable) noexcept;
 		kiwi::looper_1th& set_aspect_ratio_free(bool free_aspect_ratio) noexcept;

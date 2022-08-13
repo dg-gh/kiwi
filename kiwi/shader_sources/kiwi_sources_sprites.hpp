@@ -1,47 +1,65 @@
-#ifndef KIWI_SOURCES_DEFERRED_3D_HPP
-#define KIWI_SOURCES_DEFERRED_3D_HPP
+#ifndef KIWI_SOURCES_SPRITES_HPP
+#define KIWI_SOURCES_SPRITES_HPP
 
 namespace kiwi
 {
 	namespace source
 	{
-		namespace deferred_3d_lighting_pass
+		namespace solid_color_sprites_2d
 		{
 			const char* const vertex_shader() noexcept;
 			const char* const fragment_shader() noexcept;
 		}
 
-		namespace deferred_3d_lighting_pass_ortho
+		namespace solid_color_sprites_split_2d
 		{
 			const char* const vertex_shader() noexcept;
 			const char* const fragment_shader() noexcept;
 		}
 
-		namespace deferred_3d_solid_color
+		namespace texture_sprites_2d
 		{
 			const char* const vertex_shader() noexcept;
 			const char* const fragment_shader() noexcept;
 		}
 
-		namespace deferred_3d_color_gradient_vRMEC
+		namespace texture_sprites_split_2d
 		{
 			const char* const vertex_shader() noexcept;
 			const char* const fragment_shader() noexcept;
 		}
 
-		namespace deferred_3d_texture_mRMEC
+		namespace solid_color_sprite_3d
 		{
 			const char* const vertex_shader() noexcept;
 			const char* const fragment_shader() noexcept;
 		}
 
-		namespace deferred_3d_normal
+		namespace solid_color_sprites_3d
 		{
 			const char* const vertex_shader() noexcept;
 			const char* const fragment_shader() noexcept;
 		}
 
-		namespace deferred_3d_parallax_mRMEC
+		namespace solid_color_sprites_split_3d
+		{
+			const char* const vertex_shader() noexcept;
+			const char* const fragment_shader() noexcept;
+		}
+
+		namespace texture_sprite_3d
+		{
+			const char* const vertex_shader() noexcept;
+			const char* const fragment_shader() noexcept;
+		}
+
+		namespace texture_sprites_3d
+		{
+			const char* const vertex_shader() noexcept;
+			const char* const fragment_shader() noexcept;
+		}
+
+		namespace texture_sprites_split_3d
 		{
 			const char* const vertex_shader() noexcept;
 			const char* const fragment_shader() noexcept;
@@ -49,4 +67,4 @@ namespace kiwi
 	}
 }
 
-#endif // KIWI_SOURCES_DEFERRED_3D_HPP
+#endif // KIWI_SOURCES_SPRITES_HPP

@@ -11,67 +11,25 @@ namespace kiwi
 			const char* const fragment_shader() noexcept;
 		}
 
-		namespace forward_3d_color_gradient_sRMEC
+		namespace forward_3d_color_gradient
 		{
 			const char* const vertex_shader() noexcept;
 			const char* const fragment_shader() noexcept;
 		}
 
-		namespace forward_3d_color_gradient_vRMEC
+		namespace forward_3d_texture
 		{
 			const char* const vertex_shader() noexcept;
 			const char* const fragment_shader() noexcept;
 		}
 
-		namespace forward_3d_texture_sRMEC
+		namespace forward_3d_normal
 		{
 			const char* const vertex_shader() noexcept;
 			const char* const fragment_shader() noexcept;
 		}
 
-		namespace forward_3d_texture_vRMEC
-		{
-			const char* const vertex_shader() noexcept;
-			const char* const fragment_shader() noexcept;
-		}
-
-		namespace forward_3d_texture_mRMEC
-		{
-			const char* const vertex_shader() noexcept;
-			const char* const fragment_shader() noexcept;
-		}
-
-		namespace forward_3d_normal_sRMEC
-		{
-			const char* const vertex_shader() noexcept;
-			const char* const fragment_shader() noexcept;
-		}
-
-		namespace forward_3d_normal_vRMEC
-		{
-			const char* const vertex_shader() noexcept;
-			const char* const fragment_shader() noexcept;
-		}
-
-		namespace forward_3d_normal_mRMEC
-		{
-			const char* const vertex_shader() noexcept;
-			const char* const fragment_shader() noexcept;
-		}
-
-		namespace forward_3d_parallax_sRMEC
-		{
-			const char* const vertex_shader() noexcept;
-			const char* const fragment_shader() noexcept;
-		}
-
-		namespace forward_3d_parallax_vRMEC
-		{
-			const char* const vertex_shader() noexcept;
-			const char* const fragment_shader() noexcept;
-		}
-
-		namespace forward_3d_parallax_mRMEC
+		namespace forward_3d_parallax
 		{
 			const char* const vertex_shader() noexcept;
 			const char* const fragment_shader() noexcept;

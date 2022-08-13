@@ -11,43 +11,13 @@ namespace kiwi
 			const char* const fragment_shader() noexcept;
 		}
 
-		namespace forward_2d_color_gradient_sRMEC
-		{
-			const char* const vertex_shader() noexcept;
-			const char* const fragment_shader() noexcept;
-		}
-
 		namespace forward_2d_color_gradient_vRMEC
 		{
 			const char* const vertex_shader() noexcept;
 			const char* const fragment_shader() noexcept;
 		}
 
-		namespace forward_2d_texture_sRMEC
-		{
-			const char* const vertex_shader() noexcept;
-			const char* const fragment_shader() noexcept;
-		}
-
-		namespace forward_2d_texture_vRMEC
-		{
-			const char* const vertex_shader() noexcept;
-			const char* const fragment_shader() noexcept;
-		}
-
 		namespace forward_2d_texture_mRMEC
-		{
-			const char* const vertex_shader() noexcept;
-			const char* const fragment_shader() noexcept;
-		}
-
-		namespace forward_2d_normal_sRMEC
-		{
-			const char* const vertex_shader() noexcept;
-			const char* const fragment_shader() noexcept;
-		}
-
-		namespace forward_2d_normal_vRMEC
 		{
 			const char* const vertex_shader() noexcept;
 			const char* const fragment_shader() noexcept;

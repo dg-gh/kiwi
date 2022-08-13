@@ -69,13 +69,15 @@ kiwi::camera_3d& kiwi::camera_3d::new_projection_matrix_ortho(GLfloat screen_rat
 	m_bound_X = static_cast<GLfloat>(0.5f) * scale[0];
 	m_bound_Y = static_cast<GLfloat>(0.5f) * scale[1];
 
-	m_p_matrix[0] = GL1 / m_bound_X;
-	m_p_matrix[5] = GL1 / m_bound_Y;
+	GLfloat m = m_bound_X < m_bound_Y ? m_bound_X : m_bound_Y;
+
+	m_p_matrix[0] = m / m_bound_X;
+	m_p_matrix[5] = m / m_bound_Y;
 	m_p_matrix[10] = GL2 * dz_inv;
 
 	m_p_matrix[11] = GL0;
 	m_p_matrix[14] = -(z_near + z_far) * dz_inv;
-	m_p_matrix[15] = GL1;
+	m_p_matrix[15] = m;
 
 	if (screen_ratio >= GL1)
 	{
@@ -1016,12 +1018,14 @@ bool kiwi::camera_3d::in_view(const GLfloat* const object_XYZ_ptr) const noexcep
 		GLfloat check_Y = m_cos_half_fov_y * object_XYZ_in_view[1];
 
 		return ((m_z_near <= object_XYZ_in_view[2]) & (object_XYZ_in_view[2] <= m_z_far))
-			&& ((-bound_X <= check_X) & (check_X <= bound_X))
-			&& ((-bound_Y <= check_Y) & (check_Y <= bound_Y));
+			& ((-bound_X <= check_X) & (check_X <= bound_X))
+			& ((-bound_Y <= check_Y) & (check_Y <= bound_Y));
 	}
 	else
 	{
-		return false;
+		return ((m_z_near <= object_XYZ_in_view[2]) & (object_XYZ_in_view[2] <= m_z_far))
+			& ((-m_bound_X <= object_XYZ_in_view[0]) & (object_XYZ_in_view[0] <= m_bound_X))
+			& ((-m_bound_Y <= object_XYZ_in_view[1]) & (object_XYZ_in_view[1] <= m_bound_Y));
 	}
 }
 
@@ -1048,14 +1052,14 @@ bool kiwi::camera_3d::in_view(GLfloat object_X, GLfloat object_Y, GLfloat object
 		GLfloat check_Y = m_cos_half_fov_y * object_XYZ_in_view[1];
 
 		return ((m_z_near <= object_XYZ_in_view[2]) & (object_XYZ_in_view[2] <= m_z_far))
-			&& ((-bound_X <= check_X) & (check_X <= bound_X))
-			&& ((-bound_Y <= check_Y) & (check_Y <= bound_Y));
+			& ((-bound_X <= check_X) & (check_X <= bound_X))
+			& ((-bound_Y <= check_Y) & (check_Y <= bound_Y));
 	}
 	else
 	{
 		return ((m_z_near <= object_XYZ_in_view[2]) & (object_XYZ_in_view[2] <= m_z_far))
-			&& ((-m_bound_X <= object_XYZ_in_view[0]) & (object_XYZ_in_view[0] <= m_bound_X))
-			&& ((-m_bound_Y <= object_XYZ_in_view[1]) & (object_XYZ_in_view[1] <= m_bound_Y));
+			& ((-m_bound_X <= object_XYZ_in_view[0]) & (object_XYZ_in_view[0] <= m_bound_X))
+			& ((-m_bound_Y <= object_XYZ_in_view[1]) & (object_XYZ_in_view[1] <= m_bound_Y));
 	}
 }
 
@@ -1082,8 +1086,8 @@ bool kiwi::camera_3d::in_view(const GLfloat* const object_XYZ_ptr, GLfloat objec
 		GLfloat check_Y = m_cos_half_fov_y * object_XYZ_in_view[1];
 
 		return ((m_z_near - object_radius <= object_XYZ_in_view[2]) & (object_XYZ_in_view[2] <= m_z_far + object_radius))
-			&& ((-bound_X <= check_X) & (check_X <= bound_X))
-			&& ((-bound_Y <= check_Y) & (check_Y <= bound_Y));
+			& ((-bound_X <= check_X) & (check_X <= bound_X))
+			& ((-bound_Y <= check_Y) & (check_Y <= bound_Y));
 	}
 	else
 	{
@@ -1091,8 +1095,8 @@ bool kiwi::camera_3d::in_view(const GLfloat* const object_XYZ_ptr, GLfloat objec
 		GLfloat bound_Y = m_bound_Y + object_radius;
 
 		return ((m_z_near - object_radius <= object_XYZ_in_view[2]) & (object_XYZ_in_view[2] <= m_z_far + object_radius))
-			&& ((-bound_X <= object_XYZ_in_view[0]) & (object_XYZ_in_view[0] <= bound_X))
-			&& ((-bound_Y <= object_XYZ_in_view[1]) & (object_XYZ_in_view[1] <= bound_Y));
+			& ((-bound_X <= object_XYZ_in_view[0]) & (object_XYZ_in_view[0] <= bound_X))
+			& ((-bound_Y <= object_XYZ_in_view[1]) & (object_XYZ_in_view[1] <= bound_Y));
 	}
 }
 
@@ -1119,8 +1123,8 @@ bool kiwi::camera_3d::in_view(GLfloat object_X, GLfloat object_Y, GLfloat object
 		GLfloat check_Y = m_cos_half_fov_y * object_XYZ_in_view[1];
 
 		return ((m_z_near - object_radius <= object_XYZ_in_view[2]) & (object_XYZ_in_view[2] <= m_z_far + object_radius))
-			&& ((-bound_X <= check_X) & (check_X <= bound_X))
-			&& ((-bound_Y <= check_Y) & (check_Y <= bound_Y));
+			& ((-bound_X <= check_X) & (check_X <= bound_X))
+			& ((-bound_Y <= check_Y) & (check_Y <= bound_Y));
 	}
 	else
 	{
@@ -1128,8 +1132,8 @@ bool kiwi::camera_3d::in_view(GLfloat object_X, GLfloat object_Y, GLfloat object
 		GLfloat bound_Y = m_bound_Y + object_radius;
 
 		return ((m_z_near - object_radius <= object_XYZ_in_view[2]) & (object_XYZ_in_view[2] <= m_z_far + object_radius))
-			&& ((-bound_X <= object_XYZ_in_view[0]) & (object_XYZ_in_view[0] <= bound_X))
-			&& ((-bound_Y <= object_XYZ_in_view[1]) & (object_XYZ_in_view[1] <= bound_Y));
+			& ((-bound_X <= object_XYZ_in_view[0]) & (object_XYZ_in_view[0] <= bound_X))
+			& ((-bound_Y <= object_XYZ_in_view[1]) & (object_XYZ_in_view[1] <= bound_Y));
 	}
 }
 

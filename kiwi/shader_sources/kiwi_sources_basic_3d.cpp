@@ -27,6 +27,123 @@ const char* const kiwi::source::basic_3d_solid_color::fragment_shader() noexcept
 		;
 }
 
+const char* const kiwi::source::basic_3d_bicolor_point_dist::vertex_shader() noexcept
+{
+	return
+		"	#version 330 core												\n"
+		"	layout (location = 0) in vec3 in_XYZ;							\n"
+		"	uniform mat4 u_m_M;												\n"
+		"	uniform mat4 u_mvp_M;											\n"
+		"	out vec3 moved_XYZ;												\n"
+
+		"	void main()														\n"
+		"	{																\n"
+		"		gl_Position = u_mvp_M * vec4(in_XYZ, 1.0);					\n"
+		"		moved_XYZ = vec3(u_m_M * vec4(in_XYZ, 1.0));				\n"
+		"	}																\n"
+		;
+}
+const char* const kiwi::source::basic_3d_bicolor_point_dist::fragment_shader() noexcept
+{
+	return
+		"	#version 430 core												\n"
+		"	in vec3 moved_XYZ;												\n"
+		"	out vec4 color;													\n"
+		"	uniform vec4 u_near_RGBA;										\n"
+		"	uniform vec4 u_far_RGBA;										\n"
+		"	uniform vec2 u_near_far_dist;									\n"
+		"	uniform vec3 u_point_XYZ;										\n"
+
+		"	void main()														\n"
+		"	{																\n"
+		"		float dist = length(u_point_XYZ - moved_XYZ);				\n"
+		"		float coeff = clamp((dist - u_near_far_dist[0]) /			\n"
+		"			(u_near_far_dist[1] - u_near_far_dist[0]), 0.0, 1.0);	\n"
+		"		color = mix(u_near_RGBA, u_far_RGBA, coeff);				\n"
+		"	}																\n"
+		;
+}
+
+const char* const kiwi::source::basic_3d_bicolor_axis_dir::vertex_shader() noexcept
+{
+	return
+		"	#version 330 core												\n"
+		"	layout (location = 0) in vec3 in_XYZ;							\n"
+		"	layout (location = 1) in vec3 in_N;								\n"
+		"	out vec3 _moved_N_dir;											\n"
+		"	out vec3 axis_dir;												\n"
+		"	uniform mat4 u_m_M;												\n"
+		"	uniform mat4 u_mvp_M;											\n"
+		"	uniform vec3 u_axis_dir;										\n"
+
+		"	void main()														\n"
+		"	{																\n"
+		"		gl_Position = u_mvp_M * vec4(in_XYZ, 1.0);					\n"
+		"		_moved_N_dir = mat3(u_m_M) * in_N;							\n"
+		"		axis_dir = normalize(u_axis_dir);							\n"
+		"	}																\n"
+		;
+}
+const char* const kiwi::source::basic_3d_bicolor_axis_dir::fragment_shader() noexcept
+{
+	return
+		"	#version 330 core												\n"
+		"	in vec3 _moved_N_dir;											\n"
+		"	in vec3 axis_dir;												\n"
+		"	out vec4 color;													\n"
+		"	uniform vec4 u_front_RGBA;										\n"
+		"	uniform vec4 u_back_RGBA;										\n"
+		"	uniform vec3 u_axis_XYZ;										\n"
+
+		"	void main()														\n"
+		"	{																\n"
+		"		coeff = 0.5 + 0.5											\n"
+		"			* dot(u_axis_dir, normalize(_moved_N_dir));				\n"
+		"		color = mix(u_back_RGBA, u_front_RGBA, coeff);				\n"
+		"	}																\n"
+		;
+}
+
+const char* const kiwi::source::basic_3d_bicolor_point_dir::vertex_shader() noexcept
+{
+	return
+		"	#version 330 core											\n"
+		"	layout (location = 0) in vec3 in_XYZ;						\n"
+		"	layout (location = 1) in vec3 in_N;							\n"
+		"	out vec3 moved_XYZ;											\n"
+		"	out vec3 _moved_N_dir;										\n"
+		"	uniform mat4 u_m_M;											\n"
+		"	uniform mat4 u_mvp_M;										\n"
+
+		"	void main()													\n"
+		"	{															\n"
+		"		moved_XYZ = vec3(u_m_M * vec4(in_XYZ, 1.0));			\n"
+		"		_moved_N_dir = mat3(u_m_M) * in_N;						\n"
+		"		gl_Position = u_mvp_M * vec4(in_XYZ, 1.0);				\n"
+		"	}															\n"
+		;
+}
+const char* const kiwi::source::basic_3d_bicolor_point_dir::fragment_shader() noexcept
+{
+	return
+		"	#version 330 core												\n"
+		"	in vec3 moved_XYZ;												\n"
+		"	in vec3 _moved_N_dir;											\n"
+		"	out vec4 color;													\n"
+		"	uniform vec4 u_front_RGBA;										\n"
+		"	uniform vec4 u_side_RGBA;										\n"
+		"	uniform vec3 u_point_XYZ;										\n"
+		
+		"	void main()														\n"
+		"	{																\n"
+		"		vec3 view_dir = normalize(moved_XYZ - u_point_XYZ);			\n"
+		"		float coeff = clamp(dot(view_dir, normalize(_moved_N_dir)),	\n"
+		"			0.0, 1.0);												\n"
+		"		color = mix(u_side_RGBA, u_front_RGBA, coeff);				\n"
+		"	}																\n"
+		;
+}
+
 const char* const kiwi::source::basic_3d_color_gradient::vertex_shader() noexcept
 {
 	return

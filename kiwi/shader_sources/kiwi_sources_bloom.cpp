@@ -7,20 +7,31 @@ const char* const kiwi::source::bloom_threshold::vertex_shader() noexcept
 		"	#version 430 core																			\n"
 		"	out vec2 UV;																				\n"
 
-		"	vec2 square_XY[4] = { vec2(-1.0, -1.0), vec2(1.0, -1.0), vec2(1.0, 1.0), vec2(-1.0, 1.0) };	\n"
-		"	vec2 square_UV[4] = { vec2(0.0, 0.0), vec2(1.0, 0.0), vec2(1.0, 1.0), vec2(0.0, 1.0) };		\n"
+		"	vec2 quad_XY[4] = {																			\n"
+		"		vec2(-1.0, -1.0),																		\n"
+		"		vec2(1.0, -1.0),																		\n"
+		"		vec2(1.0, 1.0),																			\n"
+		"		vec2(-1.0, 1.0)																			\n"
+		"	};																							\n"
+
+		"	vec2 quad_UV[4] = {																			\n"
+		"		vec2(0.0, 0.0),																			\n"
+		"		vec2(1.0, 0.0),																			\n"
+		"		vec2(1.0, 1.0),																			\n"
+		"		vec2(0.0, 1.0)																			\n"
+		"	};																							\n"
 
 		"	void main()																					\n"
 		"	{																							\n"
-		"		gl_Position = vec4(square_XY[gl_VertexID], 0.0, 1.0);									\n"
-		"		UV = square_UV[gl_VertexID];															\n"
+		"		gl_Position = vec4(quad_XY[gl_VertexID], 0.0, 1.0);										\n"
+		"		UV = quad_UV[gl_VertexID];																\n"
 		"	}																							\n"
 		;
 }
 const char* const kiwi::source::bloom_threshold::fragment_shader() noexcept
 {
 	return
-		
+
 		"	#version 430 core																			\n"
 		"	in vec2 UV;																					\n"
 		"	out vec4 color;																				\n"
@@ -59,20 +70,31 @@ const char* const kiwi::source::bloom_gaussian_filter::vertex_shader() noexcept
 		"	#version 430 core																			\n"
 		"	out vec2 UV;																				\n"
 
-		"	vec2 square_XY[4] = { vec2(-1.0, -1.0), vec2(1.0, -1.0), vec2(1.0, 1.0), vec2(-1.0, 1.0) };	\n"
-		"	vec2 square_UV[4] = { vec2(0.0, 0.0), vec2(1.0, 0.0), vec2(1.0, 1.0), vec2(0.0, 1.0) };		\n"
+		"	vec2 quad_XY[4] = {																			\n"
+		"		vec2(-1.0, -1.0),																		\n"
+		"		vec2(1.0, -1.0),																		\n"
+		"		vec2(1.0, 1.0),																			\n"
+		"		vec2(-1.0, 1.0)																			\n"
+		"	};																							\n"
+
+		"	vec2 quad_UV[4] = {																			\n"
+		"		vec2(0.0, 0.0),																			\n"
+		"		vec2(1.0, 0.0),																			\n"
+		"		vec2(1.0, 1.0),																			\n"
+		"		vec2(0.0, 1.0)																			\n"
+		"	};																							\n"
 
 		"	void main()																					\n"
 		"	{																							\n"
-		"		gl_Position = vec4(square_XY[gl_VertexID], 0.0, 1.0);									\n"
-		"		UV = square_UV[gl_VertexID];															\n"
+		"		gl_Position = vec4(quad_XY[gl_VertexID], 0.0, 1.0);										\n"
+		"		UV = quad_UV[gl_VertexID];																\n"
 		"	}																							\n"
 		;
 }
 const char* const kiwi::source::bloom_gaussian_filter::fragment_shader() noexcept
 {
 	return
-		
+
 		"	#version 430 core																			\n"
 		"	in vec2 UV;																					\n"
 		"	layout (location = 0) out vec4 color;														\n"
@@ -113,24 +135,35 @@ const char* const kiwi::source::bloom_gaussian_filter::fragment_shader() noexcep
 const char* const kiwi::source::bloom_blend_4_layers::vertex_shader() noexcept
 {
 	return
-		
+
 		"	#version 430 core																			\n"
 		"	out vec2 UV;																				\n"
 
-		"	vec2 square_XY[4] = { vec2(-1.0, -1.0), vec2(1.0, -1.0), vec2(1.0, 1.0), vec2(-1.0, 1.0) };	\n"
-		"	vec2 square_UV[4] = { vec2(0.0, 0.0), vec2(1.0, 0.0), vec2(1.0, 1.0), vec2(0.0, 1.0) };		\n"
+		"	vec2 quad_XY[4] = {																			\n"
+		"		vec2(-1.0, -1.0),																		\n"
+		"		vec2(1.0, -1.0),																		\n"
+		"		vec2(1.0, 1.0),																			\n"
+		"		vec2(-1.0, 1.0)																			\n"
+		"	};																							\n"
+
+		"	vec2 quad_UV[4] = {																			\n"
+		"		vec2(0.0, 0.0),																			\n"
+		"		vec2(1.0, 0.0),																			\n"
+		"		vec2(1.0, 1.0),																			\n"
+		"		vec2(0.0, 1.0)																			\n"
+		"	};																							\n"
 
 		"	void main()																					\n"
 		"	{																							\n"
-		"		gl_Position = vec4(square_XY[gl_VertexID], 0.0, 1.0);									\n"
-		"		UV = square_UV[gl_VertexID];															\n"
+		"		gl_Position = vec4(quad_XY[gl_VertexID], 0.0, 1.0);										\n"
+		"		UV = quad_UV[gl_VertexID];																\n"
 		"	}																							\n"
 		;
 }
 const char* const kiwi::source::bloom_blend_4_layers::fragment_shader() noexcept
 {
 	return
-		
+
 		"	#version 430 core																			\n"
 		"	in vec2 UV;																					\n"
 		"	out vec4 color;																				\n"
@@ -154,24 +187,35 @@ const char* const kiwi::source::bloom_blend_4_layers::fragment_shader() noexcept
 const char* const kiwi::source::bloom_blend_8_layers::vertex_shader() noexcept
 {
 	return
-		
+
 		"	#version 430 core																			\n"
 		"	out vec2 UV;																				\n"
 
-		"	vec2 square_XY[4] = { vec2(-1.0, -1.0), vec2(1.0, -1.0), vec2(1.0, 1.0), vec2(-1.0, 1.0) };	\n"
-		"	vec2 square_UV[4] = { vec2(0.0, 0.0), vec2(1.0, 0.0), vec2(1.0, 1.0), vec2(0.0, 1.0) };		\n"
+		"	vec2 quad_XY[4] = {																			\n"
+		"		vec2(-1.0, -1.0),																		\n"
+		"		vec2(1.0, -1.0),																		\n"
+		"		vec2(1.0, 1.0),																			\n"
+		"		vec2(-1.0, 1.0)																			\n"
+		"	};																							\n"
+
+		"	vec2 quad_UV[4] = {																			\n"
+		"		vec2(0.0, 0.0),																			\n"
+		"		vec2(1.0, 0.0),																			\n"
+		"		vec2(1.0, 1.0),																			\n"
+		"		vec2(0.0, 1.0)																			\n"
+		"	};																							\n"
 
 		"	void main()																					\n"
 		"	{																							\n"
-		"		gl_Position = vec4(square_XY[gl_VertexID], 0.0, 1.0);									\n"
-		"		UV = square_UV[gl_VertexID];															\n"
+		"		gl_Position = vec4(quad_XY[gl_VertexID], 0.0, 1.0);										\n"
+		"		UV = quad_UV[gl_VertexID];																\n"
 		"	}																							\n"
 		;
 }
 const char* const kiwi::source::bloom_blend_8_layers::fragment_shader() noexcept
 {
 	return
-		
+
 		"	#version 430 core																			\n"
 		"	in vec2 UV;																					\n"
 		"	out vec4 color;																				\n"
