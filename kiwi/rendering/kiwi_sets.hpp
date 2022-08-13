@@ -6,6 +6,7 @@
 #include "buffers/kiwi_buffer_storage.hpp"
 
 
+
 namespace kiwi
 {
 	class _XY_RGBA_proxy;
