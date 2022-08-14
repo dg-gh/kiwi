@@ -53,6 +53,11 @@ namespace kiwi
 		inline kiwi::model_3d& set_Z(GLfloat Z, bool condition = true) noexcept;
 		inline kiwi::model_3d& set_XYZ(GLfloat X, GLfloat Y, GLfloat Z, bool condition = true) noexcept;
 		inline kiwi::model_3d& set_XYZ(const GLfloat* const _KIWI_RESTRICT XYZ_ptr, bool condition = true) noexcept;
+		inline kiwi::model_3d& move_X(GLfloat distance, bool condition = true) noexcept;
+		inline kiwi::model_3d& move_Y(GLfloat distance, bool condition = true) noexcept;
+		inline kiwi::model_3d& move_Z(GLfloat distance, bool condition = true) noexcept;
+		inline kiwi::model_3d& move_XYZ(GLfloat dX, GLfloat dY, GLfloat dZ, bool condition = true) noexcept;
+		inline kiwi::model_3d& move_XYZ(const GLfloat* const _KIWI_RESTRICT dXdYdZ_ptr, bool condition = true) noexcept;
 		inline kiwi::model_3d& set_yaw(GLfloat yaw, bool condition = true) noexcept;
 		inline kiwi::model_3d& set_pitch(GLfloat pitch, bool condition = true) noexcept;
 		inline kiwi::model_3d& set_roll(GLfloat roll, bool condition = true) noexcept;
@@ -295,6 +300,60 @@ inline kiwi::model_3d& kiwi::model_3d::set_XYZ(const GLfloat* const _KIWI_RESTRI
 	return *this;
 }
 
+inline kiwi::model_3d& kiwi::model_3d::move_X(GLfloat distance, bool condition) noexcept
+{
+	if (condition)
+	{
+		m_matrix_rel[12] += distance;
+		m_XYZ_modified = true;
+	}
+	return *this;
+}
+
+inline kiwi::model_3d& kiwi::model_3d::move_Y(GLfloat distance, bool condition) noexcept
+{
+	if (condition)
+	{
+		m_matrix_rel[13] += distance;
+		m_XYZ_modified = true;
+	}
+	return *this;
+}
+
+inline kiwi::model_3d& kiwi::model_3d::move_Z(GLfloat distance, bool condition) noexcept
+{
+	if (condition)
+	{
+		m_matrix_rel[14] += distance;
+		m_XYZ_modified = true;
+	}
+	return *this;
+}
+
+inline kiwi::model_3d& kiwi::model_3d::move_XYZ(GLfloat dX, GLfloat dY, GLfloat dZ, bool condition) noexcept
+{
+	if (condition)
+	{
+		m_matrix_rel[12] += dX;
+		m_matrix_rel[13] += dY;
+		m_matrix_rel[14] += dZ;
+		m_XYZ_modified = true;
+	}
+	return *this;
+}
+
+inline kiwi::model_3d& kiwi::model_3d::move_XYZ(const GLfloat* const _KIWI_RESTRICT dXdYdZ_ptr, bool condition) noexcept
+{
+	if (condition)
+	{
+		m_matrix_rel[12] += *dXdYdZ_ptr;
+		m_matrix_rel[13] += *(dXdYdZ_ptr + 1);
+		m_matrix_rel[14] += *(dXdYdZ_ptr + 2);
+		m_XYZ_modified = true;
+	}
+	return *this;
+}
+
 inline kiwi::model_3d& kiwi::model_3d::set_yaw(GLfloat yaw, bool condition) noexcept
 {
 	if (condition)
@@ -315,7 +374,7 @@ inline kiwi::model_3d& kiwi::model_3d::set_pitch(GLfloat pitch, bool condition) 
 	return *this;
 }
 
-kiwi::model_3d& kiwi::model_3d::set_roll(GLfloat roll, bool condition) noexcept
+inline kiwi::model_3d& kiwi::model_3d::set_roll(GLfloat roll, bool condition) noexcept
 {
 	if (condition)
 	{

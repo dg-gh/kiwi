@@ -46,6 +46,11 @@ namespace kiwi
 		inline kiwi::model_2d& set_XY(const GLfloat* const _KIWI_RESTRICT XY_ptr, bool condition = true) noexcept;
 		inline kiwi::model_2d& set_angle(GLfloat angle, bool condition = true) noexcept;
 
+		inline kiwi::model_2d& move_X(GLfloat distance, bool condition = true) noexcept;
+		inline kiwi::model_2d& move_Y(GLfloat distance, bool condition = true) noexcept;
+		inline kiwi::model_2d& move_XY(GLfloat dX, GLfloat dY, bool condition = true) noexcept;
+		inline kiwi::model_2d& move_XY(const GLfloat* const _KIWI_RESTRICT dXdY_ptr, bool condition = true) noexcept;
+
 		inline kiwi::model_2d& turn_left(GLfloat angle, bool condition = true) noexcept;
 		inline kiwi::model_2d& turn_right(GLfloat angle, bool condition = true) noexcept;
 
@@ -220,6 +225,48 @@ inline kiwi::model_2d& kiwi::model_2d::set_angle(GLfloat angle, bool condition) 
 	{
 		m_yaw = angle;
 		m_angle_modified = true;
+	}
+	return *this;
+}
+
+inline kiwi::model_2d& kiwi::model_2d::move_X(GLfloat distance, bool condition) noexcept
+{
+	if (condition)
+	{
+		m_matrix_rel[6] += distance;
+		m_XY_modified = true;
+	}
+	return *this;
+}
+
+inline kiwi::model_2d& kiwi::model_2d::move_Y(GLfloat distance, bool condition) noexcept
+{
+	if (condition)
+	{
+		m_matrix_rel[7] += distance;
+		m_XY_modified = true;
+	}
+	return *this;
+}
+
+inline kiwi::model_2d& kiwi::model_2d::move_XY(GLfloat dX, GLfloat dY, bool condition) noexcept
+{
+	if (condition)
+	{
+		m_matrix_rel[6] += dX;
+		m_matrix_rel[7] += dY;
+		m_XY_modified = true;
+	}
+	return *this;
+}
+
+inline kiwi::model_2d& kiwi::model_2d::move_XY(const GLfloat* const _KIWI_RESTRICT dXdY_ptr, bool condition) noexcept
+{
+	if (condition)
+	{
+		m_matrix_rel[6] += *dXdY_ptr;
+		m_matrix_rel[7] += *(dXdY_ptr + 1);
+		m_XY_modified = true;
 	}
 	return *this;
 }
