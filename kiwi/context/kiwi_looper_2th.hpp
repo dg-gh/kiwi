@@ -44,7 +44,7 @@ namespace kiwi
 			// terminate buffers, shaders and programs
 			// kiwi::draw_terminate();
 		// }
-		virtual void exit_loop(); // { }
+		virtual int exit_loop(); // { }
 
 		void call_display() noexcept;
 
@@ -52,7 +52,7 @@ namespace kiwi
 
 	public:
 
-		bool show(const kiwi::size& size_2d, const char* const new_title);
+		int show(const kiwi::size& size_2d, const char* const new_title);
 
 		kiwi::looper_2th& set_window_resizable(bool window_resizable) noexcept;
 		kiwi::looper_2th& set_aspect_ratio_free(bool free_aspect_ratio) noexcept;

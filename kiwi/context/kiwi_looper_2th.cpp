@@ -23,7 +23,10 @@ void kiwi::looper_2th::display(GLfloat display_time_elapsed)
 	// display stuff
 }
 
-bool kiwi::looper_2th::exit_condition() { return false; }
+bool kiwi::looper_2th::exit_condition()
+{
+	return false;
+}
 
 void kiwi::looper_2th::exit_display()
 {
@@ -32,7 +35,10 @@ void kiwi::looper_2th::exit_display()
 	// kiwi::draw_terminate();
 }
 
-void kiwi::looper_2th::exit_loop() { }
+int kiwi::looper_2th::exit_loop()
+{
+	return 0;
+}
 
 void kiwi::looper_2th::call_display() noexcept
 {
@@ -57,7 +63,7 @@ bool kiwi::looper_2th::window_resized() noexcept
 	}
 }
 
-bool kiwi::looper_2th::show(const kiwi::size& size_2d, const char* const new_title)
+int kiwi::looper_2th::show(const kiwi::size& size_2d, const char* const new_title)
 {
 	setup_loop();
 
@@ -83,7 +89,7 @@ bool kiwi::looper_2th::show(const kiwi::size& size_2d, const char* const new_tit
 	if (m_display_setup_failed.load())
 	{
 		m_display_thread.join();
-		return false;
+		return -1;
 	}
 
 	m_loop_clock_start = std::chrono::steady_clock::now();
@@ -146,7 +152,7 @@ bool kiwi::looper_2th::show(const kiwi::size& size_2d, const char* const new_tit
 	// exit
 	m_display_thread.join();
 
-	exit_loop();
+	int result = exit_loop();
 
 	if (m_buffer_cleanup_enabled.load())
 	{
@@ -156,7 +162,7 @@ bool kiwi::looper_2th::show(const kiwi::size& size_2d, const char* const new_tit
 		kiwi::context::window() = nullptr;
 	}
 
-	return true;
+	return result;
 }
 
 kiwi::looper_2th& kiwi::looper_2th::set_window_resizable(bool window_resizable) noexcept
