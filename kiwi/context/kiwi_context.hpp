@@ -321,7 +321,7 @@ namespace kiwi
 }
 
 
-// INLINE
+// INLINE IMPLEMENTATION
 
 inline kiwi::RGBA::RGBA(GLfloat R, GLfloat G, GLfloat B) noexcept : m_RGBA{ R, G, B, 1.0f } {}
 inline kiwi::RGBA::RGBA(GLfloat R, GLfloat G, GLfloat B, GLfloat A) noexcept : m_RGBA{ R, G, B, A } {}

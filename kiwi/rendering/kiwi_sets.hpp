@@ -834,7 +834,7 @@ namespace kiwi
 }
 
 
-// INLINE
+// INLINE IMPLEMENTATION
 
 // XYZA_RGBA_set
 
