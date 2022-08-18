@@ -1,11 +1,5 @@
 #include "space/kiwi_camera_2d.hpp"
-
-#if defined(__AVX2__) && defined(__FMA__)
-#ifndef _KIWI_AVX2_FMA
-#define _KIWI_AVX2_FMA
-#endif // _KIWI_AVX2_FMA
-#include <immintrin.h>
-#endif
+#include "header_utils/kiwi_simd.hpp"
 
 
 kiwi::camera_2d& kiwi::camera_2d::set_new_projection_matrix(GLfloat screen_ratio) noexcept
@@ -25,35 +19,40 @@ kiwi::camera_2d& kiwi::camera_2d::set_new_projection_matrix(GLfloat screen_ratio
 	return *this;
 }
 
-const GLfloat* kiwi::camera_2d::data() const noexcept
+const GLfloat* kiwi::camera_2d::data() noexcept
 {
+	if (m_XY_modified  | m_angle_modified) { eval(); }
 	return static_cast<const GLfloat*>(m_vp_matrix);
 }
 
 const GLfloat* kiwi::camera_2d::data(const GLfloat* const model_matrix_ptr) noexcept
 {
+	if (m_XY_modified | m_angle_modified) { eval(); }
 	m33xm33(static_cast<GLfloat*>(m_mvp_matrix), static_cast<const GLfloat*>(m_vp_matrix), model_matrix_ptr);
 	return static_cast<const GLfloat*>(m_mvp_matrix);
 }
 
 const GLfloat* kiwi::camera_2d::data(kiwi::model_2d& model) noexcept
 {
+	if (m_XY_modified | m_angle_modified) { eval(); }
 	m33xm33(static_cast<GLfloat*>(m_mvp_matrix), static_cast<const GLfloat*>(m_vp_matrix), model.data());
 	return static_cast<const GLfloat*>(m_mvp_matrix);
 }
 
-const GLfloat* kiwi::camera_2d::XY_data() const noexcept
+const GLfloat* kiwi::camera_2d::XY_data() noexcept
 {
 	return static_cast<const GLfloat*>(m_right_up_XY) + 6;
 }
 
-const GLfloat* kiwi::camera_2d::right_dir_data() const noexcept
+const GLfloat* kiwi::camera_2d::right_dir_data() noexcept
 {
+	if (m_angle_modified) { eval_angles(); }
 	return static_cast<const GLfloat*>(m_right_up_XY);
 }
 
-const GLfloat* kiwi::camera_2d::up_dir_data() const noexcept
+const GLfloat* kiwi::camera_2d::up_dir_data() noexcept
 {
+	if (m_angle_modified) { eval_angles(); }
 	return static_cast<const GLfloat*>(m_right_up_XY) + 3;
 }
 
@@ -75,263 +74,6 @@ GLfloat kiwi::camera_2d::get_angle() const noexcept
 GLfloat kiwi::camera_2d::get_scale() const noexcept
 {
 	return m_scale;
-}
-
-kiwi::_camera_2d_proxy kiwi::camera_2d::set_X(GLfloat X) noexcept
-{
-	m_right_up_XY[6] = X;
-
-	kiwi::_camera_2d_proxy proxy;
-	proxy.m_parent_ptr = this;
-	return proxy;
-}
-
-kiwi::_camera_2d_proxy kiwi::camera_2d::set_Y(GLfloat Y) noexcept
-{
-	m_right_up_XY[7] = Y;
-
-	kiwi::_camera_2d_proxy proxy;
-	proxy.m_parent_ptr = this;
-	return proxy;
-}
-
-kiwi::_camera_2d_proxy kiwi::camera_2d::set_XY(GLfloat X, GLfloat Y) noexcept
-{
-	m_right_up_XY[6] = X;
-	m_right_up_XY[7] = Y;
-
-	kiwi::_camera_2d_proxy proxy;
-	proxy.m_parent_ptr = this;
-	return proxy;
-}
-
-kiwi::_camera_2d_proxy kiwi::camera_2d::set_XY(const GLfloat* const XY_ptr) noexcept
-{
-	m_right_up_XY[6] = *XY_ptr;
-	m_right_up_XY[7] = *(XY_ptr + 1);
-
-	kiwi::_camera_2d_proxy proxy;
-	proxy.m_parent_ptr = this;
-	return proxy;
-}
-
-kiwi::_camera_2d_proxy kiwi::camera_2d::set_angle(GLfloat angle) noexcept
-{
-	m_yaw = angle;
-
-	kiwi::_camera_2d_proxy proxy;
-	proxy.m_parent_ptr = this;
-	return proxy;
-}
-
-kiwi::_camera_2d_proxy kiwi::camera_2d::set_scale(GLfloat scale) noexcept
-{
-	m_scale = scale;
-
-	kiwi::_camera_2d_proxy proxy;
-	proxy.m_parent_ptr = this;
-	return proxy;
-}
-
-kiwi::_camera_2d_proxy kiwi::camera_2d::turn_left(GLfloat angle) noexcept
-{
-	constexpr GLfloat pi = 3.14159265358979f;
-	constexpr GLfloat pi_t2 = 2.0f * 3.14159265358979f;
-	m_yaw += angle;
-	while (m_yaw > pi) { m_yaw -= pi_t2; }
-
-	kiwi::_camera_2d_proxy proxy;
-	proxy.m_parent_ptr = this;
-	return proxy;
-}
-
-kiwi::_camera_2d_proxy kiwi::camera_2d::turn_right(GLfloat angle) noexcept
-{
-	constexpr GLfloat pi = 3.14159265358979f;
-	constexpr GLfloat pi_t2 = 2.0f * 3.14159265358979f;
-	m_yaw -= angle;
-	while (m_yaw < -pi) { m_yaw += pi_t2; }
-
-	kiwi::_camera_2d_proxy proxy;
-	proxy.m_parent_ptr = this;
-	return proxy;
-}
-
-kiwi::_camera_2d_proxy kiwi::camera_2d::move_left(GLfloat distance) noexcept
-{
-	m_right_up_XY[6] -= distance * m_right_up_XY[0];
-	m_right_up_XY[7] -= distance * m_right_up_XY[1];
-
-	kiwi::_camera_2d_proxy proxy;
-	proxy.m_parent_ptr = this;
-	return proxy;
-}
-
-kiwi::_camera_2d_proxy kiwi::camera_2d::move_right(GLfloat distance) noexcept
-{
-	m_right_up_XY[6] += distance * m_right_up_XY[0];
-	m_right_up_XY[7] += distance * m_right_up_XY[1];
-
-	kiwi::_camera_2d_proxy proxy;
-	proxy.m_parent_ptr = this;
-	return proxy;
-}
-
-kiwi::_camera_2d_proxy kiwi::camera_2d::move_up(GLfloat distance) noexcept
-{
-	m_right_up_XY[6] -= distance * m_right_up_XY[1];
-	m_right_up_XY[7] += distance * m_right_up_XY[0];
-
-	kiwi::_camera_2d_proxy proxy;
-	proxy.m_parent_ptr = this;
-	return proxy;
-}
-
-kiwi::_camera_2d_proxy kiwi::camera_2d::move_down(GLfloat distance) noexcept
-{
-	m_right_up_XY[6] += distance * m_right_up_XY[1];
-	m_right_up_XY[7] -= distance * m_right_up_XY[0];
-
-	kiwi::_camera_2d_proxy proxy;
-	proxy.m_parent_ptr = this;
-	return proxy;
-}
-
-kiwi::_camera_2d_proxy kiwi::camera_2d::set_X(GLfloat X, bool condition) noexcept
-{
-	if (condition) { m_right_up_XY[6] = X; }
-
-	kiwi::_camera_2d_proxy proxy;
-	proxy.m_parent_ptr = this;
-	return proxy;
-}
-
-kiwi::_camera_2d_proxy kiwi::camera_2d::set_Y(GLfloat Y, bool condition) noexcept
-{
-	if (condition) { m_right_up_XY[7] = Y; }
-
-	kiwi::_camera_2d_proxy proxy;
-	proxy.m_parent_ptr = this;
-	return proxy;
-}
-
-kiwi::_camera_2d_proxy kiwi::camera_2d::set_XY(GLfloat X, GLfloat Y, bool condition) noexcept
-{
-	if (condition)
-	{
-		m_right_up_XY[6] = X;
-		m_right_up_XY[7] = Y;
-	}
-
-	kiwi::_camera_2d_proxy proxy;
-	proxy.m_parent_ptr = this;
-	return proxy;
-}
-
-kiwi::_camera_2d_proxy kiwi::camera_2d::set_XY(const GLfloat* const XY_ptr, bool condition) noexcept
-{
-	if (condition)
-	{
-		m_right_up_XY[6] = *XY_ptr;
-		m_right_up_XY[7] = *(XY_ptr + 1);
-	}
-
-	kiwi::_camera_2d_proxy proxy;
-	proxy.m_parent_ptr = this;
-	return proxy;
-}
-
-kiwi::_camera_2d_proxy kiwi::camera_2d::set_angle(GLfloat angle, bool condition) noexcept
-{
-	if (condition) { m_yaw = angle; }
-
-	kiwi::_camera_2d_proxy proxy;
-	proxy.m_parent_ptr = this;
-	return proxy;
-}
-
-kiwi::_camera_2d_proxy kiwi::camera_2d::set_scale(GLfloat scale, bool condition) noexcept
-{
-	if (condition) { m_scale = scale; }
-
-	kiwi::_camera_2d_proxy proxy;
-	proxy.m_parent_ptr = this;
-	return proxy;
-}
-
-kiwi::_camera_2d_proxy kiwi::camera_2d::turn_left(GLfloat angle, bool condition) noexcept
-{
-	if (condition)
-	{
-		constexpr GLfloat pi = 3.14159265358979f;
-		constexpr GLfloat pi_t2 = 2.0f * 3.14159265358979f;
-		m_yaw += angle;
-		while (m_yaw > pi) { m_yaw -= pi_t2; }
-	}
-
-	kiwi::_camera_2d_proxy proxy;
-	proxy.m_parent_ptr = this;
-	return proxy;
-}
-
-kiwi::_camera_2d_proxy kiwi::camera_2d::turn_right(GLfloat angle, bool condition) noexcept
-{
-	if (condition)
-	{
-		constexpr GLfloat pi = 3.14159265358979f;
-		constexpr GLfloat pi_t2 = 2.0f * 3.14159265358979f;
-		m_yaw -= angle;
-		while (m_yaw < -pi) { m_yaw += pi_t2; }
-	}
-
-	kiwi::_camera_2d_proxy proxy;
-	proxy.m_parent_ptr = this;
-	return proxy;
-}
-
-kiwi::_camera_2d_proxy kiwi::camera_2d::move_left(GLfloat distance, bool condition) noexcept
-{
-	if (condition)
-	{
-		m_right_up_XY[6] -= distance * m_right_up_XY[0];
-		m_right_up_XY[7] -= distance * m_right_up_XY[1];
-	}
-
-	kiwi::_camera_2d_proxy proxy;
-	proxy.m_parent_ptr = this;
-	return proxy;
-}
-
-bool kiwi::camera_2d::in_view(const GLfloat* const object_XY_ptr) noexcept
-{
-	GLfloat X_screen = m_vp_matrix[0] * object_XY_ptr[0] + m_vp_matrix[3] * object_XY_ptr[1] + m_vp_matrix[6];
-	GLfloat Y_screen = m_vp_matrix[1] * object_XY_ptr[0] + m_vp_matrix[4] * object_XY_ptr[1] + m_vp_matrix[7];
-	return ((-m_X_factor <= X_screen) & (X_screen <= m_X_factor)) & ((-m_Y_factor <= Y_screen) & (Y_screen <= m_Y_factor));
-}
-
-bool kiwi::camera_2d::in_view(GLfloat object_X, GLfloat object_Y) noexcept
-{
-	GLfloat X_screen = m_vp_matrix[0] * object_X + m_vp_matrix[3] * object_Y + m_vp_matrix[6];
-	GLfloat Y_screen = m_vp_matrix[1] * object_X + m_vp_matrix[4] * object_Y + m_vp_matrix[7];
-	return ((-m_X_factor <= X_screen) & (X_screen <= m_X_factor)) & ((-m_Y_factor <= Y_screen) & (Y_screen <= m_Y_factor));
-}
-
-bool kiwi::camera_2d::in_view(const GLfloat* const object_XY_ptr, GLfloat object_radius) noexcept
-{
-	GLfloat X_screen = m_vp_matrix[0] * object_XY_ptr[0] + m_vp_matrix[3] * object_XY_ptr[1] + m_vp_matrix[6];
-	GLfloat Y_screen = m_vp_matrix[1] * object_XY_ptr[0] + m_vp_matrix[4] * object_XY_ptr[1] + m_vp_matrix[7];
-	GLfloat X_bound = m_X_factor + object_radius;
-	GLfloat Y_bound = m_Y_factor + object_radius;
-	return ((-X_bound <= X_screen) & (X_screen <= X_bound)) & ((-Y_bound <= Y_screen) & (Y_screen <= Y_bound));
-}
-
-bool kiwi::camera_2d::in_view(GLfloat object_X, GLfloat object_Y, GLfloat object_radius) noexcept
-{
-	GLfloat X_screen = m_vp_matrix[0] * object_X + m_vp_matrix[3] * object_Y + m_vp_matrix[6];
-	GLfloat Y_screen = m_vp_matrix[1] * object_X + m_vp_matrix[4] * object_Y + m_vp_matrix[7];
-	GLfloat X_bound = m_X_factor + object_radius;
-	GLfloat Y_bound = m_Y_factor + object_radius;
-	return ((-X_bound <= X_screen) & (X_screen <= X_bound)) & ((-Y_bound <= Y_screen) & (Y_screen <= Y_bound));
 }
 
 kiwi::camera_2d& kiwi::camera_2d::pick_XY(GLfloat X_screen, GLfloat Y_screen, GLfloat* XY_picked) noexcept
@@ -356,6 +98,17 @@ const kiwi::camera_2d& kiwi::camera_2d::pick_XY(GLfloat X_screen, GLfloat Y_scre
 	return *this;
 }
 
+void kiwi::camera_2d::eval_angles() noexcept
+{
+	m_right_up_XY[0] = std::cos(m_yaw);
+	m_right_up_XY[1] = std::sin(m_yaw);
+
+	m_right_up_XY[3] = -m_right_up_XY[1];
+	m_right_up_XY[4] = m_right_up_XY[0];
+
+	m_angle_modified = false;
+}
+
 void kiwi::camera_2d::eval() noexcept
 {
 	m_right_up_XY[0] = std::cos(m_yaw);
@@ -373,8 +126,11 @@ void kiwi::camera_2d::eval() noexcept
 	m_vp_matrix[3] = m_X_factor_scaled * m_right_up_XY[1];
 	m_vp_matrix[4] = m_Y_factor_scaled * m_right_up_XY[0];
 
-	m_vp_matrix[6] = m_X_factor_scaled * (-(m_right_up_XY[0] * m_right_up_XY[6] + m_right_up_XY[1] * m_right_up_XY[7]));
+	m_vp_matrix[6] = -(m_X_factor_scaled * (m_right_up_XY[0] * m_right_up_XY[6] + m_right_up_XY[1] * m_right_up_XY[7]));
 	m_vp_matrix[7] = m_Y_factor_scaled * (m_right_up_XY[1] * m_right_up_XY[6] - m_right_up_XY[0] * m_right_up_XY[7]);
+
+	m_XY_modified = false;
+	m_angle_modified = false;
 }
 
 void kiwi::camera_2d::m33xm33(GLfloat* _KIWI_RESTRICT pfC, const GLfloat* pfA, const GLfloat* pfB) const noexcept
@@ -423,240 +179,4 @@ void kiwi::camera_2d::m33xm33(GLfloat* _KIWI_RESTRICT pfC, const GLfloat* pfA, c
 		pC += 3;
 	}
 #endif // SIMD
-}
-
-kiwi::_camera_2d_proxy kiwi::camera_2d::move_right(GLfloat distance, bool condition) noexcept
-{
-	if (condition)
-	{
-		m_right_up_XY[6] += distance * m_right_up_XY[0];
-		m_right_up_XY[7] += distance * m_right_up_XY[1];
-	}
-
-	kiwi::_camera_2d_proxy proxy;
-	proxy.m_parent_ptr = this;
-	return proxy;
-}
-
-kiwi::_camera_2d_proxy kiwi::camera_2d::move_up(GLfloat distance, bool condition) noexcept
-{
-	if (condition)
-	{
-		m_right_up_XY[6] -= distance * m_right_up_XY[1];
-		m_right_up_XY[7] += distance * m_right_up_XY[0];
-	}
-
-	kiwi::_camera_2d_proxy proxy;
-	proxy.m_parent_ptr = this;
-	return proxy;
-}
-
-kiwi::_camera_2d_proxy kiwi::camera_2d::move_down(GLfloat distance, bool condition) noexcept
-{
-	if (condition)
-	{
-		m_right_up_XY[6] += distance * m_right_up_XY[1];
-		m_right_up_XY[7] -= distance * m_right_up_XY[0];
-	}
-
-	kiwi::_camera_2d_proxy proxy;
-	proxy.m_parent_ptr = this;
-	return proxy;
-}
-
-kiwi::_camera_2d_proxy::~_camera_2d_proxy()
-{
-	m_parent_ptr->eval();
-}
-
-kiwi::_camera_2d_proxy& kiwi::_camera_2d_proxy::set_X(GLfloat X) noexcept
-{
-	m_parent_ptr->m_right_up_XY[6] = X;
-	return *this;
-}
-
-kiwi::_camera_2d_proxy& kiwi::_camera_2d_proxy::set_Y(GLfloat Y) noexcept
-{
-	m_parent_ptr->m_right_up_XY[7] = Y;
-	return *this;
-}
-
-kiwi::_camera_2d_proxy& kiwi::_camera_2d_proxy::set_XY(GLfloat X, GLfloat new_Y) noexcept
-{
-	m_parent_ptr->m_right_up_XY[6] = X;
-	m_parent_ptr->m_right_up_XY[7] = new_Y;
-	return *this;
-}
-
-kiwi::_camera_2d_proxy& kiwi::_camera_2d_proxy::set_XY(const GLfloat* const XY_ptr) noexcept
-{
-	m_parent_ptr->m_right_up_XY[6] = *XY_ptr;
-	m_parent_ptr->m_right_up_XY[7] = *(XY_ptr + 1);
-	return *this;
-}
-
-kiwi::_camera_2d_proxy& kiwi::_camera_2d_proxy::set_angle(GLfloat angle) noexcept
-{
-	m_parent_ptr->m_yaw = angle;
-	return *this;
-}
-
-kiwi::_camera_2d_proxy& kiwi::_camera_2d_proxy::set_scale(GLfloat scale) noexcept
-{
-	m_parent_ptr->m_scale = scale;
-	return *this;
-}
-
-kiwi::_camera_2d_proxy& kiwi::_camera_2d_proxy::turn_left(GLfloat angle) noexcept
-{
-	constexpr GLfloat pi = 3.14159265358979f;
-	constexpr GLfloat pi_t2 = 2.0f * 3.14159265358979f;
-	m_parent_ptr->m_yaw += angle;
-	while (m_parent_ptr->m_yaw > pi) { m_parent_ptr->m_yaw -= pi_t2; }
-	return *this;
-}
-
-kiwi::_camera_2d_proxy& kiwi::_camera_2d_proxy::turn_right(GLfloat angle) noexcept
-{
-	constexpr GLfloat pi = 3.14159265358979f;
-	constexpr GLfloat pi_t2 = 2.0f * 3.14159265358979f;
-	m_parent_ptr->m_yaw -= angle;
-	while (m_parent_ptr->m_yaw < -pi) { m_parent_ptr->m_yaw += pi_t2; }
-	return *this;
-}
-
-kiwi::_camera_2d_proxy& kiwi::_camera_2d_proxy::move_left(GLfloat distance) noexcept
-{
-	m_parent_ptr->m_right_up_XY[6] -= distance * m_parent_ptr->m_right_up_XY[0];
-	m_parent_ptr->m_right_up_XY[7] -= distance * m_parent_ptr->m_right_up_XY[1];
-	return *this;
-}
-
-kiwi::_camera_2d_proxy& kiwi::_camera_2d_proxy::move_right(GLfloat distance) noexcept
-{
-	m_parent_ptr->m_right_up_XY[6] += distance * m_parent_ptr->m_right_up_XY[0];
-	m_parent_ptr->m_right_up_XY[7] += distance * m_parent_ptr->m_right_up_XY[1];
-	return *this;
-}
-
-kiwi::_camera_2d_proxy& kiwi::_camera_2d_proxy::move_up(GLfloat distance) noexcept
-{
-	m_parent_ptr->m_right_up_XY[6] -= distance * m_parent_ptr->m_right_up_XY[1];
-	m_parent_ptr->m_right_up_XY[7] += distance * m_parent_ptr->m_right_up_XY[0];
-	return *this;
-}
-
-kiwi::_camera_2d_proxy& kiwi::_camera_2d_proxy::move_down(GLfloat distance) noexcept
-{
-	m_parent_ptr->m_right_up_XY[6] += distance * m_parent_ptr->m_right_up_XY[1];
-	m_parent_ptr->m_right_up_XY[7] -= distance * m_parent_ptr->m_right_up_XY[0];
-	return *this;
-}
-
-kiwi::_camera_2d_proxy& kiwi::_camera_2d_proxy::turn_left(GLfloat angle, bool condition) noexcept
-{
-	if (condition)
-	{
-		constexpr GLfloat pi = 3.14159265358979f;
-		constexpr GLfloat pi_t2 = 2.0f * 3.14159265358979f;
-		m_parent_ptr->m_yaw += angle;
-		while (m_parent_ptr->m_yaw > pi) { m_parent_ptr->m_yaw -= pi_t2; }
-	}
-	return *this;
-}
-
-kiwi::_camera_2d_proxy& kiwi::_camera_2d_proxy::turn_right(GLfloat angle, bool condition) noexcept
-{
-	if (condition)
-	{
-		constexpr GLfloat pi = 3.14159265358979f;
-		constexpr GLfloat pi_t2 = 2.0f * 3.14159265358979f;
-		m_parent_ptr->m_yaw -= angle;
-		while (m_parent_ptr->m_yaw < -pi) { m_parent_ptr->m_yaw += pi_t2; }
-	}
-	return *this;
-}
-
-kiwi::_camera_2d_proxy& kiwi::_camera_2d_proxy::move_left(GLfloat distance, bool condition) noexcept
-{
-	if (condition)
-	{
-		m_parent_ptr->m_right_up_XY[6] -= distance * m_parent_ptr->m_right_up_XY[0];
-		m_parent_ptr->m_right_up_XY[7] -= distance * m_parent_ptr->m_right_up_XY[1];
-	}
-	return *this;
-}
-
-kiwi::_camera_2d_proxy& kiwi::_camera_2d_proxy::move_right(GLfloat distance, bool condition) noexcept
-{
-	if (condition)
-	{
-		m_parent_ptr->m_right_up_XY[6] += distance * m_parent_ptr->m_right_up_XY[0];
-		m_parent_ptr->m_right_up_XY[7] += distance * m_parent_ptr->m_right_up_XY[1];
-	}
-	return *this;
-}
-
-kiwi::_camera_2d_proxy& kiwi::_camera_2d_proxy::move_up(GLfloat distance, bool condition) noexcept
-{
-	if (condition)
-	{
-		m_parent_ptr->m_right_up_XY[6] -= distance * m_parent_ptr->m_right_up_XY[1];
-		m_parent_ptr->m_right_up_XY[7] += distance * m_parent_ptr->m_right_up_XY[0];
-	}
-	return *this;
-}
-
-kiwi::_camera_2d_proxy& kiwi::_camera_2d_proxy::move_down(GLfloat distance, bool condition) noexcept
-{
-	if (condition)
-	{
-		m_parent_ptr->m_right_up_XY[6] += distance * m_parent_ptr->m_right_up_XY[1];
-		m_parent_ptr->m_right_up_XY[7] -= distance * m_parent_ptr->m_right_up_XY[0];
-	}
-	return *this;
-}
-
-kiwi::_camera_2d_proxy& kiwi::_camera_2d_proxy::set_X(GLfloat X, bool condition) noexcept
-{
-	if (condition) { m_parent_ptr->m_right_up_XY[6] = X; }
-	return *this;
-}
-
-kiwi::_camera_2d_proxy& kiwi::_camera_2d_proxy::set_Y(GLfloat Y, bool condition) noexcept
-{
-	if (condition) { m_parent_ptr->m_right_up_XY[7] = Y; }
-	return *this;
-}
-
-kiwi::_camera_2d_proxy& kiwi::_camera_2d_proxy::set_XY(GLfloat X, GLfloat new_Y, bool condition) noexcept
-{
-	if (condition)
-	{
-		m_parent_ptr->m_right_up_XY[6] = X;
-		m_parent_ptr->m_right_up_XY[7] = new_Y;
-	}
-	return *this;
-}
-
-kiwi::_camera_2d_proxy& kiwi::_camera_2d_proxy::set_XY(const GLfloat* const XY_ptr, bool condition) noexcept
-{
-	if (condition)
-	{
-		m_parent_ptr->m_right_up_XY[6] = *XY_ptr;
-		m_parent_ptr->m_right_up_XY[7] = *(XY_ptr + 1);
-	}
-	return *this;
-}
-
-kiwi::_camera_2d_proxy& kiwi::_camera_2d_proxy::set_angle(GLfloat angle, bool condition) noexcept
-{
-	if (condition) { m_parent_ptr->m_yaw = angle; }
-	return *this;
-}
-
-kiwi::_camera_2d_proxy& kiwi::_camera_2d_proxy::set_scale(GLfloat scale, bool condition) noexcept
-{
-	if (condition) { m_parent_ptr->m_scale = scale; }
-	return *this;
 }

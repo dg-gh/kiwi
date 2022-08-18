@@ -2,6 +2,7 @@
 #define KIWI_MODEL_2D_HPP
 
 #include "kiwi_includes.hpp"
+#include "header_utils/kiwi_restrict.hpp"
 
 
 namespace kiwi

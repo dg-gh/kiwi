@@ -2,6 +2,7 @@
 #define KIWI_MODEL_3D_HPP
 
 #include "kiwi_includes.hpp"
+#include "header_utils/kiwi_restrict.hpp"
 
 
 namespace kiwi
@@ -56,8 +57,8 @@ namespace kiwi
 		inline kiwi::model_3d& move_X(GLfloat distance, bool condition = true) noexcept;
 		inline kiwi::model_3d& move_Y(GLfloat distance, bool condition = true) noexcept;
 		inline kiwi::model_3d& move_Z(GLfloat distance, bool condition = true) noexcept;
-		inline kiwi::model_3d& move_XYZ(GLfloat dX, GLfloat dY, GLfloat dZ, bool condition = true) noexcept;
-		inline kiwi::model_3d& move_XYZ(const GLfloat* const _KIWI_RESTRICT dXdYdZ_ptr, bool condition = true) noexcept;
+		inline kiwi::model_3d& move_XYZ(GLfloat distance_X, GLfloat distance_Y, GLfloat distance_Z, bool condition = true) noexcept;
+		inline kiwi::model_3d& move_XYZ(const GLfloat* const _KIWI_RESTRICT distance_XYZ_ptr, bool condition = true) noexcept;
 		inline kiwi::model_3d& set_yaw(GLfloat yaw, bool condition = true) noexcept;
 		inline kiwi::model_3d& set_pitch(GLfloat pitch, bool condition = true) noexcept;
 		inline kiwi::model_3d& set_roll(GLfloat roll, bool condition = true) noexcept;
@@ -330,25 +331,25 @@ inline kiwi::model_3d& kiwi::model_3d::move_Z(GLfloat distance, bool condition) 
 	return *this;
 }
 
-inline kiwi::model_3d& kiwi::model_3d::move_XYZ(GLfloat dX, GLfloat dY, GLfloat dZ, bool condition) noexcept
+inline kiwi::model_3d& kiwi::model_3d::move_XYZ(GLfloat distance_X, GLfloat distance_Y, GLfloat distance_Z, bool condition) noexcept
 {
 	if (condition)
 	{
-		m_matrix_rel[12] += dX;
-		m_matrix_rel[13] += dY;
-		m_matrix_rel[14] += dZ;
+		m_matrix_rel[12] += distance_X;
+		m_matrix_rel[13] += distance_Y;
+		m_matrix_rel[14] += distance_Z;
 		m_XYZ_modified = true;
 	}
 	return *this;
 }
 
-inline kiwi::model_3d& kiwi::model_3d::move_XYZ(const GLfloat* const _KIWI_RESTRICT dXdYdZ_ptr, bool condition) noexcept
+inline kiwi::model_3d& kiwi::model_3d::move_XYZ(const GLfloat* const _KIWI_RESTRICT distance_XYZ_ptr, bool condition) noexcept
 {
 	if (condition)
 	{
-		m_matrix_rel[12] += *dXdYdZ_ptr;
-		m_matrix_rel[13] += *(dXdYdZ_ptr + 1);
-		m_matrix_rel[14] += *(dXdYdZ_ptr + 2);
+		m_matrix_rel[12] += *distance_XYZ_ptr;
+		m_matrix_rel[13] += *(distance_XYZ_ptr + 1);
+		m_matrix_rel[14] += *(distance_XYZ_ptr + 2);
 		m_XYZ_modified = true;
 	}
 	return *this;

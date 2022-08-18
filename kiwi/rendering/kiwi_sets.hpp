@@ -4,6 +4,7 @@
 #include "context/kiwi_context.hpp"
 #include "buffers/kiwi_buffer_texture.hpp"
 #include "buffers/kiwi_buffer_storage.hpp"
+#include "header_utils/kiwi_restrict.hpp"
 
 
 // XYZA_RGBA

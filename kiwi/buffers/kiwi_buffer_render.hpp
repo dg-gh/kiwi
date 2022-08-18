@@ -2,6 +2,7 @@
 #define KIWI_BUFFER_RENDER_HPP
 
 #include "context/kiwi_context.hpp"
+#include "header_utils/kiwi_basic_data.hpp"
 
 
 namespace kiwi

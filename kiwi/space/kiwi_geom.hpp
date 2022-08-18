@@ -3,6 +3,8 @@
 
 #include "kiwi_includes.hpp"
 #include "buffers/kiwi_buffer_vertex.hpp"
+#include "header_utils/kiwi_restrict.hpp"
+#include "header_utils/kiwi_simd.hpp"
 
 
 namespace kiwi

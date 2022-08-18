@@ -1,11 +1,5 @@
 #include "space/kiwi_model_2d.hpp"
-
-#if defined(__AVX2__) && defined(__FMA__)
-#ifndef _KIWI_AVX2_FMA
-#define _KIWI_AVX2_FMA
-#endif // _KIWI_AVX2_FMA
-#include <immintrin.h>
-#endif
+#include "header_utils/kiwi_simd.hpp"
 
 
 kiwi::model_2d& kiwi::model_2d::set_base_model(kiwi::model_2d* base_model_ptr) noexcept
