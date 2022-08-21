@@ -17,6 +17,4 @@
 #include <cmath>
 #include <cstdint>
 
-#include "kiwi_global_type.hpp"
-
 #endif // KIWI_INCLUDES_HPP

@@ -1,5 +1,4 @@
 #include "space/kiwi_picker.hpp"
-#include "kiwi_global_type.hpp"
 #include "shader_sources/kiwi_sources_picker.hpp"
 
 
@@ -86,31 +85,31 @@ namespace kiwi
 		kiwi::picker_3d m_program_picker_3d;
 		kiwi::picker_instanced_XYZ_id_3d m_program_picker_instanced_XYZ_id_3d;
 	};
+
+	std::unique_ptr<kiwi::picker_buffers> picker_buffers_ptr;
 }
 
 
 bool kiwi::draw_id_init()
 {
-	if (!kiwi::is_global_type_created<kiwi::picker_buffers>())
+	if (!kiwi::picker_buffers_ptr)
 	{
 		bool success = true;
 
 		try
 		{
-			kiwi::make_global_type<kiwi::picker_buffers>();
+			kiwi::picker_buffers_ptr = std::make_unique<kiwi::picker_buffers>();
 
-			if (!kiwi::is_global_type_created<kiwi::picker_buffers>())
+			if (!kiwi::picker_buffers_ptr)
 			{
 				return false;
 			}
 
-			kiwi::global_type<kiwi::picker_buffers> buffers = kiwi::get_global_type<kiwi::picker_buffers>();
+			success &= kiwi::picker_buffers_ptr->m_program_picker_2d.init();
+			success &= kiwi::picker_buffers_ptr->m_program_picker_instanced_XY_id_2d.init();
 
-			success &= buffers.m_program_picker_2d.init();
-			success &= buffers.m_program_picker_instanced_XY_id_2d.init();
-
-			success &= buffers.m_program_picker_3d.init();
-			success &= buffers.m_program_picker_instanced_XYZ_id_3d.init();
+			success &= kiwi::picker_buffers_ptr->m_program_picker_3d.init();
+			success &= kiwi::picker_buffers_ptr->m_program_picker_instanced_XYZ_id_3d.init();
 		}
 		catch (...)
 		{
@@ -127,7 +126,7 @@ bool kiwi::draw_id_init()
 
 void kiwi::draw_id_terminate() noexcept
 {
-	kiwi::delete_global_type<kiwi::picker_buffers>();
+	kiwi::picker_buffers_ptr.reset();
 }
 
 
@@ -193,12 +192,11 @@ kiwi::_picker_3d_proxy kiwi::draw_id_3d_with(const GLfloat* const mvp_matrix_ptr
 
 kiwi::_draw_basic_proxy kiwi::_picker_2d_proxy::using_vertex(const kiwi::vertex_buffer& vertex_buffer, GLushort entity_id) noexcept
 {
-	kiwi::global_type<kiwi::picker_buffers> buffers = kiwi::get_global_type<kiwi::picker_buffers>();
-
 	vertex_buffer.to_location(0);
 
-	buffers.m_program_picker_2d.program.set_uniform_3x3f(buffers.m_program_picker_2d.mvp_matrix_location, m_transformation_matrix_ptr)
-		.set_uniform_1ui(buffers.m_program_picker_2d.id_location, static_cast<GLuint>(entity_id));
+	kiwi::picker_buffers_ptr->m_program_picker_2d.program
+		.set_uniform_3x3f(kiwi::picker_buffers_ptr->m_program_picker_2d.mvp_matrix_location, m_transformation_matrix_ptr)
+		.set_uniform_1ui(kiwi::picker_buffers_ptr->m_program_picker_2d.id_location, static_cast<GLuint>(entity_id));
 
 	kiwi::_draw_basic_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -210,12 +208,11 @@ kiwi::_draw_basic_proxy kiwi::_picker_2d_proxy::using_vertex(const kiwi::vertex_
 kiwi::_draw_instanced_basic_proxy kiwi::_picker_2d_proxy::using_vertex(const kiwi::vertex_buffer& vertex_buffer, const kiwi::XY_id_set& XY_id_set,
 	const GLfloat* const mvp_matrix_2d_ptr) noexcept
 {
-	kiwi::global_type<kiwi::picker_buffers> buffers = kiwi::get_global_type<kiwi::picker_buffers>();
-
 	vertex_buffer.to_location(0);
 	XY_id_set.to_binding(0);
 
-	buffers.m_program_picker_instanced_XY_id_2d.program.set_uniform_3x3f(buffers.m_program_picker_instanced_XY_id_2d.mvp_matrix_location, m_transformation_matrix_ptr);
+	kiwi::picker_buffers_ptr->m_program_picker_instanced_XY_id_2d.program
+		.set_uniform_3x3f(kiwi::picker_buffers_ptr->m_program_picker_instanced_XY_id_2d.mvp_matrix_location, m_transformation_matrix_ptr);
 
 	kiwi::_draw_instanced_basic_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -228,12 +225,11 @@ kiwi::_draw_instanced_basic_proxy kiwi::_picker_2d_proxy::using_vertex(const kiw
 kiwi::_draw_instanced_basic_proxy kiwi::_picker_2d_proxy::using_vertex(const kiwi::vertex_buffer& vertex_buffer, const kiwi::XYZ_id_set& XYZ_id_set, 
 	const GLfloat* const mvp_matrix_2d_ptr) noexcept
 {
-	kiwi::global_type<kiwi::picker_buffers> buffers = kiwi::get_global_type<kiwi::picker_buffers>();
-
 	vertex_buffer.to_location(0);
 	XYZ_id_set.to_binding(0);
 
-	buffers.m_program_picker_instanced_XY_id_2d.program.set_uniform_3x3f(buffers.m_program_picker_instanced_XY_id_2d.mvp_matrix_location, m_transformation_matrix_ptr);
+	kiwi::picker_buffers_ptr->m_program_picker_instanced_XY_id_2d.program
+		.set_uniform_3x3f(kiwi::picker_buffers_ptr->m_program_picker_instanced_XY_id_2d.mvp_matrix_location, m_transformation_matrix_ptr);
 
 	kiwi::_draw_instanced_basic_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -245,12 +241,11 @@ kiwi::_draw_instanced_basic_proxy kiwi::_picker_2d_proxy::using_vertex(const kiw
 
 kiwi::_draw_basic_proxy kiwi::_picker_3d_proxy::using_vertex(const kiwi::vertex_buffer& vertex_buffer, GLushort entity_id) noexcept
 {
-	kiwi::global_type<kiwi::picker_buffers> buffers = kiwi::get_global_type<kiwi::picker_buffers>();
-
 	vertex_buffer.to_location(0);
 
-	buffers.m_program_picker_3d.program.set_uniform_4x4f(buffers.m_program_picker_3d.mvp_matrix_location, m_transformation_matrix_ptr)
-		.set_uniform_1ui(buffers.m_program_picker_3d.id_location, static_cast<GLuint>(entity_id));
+	kiwi::picker_buffers_ptr->m_program_picker_3d.program
+		.set_uniform_4x4f(kiwi::picker_buffers_ptr->m_program_picker_3d.mvp_matrix_location, m_transformation_matrix_ptr)
+		.set_uniform_1ui(kiwi::picker_buffers_ptr->m_program_picker_3d.id_location, static_cast<GLuint>(entity_id));
 
 	kiwi::_draw_basic_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();

@@ -231,7 +231,7 @@ namespace kiwi
 		void init_black_lightmap();
 	};
 
-	std::unique_ptr<forward_buffers> forward_buffers_ptr;
+	std::unique_ptr<kiwi::forward_buffers> forward_buffers_ptr;
 }
 
 void kiwi::forward_buffers::init_black_lightmap()
@@ -304,7 +304,7 @@ kiwi::_load_forward_2d_proxy kiwi::draw_forward_2d_with(const kiwi::lightset& li
 	proxy.m_view_XYZ[1] = view_XY_ptr[1];
 	proxy.m_view_XYZ[2] = view_Z;
 	proxy.m_mvp_matrix_ptr = mvp_matrix_ptr;
-	proxy.m_m_matrix_ptr = static_cast<const GLfloat*>(kiwi::get_global_type<kiwi::forward_buffers>().m_identity_matrix_2d);
+	proxy.m_m_matrix_ptr = static_cast<const GLfloat*>(kiwi::forward_buffers_ptr->m_identity_matrix_2d);
 	return proxy;
 }
 
@@ -330,7 +330,7 @@ kiwi::_load_forward_3d_proxy kiwi::draw_forward_3d_with(const kiwi::lightset& li
 	proxy.m_light_selection_ptr = &selection;
 	proxy.m_view_XYZ_ptr = view_XYZ_ptr;
 	proxy.m_mvp_matrix_ptr = mvp_matrix_ptr;
-	proxy.m_m_matrix_ptr = static_cast<const GLfloat*>(kiwi::get_global_type<kiwi::forward_buffers>().m_identity_matrix_3d);
+	proxy.m_m_matrix_ptr = static_cast<const GLfloat*>(kiwi::forward_buffers_ptr->m_identity_matrix_3d);
 	return proxy;
 }
 
