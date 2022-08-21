@@ -24,8 +24,7 @@ namespace kiwi
 	class _load_spec_3d_proxy;
 	class _draw_quad_sprite_proxy;
 
-	kiwi::_load_basic_2d_proxy draw_2d_with() noexcept;
-	kiwi::_load_basic_2d_proxy draw_2d_with(const GLfloat* const transformation_matrix_ptr) noexcept;
+	kiwi::_load_basic_2d_proxy draw_2d_with(const GLfloat* const transformation_matrix_ptr = kiwi::window_matrix_data()) noexcept;
 
 	kiwi::_load_basic_3d_proxy draw_3d_with(const GLfloat* const transformation_matrix_ptr) noexcept;
 	kiwi::_load_spec_3d_proxy draw_3d_with(const GLfloat* const transformation_matrix_ptr, const GLfloat* const m_matrix_ptr) noexcept;
@@ -40,7 +39,6 @@ namespace kiwi
 
 	public:
 
-		friend kiwi::_load_basic_2d_proxy draw_2d_with() noexcept;
 		friend kiwi::_load_basic_2d_proxy draw_2d_with(const GLfloat* const transformation_matrix_ptr) noexcept;
 
 		kiwi::_draw_basic_proxy using_solid_color(const kiwi::vertex_buffer& vertex_buffer, const kiwi::RGBA& solid_color) noexcept;

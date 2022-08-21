@@ -449,12 +449,6 @@ void kiwi::draw_terminate() noexcept
 
 // 2D SELECT PROGRAM
 
-kiwi::_load_basic_2d_proxy kiwi::draw_2d_with() noexcept
-{
-	kiwi::_load_basic_2d_proxy proxy;
-	proxy.m_transformation_matrix_ptr = kiwi::window_matrix_data();
-	return proxy;
-}
 kiwi::_load_basic_2d_proxy kiwi::draw_2d_with(const GLfloat* const transformation_matrix_ptr) noexcept
 {
 	kiwi::_load_basic_2d_proxy proxy;
