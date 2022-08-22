@@ -360,7 +360,6 @@ const char* const kiwi::source::forward_2d_color_gradient_vRMEC::fragment_shader
 		LIGHTSET_BUFFERS
 
 		"	uniform vec3 u_ambient_light_RGB;																	\n"
-		"	uniform float u_C;																					\n"
 
 		"	uniform vec3 u_view_XYZ;																			\n"
 		"	uniform mat3 u_m_M;																					\n"
@@ -391,11 +390,10 @@ const char* const kiwi::source::forward_2d_color_gradient_vRMEC::fragment_shader
 		"			* vec3(RGBA)) + spec, RGBA[3]);																\n"
 
 		"		float M = max(max(color[0], color[1]), color[2]);												\n"
-		"		float ceiling = max(RMEC[3], u_C);																\n"
-		"		if (M > ceiling)																				\n"
+		"		if (M > RMEC[3])																				\n"
 		"		{																								\n"
 		"			float m = min(min(min(color[0], color[1]), color[2]), 1.0);									\n"
-		"			color.xyz = m + ((ceiling - m) / (M - m)) * (vec3(color) - m);								\n"
+		"			color.xyz = m + ((RMEC[3] - m) / (M - m)) * (vec3(color) - m);								\n"
 		"		}																								\n"
 		"	}																									\n"
 		;
@@ -438,7 +436,7 @@ const char* const kiwi::source::forward_2d_texture_mRMEC::fragment_shader() noex
 		LIGHTSET_BUFFERS
 
 		"	uniform vec3 u_ambient_light_RGB;																	\n"
-		"	uniform float u_C;																					\n"
+		"	uniform vec2 u_ECx;																					\n"
 
 		"	uniform vec3 u_view_XYZ;																			\n"
 		"	uniform mat3 u_m_M;																					\n"
@@ -464,7 +462,7 @@ const char* const kiwi::source::forward_2d_texture_mRMEC::fragment_shader() noex
 		"		vec4 RGBA = texture(Tx, UV);																	\n"
 		"		vec3 fresnel = mix(vec3(0.04), vec3(RGBA), RMEC[1]);											\n"
 
-		"		vec3 diff = vec3(3.14159 * RMEC[2]);															\n"
+		"		vec3 diff = vec3(3.14159 * u_ECx[0] * RMEC[2]);													\n"
 		"		vec3 spec = vec3(0.0);																			\n"
 
 		SKYLIGHTS_2D
@@ -475,7 +473,7 @@ const char* const kiwi::source::forward_2d_texture_mRMEC::fragment_shader() noex
 		"			* vec3(RGBA)) + spec, RGBA[3]);																\n"
 
 		"		float M = max(max(color[0], color[1]), color[2]);												\n"
-		"		float ceiling = max(RMEC[3], u_C);																\n"
+		"		float ceiling = u_ECx[1] * RMEC[3];																\n"
 		"		if (M > ceiling)																				\n"
 		"		{																								\n"
 		"			float m = min(min(min(color[0], color[1]), color[2]), 1.0);									\n"
@@ -530,7 +528,7 @@ const char* const kiwi::source::forward_2d_normal_mRMEC::fragment_shader() noexc
 		LIGHTSET_BUFFERS
 
 		"	uniform vec3 u_ambient_light_RGB;																	\n"
-		"	uniform float u_C;																					\n"
+		"	uniform vec2 u_ECx;																					\n"
 
 		"	uniform vec3 u_view_XYZ;																			\n"
 
@@ -557,7 +555,7 @@ const char* const kiwi::source::forward_2d_normal_mRMEC::fragment_shader() noexc
 		"		vec4 RGBA = texture(Tx, UV);																	\n"
 		"		vec3 fresnel = mix(vec3(0.04), vec3(RGBA), RMEC[1]);											\n"
 
-		"		vec3 diff = vec3(3.14159 * RMEC[2]);															\n"
+		"		vec3 diff = vec3(3.14159 * u_ECx[0] * RMEC[2]);													\n"
 		"		vec3 spec = vec3(0.0);																			\n"
 
 		SKYLIGHTS_2D_NORMAL
@@ -569,7 +567,7 @@ const char* const kiwi::source::forward_2d_normal_mRMEC::fragment_shader() noexc
 		"			* vec3(RGBA)) + spec, RGBA[3]);																\n"
 
 		"		float M = max(max(color[0], color[1]), color[2]);												\n"
-		"		float ceiling = max(RMEC[3], u_C);																\n"
+		"		float ceiling = u_ECx[1] * RMEC[3];																\n"
 		"		if (M > ceiling)																				\n"
 		"		{																								\n"
 		"			float m = min(min(min(color[0], color[1]), color[2]), 1.0);									\n"

@@ -50,8 +50,6 @@ namespace kiwi
 		GLint view_XYZ_location = -1;
 		GLint ambient_light_RGB_location = -1;
 		GLint light_count_location = -1;
-
-		GLint C_location = -1;
 	};
 
 	class forward_2d_texture
@@ -69,7 +67,7 @@ namespace kiwi
 		GLint ambient_light_RGB_location = -1;
 		GLint light_count_location = -1;
 
-		GLint C_location = -1;
+		GLint ECx_location = -1;
 	};
 
 	class forward_2d_normal
@@ -87,7 +85,7 @@ namespace kiwi
 		GLint ambient_light_RGB_location = -1;
 		GLint light_count_location = -1;
 
-		GLint C_location = -1;
+		GLint ECx_location = -1;
 	};
 
 
@@ -124,8 +122,6 @@ namespace kiwi
 		GLint view_XYZ_location = -1;
 		GLint ambient_light_RGB_location = -1;
 		GLint light_count_location = -1;
-
-		GLint C_location = -1;
 	};
 
 	class forward_3d_texture
@@ -143,7 +139,7 @@ namespace kiwi
 		GLint ambient_light_RGB_location = -1;
 		GLint light_count_location = -1;
 
-		GLint C_location = -1;
+		GLint ECx_location = -1;
 	};
 
 	class forward_3d_normal
@@ -161,7 +157,7 @@ namespace kiwi
 		GLint ambient_light_RGB_location = -1;
 		GLint light_count_location = -1;
 
-		GLint C_location = -1;
+		GLint ECx_location = -1;
 	};
 
 	class forward_3d_parallax
@@ -179,7 +175,7 @@ namespace kiwi
 		GLint ambient_light_RGB_location = -1;
 		GLint light_count_location = -1;
 
-		GLint C_location = -1;
+		GLint ECx_location = -1;
 		GLint parallax_shift_location = -1;
 	};
 }
@@ -385,31 +381,7 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_color_gradient(con
 		.set_uniform_3x3f(kiwi::forward_buffers_ptr->m_program_color_gradient_2d.m_matrix_location, m_m_matrix_ptr)
 		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_color_gradient_2d.view_XYZ_location, static_cast<const GLfloat*>(m_view_XYZ))
 		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_color_gradient_2d.ambient_light_RGB_location, m_lightset_ptr->ambient_RGB_data())
-		.set_uniform_3ui(kiwi::forward_buffers_ptr->m_program_color_gradient_2d.light_count_location, m_light_selection_ptr->number_of_lights_data())
-		.set_uniform_1f(kiwi::forward_buffers_ptr->m_program_color_gradient_2d.C_location, static_cast<GLfloat>(1));
-
-	kiwi::_draw_forward_proxy proxy;
-	proxy.m_vertex_count = vertex_buffer.vertex_count();
-	return proxy;
-}
-
-kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_color_gradient(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& color_vertex_buffer,
-	const kiwi::vertex_buffer& RMEC_vertex_buffer, GLfloat color_ceiling) noexcept
-{
-	vertex_buffer.to_location(0);
-	color_vertex_buffer.to_location(6);
-	RMEC_vertex_buffer.to_location(7);
-
-	m_lightset_ptr->to_binding(0, 1, 2);
-	m_light_selection_ptr->to_binding(3, 4, 5);
-
-	kiwi::forward_buffers_ptr->m_program_color_gradient_2d.program
-		.set_uniform_3x3f(kiwi::forward_buffers_ptr->m_program_color_gradient_2d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_3x3f(kiwi::forward_buffers_ptr->m_program_color_gradient_2d.m_matrix_location, m_m_matrix_ptr)
-		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_color_gradient_2d.view_XYZ_location, static_cast<const GLfloat*>(m_view_XYZ))
-		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_color_gradient_2d.ambient_light_RGB_location, m_lightset_ptr->ambient_RGB_data())
-		.set_uniform_3ui(kiwi::forward_buffers_ptr->m_program_color_gradient_2d.light_count_location, m_light_selection_ptr->number_of_lights_data())
-		.set_uniform_1f(kiwi::forward_buffers_ptr->m_program_color_gradient_2d.C_location, color_ceiling);
+		.set_uniform_3ui(kiwi::forward_buffers_ptr->m_program_color_gradient_2d.light_count_location, m_light_selection_ptr->number_of_lights_data());
 
 	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -433,13 +405,15 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture(const kiwi
 	m_lightset_ptr->to_binding(0, 1, 2);
 	m_light_selection_ptr->to_binding(3, 4, 5);
 
+	GLfloat ECx[2] = { static_cast<GLfloat>(1), static_cast<GLfloat>(1) };
+
 	kiwi::forward_buffers_ptr->m_program_texture_2d.program
 		.set_uniform_3x3f(kiwi::forward_buffers_ptr->m_program_texture_2d.mvp_matrix_location, m_mvp_matrix_ptr)
 		.set_uniform_3x3f(kiwi::forward_buffers_ptr->m_program_texture_2d.m_matrix_location, m_m_matrix_ptr)
 		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_texture_2d.view_XYZ_location, static_cast<const GLfloat*>(m_view_XYZ))
 		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_texture_2d.ambient_light_RGB_location, m_lightset_ptr->ambient_RGB_data())
 		.set_uniform_3ui(kiwi::forward_buffers_ptr->m_program_texture_2d.light_count_location, m_light_selection_ptr->number_of_lights_data())
-		.set_uniform_1f(kiwi::forward_buffers_ptr->m_program_texture_2d.C_location, static_cast<GLfloat>(1));
+		.set_uniform_2f(kiwi::forward_buffers_ptr->m_program_texture_2d.ECx_location, static_cast<GLfloat*>(ECx));
 
 	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -447,7 +421,7 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture(const kiwi
 }
 
 kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture,
-	const kiwi::texture_buffer& RMEC_texture_buffer, GLfloat color_ceiling) noexcept
+	const kiwi::texture_buffer& RMEC_texture_buffer, const kiwi::ECx& ECx) noexcept
 {
 	vertex_buffer.to_location(0);
 	UV_buffer.to_location(4);
@@ -466,7 +440,7 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture(const kiwi
 		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_texture_2d.view_XYZ_location, static_cast<const GLfloat*>(m_view_XYZ))
 		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_texture_2d.ambient_light_RGB_location, m_lightset_ptr->ambient_RGB_data())
 		.set_uniform_3ui(kiwi::forward_buffers_ptr->m_program_texture_2d.light_count_location, m_light_selection_ptr->number_of_lights_data())
-		.set_uniform_1f(kiwi::forward_buffers_ptr->m_program_texture_2d.C_location, color_ceiling);
+		.set_uniform_2f(kiwi::forward_buffers_ptr->m_program_texture_2d.ECx_location, ECx.data());
 
 	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -487,13 +461,15 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture_lightmappe
 	m_lightset_ptr->to_binding(0, 1, 2);
 	m_light_selection_ptr->to_binding(3, 4, 5);
 
+	GLfloat ECx[2] = { static_cast<GLfloat>(1), static_cast<GLfloat>(1) };
+
 	kiwi::forward_buffers_ptr->m_program_texture_2d.program
 		.set_uniform_3x3f(kiwi::forward_buffers_ptr->m_program_texture_2d.mvp_matrix_location, m_mvp_matrix_ptr)
 		.set_uniform_3x3f(kiwi::forward_buffers_ptr->m_program_texture_2d.m_matrix_location, m_m_matrix_ptr)
 		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_texture_2d.view_XYZ_location, static_cast<const GLfloat*>(m_view_XYZ))
 		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_texture_2d.ambient_light_RGB_location, m_lightset_ptr->ambient_RGB_data())
 		.set_uniform_3ui(kiwi::forward_buffers_ptr->m_program_texture_2d.light_count_location, m_light_selection_ptr->number_of_lights_data())
-		.set_uniform_1f(kiwi::forward_buffers_ptr->m_program_texture_2d.C_location, static_cast<GLfloat>(1));
+		.set_uniform_2f(kiwi::forward_buffers_ptr->m_program_texture_2d.ECx_location, static_cast<GLfloat*>(ECx));
 
 	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -501,7 +477,7 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture_lightmappe
 }
 
 kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture,
-	const kiwi::texture_buffer& RMEC_texture_buffer, GLfloat color_ceiling, const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
+	const kiwi::texture_buffer& RMEC_texture_buffer, const kiwi::ECx& ECx, const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
 {
 	vertex_buffer.to_location(0);
 	UV_buffer.to_location(4);
@@ -520,7 +496,7 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture_lightmappe
 		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_texture_2d.view_XYZ_location, static_cast<const GLfloat*>(m_view_XYZ))
 		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_texture_2d.ambient_light_RGB_location, m_lightset_ptr->ambient_RGB_data())
 		.set_uniform_3ui(kiwi::forward_buffers_ptr->m_program_texture_2d.light_count_location, m_light_selection_ptr->number_of_lights_data())
-		.set_uniform_1f(kiwi::forward_buffers_ptr->m_program_texture_2d.C_location, color_ceiling);
+		.set_uniform_2f(kiwi::forward_buffers_ptr->m_program_texture_2d.ECx_location, ECx.data());
 
 	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -548,13 +524,15 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal(const kiwi:
 	m_lightset_ptr->to_binding(0, 1, 2);
 	m_light_selection_ptr->to_binding(3, 4, 5);
 
+	GLfloat ECx[2] = { static_cast<GLfloat>(1), static_cast<GLfloat>(1) };
+
 	kiwi::forward_buffers_ptr->m_program_normal_2d.program
 		.set_uniform_3x3f(kiwi::forward_buffers_ptr->m_program_normal_2d.mvp_matrix_location, m_mvp_matrix_ptr)
 		.set_uniform_3x3f(kiwi::forward_buffers_ptr->m_program_normal_2d.m_matrix_location, m_m_matrix_ptr)
 		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_normal_2d.view_XYZ_location, static_cast<const GLfloat*>(m_view_XYZ))
 		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_normal_2d.ambient_light_RGB_location, m_lightset_ptr->ambient_RGB_data())
 		.set_uniform_3ui(kiwi::forward_buffers_ptr->m_program_normal_2d.light_count_location, m_light_selection_ptr->number_of_lights_data())
-		.set_uniform_1f(kiwi::forward_buffers_ptr->m_program_normal_2d.C_location, static_cast<GLfloat>(1));
+		.set_uniform_2f(kiwi::forward_buffers_ptr->m_program_normal_2d.ECx_location, static_cast<GLfloat*>(ECx));
 
 	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -563,7 +541,7 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal(const kiwi:
 
 kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TB_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& normal_map,
-	const kiwi::texture_buffer& RMEC_texture_buffer, GLfloat color_ceiling) noexcept
+	const kiwi::texture_buffer& RMEC_texture_buffer, const kiwi::ECx& ECx) noexcept
 {
 	vertex_buffer.to_location(0);
 	TB_buffer.to_location(1, 0, 2);
@@ -585,7 +563,7 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal(const kiwi:
 		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_normal_2d.view_XYZ_location, static_cast<const GLfloat*>(m_view_XYZ))
 		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_normal_2d.ambient_light_RGB_location, m_lightset_ptr->ambient_RGB_data())
 		.set_uniform_3ui(kiwi::forward_buffers_ptr->m_program_normal_2d.light_count_location, m_light_selection_ptr->number_of_lights_data())
-		.set_uniform_1f(kiwi::forward_buffers_ptr->m_program_normal_2d.C_location, color_ceiling);
+		.set_uniform_2f(kiwi::forward_buffers_ptr->m_program_normal_2d.ECx_location, ECx.data());
 
 	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -610,13 +588,15 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal_lightmapped
 	m_lightset_ptr->to_binding(0, 1, 2);
 	m_light_selection_ptr->to_binding(3, 4, 5);
 
+	GLfloat ECx[2] = { static_cast<GLfloat>(1), static_cast<GLfloat>(1) };
+
 	kiwi::forward_buffers_ptr->m_program_normal_2d.program
 		.set_uniform_3x3f(kiwi::forward_buffers_ptr->m_program_normal_2d.mvp_matrix_location, m_mvp_matrix_ptr)
 		.set_uniform_3x3f(kiwi::forward_buffers_ptr->m_program_normal_2d.m_matrix_location, m_m_matrix_ptr)
 		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_normal_2d.view_XYZ_location, static_cast<const GLfloat*>(m_view_XYZ))
 		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_normal_2d.ambient_light_RGB_location, m_lightset_ptr->ambient_RGB_data())
 		.set_uniform_3ui(kiwi::forward_buffers_ptr->m_program_normal_2d.light_count_location, m_light_selection_ptr->number_of_lights_data())
-		.set_uniform_1f(kiwi::forward_buffers_ptr->m_program_normal_2d.C_location, static_cast<GLfloat>(1));
+		.set_uniform_2f(kiwi::forward_buffers_ptr->m_program_normal_2d.ECx_location, static_cast<GLfloat*>(ECx));
 
 	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -625,7 +605,7 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal_lightmapped
 
 kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TB_buffer,
 	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& normal_map, const kiwi::texture_buffer& RMEC_texture_buffer,
-	GLfloat color_ceiling, const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
+	const kiwi::ECx& ECx, const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
 {
 	vertex_buffer.to_location(0);
 	TB_buffer.to_location(1, 0, 2);
@@ -647,7 +627,7 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal_lightmapped
 		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_normal_2d.view_XYZ_location, static_cast<const GLfloat*>(m_view_XYZ))
 		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_normal_2d.ambient_light_RGB_location, m_lightset_ptr->ambient_RGB_data())
 		.set_uniform_3ui(kiwi::forward_buffers_ptr->m_program_normal_2d.light_count_location, m_light_selection_ptr->number_of_lights_data())
-		.set_uniform_1f(kiwi::forward_buffers_ptr->m_program_normal_2d.C_location, color_ceiling);
+		.set_uniform_2f(kiwi::forward_buffers_ptr->m_program_normal_2d.ECx_location, ECx.data());
 
 	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -695,31 +675,7 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_color_gradient(con
 		.set_uniform_4x4f(kiwi::forward_buffers_ptr->m_program_color_gradient_3d.m_matrix_location, m_m_matrix_ptr)
 		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_color_gradient_3d.view_XYZ_location, m_view_XYZ_ptr)
 		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_color_gradient_3d.ambient_light_RGB_location, m_lightset_ptr->ambient_RGB_data())
-		.set_uniform_3ui(kiwi::forward_buffers_ptr->m_program_color_gradient_3d.light_count_location, m_light_selection_ptr->number_of_lights_data())
-		.set_uniform_1f(kiwi::forward_buffers_ptr->m_program_color_gradient_3d.C_location, static_cast<GLfloat>(1));
-
-	kiwi::_draw_forward_proxy proxy;
-	proxy.m_vertex_count = vertex_buffer.vertex_count();
-	return proxy;
-}
-
-kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_color_gradient(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
-	const kiwi::vertex_buffer& color_vertex_buffer, const kiwi::vertex_buffer& RMEC_vertex_buffer, GLfloat color_ceiling) noexcept
-{
-	vertex_buffer.to_location(0);
-	N_buffer.to_location(1);
-	color_vertex_buffer.to_location(6);
-	RMEC_vertex_buffer.to_location(7);
-
-	m_lightset_ptr->to_binding(0, 1, 2);
-	m_light_selection_ptr->to_binding(3, 4, 5);
-
-	kiwi::forward_buffers_ptr->m_program_color_gradient_3d.program.set_uniform_4x4f(kiwi::forward_buffers_ptr->m_program_color_gradient_3d.mvp_matrix_location, m_mvp_matrix_ptr)
-		.set_uniform_4x4f(kiwi::forward_buffers_ptr->m_program_color_gradient_3d.m_matrix_location, m_m_matrix_ptr)
-		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_color_gradient_3d.view_XYZ_location, m_view_XYZ_ptr)
-		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_color_gradient_3d.ambient_light_RGB_location, m_lightset_ptr->ambient_RGB_data())
-		.set_uniform_3ui(kiwi::forward_buffers_ptr->m_program_color_gradient_3d.light_count_location, m_light_selection_ptr->number_of_lights_data())
-		.set_uniform_1f(kiwi::forward_buffers_ptr->m_program_color_gradient_3d.C_location, color_ceiling);
+		.set_uniform_3ui(kiwi::forward_buffers_ptr->m_program_color_gradient_3d.light_count_location, m_light_selection_ptr->number_of_lights_data());
 
 	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -744,12 +700,14 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture(const kiwi
 	m_lightset_ptr->to_binding(0, 1, 2);
 	m_light_selection_ptr->to_binding(3, 4, 5);
 
+	GLfloat ECx[2] = { static_cast<GLfloat>(1), static_cast<GLfloat>(1) };
+
 	kiwi::forward_buffers_ptr->m_program_texture_3d.program.set_uniform_4x4f(kiwi::forward_buffers_ptr->m_program_texture_3d.mvp_matrix_location, m_mvp_matrix_ptr)
 		.set_uniform_4x4f(kiwi::forward_buffers_ptr->m_program_texture_3d.m_matrix_location, m_m_matrix_ptr)
 		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_texture_3d.view_XYZ_location, m_view_XYZ_ptr)
 		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_texture_3d.ambient_light_RGB_location, m_lightset_ptr->ambient_RGB_data())
 		.set_uniform_3ui(kiwi::forward_buffers_ptr->m_program_texture_3d.light_count_location, m_light_selection_ptr->number_of_lights_data())
-		.set_uniform_1f(kiwi::forward_buffers_ptr->m_program_texture_3d.C_location, static_cast<GLfloat>(1));
+		.set_uniform_2f(kiwi::forward_buffers_ptr->m_program_texture_3d.ECx_location, static_cast<GLfloat*>(ECx));
 
 	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -757,7 +715,7 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture(const kiwi
 }
 
 kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
-	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer, GLfloat color_ceiling) noexcept
+	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer, const kiwi::ECx& ECx) noexcept
 {
 	vertex_buffer.to_location(0);
 	N_buffer.to_location(1);
@@ -776,7 +734,7 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture(const kiwi
 		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_texture_3d.view_XYZ_location, m_view_XYZ_ptr)
 		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_texture_3d.ambient_light_RGB_location, m_lightset_ptr->ambient_RGB_data())
 		.set_uniform_3ui(kiwi::forward_buffers_ptr->m_program_texture_3d.light_count_location, m_light_selection_ptr->number_of_lights_data())
-		.set_uniform_1f(kiwi::forward_buffers_ptr->m_program_texture_3d.C_location, color_ceiling);
+		.set_uniform_2f(kiwi::forward_buffers_ptr->m_program_texture_3d.ECx_location, ECx.data());
 
 	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -799,12 +757,14 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture_lightmappe
 	m_lightset_ptr->to_binding(0, 1, 2);
 	m_light_selection_ptr->to_binding(3, 4, 5);
 
+	GLfloat ECx[2] = { static_cast<GLfloat>(1), static_cast<GLfloat>(1) };
+
 	kiwi::forward_buffers_ptr->m_program_texture_3d.program.set_uniform_4x4f(kiwi::forward_buffers_ptr->m_program_texture_3d.mvp_matrix_location, m_mvp_matrix_ptr)
 		.set_uniform_4x4f(kiwi::forward_buffers_ptr->m_program_texture_3d.m_matrix_location, m_m_matrix_ptr)
 		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_texture_3d.view_XYZ_location, m_view_XYZ_ptr)
 		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_texture_3d.ambient_light_RGB_location, m_lightset_ptr->ambient_RGB_data())
 		.set_uniform_3ui(kiwi::forward_buffers_ptr->m_program_texture_3d.light_count_location, m_light_selection_ptr->number_of_lights_data())
-		.set_uniform_1f(kiwi::forward_buffers_ptr->m_program_texture_3d.C_location, static_cast<GLfloat>(1));
+		.set_uniform_2f(kiwi::forward_buffers_ptr->m_program_texture_3d.ECx_location, static_cast<GLfloat*>(ECx));
 
 	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -812,7 +772,7 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture_lightmappe
 }
 
 kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
-	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer, GLfloat color_ceiling,
+	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer, const kiwi::ECx& ECx,
 	const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
 {
 	vertex_buffer.to_location(0);
@@ -832,7 +792,7 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture_lightmappe
 		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_texture_3d.view_XYZ_location, m_view_XYZ_ptr)
 		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_texture_3d.ambient_light_RGB_location, m_lightset_ptr->ambient_RGB_data())
 		.set_uniform_3ui(kiwi::forward_buffers_ptr->m_program_texture_3d.light_count_location, m_light_selection_ptr->number_of_lights_data())
-		.set_uniform_1f(kiwi::forward_buffers_ptr->m_program_texture_3d.C_location, color_ceiling);
+		.set_uniform_2f(kiwi::forward_buffers_ptr->m_program_texture_3d.ECx_location, ECx.data());
 
 	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -861,12 +821,14 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal(const kiwi:
 	m_lightset_ptr->to_binding(0, 1, 2);
 	m_light_selection_ptr->to_binding(3, 4, 5);
 
+	GLfloat ECx[2] = { static_cast<GLfloat>(1), static_cast<GLfloat>(1) };
+
 	kiwi::forward_buffers_ptr->m_program_normal_3d.program.set_uniform_4x4f(kiwi::forward_buffers_ptr->m_program_normal_3d.mvp_matrix_location, m_mvp_matrix_ptr)
 		.set_uniform_4x4f(kiwi::forward_buffers_ptr->m_program_normal_3d.m_matrix_location, m_m_matrix_ptr)
 		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_normal_3d.view_XYZ_location, m_view_XYZ_ptr)
 		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_normal_3d.ambient_light_RGB_location, m_lightset_ptr->ambient_RGB_data())
 		.set_uniform_3ui(kiwi::forward_buffers_ptr->m_program_normal_3d.light_count_location, m_light_selection_ptr->number_of_lights_data())
-		.set_uniform_1f(kiwi::forward_buffers_ptr->m_program_normal_3d.C_location, static_cast<GLfloat>(1));
+		.set_uniform_2f(kiwi::forward_buffers_ptr->m_program_normal_3d.ECx_location, static_cast<GLfloat*>(ECx));
 
 	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -874,7 +836,7 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal(const kiwi:
 }
 
 kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
-	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer, GLfloat color_ceiling,
+	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer, const kiwi::ECx& ECx,
 	const kiwi::texture_buffer& normal_map) noexcept
 {
 	vertex_buffer.to_location(0);
@@ -897,7 +859,7 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal(const kiwi:
 		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_normal_3d.view_XYZ_location, m_view_XYZ_ptr)
 		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_normal_3d.ambient_light_RGB_location, m_lightset_ptr->ambient_RGB_data())
 		.set_uniform_3ui(kiwi::forward_buffers_ptr->m_program_normal_3d.light_count_location, m_light_selection_ptr->number_of_lights_data())
-		.set_uniform_1f(kiwi::forward_buffers_ptr->m_program_normal_3d.C_location, color_ceiling);
+		.set_uniform_2f(kiwi::forward_buffers_ptr->m_program_normal_3d.ECx_location, ECx.data());
 
 	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -923,12 +885,14 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal_lightmapped
 	m_lightset_ptr->to_binding(0, 1, 2);
 	m_light_selection_ptr->to_binding(3, 4, 5);
 
+	GLfloat ECx[2] = { static_cast<GLfloat>(1), static_cast<GLfloat>(1) };
+
 	kiwi::forward_buffers_ptr->m_program_normal_3d.program.set_uniform_4x4f(kiwi::forward_buffers_ptr->m_program_normal_3d.mvp_matrix_location, m_mvp_matrix_ptr)
 		.set_uniform_4x4f(kiwi::forward_buffers_ptr->m_program_normal_3d.m_matrix_location, m_m_matrix_ptr)
 		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_normal_3d.view_XYZ_location, m_view_XYZ_ptr)
 		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_normal_3d.ambient_light_RGB_location, m_lightset_ptr->ambient_RGB_data())
 		.set_uniform_3ui(kiwi::forward_buffers_ptr->m_program_normal_3d.light_count_location, m_light_selection_ptr->number_of_lights_data())
-		.set_uniform_1f(kiwi::forward_buffers_ptr->m_program_normal_3d.C_location, static_cast<GLfloat>(1));
+		.set_uniform_2f(kiwi::forward_buffers_ptr->m_program_normal_3d.ECx_location, static_cast<GLfloat*>(ECx));
 
 	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -936,7 +900,7 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal_lightmapped
 }
 
 kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
-	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer, GLfloat color_ceiling,
+	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer, const kiwi::ECx& ECx,
 	const kiwi::texture_buffer& normal_map, const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
 {
 	vertex_buffer.to_location(0);
@@ -959,7 +923,7 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal_lightmapped
 		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_normal_3d.view_XYZ_location, m_view_XYZ_ptr)
 		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_normal_3d.ambient_light_RGB_location, m_lightset_ptr->ambient_RGB_data())
 		.set_uniform_3ui(kiwi::forward_buffers_ptr->m_program_normal_3d.light_count_location, m_light_selection_ptr->number_of_lights_data())
-		.set_uniform_1f(kiwi::forward_buffers_ptr->m_program_normal_3d.C_location, static_cast<GLfloat>(1));
+		.set_uniform_2f(kiwi::forward_buffers_ptr->m_program_normal_3d.ECx_location, ECx.data());
 
 	kiwi::_draw_forward_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -988,12 +952,14 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax(const kiw
 	m_lightset_ptr->to_binding(0, 1, 2);
 	m_light_selection_ptr->to_binding(3, 4, 5);
 
+	GLfloat ECx[2] = { static_cast<GLfloat>(1), static_cast<GLfloat>(1) };
+
 	kiwi::forward_buffers_ptr->m_program_parallax_3d.program.set_uniform_4x4f(kiwi::forward_buffers_ptr->m_program_parallax_3d.mvp_matrix_location, m_mvp_matrix_ptr)
 		.set_uniform_4x4f(kiwi::forward_buffers_ptr->m_program_parallax_3d.m_matrix_location, m_m_matrix_ptr)
 		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_parallax_3d.view_XYZ_location, m_view_XYZ_ptr)
 		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_parallax_3d.ambient_light_RGB_location, m_lightset_ptr->ambient_RGB_data())
 		.set_uniform_3ui(kiwi::forward_buffers_ptr->m_program_parallax_3d.light_count_location, m_light_selection_ptr->number_of_lights_data())
-		.set_uniform_1f(kiwi::forward_buffers_ptr->m_program_parallax_3d.C_location, static_cast<GLfloat>(1))
+		.set_uniform_2f(kiwi::forward_buffers_ptr->m_program_parallax_3d.ECx_location, static_cast<GLfloat*>(ECx))
 		.set_uniform_1f(kiwi::forward_buffers_ptr->m_program_parallax_3d.parallax_shift_location, parallax_shift_factor);
 
 	kiwi::_draw_forward_proxy proxy;
@@ -1002,7 +968,7 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax(const kiw
 }
 
 kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
-	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer, GLfloat color_ceiling,
+	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer, const kiwi::ECx& ECx,
 	const kiwi::texture_buffer& normal_parallax_map, GLfloat parallax_shift_factor) noexcept
 {
 	vertex_buffer.to_location(0);
@@ -1025,7 +991,7 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax(const kiw
 		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_parallax_3d.view_XYZ_location, m_view_XYZ_ptr)
 		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_parallax_3d.ambient_light_RGB_location, m_lightset_ptr->ambient_RGB_data())
 		.set_uniform_3ui(kiwi::forward_buffers_ptr->m_program_parallax_3d.light_count_location, m_light_selection_ptr->number_of_lights_data())
-		.set_uniform_1f(kiwi::forward_buffers_ptr->m_program_parallax_3d.C_location, color_ceiling)
+		.set_uniform_2f(kiwi::forward_buffers_ptr->m_program_parallax_3d.ECx_location, ECx.data())
 		.set_uniform_1f(kiwi::forward_buffers_ptr->m_program_parallax_3d.parallax_shift_location, parallax_shift_factor);
 
 	kiwi::_draw_forward_proxy proxy;
@@ -1053,12 +1019,14 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax_lightmapp
 	m_lightset_ptr->to_binding(0, 1, 2);
 	m_light_selection_ptr->to_binding(3, 4, 5);
 
+	GLfloat ECx[2] = { static_cast<GLfloat>(1), static_cast<GLfloat>(1) };
+
 	kiwi::forward_buffers_ptr->m_program_parallax_3d.program.set_uniform_4x4f(kiwi::forward_buffers_ptr->m_program_parallax_3d.mvp_matrix_location, m_mvp_matrix_ptr)
 		.set_uniform_4x4f(kiwi::forward_buffers_ptr->m_program_parallax_3d.m_matrix_location, m_m_matrix_ptr)
 		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_parallax_3d.view_XYZ_location, m_view_XYZ_ptr)
 		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_parallax_3d.ambient_light_RGB_location, m_lightset_ptr->ambient_RGB_data())
 		.set_uniform_3ui(kiwi::forward_buffers_ptr->m_program_parallax_3d.light_count_location, m_light_selection_ptr->number_of_lights_data())
-		.set_uniform_1f(kiwi::forward_buffers_ptr->m_program_parallax_3d.C_location, static_cast<GLfloat>(1))
+		.set_uniform_2f(kiwi::forward_buffers_ptr->m_program_parallax_3d.ECx_location, static_cast<GLfloat*>(ECx))
 		.set_uniform_1f(kiwi::forward_buffers_ptr->m_program_parallax_3d.parallax_shift_location, parallax_shift_factor);
 
 	kiwi::_draw_forward_proxy proxy;
@@ -1067,7 +1035,7 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax_lightmapp
 }
 
 kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
-	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer, GLfloat color_ceiling,
+	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer, const kiwi::ECx& ECx,
 	const kiwi::texture_buffer& normal_parallax_map, GLfloat parallax_shift_factor,
 	const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
 {
@@ -1091,7 +1059,7 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax_lightmapp
 		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_parallax_3d.view_XYZ_location, m_view_XYZ_ptr)
 		.set_uniform_3f(kiwi::forward_buffers_ptr->m_program_parallax_3d.ambient_light_RGB_location, m_lightset_ptr->ambient_RGB_data())
 		.set_uniform_3ui(kiwi::forward_buffers_ptr->m_program_parallax_3d.light_count_location, m_light_selection_ptr->number_of_lights_data())
-		.set_uniform_1f(kiwi::forward_buffers_ptr->m_program_parallax_3d.C_location, color_ceiling)
+		.set_uniform_2f(kiwi::forward_buffers_ptr->m_program_parallax_3d.ECx_location, ECx.data())
 		.set_uniform_1f(kiwi::forward_buffers_ptr->m_program_parallax_3d.parallax_shift_location, parallax_shift_factor);
 
 	kiwi::_draw_forward_proxy proxy;
@@ -1165,8 +1133,6 @@ bool kiwi::forward_2d_color_gradient::init() noexcept
 		ambient_light_RGB_location = program.new_uniform_location("u_ambient_light_RGB");
 
 		light_count_location = program.new_uniform_location("u_light_count");
-
-		C_location = program.new_uniform_location("u_C");
 	}
 
 	return success;
@@ -1188,7 +1154,7 @@ bool kiwi::forward_2d_texture::init() noexcept
 
 		light_count_location = program.new_uniform_location("u_light_count");
 
-		C_location = program.new_uniform_location("u_C");
+		ECx_location = program.new_uniform_location("u_ECx");
 	}
 
 	return success;
@@ -1210,7 +1176,7 @@ bool kiwi::forward_2d_normal::init() noexcept
 
 		light_count_location = program.new_uniform_location("u_light_count");
 
-		C_location = program.new_uniform_location("u_C");
+		ECx_location = program.new_uniform_location("u_ECx");
 	}
 
 	return success;
@@ -1255,8 +1221,6 @@ bool kiwi::forward_3d_color_gradient::init() noexcept
 		ambient_light_RGB_location = program.new_uniform_location("u_ambient_light_RGB");
 
 		light_count_location = program.new_uniform_location("u_light_count");
-
-		C_location = program.new_uniform_location("u_C");
 	}
 
 	return success;
@@ -1278,7 +1242,7 @@ bool kiwi::forward_3d_texture::init() noexcept
 
 		light_count_location = program.new_uniform_location("u_light_count");
 
-		C_location = program.new_uniform_location("u_C");
+		ECx_location = program.new_uniform_location("u_ECx");
 	}
 
 	return success;
@@ -1300,7 +1264,7 @@ bool kiwi::forward_3d_normal::init() noexcept
 
 		light_count_location = program.new_uniform_location("u_light_count");
 
-		C_location = program.new_uniform_location("u_C");
+		ECx_location = program.new_uniform_location("u_ECx");
 	}
 
 	return success;
@@ -1323,7 +1287,7 @@ bool kiwi::forward_3d_parallax::init() noexcept
 
 		light_count_location = program.new_uniform_location("u_light_count");
 
-		C_location = program.new_uniform_location("u_C");
+		ECx_location = program.new_uniform_location("u_ECx");
 	}
 
 	return success;

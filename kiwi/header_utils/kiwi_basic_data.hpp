@@ -208,6 +208,37 @@ namespace kiwi
 
 		GLfloat m_RMEC[4] = { static_cast<GLfloat>(1), static_cast<GLfloat>(0), static_cast<GLfloat>(0), static_cast<GLfloat>(1) };
 	};
+
+	class ECx
+	{
+
+	public:
+
+		inline ECx(GLfloat emissivity_factor) noexcept;
+		inline ECx(GLfloat emissivity_factor, GLfloat ceiling_factor) noexcept;
+
+		ECx() = default;
+		ECx(const kiwi::ECx&) = default;
+		kiwi::ECx& operator=(const kiwi::ECx&) = default;
+		ECx(kiwi::ECx&&) = default;
+		kiwi::ECx& operator=(kiwi::ECx&&) = default;
+		~ECx() = default;
+
+		inline GLfloat& operator[](std::size_t offset) noexcept;
+		inline const GLfloat& operator[](std::size_t offset) const noexcept;
+
+		inline GLfloat& Ex() noexcept;
+		inline const GLfloat& Ex() const noexcept;
+		inline GLfloat& Cx() noexcept;
+		inline const GLfloat& Cx() const noexcept;
+
+		inline GLfloat* data() noexcept;
+		inline const GLfloat* data() const noexcept;
+
+	private:
+
+		GLfloat m_ECx[24] = { static_cast<GLfloat>(1), static_cast<GLfloat>(1) };
+	};
 }
 
 
@@ -294,5 +325,17 @@ inline GLfloat& kiwi::RMEC::ceiling() noexcept { return m_RMEC[3]; }
 inline const GLfloat& kiwi::RMEC::ceiling() const noexcept { return m_RMEC[3]; }
 inline GLfloat* kiwi::RMEC::data() noexcept { return static_cast<GLfloat*>(m_RMEC); }
 inline const GLfloat* kiwi::RMEC::data() const noexcept { return static_cast<const GLfloat*>(m_RMEC); }
+
+
+inline kiwi::ECx::ECx(GLfloat emissivity_factor) noexcept : m_ECx{ emissivity_factor, static_cast<GLfloat>(1) } {}
+inline kiwi::ECx::ECx(GLfloat emissivity_factor, GLfloat ceiling_factor) noexcept : m_ECx{ emissivity_factor, ceiling_factor } {}
+inline GLfloat& kiwi::ECx::operator[](std::size_t offset) noexcept { return m_ECx[offset]; }
+inline const GLfloat& kiwi::ECx::operator[](std::size_t offset) const noexcept { return m_ECx[offset]; }
+inline GLfloat& kiwi::ECx::Ex() noexcept { return m_ECx[0]; }
+inline const GLfloat& kiwi::ECx::Ex() const noexcept { return m_ECx[0]; }
+inline GLfloat& kiwi::ECx::Cx() noexcept { return m_ECx[1]; }
+inline const GLfloat& kiwi::ECx::Cx() const noexcept { return m_ECx[1]; }
+inline GLfloat* kiwi::ECx::data() noexcept { return static_cast<GLfloat*>(m_ECx); }
+inline const GLfloat* kiwi::ECx::data() const noexcept { return static_cast<const GLfloat*>(m_ECx); }
 
 #endif // KIWI_BASIC_DATA_HPP

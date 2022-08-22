@@ -58,9 +58,6 @@ namespace kiwi
 		kiwi::_draw_forward_proxy using_color_gradient(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& color_vertex_buffer,
 			const kiwi::vertex_buffer& RMEC_vertex_buffer) noexcept;
 
-		kiwi::_draw_forward_proxy using_color_gradient(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& color_vertex_buffer,
-			const kiwi::vertex_buffer& RMEC_vertex_buffer, GLfloat color_ceiling) noexcept;
-
 
 		// TEXTURE 2D
 
@@ -68,13 +65,13 @@ namespace kiwi
 			const kiwi::texture_buffer& RMEC_texture_buffer) noexcept;
 
 		kiwi::_draw_forward_proxy using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture,
-			const kiwi::texture_buffer& RMEC_texture_buffer, GLfloat color_ceiling) noexcept;
+			const kiwi::texture_buffer& RMEC_texture_buffer, const kiwi::ECx& ECx) noexcept;
 
 		kiwi::_draw_forward_proxy using_texture_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture,
 			const kiwi::texture_buffer& RMEC_texture_buffer, const kiwi::texture_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept;
 
 		kiwi::_draw_forward_proxy using_texture_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture,
-			const kiwi::texture_buffer& RMEC_texture_buffer, GLfloat color_ceiling, const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept;
+			const kiwi::texture_buffer& RMEC_texture_buffer, const kiwi::ECx& ECx, const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept;
 
 
 		// NORMAL 2D
@@ -85,7 +82,7 @@ namespace kiwi
 
 		kiwi::_draw_forward_proxy using_normal(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TB_buffer,
 			const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& normal_map,
-			const kiwi::texture_buffer& RMEC_texture_buffer, GLfloat color_ceiling) noexcept;
+			const kiwi::texture_buffer& RMEC_texture_buffer, const kiwi::ECx& ECx) noexcept;
 
 		kiwi::_draw_forward_proxy using_normal_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TB_buffer,
 			const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& normal_map, const kiwi::texture_buffer& RMEC_texture_buffer,
@@ -93,7 +90,7 @@ namespace kiwi
 
 		kiwi::_draw_forward_proxy using_normal_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TB_buffer,
 			const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& normal_map,
-			const kiwi::texture_buffer& RMEC_texture_buffer, GLfloat color_ceiling, const kiwi::vertex_buffer& lightmap_UV_buffer,
+			const kiwi::texture_buffer& RMEC_texture_buffer, const kiwi::ECx& ECx, const kiwi::vertex_buffer& lightmap_UV_buffer,
 			const kiwi::texture_buffer& lightmap) noexcept;
 	};
 
@@ -125,9 +122,6 @@ namespace kiwi
 		kiwi::_draw_forward_proxy using_color_gradient(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
 			const kiwi::vertex_buffer& color_vertex_buffer, const kiwi::vertex_buffer& RMEC_vertex_buffer) noexcept;
 
-		kiwi::_draw_forward_proxy using_color_gradient(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
-			const kiwi::vertex_buffer& color_vertex_buffer, const kiwi::vertex_buffer& RMEC_vertex_buffer, GLfloat color_ceiling) noexcept;
-
 
 		// TEXTURE 3D
 
@@ -137,14 +131,14 @@ namespace kiwi
 
 		kiwi::_draw_forward_proxy using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
 			const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture,
-			const kiwi::texture_buffer& RMEC_texture_buffer, GLfloat color_ceiling) noexcept;
+			const kiwi::texture_buffer& RMEC_texture_buffer, const kiwi::ECx& ECx) noexcept;
 
 		kiwi::_draw_forward_proxy using_texture_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
 			const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer,
 			const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept;
 
 		kiwi::_draw_forward_proxy using_texture_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
-			const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer, GLfloat color_ceiling,
+			const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer, const kiwi::ECx& ECx,
 			const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept;
 
 
@@ -155,7 +149,7 @@ namespace kiwi
 			const kiwi::texture_buffer& normal_map) noexcept;
 
 		kiwi::_draw_forward_proxy using_normal(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
-			const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer, GLfloat color_ceiling,
+			const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer, const kiwi::ECx& ECx,
 			const kiwi::texture_buffer& normal_map) noexcept;
 
 		kiwi::_draw_forward_proxy using_normal_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
@@ -163,7 +157,7 @@ namespace kiwi
 			const kiwi::texture_buffer& normal_map, const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept;
 
 		kiwi::_draw_forward_proxy using_normal_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
-			const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer, GLfloat color_ceiling,
+			const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer, const kiwi::ECx& ECx,
 			const kiwi::texture_buffer& normal_map, const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept;
 
 
@@ -174,7 +168,7 @@ namespace kiwi
 			const kiwi::texture_buffer& normal_parallax_map, GLfloat parallax_shift_factor) noexcept;
 
 		kiwi::_draw_forward_proxy using_parallax(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
-			const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer, GLfloat color_ceiling,
+			const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer, const kiwi::ECx& ECx,
 			const kiwi::texture_buffer& normal_parallax_map, GLfloat parallax_shift_factor) noexcept;
 
 		kiwi::_draw_forward_proxy using_parallax_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
@@ -183,7 +177,7 @@ namespace kiwi
 			const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept;
 
 		kiwi::_draw_forward_proxy using_parallax_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
-			const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer, GLfloat color_ceiling,
+			const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer, const kiwi::ECx& ECx,
 			const kiwi::texture_buffer& normal_parallax_map, GLfloat parallax_shift_factor,
 			const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept;
 	};

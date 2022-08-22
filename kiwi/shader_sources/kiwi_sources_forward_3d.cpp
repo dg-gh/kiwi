@@ -286,7 +286,6 @@ const char* const kiwi::source::forward_3d_color_gradient::fragment_shader() noe
 		LIGHTSET_BUFFERS
 
 		"	uniform vec3 u_ambient_light_RGB;																	\n"
-		"	uniform float u_C;																					\n"
 
 		"	uniform vec3 u_view_XYZ;																			\n"
 
@@ -316,11 +315,10 @@ const char* const kiwi::source::forward_3d_color_gradient::fragment_shader() noe
 		"			* vec3(RGBA)) + spec, RGBA[3]);																\n"
 
 		"		float M = max(max(color[0], color[1]), color[2]);												\n"
-		"		float ceiling = max(RMEC[3], u_C);																\n"
-		"		if (M > ceiling)																				\n"
+		"		if (M > RMEC[3])																				\n"
 		"		{																								\n"
 		"			float m = min(min(min(color[0], color[1]), color[2]), 1.0);									\n"
-		"			color.xyz = m + ((ceiling - m) / (M - m)) * (vec3(color) - m);								\n"
+		"			color.xyz = m + ((RMEC[3] - m) / (M - m)) * (vec3(color) - m);								\n"
 		"		}																								\n"
 
 		"		normal_vec = vec4(moved_N_dir, 1.0);															\n"
@@ -367,7 +365,7 @@ const char* const kiwi::source::forward_3d_texture::fragment_shader() noexcept
 		LIGHTSET_BUFFERS
 
 		"	uniform vec3 u_ambient_light_RGB;																	\n"
-		"	uniform float u_C;																					\n"
+		"	uniform vec2 u_ECx;																					\n"
 
 		"	uniform vec3 u_view_XYZ;																			\n"
 
@@ -392,7 +390,7 @@ const char* const kiwi::source::forward_3d_texture::fragment_shader() noexcept
 		"		vec4 RGBA = texture(Tx, UV);																	\n"
 		"		vec3 fresnel = mix(vec3(0.04), vec3(RGBA), RMEC[1]);											\n"
 
-		"		vec3 diff = vec3(3.14159 * RMEC[2]);															\n"
+		"		vec3 diff = vec3(3.14159 * u_ECx[0] * RMEC[2]);													\n"
 		"		vec3 spec = vec3(0.0);																			\n"
 
 		SKYLIGHTS_3D
@@ -404,7 +402,7 @@ const char* const kiwi::source::forward_3d_texture::fragment_shader() noexcept
 		"			* vec3(RGBA)) + spec, RGBA[3]);																\n"
 
 		"		float M = max(max(color[0], color[1]), color[2]);												\n"
-		"		float ceiling = max(RMEC[3], u_C);																\n"
+		"		float ceiling = u_ECx[1] * RMEC[3];																\n"
 		"		if (M > ceiling)																				\n"
 		"		{																								\n"
 		"			float m = min(min(min(color[0], color[1]), color[2]), 1.0);									\n"
@@ -457,7 +455,7 @@ const char* const kiwi::source::forward_3d_normal::fragment_shader() noexcept
 		LIGHTSET_BUFFERS
 
 		"	uniform vec3 u_ambient_light_RGB;																	\n"
-		"	uniform float u_C;																					\n"
+		"	uniform vec2 u_ECx;																					\n"
 
 		"	uniform vec3 u_view_XYZ;																			\n"
 
@@ -484,7 +482,7 @@ const char* const kiwi::source::forward_3d_normal::fragment_shader() noexcept
 		"		vec4 RGBA = texture(Tx, UV);																	\n"
 		"		vec3 fresnel = mix(vec3(0.04), vec3(RGBA), RMEC[1]);											\n"
 
-		"		vec3 diff = vec3(3.14159 * RMEC[2]);															\n"
+		"		vec3 diff = vec3(3.14159 * u_ECx[0] * RMEC[2]);													\n"
 		"		vec3 spec = vec3(0.0);																			\n"
 
 		SKYLIGHTS_3D
@@ -496,7 +494,7 @@ const char* const kiwi::source::forward_3d_normal::fragment_shader() noexcept
 		"			* vec3(RGBA)) + spec, RGBA[3]);																\n"
 
 		"		float M = max(max(color[0], color[1]), color[2]);												\n"
-		"		float ceiling = max(RMEC[3], u_C);																\n"
+		"		float ceiling = u_ECx[1] * RMEC[3];																\n"
 		"		if (M > ceiling)																				\n"
 		"		{																								\n"
 		"			float m = min(min(min(color[0], color[1]), color[2]), 1.0);									\n"
@@ -549,7 +547,7 @@ const char* const kiwi::source::forward_3d_parallax::fragment_shader() noexcept
 		LIGHTSET_BUFFERS
 
 		"	uniform vec3 u_ambient_light_RGB;																	\n"
-		"	uniform float u_C;																					\n"
+		"	uniform vec2 u_ECx;																					\n"
 
 		"	uniform vec3 u_view_XYZ;																			\n"
 
@@ -580,7 +578,7 @@ const char* const kiwi::source::forward_3d_parallax::fragment_shader() noexcept
 		"		vec4 RGBA = texture(Tx, shifted_UV);															\n"
 		"		vec3 fresnel = mix(vec3(0.04), vec3(RGBA), RMEC[1]);											\n"
 
-		"		vec3 diff = vec3(3.14159 * RMEC[2]);															\n"
+		"		vec3 diff = vec3(3.14159 * u_ECx[0] * RMEC[2]);													\n"
 		"		vec3 spec = vec3(0.0);																			\n"
 
 		SKYLIGHTS_3D
@@ -592,7 +590,7 @@ const char* const kiwi::source::forward_3d_parallax::fragment_shader() noexcept
 		"			* vec3(RGBA)) + spec, RGBA[3]);																\n"
 
 		"		float M = max(max(color[0], color[1]), color[2]);												\n"
-		"		float ceiling = max(RMEC[3], u_C);																\n"
+		"		float ceiling = u_ECx[1] * RMEC[3];																\n"
 		"		if (M > ceiling)																				\n"
 		"		{																								\n"
 		"			float m = min(min(min(color[0], color[1]), color[2]), 1.0);									\n"
