@@ -1,11 +1,5 @@
 #include "space/kiwi_geom.hpp"
-
-#if defined(__AVX2__) && defined(__FMA__)
-#ifndef _KIWI_AVX2_FMA
-#define _KIWI_AVX2_FMA
-#endif // _KIWI_AVX2_FMA
-#include <immintrin.h>
-#endif
+#include "header_utils/kiwi_simd.hpp"
 
 
 kiwi::_load_frame_proxy kiwi::load_geom(kiwi::vertex_buffer& vertex_buffer) noexcept
@@ -14,95 +8,6 @@ kiwi::_load_frame_proxy kiwi::load_geom(kiwi::vertex_buffer& vertex_buffer) noex
 	proxy.m_buffer_ptr = &vertex_buffer;
 	return proxy;
 }
-
-void kiwi::_load_frame_proxy::N_from_2d_lines_ccw(const GLfloat* const vertex_ptr, std::size_t vertex_count, std::size_t vertex_dim)
-{
-	std::vector<GLfloat> temp(vertex_count * 2);
-	kiwi::make_N_from_2d_lines_ccw(temp.data(), vertex_ptr, vertex_count, vertex_dim);
-	m_buffer_ptr->load(temp.data(), vertex_count, 2);
-}
-
-void kiwi::_load_frame_proxy::N_from_2d_lines_cw(const GLfloat* const vertex_ptr, std::size_t vertex_count, std::size_t vertex_dim)
-{
-	std::vector<GLfloat> temp(vertex_count * 2);
-	kiwi::make_N_from_2d_lines_cw(temp.data(), vertex_ptr, vertex_count, vertex_dim);
-	m_buffer_ptr->load(temp.data(), vertex_count, 2);
-}
-
-void kiwi::_load_frame_proxy::TB_from_2d_triangles(const GLfloat* const vertex_ptr, const GLfloat* const uv_ptr, std::size_t vertex_count, std::size_t vertex_dim)
-{
-	std::vector<GLfloat> temp(vertex_count * 4);
-	kiwi::make_TB_from_2d_triangles(temp.data(), vertex_ptr, uv_ptr, vertex_count, vertex_dim);
-	m_buffer_ptr->load(temp.data(), vertex_count, 4);
-}
-
-void kiwi::_load_frame_proxy::TB_from_2d_quads(const GLfloat* const vertex_ptr, const GLfloat* const uv_ptr, std::size_t vertex_count, std::size_t vertex_dim)
-{
-	std::vector<GLfloat> temp(vertex_count * 4);
-	kiwi::make_TB_from_2d_quads(temp.data(), vertex_ptr, uv_ptr, vertex_count, vertex_dim);
-	m_buffer_ptr->load(temp.data(), vertex_count, 4);
-}
-
-void kiwi::_load_frame_proxy::N_from_3d_triangles_ccw(const GLfloat* const vertex_ptr, std::size_t vertex_count, std::size_t vertex_dim)
-{
-	std::vector<GLfloat> temp(vertex_count * 3);
-	kiwi::make_N_from_3d_triangles_ccw(temp.data(), vertex_ptr, vertex_count, vertex_dim);
-	m_buffer_ptr->load(temp.data(), vertex_count, 3);
-}
-
-void kiwi::_load_frame_proxy::N_from_3d_triangles_cw(const GLfloat* const vertex_ptr, std::size_t vertex_count, std::size_t vertex_dim)
-{
-	std::vector<GLfloat> temp(vertex_count * 3);
-	kiwi::make_N_from_3d_triangles_cw(temp.data(), vertex_ptr, vertex_count, vertex_dim);
-	m_buffer_ptr->load(temp.data(), vertex_count, 3);
-}
-
-void kiwi::_load_frame_proxy::N_from_3d_quads_ccw(const GLfloat* const vertex_ptr, std::size_t vertex_count, std::size_t vertex_dim)
-{
-	std::vector<GLfloat> temp(vertex_count * 3);
-	kiwi::make_N_from_3d_quads_ccw(temp.data(), vertex_ptr, vertex_count, vertex_dim);
-	m_buffer_ptr->load(temp.data(), vertex_count, 3);
-}
-
-void kiwi::_load_frame_proxy::N_from_3d_quads_cw(const GLfloat* const vertex_ptr, std::size_t vertex_count, std::size_t vertex_dim)
-{
-	std::vector<GLfloat> temp(vertex_count * 3);
-	kiwi::make_N_from_3d_quads_cw(temp.data(), vertex_ptr, vertex_count, vertex_dim);
-	m_buffer_ptr->load(temp.data(), vertex_count, 3);
-}
-
-void kiwi::_load_frame_proxy::TBN_from_3d_triangles_ccw(const GLfloat* const vertex_ptr, const GLfloat* uv_ptr,
-	std::size_t vertex_count, std::size_t vertex_dim)
-{
-	std::vector<GLfloat> temp(vertex_count * 9);
-	kiwi::make_TBN_from_3d_triangles_ccw(temp.data(), vertex_ptr, uv_ptr, vertex_count, vertex_dim);
-	m_buffer_ptr->load(temp.data(), vertex_count, 9);
-}
-
-void kiwi::_load_frame_proxy::TBN_from_3d_triangles_cw(const GLfloat* const vertex_ptr, const GLfloat* uv_ptr,
-	std::size_t vertex_count, std::size_t vertex_dim)
-{
-	std::vector<GLfloat> temp(vertex_count * 9);
-	kiwi::make_TBN_from_3d_triangles_cw(temp.data(), vertex_ptr, uv_ptr, vertex_count, vertex_dim);
-	m_buffer_ptr->load(temp.data(), vertex_count, 9);
-}
-
-void kiwi::_load_frame_proxy::TBN_from_3d_quads_ccw(const GLfloat* const vertex_ptr, const GLfloat* uv_ptr,
-	std::size_t vertex_count, std::size_t vertex_dim)
-{
-	std::vector<GLfloat> temp(vertex_count * 9);
-	kiwi::make_TBN_from_3d_quads_ccw(temp.data(), vertex_ptr, uv_ptr, vertex_count, vertex_dim);
-	m_buffer_ptr->load(temp.data(), vertex_count, 9);
-}
-
-void kiwi::_load_frame_proxy::TBN_from_3d_quads_cw(const GLfloat* const vertex_ptr, const GLfloat* uv_ptr,
-	std::size_t vertex_count, std::size_t vertex_dim)
-{
-	std::vector<GLfloat> temp(vertex_count * 9);
-	kiwi::make_TBN_from_3d_quads_cw(temp.data(), vertex_ptr, uv_ptr, vertex_count, vertex_dim);
-	m_buffer_ptr->load(temp.data(), vertex_count, 9);
-}
-
 
 void kiwi::make_N_from_2d_lines_ccw(GLfloat* const  _KIWI_RESTRICT N_ptr, const GLfloat* const vertex_ptr, std::size_t vertex_count, std::size_t vertex_dim) noexcept
 {
