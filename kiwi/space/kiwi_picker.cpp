@@ -132,7 +132,7 @@ void kiwi::draw_id_terminate() noexcept
 
 kiwi::picker& kiwi::picker::init(std::size_t width, std::size_t height) noexcept
 {
-	m_texture_buffer.allocate(kiwi::texture_format::i16u, kiwi::size(width, height), 1, kiwi::texture_mapping::nearest, kiwi::texture_borders::clamp);
+	m_texture_buffer.allocate(kiwi::pixel_format::i16u, kiwi::size(width, height), 1, kiwi::pixel_mapping::nearest, kiwi::pixel_wrapping::clamp);
 	m_render_buffer.allocate(kiwi::render_buffer_type::f24_st8, kiwi::size(width, height));
 
 	{
@@ -148,7 +148,7 @@ kiwi::picker& kiwi::picker::init(std::size_t width, std::size_t height) noexcept
 
 kiwi::picker& kiwi::picker::resize(std::size_t width, std::size_t height) noexcept
 {
-	m_texture_buffer.allocate(kiwi::texture_format::i16u, kiwi::size(width, height), 1, kiwi::texture_mapping::nearest, kiwi::texture_borders::clamp);
+	m_texture_buffer.allocate(kiwi::pixel_format::i16u, kiwi::size(width, height), 1, kiwi::pixel_mapping::nearest, kiwi::pixel_wrapping::clamp);
 	m_render_buffer.allocate(kiwi::render_buffer_type::f24_st8, kiwi::size(width, height));
 
 	return *this;
@@ -205,6 +205,7 @@ kiwi::_draw_basic_proxy kiwi::_picker_2d_proxy::using_vertex(const kiwi::vertex_
 	return proxy;
 }
 
+/*
 kiwi::_draw_instanced_basic_proxy kiwi::_picker_2d_proxy::using_vertex(const kiwi::vertex_buffer& vertex_buffer, const kiwi::XY_id_set& XY_id_set,
 	const GLfloat* const mvp_matrix_2d_ptr) noexcept
 {
@@ -238,6 +239,7 @@ kiwi::_draw_instanced_basic_proxy kiwi::_picker_2d_proxy::using_vertex(const kiw
 	proxy.m_index_data_ptr = nullptr;
 	return proxy;
 }
+*/
 
 kiwi::_draw_basic_proxy kiwi::_picker_3d_proxy::using_vertex(const kiwi::vertex_buffer& vertex_buffer, GLushort entity_id) noexcept
 {

@@ -34,30 +34,30 @@ const char* const kiwi::source::bloom_threshold::fragment_shader() noexcept
 
 		"	#version 430 core																			\n"
 		"	in vec2 UV;																					\n"
-		"	out vec4 color;																				\n"
+		"	out vec4 out_color;																			\n"
 		"	uniform sampler2D Tx;																		\n"
 		"	uniform float u_threshold;																	\n"
 
 		"	void main()																					\n"
 		"	{																							\n"
-		"		color = texture(Tx, UV);																\n"
+		"		out_color = texture(Tx, UV);															\n"
 
-		"		float pass_factor1 = 0.5 * (max(max(color[0], color[1]), color[2])						\n"
+		"		float pass_factor1 = 0.5 * (max(max(out_color[0], out_color[1]), out_color[2])			\n"
 		"			- u_threshold);																		\n"
 
-		"		float pass_factor2 = 0.5 * (color[0] + color[1] + color[2]								\n"
-		"			- min(min(color[0], color[1]), color[2]))											\n"
+		"		float pass_factor2 = 0.5 * (out_color[0] + out_color[1] + out_color[2]					\n"
+		"			- min(min(out_color[0], out_color[1]), out_color[2]))								\n"
 		"			- u_threshold;																		\n"
 
 		"		float pass_factor = max(pass_factor1, pass_factor2);									\n"
 
 		"		if (pass_factor < 0.0)																	\n"
 		"		{																						\n"
-		"			color = vec4(0.0);																	\n"
+		"			out_color = vec4(0.0);																\n"
 		"		}																						\n"
 		"		else																					\n"
 		"		{																						\n"
-		"			color.xyz *= pass_factor;															\n"
+		"			out_color.xyz *= pass_factor;														\n"
 		"		}																						\n"
 		"	}																							\n"
 		;
@@ -97,7 +97,7 @@ const char* const kiwi::source::bloom_gaussian_filter::fragment_shader() noexcep
 
 		"	#version 430 core																			\n"
 		"	in vec2 UV;																					\n"
-		"	layout (location = 0) out vec4 color;														\n"
+		"	layout (location = 0) out vec4 out_color;													\n"
 		"	uniform sampler2D Tx;																		\n"
 		"	uniform float u_distance;																	\n"
 		"	uniform int u_horizontal;																	\n"
@@ -127,7 +127,7 @@ const char* const kiwi::source::bloom_gaussian_filter::fragment_shader() noexcep
 		"				RGB += weight[n] * vec3(texture(Tx, UV + vec2(0.0, n * d)));					\n"
 		"			}																					\n"
 		"		}																						\n"
-		"		color = vec4(RGB, 1.0);																	\n"
+		"		out_color = vec4(RGB, 1.0);																\n"
 		"	}																							\n"
 		;
 }
@@ -166,7 +166,7 @@ const char* const kiwi::source::bloom_blend_4_layers::fragment_shader() noexcept
 
 		"	#version 430 core																			\n"
 		"	in vec2 UV;																					\n"
-		"	out vec4 color;																				\n"
+		"	out vec4 out_color;																			\n"
 		"	layout (binding = 3) uniform sampler2D Tx0;													\n"
 		"	layout (binding = 2) uniform sampler2D Tx1;													\n"
 		"	layout (binding = 1) uniform sampler2D Tx2;													\n"
@@ -175,7 +175,7 @@ const char* const kiwi::source::bloom_blend_4_layers::fragment_shader() noexcept
 
 		"	void main()																					\n"
 		"	{																							\n"
-		"		color = vec4(vec3(texture(Tx0, UV))														\n"
+		"		out_color = vec4(vec3(texture(Tx0, UV))													\n"
 		"			+ u_blend[0] * vec3(texture(Tx1, UV))												\n"
 		"			+ u_blend[1] * vec3(texture(Tx2, UV))												\n"
 		"			+ u_blend[2] * vec3(texture(Tx3, UV)),												\n"
@@ -218,7 +218,7 @@ const char* const kiwi::source::bloom_blend_8_layers::fragment_shader() noexcept
 
 		"	#version 430 core																			\n"
 		"	in vec2 UV;																					\n"
-		"	out vec4 color;																				\n"
+		"	out vec4 out_color;																			\n"
 		"	layout (binding = 7) uniform sampler2D Tx0;													\n"
 		"	layout (binding = 6) uniform sampler2D Tx1;													\n"
 		"	layout (binding = 5) uniform sampler2D Tx2;													\n"
@@ -232,7 +232,7 @@ const char* const kiwi::source::bloom_blend_8_layers::fragment_shader() noexcept
 
 		"	void main()																					\n"
 		"	{																							\n"
-		"		color = vec4(vec3(texture(Tx0, UV))														\n"
+		"		out_color = vec4(vec3(texture(Tx0, UV))													\n"
 		"			+ u_blend[0] * vec3(texture(Tx1, UV))												\n"
 		"			+ u_blend[1] * vec3(texture(Tx2, UV))												\n"
 		"			+ u_blend[2] * vec3(texture(Tx3, UV))												\n"

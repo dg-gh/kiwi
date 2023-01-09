@@ -66,10 +66,12 @@ namespace kiwi
 		friend class scoped_picker;
 
 		kiwi::_draw_basic_proxy using_vertex(const kiwi::vertex_buffer& vertex_buffer, GLushort entity_id) noexcept;
+		/*
 		kiwi::_draw_instanced_basic_proxy using_vertex(const kiwi::vertex_buffer& vertex_buffer, const kiwi::XY_id_set& XY_id_set,
 			const GLfloat* const mvp_matrix_2d_ptr = nullptr) noexcept;
 		kiwi::_draw_instanced_basic_proxy using_vertex(const kiwi::vertex_buffer& vertex_buffer, const kiwi::XYZ_id_set& XYZ_id_set,
 			const GLfloat* const mvp_matrix_2d_ptr = nullptr) noexcept;
+		*/
 	};
 
 	class _picker_3d_proxy

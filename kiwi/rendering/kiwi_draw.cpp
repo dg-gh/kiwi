@@ -10,8 +10,10 @@ namespace kiwi
 	class basic_2d_texture;
 	class basic_2d_texture_alpha_test;
 	class basic_2d_no_shade;
+
 	class basic_2d_solid_color_sprites;
 	class basic_2d_texture_sprites;
+	class basic_2d_texture_array_sprites;
 
 	class basic_3d_solid_color;
 	class basic_3d_bicolor_point_dist;
@@ -25,11 +27,10 @@ namespace kiwi
 
 	class basic_3d_solid_color_sprite;
 	class basic_3d_solid_color_sprites;
-	class basic_3d_solid_color_sprites_split;
 
 	class basic_3d_texture_sprite;
 	class basic_3d_texture_sprites;
-	class basic_3d_texture_sprites_split;
+	class basic_3d_texture_array_sprites;
 
 
 	class basic_2d_solid_color
@@ -100,17 +101,6 @@ namespace kiwi
 		bool init() noexcept;
 	};
 
-	class basic_2d_solid_color_sprites_split
-	{
-
-	public:
-
-		kiwi::program program;
-		GLint mvp_matrix_location = -1;
-
-		bool init() noexcept;
-	};
-
 	class basic_2d_texture_sprites
 	{
 
@@ -124,14 +114,14 @@ namespace kiwi
 		bool init() noexcept;
 	};
 
-	class basic_2d_texture_sprites_split
+	class basic_2d_texture_array_sprites
 	{
 
 	public:
 
 		kiwi::program program;
 		GLint mvp_matrix_location = -1;
-		GLint XY_UV_size_location = -1;
+		GLint XY_size_location = -1;
 		GLint alpha_discard_location = -1;
 
 		bool init() noexcept;
@@ -277,19 +267,6 @@ namespace kiwi
 		bool init() noexcept;
 	};
 
-	class basic_3d_solid_color_sprites_split
-	{
-
-	public:
-
-		kiwi::program program;
-		GLint mvp_matrix_2d_location = -1;
-		GLint mvp_matrix_3d_location = -1;
-		GLint depth_scaling_location = -1;
-
-		bool init() noexcept;
-	};
-
 	class basic_3d_texture_sprite
 	{
 
@@ -320,7 +297,7 @@ namespace kiwi
 		bool init() noexcept;
 	};
 
-	class basic_3d_texture_sprites_split
+	class basic_3d_texture_array_sprites
 	{
 
 	public:
@@ -328,7 +305,7 @@ namespace kiwi
 		kiwi::program program;
 		GLint mvp_matrix_2d_location = -1;
 		GLint mvp_matrix_3d_location = -1;
-		GLint XY_UV_size_location = -1;
+		GLint XY_size_location = -1;
 		GLint depth_scaling_location = -1;
 		GLint alpha_discard_location = -1;
 
@@ -358,10 +335,8 @@ namespace kiwi
 		kiwi::basic_2d_no_shade m_program_no_shade_2d;
 
 		kiwi::basic_2d_solid_color_sprites m_program_solid_color_sprites_2d;
-		kiwi::basic_2d_solid_color_sprites_split m_program_solid_color_sprites_split_2d;
-
 		kiwi::basic_2d_texture_sprites m_program_texture_sprites_2d;
-		kiwi::basic_2d_texture_sprites_split m_program_texture_sprites_split_2d;
+		kiwi::basic_2d_texture_array_sprites m_program_texture_array_sprites_2d;
 
 		kiwi::basic_3d_solid_color m_program_solid_color_3d;
 		kiwi::basic_3d_bicolor_point_dist m_program_bicolor_point_dist_3d;
@@ -374,11 +349,10 @@ namespace kiwi
 
 		kiwi::basic_3d_solid_color_sprite m_program_solid_color_sprite_3d;
 		kiwi::basic_3d_solid_color_sprites m_program_solid_color_sprites_3d;
-		kiwi::basic_3d_solid_color_sprites_split m_program_solid_color_sprites_split_3d;
 
 		kiwi::basic_3d_texture_sprite m_program_texture_sprite_3d;
 		kiwi::basic_3d_texture_sprites m_program_texture_sprites_3d;
-		kiwi::basic_3d_texture_sprites_split m_program_texture_sprites_split_3d;
+		kiwi::basic_3d_texture_array_sprites m_program_texture_array_sprites_split_3d;
 	};
 
 	std::unique_ptr<kiwi::default_buffers> default_buffers_ptr;
@@ -406,10 +380,8 @@ bool kiwi::draw_init()
 			success &= default_buffers_ptr->m_program_no_shade_2d.init();
 
 			success &= default_buffers_ptr->m_program_solid_color_sprites_2d.init();
-			success &= default_buffers_ptr->m_program_solid_color_sprites_split_2d.init();
-
 			success &= default_buffers_ptr->m_program_texture_sprites_2d.init();
-			success &= default_buffers_ptr->m_program_texture_sprites_split_2d.init();
+			success &= default_buffers_ptr->m_program_texture_array_sprites_2d.init();
 
 			success &= default_buffers_ptr->m_program_solid_color_3d.init();
 			success &= default_buffers_ptr->m_program_bicolor_point_dist_3d.init();
@@ -421,11 +393,10 @@ bool kiwi::draw_init()
 
 			success &= default_buffers_ptr->m_program_solid_color_sprite_3d.init();
 			success &= default_buffers_ptr->m_program_solid_color_sprites_3d.init();
-			success &= default_buffers_ptr->m_program_solid_color_sprites_split_3d.init();
 
 			success &= default_buffers_ptr->m_program_texture_sprite_3d.init();
 			success &= default_buffers_ptr->m_program_texture_sprites_3d.init();
-			success &= default_buffers_ptr->m_program_texture_sprites_split_3d.init();
+			success &= default_buffers_ptr->m_program_texture_array_sprites_split_3d.init();
 		}
 
 		catch (...)
@@ -550,30 +521,14 @@ kiwi::_draw_basic_proxy kiwi::_load_basic_2d_proxy::using_no_shade(const kiwi::v
 }
 
 kiwi::_draw_instanced_basic_proxy kiwi::_load_basic_2d_proxy::using_solid_color_sprites(const kiwi::vertex_buffer& vertex_buffer,
-	const kiwi::XYZA_RGBA_set& XYZA_RGBA_set) noexcept
-{
-	vertex_buffer.to_location(0);
-	XYZA_RGBA_set.to_binding(0);
-
-	kiwi::default_buffers_ptr->m_program_solid_color_sprites_2d.program
-		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_solid_color_sprites_2d.mvp_matrix_location, m_transformation_matrix_ptr);
-
-	kiwi::_draw_instanced_basic_proxy proxy;
-	proxy.m_vertex_count = vertex_buffer.vertex_count();
-	proxy.m_instance_count = XYZA_RGBA_set.instance_count();
-	proxy.m_index_count = -1;
-	proxy.m_index_data_ptr = nullptr;
-	return proxy;
-}
-kiwi::_draw_instanced_basic_proxy kiwi::_load_basic_2d_proxy::using_solid_color_sprites(const kiwi::vertex_buffer& vertex_buffer,
 	const kiwi::XYZA_set& XYZA_set, const kiwi::RGBA_set& RGBA_set) noexcept
 {
 	vertex_buffer.to_location(0);
 	XYZA_set.to_binding(0);
 	RGBA_set.to_binding(1);
 
-	kiwi::default_buffers_ptr->m_program_solid_color_sprites_split_2d.program
-		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_solid_color_sprites_split_2d.mvp_matrix_location, m_transformation_matrix_ptr);
+	kiwi::default_buffers_ptr->m_program_solid_color_sprites_2d.program
+		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_solid_color_sprites_2d.mvp_matrix_location, m_transformation_matrix_ptr);
 
 	kiwi::_draw_instanced_basic_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -583,22 +538,6 @@ kiwi::_draw_instanced_basic_proxy kiwi::_load_basic_2d_proxy::using_solid_color_
 	return proxy;
 }
 
-kiwi::_draw_quad_sprite_proxy kiwi::_load_basic_2d_proxy::using_texture_sprites(const kiwi::XYZA_UV_set& XYZA_UV_set, const kiwi::XY& XY_size,
-	GLfloat alpha_discard) noexcept
-{
-	XYZA_UV_set.to_binding(0, 0);
-
-	GLfloat arr[4] = { XY_size[0], XY_size[1], XYZA_UV_set.get_U_size(), XYZA_UV_set.get_V_size() };
-
-	kiwi::default_buffers_ptr->m_program_texture_sprites_2d.program
-		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_texture_sprites_2d.XY_UV_size_location, static_cast<GLfloat*>(arr))
-		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_texture_sprites_2d.mvp_matrix_location, m_transformation_matrix_ptr)
-		.set_uniform_1f(kiwi::default_buffers_ptr->m_program_texture_sprites_2d.alpha_discard_location, alpha_discard);
-
-	kiwi::_draw_quad_sprite_proxy proxy;
-	proxy.m_sprite_count = XYZA_UV_set.instance_count();
-	return proxy;
-}
 kiwi::_draw_quad_sprite_proxy kiwi::_load_basic_2d_proxy::using_texture_sprites(const kiwi::XYZA_set& XYZA_set, const kiwi::UV_set& UV_set, const kiwi::XY& XY_size,
 	GLfloat alpha_discard) noexcept
 {
@@ -607,10 +546,28 @@ kiwi::_draw_quad_sprite_proxy kiwi::_load_basic_2d_proxy::using_texture_sprites(
 
 	GLfloat arr[4] = { XY_size[0], XY_size[1], UV_set.get_U_size(), UV_set.get_V_size() };
 
-	kiwi::default_buffers_ptr->m_program_texture_sprites_split_2d.program
-		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_texture_sprites_split_2d.XY_UV_size_location, static_cast<GLfloat*>(arr))
-		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_texture_sprites_split_2d.mvp_matrix_location, m_transformation_matrix_ptr)
-		.set_uniform_1f(kiwi::default_buffers_ptr->m_program_texture_sprites_split_2d.alpha_discard_location, alpha_discard);
+	kiwi::default_buffers_ptr->m_program_texture_sprites_2d.program
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_texture_sprites_2d.XY_UV_size_location, static_cast<GLfloat*>(arr))
+		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_texture_sprites_2d.mvp_matrix_location, m_transformation_matrix_ptr)
+		.set_uniform_1f(kiwi::default_buffers_ptr->m_program_texture_sprites_2d.alpha_discard_location, alpha_discard);
+
+	kiwi::_draw_quad_sprite_proxy proxy;
+	proxy.m_sprite_count = XYZA_set.instance_count();
+	return proxy;
+}
+
+kiwi::_draw_quad_sprite_proxy kiwi::_load_basic_2d_proxy::using_texture_sprites(const kiwi::XYZA_set& XYZA_set, const kiwi::id_set& id_set, const kiwi::XY& XY_size,
+	GLfloat alpha_discard) noexcept
+{
+	XYZA_set.to_binding(0);
+	id_set.to_binding(1, 0);
+
+	GLfloat arr[2] = { XY_size[0], XY_size[1] };
+
+	kiwi::default_buffers_ptr->m_program_texture_array_sprites_2d.program
+		.set_uniform_2f(kiwi::default_buffers_ptr->m_program_texture_array_sprites_2d.XY_size_location, static_cast<GLfloat*>(arr))
+		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_texture_array_sprites_2d.mvp_matrix_location, m_transformation_matrix_ptr)
+		.set_uniform_1f(kiwi::default_buffers_ptr->m_program_texture_array_sprites_2d.alpha_discard_location, alpha_discard);
 
 	kiwi::_draw_quad_sprite_proxy proxy;
 	proxy.m_sprite_count = XYZA_set.instance_count();
@@ -724,24 +681,6 @@ kiwi::_draw_basic_proxy kiwi::_load_basic_3d_proxy::using_solid_color_sprite(con
 	proxy.m_index_data_ptr = nullptr;
 	return proxy;
 }
-kiwi::_draw_instanced_basic_proxy kiwi::_load_basic_3d_proxy::using_solid_color_sprites(const kiwi::vertex_buffer& vertex_buffer, const kiwi::XYZA_RGBA_set& XYZA_RGBA_set,
-	bool depth_scaling, const GLfloat* const mvp_matrix_2d_ptr) noexcept
-{
-	vertex_buffer.to_location(0);
-	XYZA_RGBA_set.to_binding(0);
-
-	kiwi::default_buffers_ptr->m_program_solid_color_sprites_3d.program
-		.set_uniform_4x4f(kiwi::default_buffers_ptr->m_program_solid_color_sprites_3d.mvp_matrix_3d_location, m_transformation_matrix_ptr)
-		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_solid_color_sprites_3d.mvp_matrix_2d_location, mvp_matrix_2d_ptr)
-		.set_uniform_1ui(kiwi::default_buffers_ptr->m_program_solid_color_sprites_3d.depth_scaling_location, static_cast<GLuint>(depth_scaling));
-
-	kiwi::_draw_instanced_basic_proxy proxy;
-	proxy.m_vertex_count = vertex_buffer.vertex_count();
-	proxy.m_instance_count = XYZA_RGBA_set.instance_count();
-	proxy.m_index_count = -1;
-	proxy.m_index_data_ptr = nullptr;
-	return proxy;
-}
 kiwi::_draw_instanced_basic_proxy kiwi::_load_basic_3d_proxy::using_solid_color_sprites(const kiwi::vertex_buffer& vertex_buffer, const kiwi::XYZA_set& XYZA_set, const kiwi::RGBA_set& RGBA_set,
 	bool depth_scaling, const GLfloat* const mvp_matrix_2d_ptr) noexcept
 {
@@ -749,10 +688,10 @@ kiwi::_draw_instanced_basic_proxy kiwi::_load_basic_3d_proxy::using_solid_color_
 	XYZA_set.to_binding(0);
 	RGBA_set.to_binding(1);
 
-	kiwi::default_buffers_ptr->m_program_solid_color_sprites_split_3d.program
-		.set_uniform_4x4f(kiwi::default_buffers_ptr->m_program_solid_color_sprites_split_3d.mvp_matrix_3d_location, m_transformation_matrix_ptr)
-		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_solid_color_sprites_split_3d.mvp_matrix_2d_location, mvp_matrix_2d_ptr)
-		.set_uniform_1ui(kiwi::default_buffers_ptr->m_program_solid_color_sprites_split_3d.depth_scaling_location, static_cast<GLuint>(depth_scaling));
+	kiwi::default_buffers_ptr->m_program_solid_color_sprites_3d.program
+		.set_uniform_4x4f(kiwi::default_buffers_ptr->m_program_solid_color_sprites_3d.mvp_matrix_3d_location, m_transformation_matrix_ptr)
+		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_solid_color_sprites_3d.mvp_matrix_2d_location, mvp_matrix_2d_ptr)
+		.set_uniform_1ui(kiwi::default_buffers_ptr->m_program_solid_color_sprites_3d.depth_scaling_location, static_cast<GLuint>(depth_scaling));
 
 	kiwi::_draw_instanced_basic_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -783,12 +722,13 @@ kiwi::_draw_basic_proxy kiwi::_load_basic_3d_proxy::using_texture_sprite(const k
 	proxy.m_index_data_ptr = nullptr;
 	return proxy;
 }
-kiwi::_draw_quad_sprite_proxy kiwi::_load_basic_3d_proxy::using_texture_sprites(const kiwi::XYZA_UV_set& XYZA_UV_set, const kiwi::XY& XY_size,
+kiwi::_draw_quad_sprite_proxy kiwi::_load_basic_3d_proxy::using_texture_sprites(const kiwi::XYZA_set& XYZA_set, const kiwi::UV_set& UV_set, const kiwi::XY& XY_size,
 	GLfloat alpha_discard, bool depth_scaling, const GLfloat* const mvp_matrix_2d_ptr) noexcept
 {
-	XYZA_UV_set.to_binding(0, 0);
+	XYZA_set.to_binding(0);
+	UV_set.to_binding(1, 0);
 
-	GLfloat arr[4] = { XY_size[0], XY_size[1], XYZA_UV_set.get_U_size(), XYZA_UV_set.get_V_size() };
+	GLfloat arr[4] = { XY_size[0], XY_size[1], UV_set.get_U_size(), UV_set.get_V_size() };
 
 	kiwi::default_buffers_ptr->m_program_texture_sprites_3d.program
 		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_texture_sprites_3d.XY_UV_size_location, static_cast<GLfloat*>(arr))
@@ -798,23 +738,23 @@ kiwi::_draw_quad_sprite_proxy kiwi::_load_basic_3d_proxy::using_texture_sprites(
 		.set_uniform_1f(kiwi::default_buffers_ptr->m_program_texture_sprites_3d.alpha_discard_location, alpha_discard);
 
 	kiwi::_draw_quad_sprite_proxy proxy;
-	proxy.m_sprite_count = XYZA_UV_set.instance_count();
+	proxy.m_sprite_count = XYZA_set.instance_count();
 	return proxy;
 }
-kiwi::_draw_quad_sprite_proxy kiwi::_load_basic_3d_proxy::using_texture_sprites(const kiwi::XYZA_set& XYZA_set, const kiwi::UV_set& UV_set, const kiwi::XY& XY_size,
+kiwi::_draw_quad_sprite_proxy kiwi::_load_basic_3d_proxy::using_texture_sprites(const kiwi::XYZA_set& XYZA_set, const kiwi::id_set& id_set, const kiwi::XY& XY_size,
 	GLfloat alpha_discard, bool depth_scaling, const GLfloat* const mvp_matrix_2d_ptr) noexcept
 {
 	XYZA_set.to_binding(0);
-	UV_set.to_binding(1, 0);
+	id_set.to_binding(1, 0);
 
-	GLfloat arr[4] = { XY_size[0], XY_size[1], UV_set.get_U_size(), UV_set.get_V_size() };
+	GLfloat arr[2] = { XY_size[0], XY_size[1] };
 
-	kiwi::default_buffers_ptr->m_program_texture_sprites_split_3d.program
-		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_texture_sprites_split_3d.XY_UV_size_location, static_cast<GLfloat*>(arr))
-		.set_uniform_4x4f(kiwi::default_buffers_ptr->m_program_texture_sprites_split_3d.mvp_matrix_3d_location, m_transformation_matrix_ptr)
-		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_texture_sprites_split_3d.mvp_matrix_2d_location, mvp_matrix_2d_ptr)
-		.set_uniform_1ui(kiwi::default_buffers_ptr->m_program_texture_sprites_split_3d.depth_scaling_location, static_cast<GLuint>(depth_scaling))
-		.set_uniform_1f(kiwi::default_buffers_ptr->m_program_texture_sprites_split_3d.alpha_discard_location, alpha_discard);
+	kiwi::default_buffers_ptr->m_program_texture_array_sprites_split_3d.program
+		.set_uniform_2f(kiwi::default_buffers_ptr->m_program_texture_array_sprites_split_3d.XY_size_location, static_cast<GLfloat*>(arr))
+		.set_uniform_4x4f(kiwi::default_buffers_ptr->m_program_texture_array_sprites_split_3d.mvp_matrix_3d_location, m_transformation_matrix_ptr)
+		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_texture_array_sprites_split_3d.mvp_matrix_2d_location, mvp_matrix_2d_ptr)
+		.set_uniform_1ui(kiwi::default_buffers_ptr->m_program_texture_array_sprites_split_3d.depth_scaling_location, static_cast<GLuint>(depth_scaling))
+		.set_uniform_1f(kiwi::default_buffers_ptr->m_program_texture_array_sprites_split_3d.alpha_discard_location, alpha_discard);
 
 	kiwi::_draw_quad_sprite_proxy proxy;
 	proxy.m_sprite_count = XYZA_set.instance_count();
@@ -2122,21 +2062,6 @@ bool kiwi::basic_2d_solid_color_sprites::init() noexcept
 	return success;
 }
 
-bool kiwi::basic_2d_solid_color_sprites_split::init() noexcept
-{
-	bool success = program.new_program(
-		kiwi::source::solid_color_sprites_split_2d::vertex_shader(),
-		kiwi::source::solid_color_sprites_split_2d::fragment_shader()
-	);
-
-	if (success)
-	{
-		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
-	}
-
-	return success;
-}
-
 bool kiwi::basic_2d_texture_sprites::init() noexcept
 {
 	bool success = program.new_program(
@@ -2154,17 +2079,17 @@ bool kiwi::basic_2d_texture_sprites::init() noexcept
 	return success;
 }
 
-bool kiwi::basic_2d_texture_sprites_split::init() noexcept
+bool kiwi::basic_2d_texture_array_sprites::init() noexcept
 {
 	bool success = program.new_program(
-		kiwi::source::texture_sprites_split_2d::vertex_shader(),
-		kiwi::source::texture_sprites_split_2d::fragment_shader()
+		kiwi::source::texture_array_sprites_2d::vertex_shader(),
+		kiwi::source::texture_array_sprites_2d::fragment_shader()
 	);
 
 	if (success)
 	{
 		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
-		XY_UV_size_location = program.new_uniform_location("u_XY_UV_size");
+		XY_size_location = program.new_uniform_location("u_XY_size");
 		alpha_discard_location = program.new_uniform_location("u_alpha_discard");
 	}
 
@@ -2343,23 +2268,6 @@ bool kiwi::basic_3d_solid_color_sprites::init() noexcept
 	return success;
 }
 
-bool kiwi::basic_3d_solid_color_sprites_split::init() noexcept
-{
-	bool success = program.new_program(
-		kiwi::source::solid_color_sprites_split_3d::vertex_shader(),
-		kiwi::source::solid_color_sprites_split_3d::fragment_shader()
-	);
-
-	if (success)
-	{
-		mvp_matrix_2d_location = program.new_uniform_location("u_mvp_M_2d");
-		mvp_matrix_3d_location = program.new_uniform_location("u_mvp_M_3d");
-		depth_scaling_location = program.new_uniform_location("u_depth_scaling");
-	}
-
-	return success;
-}
-
 bool kiwi::basic_3d_texture_sprite::init() noexcept
 {
 	bool success = program.new_program(
@@ -2398,18 +2306,18 @@ bool kiwi::basic_3d_texture_sprites::init() noexcept
 	return success;
 }
 
-bool kiwi::basic_3d_texture_sprites_split::init() noexcept
+bool kiwi::basic_3d_texture_array_sprites::init() noexcept
 {
 	bool success = program.new_program(
-		kiwi::source::texture_sprites_split_3d::vertex_shader(),
-		kiwi::source::texture_sprites_split_3d::fragment_shader()
+		kiwi::source::texture_array_sprites_3d::vertex_shader(),
+		kiwi::source::texture_array_sprites_3d::fragment_shader()
 	);
 
 	if (success)
 	{
 		mvp_matrix_2d_location = program.new_uniform_location("u_mvp_M_2d");
 		mvp_matrix_3d_location = program.new_uniform_location("u_mvp_M_3d");
-		XY_UV_size_location = program.new_uniform_location("u_XY_UV_size");
+		XY_size_location = program.new_uniform_location("u_XY_size");
 		depth_scaling_location = program.new_uniform_location("u_depth_scaling");
 		alpha_discard_location = program.new_uniform_location("u_alpha_discard");
 	}

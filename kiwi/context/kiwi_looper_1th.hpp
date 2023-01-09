@@ -7,17 +7,17 @@
 
 namespace kiwi
 {
-	class looper_1th
+	class looper
 	{
 
 	public:
 
-		looper_1th() = default;
-		looper_1th(const kiwi::looper_1th&) = delete;
-		kiwi::looper_1th& operator=(const kiwi::looper_1th&) = delete;
-		looper_1th(kiwi::looper_1th&&) = delete;
-		kiwi::looper_1th& operator=(kiwi::looper_1th&&) = delete;
-		virtual ~looper_1th() = default;
+		looper() = default;
+		looper(const kiwi::looper&) = delete;
+		kiwi::looper& operator=(const kiwi::looper&) = delete;
+		looper(kiwi::looper&&) = delete;
+		kiwi::looper& operator=(kiwi::looper&&) = delete;
+		virtual ~looper() = default;
 
 	protected:
 
@@ -45,6 +45,7 @@ namespace kiwi
 			// terminate buffers, shaders and programs
 
 			// kiwi::draw_terminate();
+			// return 0;
 		// }
 
 		bool window_resized() noexcept;
@@ -53,11 +54,11 @@ namespace kiwi
 
 		int show(const kiwi::size& size_2d, const char* const new_title);
 
-		kiwi::looper_1th& set_window_resizable(bool window_resizable) noexcept;
-		kiwi::looper_1th& set_aspect_ratio_free(bool free_aspect_ratio) noexcept;
-		kiwi::looper_1th& set_window_fullscreen(bool window_fullscreen) noexcept;
-		kiwi::looper_1th& set_anti_aliasing(bool anti_aliasing_enabled) noexcept;
-		kiwi::looper_1th& set_timeframe(double new_timeframe) noexcept; // can be redefined any time
+		kiwi::looper& set_window_resizable(bool window_resizable) noexcept;
+		kiwi::looper& set_aspect_ratio_free(bool free_aspect_ratio) noexcept;
+		kiwi::looper& set_window_fullscreen(bool window_fullscreen) noexcept;
+		kiwi::looper& set_anti_aliasing(bool anti_aliasing_enabled) noexcept;
+		kiwi::looper& set_timeframe(double new_timeframe) noexcept; // can be redefined any time
 
 	private:
 

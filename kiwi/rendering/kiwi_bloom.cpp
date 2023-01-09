@@ -81,8 +81,8 @@ bool kiwi::bloom::init(std::size_t screen_width, std::size_t screen_height, bool
 			break;
 		}
 
-		m_multisampled_texture.set_sampling(m_sampling).allocate(kiwi::texture_format::f16,
-			kiwi::size(screen_width, screen_height), 4, kiwi::texture_mapping::linear, kiwi::texture_borders::pad);
+		m_multisampled_texture.set_sampling(m_sampling).allocate(kiwi::pixel_format::f16,
+			kiwi::size(screen_width, screen_height), 4, kiwi::pixel_mapping::linear, kiwi::pixel_wrapping::pad);
 
 		frame.get_frame_buffer().attach_render_buffer(&m_multisampled_render_buffer)
 			.attach_texture(&m_multisampled_texture, 0);
@@ -93,23 +93,23 @@ bool kiwi::bloom::init(std::size_t screen_width, std::size_t screen_height, bool
 
 		m_render_buffer.allocate(kiwi::render_buffer_type::f24_st8, kiwi::size(screen_width, screen_height));
 
-		m_textures[0].allocate(kiwi::texture_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::texture_mapping::linear, kiwi::texture_borders::pad);
-		m_textures[1].allocate(kiwi::texture_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::texture_mapping::linear, kiwi::texture_borders::pad);
-		m_textures[2].allocate(kiwi::texture_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::texture_mapping::linear, kiwi::texture_borders::pad);
+		m_textures[0].allocate(kiwi::pixel_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::pixel_mapping::linear, kiwi::pixel_wrapping::pad);
+		m_textures[1].allocate(kiwi::pixel_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::pixel_mapping::linear, kiwi::pixel_wrapping::pad);
+		m_textures[2].allocate(kiwi::pixel_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::pixel_mapping::linear, kiwi::pixel_wrapping::pad);
 
 		screen_width /= 2; screen_height /= 2;
 
-		m_textures[3].allocate(kiwi::texture_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::texture_mapping::linear, kiwi::texture_borders::pad);
-		m_textures[4].allocate(kiwi::texture_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::texture_mapping::linear, kiwi::texture_borders::pad);
+		m_textures[3].allocate(kiwi::pixel_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::pixel_mapping::linear, kiwi::pixel_wrapping::pad);
+		m_textures[4].allocate(kiwi::pixel_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::pixel_mapping::linear, kiwi::pixel_wrapping::pad);
 
 		screen_width /= 2; screen_height /= 2;
 
-		m_textures[5].allocate(kiwi::texture_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::texture_mapping::linear, kiwi::texture_borders::pad);
-		m_textures[6].allocate(kiwi::texture_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::texture_mapping::linear, kiwi::texture_borders::pad);
+		m_textures[5].allocate(kiwi::pixel_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::pixel_mapping::linear, kiwi::pixel_wrapping::pad);
+		m_textures[6].allocate(kiwi::pixel_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::pixel_mapping::linear, kiwi::pixel_wrapping::pad);
 
 		screen_width /= 2; screen_height /= 2;
 
-		m_textures[7].allocate(kiwi::texture_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::texture_mapping::linear, kiwi::texture_borders::pad);
+		m_textures[7].allocate(kiwi::pixel_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::pixel_mapping::linear, kiwi::pixel_wrapping::pad);
 
 		frame.get_frame_buffer().attach_render_buffer(&m_render_buffer);
 
@@ -123,26 +123,26 @@ bool kiwi::bloom::init(std::size_t screen_width, std::size_t screen_height, bool
 	{
 		kiwi::scoped_frame frame(m_frame_buffer_extended);
 
-		m_textures[8].allocate(kiwi::texture_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::texture_mapping::linear, kiwi::texture_borders::pad);
+		m_textures[8].allocate(kiwi::pixel_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::pixel_mapping::linear, kiwi::pixel_wrapping::pad);
 
 		screen_width /= 2; screen_height /= 2;
 
-		m_textures[9].allocate(kiwi::texture_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::texture_mapping::linear, kiwi::texture_borders::pad);
-		m_textures[10].allocate(kiwi::texture_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::texture_mapping::linear, kiwi::texture_borders::pad);
+		m_textures[9].allocate(kiwi::pixel_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::pixel_mapping::linear, kiwi::pixel_wrapping::pad);
+		m_textures[10].allocate(kiwi::pixel_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::pixel_mapping::linear, kiwi::pixel_wrapping::pad);
 
 		screen_width /= 2; screen_height /= 2;
 
-		m_textures[11].allocate(kiwi::texture_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::texture_mapping::linear, kiwi::texture_borders::clamp);
-		m_textures[12].allocate(kiwi::texture_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::texture_mapping::linear, kiwi::texture_borders::clamp);
+		m_textures[11].allocate(kiwi::pixel_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::pixel_mapping::linear, kiwi::pixel_wrapping::clamp);
+		m_textures[12].allocate(kiwi::pixel_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::pixel_mapping::linear, kiwi::pixel_wrapping::clamp);
 
 		screen_width /= 2; screen_height /= 2;
 
-		m_textures[13].allocate(kiwi::texture_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::texture_mapping::linear, kiwi::texture_borders::clamp);
-		m_textures[14].allocate(kiwi::texture_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::texture_mapping::linear, kiwi::texture_borders::clamp);
+		m_textures[13].allocate(kiwi::pixel_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::pixel_mapping::linear, kiwi::pixel_wrapping::clamp);
+		m_textures[14].allocate(kiwi::pixel_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::pixel_mapping::linear, kiwi::pixel_wrapping::clamp);
 
 		screen_width /= 2; screen_height /= 2;
 
-		m_textures[15].allocate(kiwi::texture_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::texture_mapping::linear, kiwi::texture_borders::clamp);
+		m_textures[15].allocate(kiwi::pixel_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::pixel_mapping::linear, kiwi::pixel_wrapping::clamp);
 
 		for (std::size_t n = 0; n < 8; n++)
 		{
@@ -235,52 +235,52 @@ kiwi::bloom& kiwi::bloom::resize(std::size_t screen_width, std::size_t screen_he
 		break;
 	}
 	
-	m_multisampled_texture.set_sampling(m_sampling).allocate(kiwi::texture_format::f16,
-		kiwi::size(screen_width, screen_height), 4, kiwi::texture_mapping::linear, kiwi::texture_borders::clamp);
+	m_multisampled_texture.set_sampling(m_sampling).allocate(kiwi::pixel_format::f16,
+		kiwi::size(screen_width, screen_height), 4, kiwi::pixel_mapping::linear, kiwi::pixel_wrapping::clamp);
 
 
 	m_render_buffer.allocate(kiwi::render_buffer_type::f24_st8, kiwi::size(screen_width, screen_height));
 
-	m_textures[0].allocate(kiwi::texture_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::texture_mapping::linear, kiwi::texture_borders::pad);
-	m_textures[1].allocate(kiwi::texture_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::texture_mapping::linear, kiwi::texture_borders::pad);
-	m_textures[2].allocate(kiwi::texture_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::texture_mapping::linear, kiwi::texture_borders::pad);
+	m_textures[0].allocate(kiwi::pixel_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::pixel_mapping::linear, kiwi::pixel_wrapping::pad);
+	m_textures[1].allocate(kiwi::pixel_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::pixel_mapping::linear, kiwi::pixel_wrapping::pad);
+	m_textures[2].allocate(kiwi::pixel_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::pixel_mapping::linear, kiwi::pixel_wrapping::pad);
 
 	screen_width /= 2; screen_height /= 2;
 
-	m_textures[3].allocate(kiwi::texture_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::texture_mapping::linear, kiwi::texture_borders::pad);
-	m_textures[4].allocate(kiwi::texture_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::texture_mapping::linear, kiwi::texture_borders::pad);
+	m_textures[3].allocate(kiwi::pixel_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::pixel_mapping::linear, kiwi::pixel_wrapping::pad);
+	m_textures[4].allocate(kiwi::pixel_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::pixel_mapping::linear, kiwi::pixel_wrapping::pad);
 
 	screen_width /= 2; screen_height /= 2;
 
-	m_textures[5].allocate(kiwi::texture_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::texture_mapping::linear, kiwi::texture_borders::pad);
-	m_textures[6].allocate(kiwi::texture_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::texture_mapping::linear, kiwi::texture_borders::pad);
+	m_textures[5].allocate(kiwi::pixel_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::pixel_mapping::linear, kiwi::pixel_wrapping::pad);
+	m_textures[6].allocate(kiwi::pixel_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::pixel_mapping::linear, kiwi::pixel_wrapping::pad);
 
 	screen_width /= 2; screen_height /= 2;
 
-	m_textures[7].allocate(kiwi::texture_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::texture_mapping::linear, kiwi::texture_borders::pad);
+	m_textures[7].allocate(kiwi::pixel_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::pixel_mapping::linear, kiwi::pixel_wrapping::pad);
 
 	if (m_extended)
 	{
-		m_textures[8].allocate(kiwi::texture_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::texture_mapping::linear, kiwi::texture_borders::pad);
+		m_textures[8].allocate(kiwi::pixel_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::pixel_mapping::linear, kiwi::pixel_wrapping::pad);
 
 		screen_width /= 2; screen_height /= 2;
 
-		m_textures[9].allocate(kiwi::texture_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::texture_mapping::linear, kiwi::texture_borders::pad);
-		m_textures[10].allocate(kiwi::texture_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::texture_mapping::linear, kiwi::texture_borders::pad);
+		m_textures[9].allocate(kiwi::pixel_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::pixel_mapping::linear, kiwi::pixel_wrapping::pad);
+		m_textures[10].allocate(kiwi::pixel_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::pixel_mapping::linear, kiwi::pixel_wrapping::pad);
 
 		screen_width /= 2; screen_height /= 2;
 
-		m_textures[11].allocate(kiwi::texture_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::texture_mapping::linear, kiwi::texture_borders::clamp);
-		m_textures[12].allocate(kiwi::texture_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::texture_mapping::linear, kiwi::texture_borders::clamp);
+		m_textures[11].allocate(kiwi::pixel_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::pixel_mapping::linear, kiwi::pixel_wrapping::clamp);
+		m_textures[12].allocate(kiwi::pixel_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::pixel_mapping::linear, kiwi::pixel_wrapping::clamp);
 
 		screen_width /= 2; screen_height /= 2;
 
-		m_textures[13].allocate(kiwi::texture_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::texture_mapping::linear, kiwi::texture_borders::clamp);
-		m_textures[14].allocate(kiwi::texture_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::texture_mapping::linear, kiwi::texture_borders::clamp);
+		m_textures[13].allocate(kiwi::pixel_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::pixel_mapping::linear, kiwi::pixel_wrapping::clamp);
+		m_textures[14].allocate(kiwi::pixel_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::pixel_mapping::linear, kiwi::pixel_wrapping::clamp);
 
 		screen_width /= 2; screen_height /= 2;
 
-		m_textures[15].allocate(kiwi::texture_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::texture_mapping::linear, kiwi::texture_borders::clamp);
+		m_textures[15].allocate(kiwi::pixel_format::f16, kiwi::size(screen_width, screen_height), 4, kiwi::pixel_mapping::linear, kiwi::pixel_wrapping::clamp);
 	}
 
 	return *this;

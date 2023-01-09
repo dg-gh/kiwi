@@ -294,7 +294,7 @@ kiwi::frame_buffer& kiwi::frame_buffer::attach_texture(kiwi::texture_buffer* tex
 	if (m_texture_buffer_ptr[color_attachment] != texture_buffer_ptr)
 	{
 		m_texture_buffer_ptr[color_attachment] = texture_buffer_ptr;
-		if (texture_buffer_ptr->get_format() != kiwi::texture_format::depth)
+		if (texture_buffer_ptr->get_format() != kiwi::pixel_format::dep32)
 		{
 			switch (texture_buffer_ptr->get_sampling())
 			{

@@ -49,13 +49,10 @@ namespace kiwi
 		kiwi::_draw_basic_proxy using_no_shade(const kiwi::vertex_buffer& vertex_buffer) noexcept;
 
 		kiwi::_draw_instanced_basic_proxy using_solid_color_sprites(const kiwi::vertex_buffer& vertex_buffer,
-			const kiwi::XYZA_RGBA_set& XYZA_RGBA_set) noexcept;
-		kiwi::_draw_instanced_basic_proxy using_solid_color_sprites(const kiwi::vertex_buffer& vertex_buffer,
 			const kiwi::XYZA_set& XYZA_set, const kiwi::RGBA_set& RGBA_set) noexcept;
-
-		kiwi::_draw_quad_sprite_proxy using_texture_sprites(const kiwi::XYZA_UV_set& XYZA_UV_set, const kiwi::XY& XY_size,
-			GLfloat alpha_discard) noexcept;
 		kiwi::_draw_quad_sprite_proxy using_texture_sprites(const kiwi::XYZA_set& XYZA_set, const kiwi::UV_set& UV_set, const kiwi::XY& XY_size,
+			GLfloat alpha_discard) noexcept;
+		kiwi::_draw_quad_sprite_proxy using_texture_sprites(const kiwi::XYZA_set& XYZA_set, const kiwi::id_set& id_set, const kiwi::XY& XY_size,
 			GLfloat alpha_discard) noexcept;
 	};
 
@@ -81,17 +78,15 @@ namespace kiwi
 
 		kiwi::_draw_basic_proxy using_solid_color_sprite(const kiwi::vertex_buffer& vertex_buffer, const GLfloat* const XYZang_ptr, const kiwi::RGBA& solid_color,
 			bool depth_scaling = true, const GLfloat* const mvp_matrix_2d_ptr = kiwi::window_matrix_data()) noexcept;
-		kiwi::_draw_instanced_basic_proxy using_solid_color_sprites(const kiwi::vertex_buffer& vertex_buffer, const kiwi::XYZA_RGBA_set& XYZang_RGBA_set,
-			bool depth_scaling = true, const GLfloat* const mvp_matrix_2d_ptr = kiwi::window_matrix_data()) noexcept;
 		kiwi::_draw_instanced_basic_proxy using_solid_color_sprites(const kiwi::vertex_buffer& vertex_buffer, const kiwi::XYZA_set& XYZA_set, const kiwi::RGBA_set& RGBA_set,
 			bool depth_scaling = true, const GLfloat* const mvp_matrix_2d_ptr = kiwi::window_matrix_data()) noexcept;
 
 		kiwi::_draw_basic_proxy using_texture_sprite(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer,
 			const kiwi::texture_buffer& texture_buffer, const GLfloat* const XYZA_ptr,
 			GLfloat alpha_discard, bool depth_scaling = true, const GLfloat* const mvp_matrix_2d_ptr = kiwi::window_matrix_data()) noexcept;
-		kiwi::_draw_quad_sprite_proxy using_texture_sprites(const kiwi::XYZA_UV_set& XYZA_UV_set, const kiwi::XY& XY_size,
-			GLfloat alpha_discard, bool depth_scaling = true, const GLfloat* const mvp_matrix_2d_ptr = kiwi::window_matrix_data()) noexcept;
 		kiwi::_draw_quad_sprite_proxy using_texture_sprites(const kiwi::XYZA_set& XYZA_set, const kiwi::UV_set& UV_set, const kiwi::XY& XY_size,
+			GLfloat alpha_discard, bool depth_scaling = true, const GLfloat* const mvp_matrix_2d_ptr = kiwi::window_matrix_data()) noexcept;
+		kiwi::_draw_quad_sprite_proxy using_texture_sprites(const kiwi::XYZA_set& XYZA_set, const kiwi::id_set& id_set, const kiwi::XY& XY_size,
 			GLfloat alpha_discard, bool depth_scaling = true, const GLfloat* const mvp_matrix_2d_ptr = kiwi::window_matrix_data()) noexcept;
 	};
 

@@ -4,22 +4,23 @@
 kiwi::cubemap_buffer::cubemap_buffer() noexcept
 {
 	m_buffer_index = 0;
+	m_pixel_buffer_type = kiwi::pixel_buffer_type::cubemap;
 	m_dim = 0;
-	m_resolution = 0;
-	m_format = kiwi::cubemap_format::u8;
+	m_width = 0;
+	m_format = kiwi::pixel_format::u8;
 }
 
 kiwi::cubemap_buffer::cubemap_buffer(kiwi::cubemap_buffer&& rhs) noexcept
 {
 	m_buffer_index = rhs.m_buffer_index;
 	m_dim = rhs.m_dim;
+	m_width = rhs.m_width;
 	m_format = rhs.m_format;
 
 	rhs.m_buffer_index = 0;
 	rhs.m_dim = 0;
-	m_resolution = 0;
-
-	rhs.m_format = kiwi::cubemap_format::u8;
+	rhs.m_width = 0;
+	rhs.m_format = kiwi::pixel_format::u8;
 }
 
 kiwi::cubemap_buffer& kiwi::cubemap_buffer::operator=(kiwi::cubemap_buffer&& rhs) noexcept
@@ -31,11 +32,13 @@ kiwi::cubemap_buffer& kiwi::cubemap_buffer::operator=(kiwi::cubemap_buffer&& rhs
 
 	m_buffer_index = rhs.m_buffer_index;
 	m_dim = rhs.m_dim;
+	m_width = rhs.m_width;
 	m_format = rhs.m_format;
 
 	rhs.m_buffer_index = 0;
 	rhs.m_dim = 0;
-	rhs.m_format = kiwi::cubemap_format::u8;
+	rhs.m_width = 0;
+	rhs.m_format = kiwi::pixel_format::u8;
 
 	return *this;
 }
@@ -50,15 +53,11 @@ kiwi::cubemap_buffer::~cubemap_buffer()
 
 kiwi::cubemap_buffer& kiwi::cubemap_buffer::new_id() noexcept
 {
-	if (m_buffer_index == 0)
-	{
-		glGenTextures(1, &m_buffer_index);
-	}
-	else
+	if (m_buffer_index != 0)
 	{
 		delete_id();
-		glGenTextures(1, &m_buffer_index);
 	}
+	glGenTextures(1, &m_buffer_index);
 	return *this;
 }
 
@@ -69,7 +68,8 @@ kiwi::cubemap_buffer& kiwi::cubemap_buffer::delete_id() noexcept
 		glDeleteTextures(1, &m_buffer_index);
 		m_buffer_index = 0;
 		m_dim = 0;
-		m_format = kiwi::cubemap_format::u8;
+		m_width = 0;
+		m_format = kiwi::pixel_format::u8;
 	}
 	return *this;
 }
@@ -85,50 +85,32 @@ kiwi::cubemap_buffer& kiwi::cubemap_buffer::bind() noexcept
 	{
 		glGenTextures(1, &m_buffer_index);
 	}
-
-	if (kiwi::context::current_texture_buffer() != static_cast<void*>(this))
-	{
-		glBindTexture(GL_TEXTURE_CUBE_MAP, m_buffer_index);
-		kiwi::context::current_texture_buffer() = static_cast<void*>(this);
-	}
+	glBindTexture(GL_TEXTURE_CUBE_MAP, m_buffer_index);
 	return *this;
 }
 
 const kiwi::cubemap_buffer& kiwi::cubemap_buffer::bind() const noexcept
 {
-	if (kiwi::context::current_texture_buffer() != static_cast<const void*>(this))
-	{
-		glBindTexture(GL_TEXTURE_CUBE_MAP, m_buffer_index);
-		kiwi::context::current_texture_buffer() = static_cast<const void*>(this);
-	}
+	glBindTexture(GL_TEXTURE_CUBE_MAP, m_buffer_index);
 	return *this;
 }
 
 void kiwi::cubemap_buffer::unbind() noexcept
 {
 	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
-	kiwi::context::current_texture_buffer() = nullptr;
 }
 
 kiwi::cubemap_buffer& kiwi::cubemap_buffer::to_binding(GLenum binding) noexcept
 {
-	if (kiwi::context::current_texture_buffer() != static_cast<const void*>(this))
-	{
-		glActiveTexture(GL_TEXTURE0 + binding);
-		glBindTexture(GL_TEXTURE_CUBE_MAP, m_buffer_index);
-		kiwi::context::current_texture_buffer() = static_cast<const void*>(this);
-	}
+	glActiveTexture(GL_TEXTURE0 + binding);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, m_buffer_index);
 	return *this;
 }
 
 const kiwi::cubemap_buffer& kiwi::cubemap_buffer::to_binding(GLenum binding) const noexcept
 {
-	if (kiwi::context::current_texture_buffer() != static_cast<const void*>(this))
-	{
-		glActiveTexture(GL_TEXTURE0 + binding);
-		glBindTexture(GL_TEXTURE_CUBE_MAP, m_buffer_index);
-		kiwi::context::current_texture_buffer() = static_cast<const void*>(this);
-	}
+	glActiveTexture(GL_TEXTURE0 + binding);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, m_buffer_index);
 	return *this;
 }
 
@@ -139,239 +121,301 @@ std::size_t kiwi::cubemap_buffer::pixel_dim() const noexcept
 
 std::size_t kiwi::cubemap_buffer::width() const noexcept
 {
-	return m_resolution;
+	return m_width;
 }
 
 std::size_t kiwi::cubemap_buffer::height() const noexcept
 {
-	return m_resolution;
+	return m_width;
 }
 
 kiwi::cubemap_buffer& kiwi::cubemap_buffer::load(
-	const unsigned char* const Xp_data_ptr,
-	const unsigned char* const Xm_data_ptr,
-	const unsigned char* const Yp_data_ptr,
-	const unsigned char* const Ym_data_ptr,
-	const unsigned char* const Zp_data_ptr,
-	const unsigned char* const Zm_data_ptr,
-	std::size_t resolution, std::size_t pixel_dimension,
-	kiwi::cubemap_mapping mapping) noexcept
+	const void* const Xp_data_ptr, const void* const Xm_data_ptr,
+	const void* const Yp_data_ptr, const void* const Ym_data_ptr,
+	const void* const Zp_data_ptr, const void* const Zm_data_ptr,
+	std::size_t width, std::size_t pixel_dim,
+	kiwi::pixel_mapping mapping, kiwi::pixel_format format) noexcept
 {
-	if (m_buffer_index != 0)
-	{
-		if (kiwi::context::current_texture_buffer() != static_cast<void*>(this))
-		{
-			glBindTexture(GL_TEXTURE_2D, m_buffer_index);
-			kiwi::context::current_texture_buffer() = static_cast<void*>(this);
-		}
-	}
-	else
+	if (m_buffer_index == 0)
 	{
 		glGenTextures(1, &m_buffer_index);
-		glBindTexture(GL_TEXTURE_2D, m_buffer_index);
-		kiwi::context::current_texture_buffer() = static_cast<void*>(this);
 	}
 
-	m_dim = pixel_dimension;
-	m_resolution = resolution;
+	glBindTexture(GL_TEXTURE_2D, m_buffer_index);
 
-	GLint _color_format;
-	GLint _internal_format;
-	GLint _mapping;
-	GLint _mapping_min;
-	GLint _borders;
-	bool mipmap = false;
+	m_dim = pixel_dim;
+	m_width = width;
 
-	switch (pixel_dimension)
 	{
-	case 1: _color_format = GL_RED; _internal_format = GL_R8; break;
-	case 2: _color_format = GL_RG; _internal_format = GL_RG8; break;
-	case 3: _color_format = GL_RGB; _internal_format = GL_RGB8; break;
-	case 4: _color_format = GL_RGBA; _internal_format = GL_RGBA8; break;
-	default: _color_format = GL_RED; _internal_format = GL_R8; break;
+		GLint _internal_format;
+		GLenum _color_format;
+		GLenum _type;
+		set_pixel_format(format, pixel_dim, &_internal_format, &_color_format, &_type);
+
+		GLsizei reso = static_cast<GLsizei>(width);
+		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, 0, _internal_format, reso, reso, 0, _color_format, _type, Ym_data_ptr);
+		glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, 0, _internal_format, reso, reso, 0, _color_format, _type, Yp_data_ptr);
+		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Y, 0, _internal_format, reso, reso, 0, _color_format, _type, Zm_data_ptr);
+		glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, 0, _internal_format, reso, reso, 0, _color_format, _type, Zp_data_ptr);
+		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, 0, _internal_format, reso, reso, 0, _color_format, _type, Xp_data_ptr);
+		glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, _internal_format, reso, reso, 0, _color_format, _type, Xm_data_ptr);
+		m_format = format;
 	}
 
-	switch (mapping)
 	{
-	case kiwi::cubemap_mapping::nearest: _mapping = GL_NEAREST; _mapping_min = GL_NEAREST; break;
-	case kiwi::cubemap_mapping::linear: _mapping = GL_LINEAR; _mapping_min = GL_LINEAR; break;
-	case kiwi::cubemap_mapping::nearest_mipmap_nearest: _mapping = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_NEAREST; mipmap = true; break;
-	case kiwi::cubemap_mapping::linear_mipmap_nearest: _mapping = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_NEAREST; mipmap = true; break;
-	case kiwi::cubemap_mapping::nearest_mipmap_linear: _mapping = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_LINEAR; mipmap = true; break;
-	case kiwi::cubemap_mapping::linear_mipmap_linear: _mapping = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_LINEAR; mipmap = true; break;
-	}
+		GLint _mapping_mag;
+		GLint _mapping_min;
+		bool _mipmap;
+		set_pixel_mapping(mapping, &_mapping_mag, &_mapping_min, &_mipmap);
 
-	GLsizei reso = static_cast<GLsizei>(resolution);
-	glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, 0, _internal_format, reso, reso, 0, _color_format, GL_UNSIGNED_BYTE, Ym_data_ptr);
-	glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, 0, _internal_format, reso, reso, 0, _color_format, GL_UNSIGNED_BYTE, Yp_data_ptr);
-	glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Y, 0, _internal_format, reso, reso, 0, _color_format, GL_UNSIGNED_BYTE, Zm_data_ptr);
-	glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, 0, _internal_format, reso, reso, 0, _color_format, GL_UNSIGNED_BYTE, Zp_data_ptr);
-	glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, 0, _internal_format, reso, reso, 0, _color_format, GL_UNSIGNED_BYTE, Xp_data_ptr);
-	glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, _internal_format, reso, reso, 0, _color_format, GL_UNSIGNED_BYTE, Xm_data_ptr);
-	m_format = kiwi::cubemap_format::u8;
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, _mapping_mag);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, _mapping_min);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, _mapping);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, _mapping_min);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-
-	if (mipmap)
-	{
-		glGenerateMipmap(GL_TEXTURE_2D);
+		if (_mipmap)
+		{
+			glGenerateMipmap(GL_TEXTURE_2D);
+		}
 	}
 
 	return *this;
 }
 
-kiwi::cubemap_buffer& kiwi::cubemap_buffer::load(
+kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_u8(
+	const unsigned char* const Xp_data_ptr, const unsigned char* const Xm_data_ptr,
+	const unsigned char* const Yp_data_ptr, const unsigned char* const Ym_data_ptr,
+	const unsigned char* const Zp_data_ptr, const unsigned char* const Zm_data_ptr,
+	std::size_t width, std::size_t pixel_dim, kiwi::pixel_mapping mapping) noexcept
+{
+	return load(
+		static_cast<const void* const>(Xp_data_ptr), static_cast<const void* const>(Xm_data_ptr),
+		static_cast<const void* const>(Yp_data_ptr), static_cast<const void* const>(Ym_data_ptr),
+		static_cast<const void* const>(Zp_data_ptr), static_cast<const void* const>(Zm_data_ptr),
+		width, pixel_dim, mapping, kiwi::pixel_format::u8);
+}
+
+kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_u16(
+	const GLushort* const Xp_data_ptr, const GLushort* const Xm_data_ptr,
+	const GLushort* const Yp_data_ptr, const GLushort* const Ym_data_ptr,
+	const GLushort* const Zp_data_ptr, const GLushort* const Zm_data_ptr,
+	std::size_t width, std::size_t pixel_dim, kiwi::pixel_mapping mapping) noexcept
+{
+	return load(
+		static_cast<const void* const>(Xp_data_ptr), static_cast<const void* const>(Xm_data_ptr),
+		static_cast<const void* const>(Yp_data_ptr), static_cast<const void* const>(Ym_data_ptr),
+		static_cast<const void* const>(Zp_data_ptr), static_cast<const void* const>(Zm_data_ptr),
+		width, pixel_dim, mapping, kiwi::pixel_format::u16);
+}
+
+kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_f32(
+	const GLfloat* const Xp_data_ptr, const GLfloat* const Xm_data_ptr,
+	const GLfloat* const Yp_data_ptr, const GLfloat* const Ym_data_ptr,
+	const GLfloat* const Zp_data_ptr, const GLfloat* const Zm_data_ptr,
+	std::size_t width, std::size_t pixel_dim, kiwi::pixel_mapping mapping) noexcept
+{
+	return load(
+		static_cast<const void* const>(Xp_data_ptr), static_cast<const void* const>(Xm_data_ptr),
+		static_cast<const void* const>(Yp_data_ptr), static_cast<const void* const>(Ym_data_ptr),
+		static_cast<const void* const>(Zp_data_ptr), static_cast<const void* const>(Zm_data_ptr),
+		width, pixel_dim, mapping, kiwi::pixel_format::f32);
+}
+
+kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_u8u(
+	const unsigned char* const Xp_data_ptr, const unsigned char* const Xm_data_ptr,
+	const unsigned char* const Yp_data_ptr, const unsigned char* const Ym_data_ptr,
+	const unsigned char* const Zp_data_ptr, const unsigned char* const Zm_data_ptr,
+	std::size_t width, std::size_t pixel_dim, kiwi::pixel_mapping mapping) noexcept
+{
+	return load(
+		static_cast<const void* const>(Xp_data_ptr), static_cast<const void* const>(Xm_data_ptr),
+		static_cast<const void* const>(Yp_data_ptr), static_cast<const void* const>(Ym_data_ptr),
+		static_cast<const void* const>(Zp_data_ptr), static_cast<const void* const>(Zm_data_ptr),
+		width, pixel_dim, mapping, kiwi::pixel_format::u8u);
+}
+
+kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_u16u(
+	const GLushort* const Xp_data_ptr, const GLushort* const Xm_data_ptr,
+	const GLushort* const Yp_data_ptr, const GLushort* const Ym_data_ptr,
+	const GLushort* const Zp_data_ptr, const GLushort* const Zm_data_ptr,
+	std::size_t width, std::size_t pixel_dim, kiwi::pixel_mapping mapping) noexcept
+{
+	return load(
+		static_cast<const void* const>(Xp_data_ptr), static_cast<const void* const>(Xm_data_ptr),
+		static_cast<const void* const>(Yp_data_ptr), static_cast<const void* const>(Ym_data_ptr),
+		static_cast<const void* const>(Zp_data_ptr), static_cast<const void* const>(Zm_data_ptr),
+		width, pixel_dim, mapping, kiwi::pixel_format::u16u);
+}
+
+kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_u32u(
+	const GLuint* const Xp_data_ptr, const GLuint* const Xm_data_ptr,
+	const GLuint* const Yp_data_ptr, const GLuint* const Ym_data_ptr,
+	const GLuint* const Zp_data_ptr, const GLuint* const Zm_data_ptr,
+	std::size_t width, std::size_t pixel_dim, kiwi::pixel_mapping mapping) noexcept
+{
+	return load(
+		static_cast<const void* const>(Xp_data_ptr), static_cast<const void* const>(Xm_data_ptr),
+		static_cast<const void* const>(Yp_data_ptr), static_cast<const void* const>(Ym_data_ptr),
+		static_cast<const void* const>(Zp_data_ptr), static_cast<const void* const>(Zm_data_ptr),
+		width, pixel_dim, mapping, kiwi::pixel_format::u32u);
+}
+
+kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_i8u(
+	const char* const Xp_data_ptr, const char* const Xm_data_ptr,
+	const char* const Yp_data_ptr, const char* const Ym_data_ptr,
+	const char* const Zp_data_ptr, const char* const Zm_data_ptr,
+	std::size_t width, std::size_t pixel_dim, kiwi::pixel_mapping mapping) noexcept
+{
+	return load(
+		static_cast<const void* const>(Xp_data_ptr), static_cast<const void* const>(Xm_data_ptr),
+		static_cast<const void* const>(Yp_data_ptr), static_cast<const void* const>(Ym_data_ptr),
+		static_cast<const void* const>(Zp_data_ptr), static_cast<const void* const>(Zm_data_ptr),
+		width, pixel_dim, mapping, kiwi::pixel_format::i8u);
+}
+
+kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_i16u(
+	const GLshort* const Xp_data_ptr, const GLshort* const Xm_data_ptr,
+	const GLshort* const Yp_data_ptr, const GLshort* const Ym_data_ptr,
+	const GLshort* const Zp_data_ptr, const GLshort* const Zm_data_ptr,
+	std::size_t width, std::size_t pixel_dim, kiwi::pixel_mapping mapping) noexcept
+{
+	return load(
+		static_cast<const void* const>(Xp_data_ptr), static_cast<const void* const>(Xm_data_ptr),
+		static_cast<const void* const>(Yp_data_ptr), static_cast<const void* const>(Ym_data_ptr),
+		static_cast<const void* const>(Zp_data_ptr), static_cast<const void* const>(Zm_data_ptr),
+		width, pixel_dim, mapping, kiwi::pixel_format::i16u);
+}
+
+kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_i32u(
+	const GLint* const Xp_data_ptr, const GLint* const Xm_data_ptr,
+	const GLint* const Yp_data_ptr, const GLint* const Ym_data_ptr,
+	const GLint* const Zp_data_ptr, const GLint* const Zm_data_ptr,
+	std::size_t width, std::size_t pixel_dim, kiwi::pixel_mapping mapping) noexcept
+{
+	return load(
+		static_cast<const void* const>(Xp_data_ptr), static_cast<const void* const>(Xm_data_ptr),
+		static_cast<const void* const>(Yp_data_ptr), static_cast<const void* const>(Ym_data_ptr),
+		static_cast<const void* const>(Zp_data_ptr), static_cast<const void* const>(Zm_data_ptr),
+		width, pixel_dim, mapping, kiwi::pixel_format::i32u);
+}
+
+kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_face(
+	const void* const texture_data_ptr, kiwi::cubemap_face face,
+	std::size_t width, std::size_t pixel_dim,
+	kiwi::pixel_mapping mapping, kiwi::pixel_format format) noexcept
+{
+	if (m_buffer_index == 0)
+	{
+		glGenTextures(1, &m_buffer_index);
+	}
+
+	glBindTexture(GL_TEXTURE_2D, m_buffer_index);
+
+	m_dim = pixel_dim;
+	m_width = width;
+
+	{
+		GLint _internal_format;
+		GLenum _color_format;
+		GLenum _type;
+		set_pixel_format(format, pixel_dim, &_internal_format, &_color_format, &_type);
+
+		GLsizei reso = static_cast<GLsizei>(width);
+
+		switch (face)
+		{
+		case kiwi::cubemap_face::Xp: glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, 0, _internal_format, reso, reso, 0, _color_format, _type, texture_data_ptr); break;
+		case kiwi::cubemap_face::Xm: glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, _internal_format, reso, reso, 0, _color_format, _type, texture_data_ptr); break;
+		case kiwi::cubemap_face::Yp: glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, 0, _internal_format, reso, reso, 0, _color_format, _type, texture_data_ptr); break;
+		case kiwi::cubemap_face::Ym: glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, 0, _internal_format, reso, reso, 0, _color_format, _type, texture_data_ptr); break;
+		case kiwi::cubemap_face::Zp: glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, 0, _internal_format, reso, reso, 0, _color_format, _type, texture_data_ptr); break;
+		case kiwi::cubemap_face::Zm: glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Y, 0, _internal_format, reso, reso, 0, _color_format, _type, texture_data_ptr); break;
+		}
+		m_format = format;
+	}
+
+	{
+		GLint _mapping_mag;
+		GLint _mapping_min;
+		bool _mipmap;
+		set_pixel_mapping(mapping, &_mapping_mag, &_mapping_min, &_mipmap);
+
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, _mapping_mag);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, _mapping_min);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+
+		if (_mipmap)
+		{
+			glGenerateMipmap(GL_TEXTURE_2D);
+		}
+	}
+
+	return *this;
+}
+
+kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_face_u8(
 	const unsigned char* const texture_data_ptr, kiwi::cubemap_face face,
-	std::size_t resolution, std::size_t pixel_dimension,
-	kiwi::cubemap_mapping mapping) noexcept
+	std::size_t width, std::size_t pixel_dim, kiwi::pixel_mapping mapping) noexcept
 {
-	if (m_buffer_index != 0)
-	{
-		if (kiwi::context::current_texture_buffer() != static_cast<void*>(this))
-		{
-			glBindTexture(GL_TEXTURE_2D, m_buffer_index);
-			kiwi::context::current_texture_buffer() = static_cast<void*>(this);
-		}
-	}
-	else
-	{
-		glGenTextures(1, &m_buffer_index);
-		glBindTexture(GL_TEXTURE_2D, m_buffer_index);
-		kiwi::context::current_texture_buffer() = static_cast<void*>(this);
-	}
-
-	m_dim = pixel_dimension;
-	m_resolution = resolution;
-
-	GLint _color_format;
-	GLint _internal_format;
-	GLint _mapping;
-	GLint _mapping_min;
-	GLint _borders;
-	bool mipmap = false;
-
-	switch (pixel_dimension)
-	{
-	case 1: _color_format = GL_RED; _internal_format = GL_R8; break;
-	case 2: _color_format = GL_RG; _internal_format = GL_RG8; break;
-	case 3: _color_format = GL_RGB; _internal_format = GL_RGB8; break;
-	case 4: _color_format = GL_RGBA; _internal_format = GL_RGBA8; break;
-	default: _color_format = GL_RED; _internal_format = GL_R8; break;
-	}
-
-	switch (mapping)
-	{
-	case kiwi::cubemap_mapping::nearest: _mapping = GL_NEAREST; _mapping_min = GL_NEAREST; break;
-	case kiwi::cubemap_mapping::linear: _mapping = GL_LINEAR; _mapping_min = GL_LINEAR; break;
-	case kiwi::cubemap_mapping::nearest_mipmap_nearest: _mapping = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_NEAREST; mipmap = true; break;
-	case kiwi::cubemap_mapping::linear_mipmap_nearest: _mapping = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_NEAREST; mipmap = true; break;
-	case kiwi::cubemap_mapping::nearest_mipmap_linear: _mapping = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_LINEAR; mipmap = true; break;
-	case kiwi::cubemap_mapping::linear_mipmap_linear: _mapping = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_LINEAR; mipmap = true; break;
-	}
-
-	GLsizei reso = static_cast<GLsizei>(resolution);
-
-	switch (face)
-	{
-	case kiwi::cubemap_face::Xp: glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, 0, _internal_format, reso, reso, 0, _color_format, GL_UNSIGNED_BYTE, texture_data_ptr); break;
-	case kiwi::cubemap_face::Xm: glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, _internal_format, reso, reso, 0, _color_format, GL_UNSIGNED_BYTE, texture_data_ptr); break;
-	case kiwi::cubemap_face::Yp: glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, 0, _internal_format, reso, reso, 0, _color_format, GL_UNSIGNED_BYTE, texture_data_ptr); break;
-	case kiwi::cubemap_face::Ym: glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, 0, _internal_format, reso, reso, 0, _color_format, GL_UNSIGNED_BYTE, texture_data_ptr); break;
-	case kiwi::cubemap_face::Zp: glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, 0, _internal_format, reso, reso, 0, _color_format, GL_UNSIGNED_BYTE, texture_data_ptr); break;
-	case kiwi::cubemap_face::Zm: glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Y, 0, _internal_format, reso, reso, 0, _color_format, GL_UNSIGNED_BYTE, texture_data_ptr); break;
-	}
-
-	m_format = kiwi::cubemap_format::u8;
-
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, _mapping);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, _mapping_min);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-
-	if (mipmap)
-	{
-		glGenerateMipmap(GL_TEXTURE_2D);
-	}
-
-	return *this;
+	return load_face(static_cast<const void* const>(texture_data_ptr), face, width, pixel_dim, mapping, kiwi::pixel_format::u8);
 }
 
-kiwi::cubemap_buffer& kiwi::cubemap_buffer::load(
-	const unsigned char* const texture_data_ptr, kiwi::cubemap_face face,
-	const kiwi::size& size_2d, std::size_t pixel_dimension,
-	kiwi::cubemap_mapping mapping) noexcept
+kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_face_u16(
+	const GLushort* const texture_data_ptr, kiwi::cubemap_face face,
+	std::size_t width, std::size_t pixel_dim, kiwi::pixel_mapping mapping) noexcept
 {
-	if (m_buffer_index != 0)
-	{
-		if (kiwi::context::current_texture_buffer() != static_cast<void*>(this))
-		{
-			glBindTexture(GL_TEXTURE_2D, m_buffer_index);
-			kiwi::context::current_texture_buffer() = static_cast<void*>(this);
-		}
-	}
-	else
-	{
-		glGenTextures(1, &m_buffer_index);
-		glBindTexture(GL_TEXTURE_2D, m_buffer_index);
-		kiwi::context::current_texture_buffer() = static_cast<void*>(this);
-	}
+	return load_face(static_cast<const void* const>(texture_data_ptr), face, width, pixel_dim, mapping, kiwi::pixel_format::u16);
+}
 
-	m_dim = pixel_dimension;
-	m_resolution = 0;
+kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_face_f32(
+	const GLfloat* const texture_data_ptr, kiwi::cubemap_face face,
+	std::size_t width, std::size_t pixel_dim, kiwi::pixel_mapping mapping) noexcept
+{
+	return load_face(static_cast<const void* const>(texture_data_ptr), face, width, pixel_dim, mapping, kiwi::pixel_format::f32);
+}
 
-	GLint _color_format;
-	GLint _internal_format;
-	GLint _mapping;
-	GLint _mapping_min;
-	GLint _borders;
-	bool mipmap = false;
+kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_face_u8u(
+	const unsigned char* const texture_data_ptr, kiwi::cubemap_face face,
+	std::size_t width, std::size_t pixel_dim, kiwi::pixel_mapping mapping) noexcept
+{
+	return load_face(static_cast<const void* const>(texture_data_ptr), face, width, pixel_dim, mapping, kiwi::pixel_format::u8u);
+}
 
-	switch (pixel_dimension)
-	{
-	case 1: _color_format = GL_RED; _internal_format = GL_R8; break;
-	case 2: _color_format = GL_RG; _internal_format = GL_RG8; break;
-	case 3: _color_format = GL_RGB; _internal_format = GL_RGB8; break;
-	case 4: _color_format = GL_RGBA; _internal_format = GL_RGBA8; break;
-	default: _color_format = GL_RED; _internal_format = GL_R8; break;
-	}
+kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_face_u16u(
+	const GLushort* const texture_data_ptr, kiwi::cubemap_face face,
+	std::size_t width, std::size_t pixel_dim, kiwi::pixel_mapping mapping) noexcept
+{
+	return load_face(static_cast<const void* const>(texture_data_ptr), face, width, pixel_dim, mapping, kiwi::pixel_format::u16u);
+}
 
-	switch (mapping)
-	{
-	case kiwi::cubemap_mapping::nearest: _mapping = GL_NEAREST; _mapping_min = GL_NEAREST; break;
-	case kiwi::cubemap_mapping::linear: _mapping = GL_LINEAR; _mapping_min = GL_LINEAR; break;
-	case kiwi::cubemap_mapping::nearest_mipmap_nearest: _mapping = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_NEAREST; mipmap = true; break;
-	case kiwi::cubemap_mapping::linear_mipmap_nearest: _mapping = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_NEAREST; mipmap = true; break;
-	case kiwi::cubemap_mapping::nearest_mipmap_linear: _mapping = GL_NEAREST; _mapping_min = GL_NEAREST_MIPMAP_LINEAR; mipmap = true; break;
-	case kiwi::cubemap_mapping::linear_mipmap_linear: _mapping = GL_LINEAR; _mapping_min = GL_LINEAR_MIPMAP_LINEAR; mipmap = true; break;
-	}
+kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_face_u32u(
+	const GLuint* const texture_data_ptr, kiwi::cubemap_face face,
+	std::size_t width, std::size_t pixel_dim, kiwi::pixel_mapping mapping) noexcept
+{
+	return load_face(static_cast<const void* const>(texture_data_ptr), face, width, pixel_dim, mapping, kiwi::pixel_format::u32u);
+}
 
-	switch (face)
-	{
-	case kiwi::cubemap_face::Xp: glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, 0, _internal_format, static_cast<GLsizei>(size_2d[0]), static_cast<GLsizei>(size_2d[1]), 0, _color_format, GL_UNSIGNED_BYTE, texture_data_ptr); break;
-	case kiwi::cubemap_face::Xm: glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, _internal_format, static_cast<GLsizei>(size_2d[0]), static_cast<GLsizei>(size_2d[1]), 0, _color_format, GL_UNSIGNED_BYTE, texture_data_ptr); break;
-	case kiwi::cubemap_face::Yp: glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, 0, _internal_format, static_cast<GLsizei>(size_2d[0]), static_cast<GLsizei>(size_2d[1]), 0, _color_format, GL_UNSIGNED_BYTE, texture_data_ptr); break;
-	case kiwi::cubemap_face::Ym: glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, 0, _internal_format, static_cast<GLsizei>(size_2d[0]), static_cast<GLsizei>(size_2d[1]), 0, _color_format, GL_UNSIGNED_BYTE, texture_data_ptr); break;
-	case kiwi::cubemap_face::Zp: glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, 0, _internal_format, static_cast<GLsizei>(size_2d[0]), static_cast<GLsizei>(size_2d[1]), 0, _color_format, GL_UNSIGNED_BYTE, texture_data_ptr); break;
-	case kiwi::cubemap_face::Zm: glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Y, 0, _internal_format, static_cast<GLsizei>(size_2d[0]), static_cast<GLsizei>(size_2d[1]), 0, _color_format, GL_UNSIGNED_BYTE, texture_data_ptr); break;
-	}
 
-	m_format = kiwi::cubemap_format::u8;
+kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_face_i8u(
+	const char* const texture_data_ptr, kiwi::cubemap_face face,
+	std::size_t width, std::size_t pixel_dim, kiwi::pixel_mapping mapping) noexcept
+{
+	return load_face(static_cast<const void* const>(texture_data_ptr), face, width, pixel_dim, mapping, kiwi::pixel_format::i8u);
+}
 
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, _mapping);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, _mapping_min);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_face_i16u(
+	const GLshort* const texture_data_ptr, kiwi::cubemap_face face,
+	std::size_t width, std::size_t pixel_dim, kiwi::pixel_mapping mapping) noexcept
+{
+	return load_face(static_cast<const void* const>(texture_data_ptr), face, width, pixel_dim, mapping, kiwi::pixel_format::i16u);
+}
 
-	if (mipmap)
-	{
-		glGenerateMipmap(GL_TEXTURE_2D);
-	}
-
-	return *this;
+kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_face_i32u(
+	const GLint* const texture_data_ptr, kiwi::cubemap_face face,
+	std::size_t width, std::size_t pixel_dim, kiwi::pixel_mapping mapping) noexcept
+{
+	return load_face(static_cast<const void* const>(texture_data_ptr), face, width, pixel_dim, mapping, kiwi::pixel_format::i32u);
 }

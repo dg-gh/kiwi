@@ -276,7 +276,7 @@ const char* const kiwi::source::forward_2d_solid_color::fragment_shader() noexce
 	return
 		"	#version 430 core																					\n"
 		"	in vec2 XY;																							\n"
-		"	out vec4 color;																						\n"
+		"	out vec4 out_color;																					\n"
 
 		LIGHTSET_BUFFERS
 
@@ -310,14 +310,14 @@ const char* const kiwi::source::forward_2d_solid_color::fragment_shader() noexce
 		POINTLIGHTS_2D
 		SPOTLIGHTS_2D
 
-		"		color = vec4(0.318310 * (max(diff, u_ambient_light_RGB)											\n"
+		"		out_color = vec4(0.318310 * (max(diff, u_ambient_light_RGB)										\n"
 		"			* vec3(u_RGBA)) + spec, u_RGBA[3]);															\n"
 
-		"		float M = max(max(color[0], color[1]), color[2]);												\n"
+		"		float M = max(max(out_color[0], out_color[1]), out_color[2]);									\n"
 		"		if (M > u_RMEC[3])																				\n"
 		"		{																								\n"
-		"			float m = min(min(min(color[0], color[1]), color[2]), 1.0);									\n"
-		"			color.xyz = m + ((u_RMEC[3] - m) / (M - m)) * (color.xyz - m);								\n"
+		"			float m = min(min(min(out_color[0], out_color[1]), out_color[2]), 1.0);						\n"
+		"			out_color.xyz = m + ((u_RMEC[3] - m) / (M - m)) * (out_color.xyz - m);						\n"
 		"		}																								\n"
 		"	}																									\n"
 		;
@@ -355,7 +355,7 @@ const char* const kiwi::source::forward_2d_color_gradient_vRMEC::fragment_shader
 		"	in vec2 XY;																							\n"
 		"	in vec4 RGBA;																						\n"
 		"	in vec4 RMEC;																						\n"
-		"	out vec4 color;																						\n"
+		"	out vec4 out_color;																					\n"
 
 		LIGHTSET_BUFFERS
 
@@ -386,14 +386,14 @@ const char* const kiwi::source::forward_2d_color_gradient_vRMEC::fragment_shader
 		POINTLIGHTS_2D
 		SPOTLIGHTS_2D
 
-		"		color = vec4(0.318310 * (max(diff, u_ambient_light_RGB)											\n"
+		"		out_color = vec4(0.318310 * (max(diff, u_ambient_light_RGB)										\n"
 		"			* vec3(RGBA)) + spec, RGBA[3]);																\n"
 
-		"		float M = max(max(color[0], color[1]), color[2]);												\n"
+		"		float M = max(max(out_color[0], out_color[1]), out_color[2]);									\n"
 		"		if (M > RMEC[3])																				\n"
 		"		{																								\n"
-		"			float m = min(min(min(color[0], color[1]), color[2]), 1.0);									\n"
-		"			color.xyz = m + ((RMEC[3] - m) / (M - m)) * (vec3(color) - m);								\n"
+		"			float m = min(min(min(out_color[0], out_color[1]), out_color[2]), 1.0);						\n"
+		"			out_color.xyz = m + ((RMEC[3] - m) / (M - m)) * (vec3(out_color) - m);						\n"
 		"		}																								\n"
 		"	}																									\n"
 		;
@@ -431,7 +431,7 @@ const char* const kiwi::source::forward_2d_texture_mRMEC::fragment_shader() noex
 		"	in vec2 XY;																							\n"
 		"	in vec2 UV;																							\n"
 		"	in vec2 UV_lmap;																					\n"
-		"	out vec4 color;																						\n"
+		"	out vec4 out_color;																					\n"
 
 		LIGHTSET_BUFFERS
 
@@ -470,14 +470,14 @@ const char* const kiwi::source::forward_2d_texture_mRMEC::fragment_shader() noex
 		POINTLIGHTS_2D
 		SPOTLIGHTS_2D
 
-		"		color = vec4(0.318310 * (max(diff + vec3(texture(Tx_lmap, UV_lmap)), u_ambient_light_RGB)		\n"
+		"		out_color = vec4(0.318310 * (max(diff + vec3(texture(Tx_lmap, UV_lmap)), u_ambient_light_RGB)	\n"
 		"			* vec3(RGBA)) + spec, RGBA[3]);																\n"
 
-		"		float M = max(max(color[0], color[1]), color[2]);												\n"
+		"		float M = max(max(out_color[0], out_color[1]), out_color[2]);									\n"
 		"		if (M > RMEC[3])																				\n"
 		"		{																								\n"
-		"			float m = min(min(min(color[0], color[1]), color[2]), 1.0);									\n"
-		"			color.xyz = m + ((RMEC[3] - m) / (M - m)) * (color.xyz - m);								\n"
+		"			float m = min(min(min(out_color[0], out_color[1]), out_color[2]), 1.0);						\n"
+		"			out_color.xyz = m + ((RMEC[3] - m) / (M - m)) * (out_color.xyz - m);						\n"
 		"		}																								\n"
 		"	}																									\n"
 		;
@@ -523,7 +523,7 @@ const char* const kiwi::source::forward_2d_normal_mRMEC::fragment_shader() noexc
 		"	in mat2 moved_TB;																					\n"
 		"	in vec2 UV;																							\n"
 		"	in vec2 UV_lmap;																					\n"
-		"	out vec4 color;																						\n"
+		"	out vec4 out_color;																					\n"
 
 		LIGHTSET_BUFFERS
 
@@ -563,15 +563,15 @@ const char* const kiwi::source::forward_2d_normal_mRMEC::fragment_shader() noexc
 		POINTLIGHTS_2D_NORMAL
 		SPOTLIGHTS_2D_NORMAL
 
-		"		color = vec4(0.318310 * (max(diff + vec3(texture(Tx_lmap, UV_lmap)),							\n"
+		"		out_color = vec4(0.318310 * (max(diff + vec3(texture(Tx_lmap, UV_lmap)),						\n"
 		"			(0.5 + 0.5 * dot_NV) * u_ambient_light_RGB)													\n"
 		"			* vec3(RGBA)) + spec, RGBA[3]);																\n"
 
-		"		float M = max(max(color[0], color[1]), color[2]);												\n"
+		"		float M = max(max(out_color[0], out_color[1]), out_color[2]);									\n"
 		"		if (M > RMEC[3])																				\n"
 		"		{																								\n"
-		"			float m = min(min(min(color[0], color[1]), color[2]), 1.0);									\n"
-		"			color.xyz = m + ((RMEC[3] - m) / (M - m)) * (color.xyz - m);								\n"
+		"			float m = min(min(min(out_color[0], out_color[1]), out_color[2]), 1.0);						\n"
+		"			out_color.xyz = m + ((RMEC[3] - m) / (M - m)) * (out_color.xyz - m);						\n"
 		"		}																								\n"
 		"	}																									\n"
 		;

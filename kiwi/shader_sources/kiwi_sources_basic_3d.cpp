@@ -17,12 +17,12 @@ const char* const kiwi::source::basic_3d_solid_color::fragment_shader() noexcept
 {
 	return
 		"	#version 330 core								\n"
-		"	out vec4 color;									\n"
+		"	out vec4 out_color;								\n"
 		"	uniform vec4 u_RGBA;							\n"
 
 		"	void main()										\n"
 		"	{												\n"
-		"		color = u_RGBA;								\n"
+		"		out_color = u_RGBA;							\n"
 		"	}												\n"
 		;
 }
@@ -48,7 +48,7 @@ const char* const kiwi::source::basic_3d_bicolor_point_dist::fragment_shader() n
 	return
 		"	#version 430 core												\n"
 		"	in vec3 moved_XYZ;												\n"
-		"	out vec4 color;													\n"
+		"	out vec4 out_color;												\n"
 		"	uniform vec4 u_near_RGBA;										\n"
 		"	uniform vec4 u_far_RGBA;										\n"
 		"	uniform vec2 u_near_far_dist;									\n"
@@ -59,7 +59,7 @@ const char* const kiwi::source::basic_3d_bicolor_point_dist::fragment_shader() n
 		"		float dist = length(u_point_XYZ - moved_XYZ);				\n"
 		"		float coeff = clamp((dist - u_near_far_dist[0]) /			\n"
 		"			(u_near_far_dist[1] - u_near_far_dist[0]), 0.0, 1.0);	\n"
-		"		color = mix(u_near_RGBA, u_far_RGBA, coeff);				\n"
+		"		out_color = mix(u_near_RGBA, u_far_RGBA, coeff);			\n"
 		"	}																\n"
 		;
 }
@@ -90,7 +90,7 @@ const char* const kiwi::source::basic_3d_bicolor_axis_dir::fragment_shader() noe
 		"	#version 330 core												\n"
 		"	in vec3 _moved_N_dir;											\n"
 		"	in vec3 axis_dir;												\n"
-		"	out vec4 color;													\n"
+		"	out vec4 out_color;												\n"
 		"	uniform vec4 u_front_RGBA;										\n"
 		"	uniform vec4 u_back_RGBA;										\n"
 		"	uniform vec3 u_axis_XYZ;										\n"
@@ -99,7 +99,7 @@ const char* const kiwi::source::basic_3d_bicolor_axis_dir::fragment_shader() noe
 		"	{																\n"
 		"		coeff = 0.5 + 0.5											\n"
 		"			* dot(u_axis_dir, normalize(_moved_N_dir));				\n"
-		"		color = mix(u_back_RGBA, u_front_RGBA, coeff);				\n"
+		"		out_color = mix(u_back_RGBA, u_front_RGBA, coeff);			\n"
 		"	}																\n"
 		;
 }
@@ -129,17 +129,17 @@ const char* const kiwi::source::basic_3d_bicolor_point_dir::fragment_shader() no
 		"	#version 330 core												\n"
 		"	in vec3 moved_XYZ;												\n"
 		"	in vec3 _moved_N_dir;											\n"
-		"	out vec4 color;													\n"
+		"	out vec4 out_color;												\n"
 		"	uniform vec4 u_front_RGBA;										\n"
 		"	uniform vec4 u_side_RGBA;										\n"
 		"	uniform vec3 u_point_XYZ;										\n"
-		
+
 		"	void main()														\n"
 		"	{																\n"
 		"		vec3 view_dir = normalize(moved_XYZ - u_point_XYZ);			\n"
 		"		float coeff = clamp(dot(view_dir, normalize(_moved_N_dir)),	\n"
 		"			0.0, 1.0);												\n"
-		"		color = mix(u_side_RGBA, u_front_RGBA, coeff);				\n"
+		"		out_color = mix(u_side_RGBA, u_front_RGBA, coeff);			\n"
 		"	}																\n"
 		;
 }
@@ -165,11 +165,11 @@ const char* const kiwi::source::basic_3d_color_gradient::fragment_shader() noexc
 	return
 		"	#version 330 core								\n"
 		"	in vec4 RGBA;									\n"
-		"	out vec4 color;									\n"
+		"	out vec4 out_color;								\n"
 
 		"	void main()										\n"
 		"	{												\n"
-		"		color = RGBA;								\n"
+		"		out_color = RGBA;							\n"
 		"	}												\n"
 		;
 }
@@ -195,12 +195,12 @@ const char* const kiwi::source::basic_3d_texture::fragment_shader() noexcept
 	return
 		"	#version 330 core								\n"
 		"	in vec2 UV;										\n"
-		"	out vec4 color;									\n"
+		"	out vec4 out_color;								\n"
 		"	uniform sampler2D Tx;							\n"
 
 		"	void main()										\n"
 		"	{												\n"
-		"		color = texture(Tx, UV);					\n"
+		"		out_color = texture(Tx, UV);				\n"
 		"	}												\n"
 		;
 }
@@ -226,15 +226,15 @@ const char* const kiwi::source::basic_3d_texture_alpha_test::fragment_shader() n
 	return
 		"	#version 330 core								\n"
 		"	in vec2 UV;										\n"
-		"	out vec4 color;									\n"
+		"	out vec4 out_color;								\n"
 		"	uniform sampler2D Tx;							\n"
 		"	uniform float u_alpha_test;						\n"
 
 		"	void main()										\n"
 		"	{												\n"
-		"		color = texture(Tx, UV);					\n"
+		"		out_color = texture(Tx, UV);				\n"
 
-		"		if (color[3] < u_alpha_test)				\n"
+		"		if (out_color[3] < u_alpha_test)			\n"
 		"		{											\n"
 		"			discard;								\n"
 		"		}											\n"
@@ -271,16 +271,16 @@ const char* const kiwi::source::basic_3d_skybox::vertex_shader() noexcept
 const char* const kiwi::source::basic_3d_skybox::fragment_shader() noexcept
 {
 	return
-		
+
 		"	#version 330 core																					\n"
 		"	in vec3 XYZ;																						\n"
-		"	out vec4 color;																						\n"
+		"	out vec4 out_color;																					\n"
 
 		"	uniform samplerCube skybox;																			\n"
 
 		"	void main()																							\n"
 		"	{																									\n"
-		"		color = texture(skybox, XYZ);																	\n"
+		"		out_color = texture(skybox, XYZ);																\n"
 		"	}																									\n"
 		;
 }
@@ -288,24 +288,24 @@ const char* const kiwi::source::basic_3d_skybox::fragment_shader() noexcept
 const char* const kiwi::source::basic_3d_no_shade::vertex_shader() noexcept
 {
 	return
-		"	#version 330 core								\n"
-		"	layout (location = 0) in vec3 in_XYZ;			\n"
-		"	out vec3 XYZ;									\n"
-		"	uniform mat4 u_mvp_M;							\n"
-		"	uniform float u_depth_offset;					\n"
+		"	#version 330 core									\n"
+		"	layout (location = 0) in vec3 in_XYZ;				\n"
+		"	out vec3 XYZ;										\n"
+		"	uniform mat4 u_mvp_M;								\n"
+		"	uniform float u_depth_offset;						\n"
 
-		"	void main()										\n"
-		"	{												\n"
-		"		vec4 position = u_mvp_M * vec4(in_XYZ, 1.0);\n"
-		"		position[2] += u_depth_offset;				\n"
-		"		gl_Position = position;						\n"
-		"	}												\n"
+		"	void main()											\n"
+		"	{													\n"
+		"		vec4 position = u_mvp_M * vec4(in_XYZ, 1.0);	\n"
+		"		position[2] += u_depth_offset;					\n"
+		"		gl_Position = position;							\n"
+		"	}													\n"
 		;
 }
 const char* const kiwi::source::basic_3d_no_shade::fragment_shader() noexcept
 {
 	return
-		"	#version 330 core								\n"
-		"	void main() { }									\n"
+		"	#version 330 core									\n"
+		"	void main() { }										\n"
 		;
 }

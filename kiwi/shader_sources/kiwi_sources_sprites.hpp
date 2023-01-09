@@ -11,19 +11,13 @@ namespace kiwi
 			const char* const fragment_shader() noexcept;
 		}
 
-		namespace solid_color_sprites_split_2d
-		{
-			const char* const vertex_shader() noexcept;
-			const char* const fragment_shader() noexcept;
-		}
-
 		namespace texture_sprites_2d
 		{
 			const char* const vertex_shader() noexcept;
 			const char* const fragment_shader() noexcept;
 		}
 
-		namespace texture_sprites_split_2d
+		namespace texture_array_sprites_2d
 		{
 			const char* const vertex_shader() noexcept;
 			const char* const fragment_shader() noexcept;
@@ -41,12 +35,6 @@ namespace kiwi
 			const char* const fragment_shader() noexcept;
 		}
 
-		namespace solid_color_sprites_split_3d
-		{
-			const char* const vertex_shader() noexcept;
-			const char* const fragment_shader() noexcept;
-		}
-
 		namespace texture_sprite_3d
 		{
 			const char* const vertex_shader() noexcept;
@@ -59,7 +47,7 @@ namespace kiwi
 			const char* const fragment_shader() noexcept;
 		}
 
-		namespace texture_sprites_split_3d
+		namespace texture_array_sprites_3d
 		{
 			const char* const vertex_shader() noexcept;
 			const char* const fragment_shader() noexcept;

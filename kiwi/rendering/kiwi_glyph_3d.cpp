@@ -1176,5 +1176,5 @@ void kiwi::glyph_3d::generate_default_atlas_texture()
 	}
 
 	m_default_atlas_texture.load(ustr.data(), kiwi::size(1330, 18 * m_number_of_default_colors), 4,
-		kiwi::texture_mapping::linear, kiwi::texture_borders::clamp);
+		kiwi::pixel_mapping::linear, kiwi::pixel_wrapping::clamp);
 }

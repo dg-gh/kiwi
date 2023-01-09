@@ -198,8 +198,8 @@ const char* const kiwi::source::forward_3d_solid_color::fragment_shader() noexce
 		"	#version 430 core																					\n"
 		"	in vec3 moved_XYZ;																					\n"
 		"	in vec3 _moved_N_dir;																				\n"
-		"	layout (location = 0) out vec4 color;																\n"
-		"	layout (location = 1) out vec4 normal_vec;															\n"
+		"	layout (location = 0) out vec4 out_color;															\n"
+		"	layout (location = 1) out vec4 out_normal;															\n"
 
 		LIGHTSET_BUFFERS
 
@@ -232,17 +232,17 @@ const char* const kiwi::source::forward_3d_solid_color::fragment_shader() noexce
 		POINTLIGHTS_3D
 		SPOTLIGHTS_3D
 
-		"		color = vec4(0.318310 * (max(diff, (0.5 + 0.5 * dot_NV) * u_ambient_light_RGB)					\n"
+		"		out_color = vec4(0.318310 * (max(diff, (0.5 + 0.5 * dot_NV) * u_ambient_light_RGB)				\n"
 		"			* vec3(u_RGBA)) + spec, u_RGBA[3]);															\n"
 
-		"		float M = max(max(color[0], color[1]), color[2]);												\n"
+		"		float M = max(max(out_color[0], out_color[1]), out_color[2]);									\n"
 		"		if (M > u_RMEC[3])																				\n"
 		"		{																								\n"
-		"			float m = min(min(min(color[0], color[1]), color[2]), 1.0);									\n"
-		"			color.xyz = m + ((u_RMEC[3] - m) / (M - m)) * (color.xyz - m);								\n"
+		"			float m = min(min(min(out_color[0], out_color[1]), out_color[2]), 1.0);						\n"
+		"			out_color.xyz = m + ((u_RMEC[3] - m) / (M - m)) * (out_color.xyz - m);						\n"
 		"		}																								\n"
 
-		"		normal_vec = vec4(moved_N_dir, 1.0);															\n"
+		"		out_normal = vec4(moved_N_dir, 1.0);															\n"
 		"	}																									\n"
 		;
 }
@@ -280,8 +280,8 @@ const char* const kiwi::source::forward_3d_color_gradient::fragment_shader() noe
 		"	in vec3 _moved_N_dir;																				\n"
 		"	in vec4 RGBA;																						\n"
 		"	in vec4 RMEC;																						\n"
-		"	layout (location = 0) out vec4 color;																\n"
-		"	layout (location = 1) out vec4 normal_vec;															\n"
+		"	layout (location = 0) out vec4 out_color;															\n"
+		"	layout (location = 1) out vec4 out_normal;															\n"
 
 		LIGHTSET_BUFFERS
 
@@ -311,17 +311,17 @@ const char* const kiwi::source::forward_3d_color_gradient::fragment_shader() noe
 		POINTLIGHTS_3D
 		SPOTLIGHTS_3D
 
-		"		color = vec4(0.318310 * (max(diff, (0.5 + 0.5 * dot_NV) * u_ambient_light_RGB)					\n"
+		"		out_color = vec4(0.318310 * (max(diff, (0.5 + 0.5 * dot_NV) * u_ambient_light_RGB)				\n"
 		"			* vec3(RGBA)) + spec, RGBA[3]);																\n"
 
-		"		float M = max(max(color[0], color[1]), color[2]);												\n"
+		"		float M = max(max(out_color[0], out_color[1]), out_color[2]);									\n"
 		"		if (M > RMEC[3])																				\n"
 		"		{																								\n"
-		"			float m = min(min(min(color[0], color[1]), color[2]), 1.0);									\n"
-		"			color.xyz = m + ((RMEC[3] - m) / (M - m)) * (vec3(color) - m);								\n"
+		"			float m = min(min(min(out_color[0], out_color[1]), out_color[2]), 1.0);						\n"
+		"			out_color.xyz = m + ((RMEC[3] - m) / (M - m)) * (vec3(out_color) - m);						\n"
 		"		}																								\n"
 
-		"		normal_vec = vec4(moved_N_dir, 1.0);															\n"
+		"		out_normal = vec4(moved_N_dir, 1.0);															\n"
 		"	}																									\n"
 		;
 }
@@ -359,8 +359,8 @@ const char* const kiwi::source::forward_3d_texture::fragment_shader() noexcept
 		"	in vec3 _moved_N_dir;																				\n"
 		"	in vec2 UV;																							\n"
 		"	in vec2 UV_lmap;																					\n"
-		"	layout (location = 0) out vec4 color;																\n"
-		"	layout (location = 1) out vec4 normal_vec;															\n"
+		"	layout (location = 0) out vec4 out_color;															\n"
+		"	layout (location = 1) out vec4 out_normal;															\n"
 
 		LIGHTSET_BUFFERS
 
@@ -398,18 +398,18 @@ const char* const kiwi::source::forward_3d_texture::fragment_shader() noexcept
 		POINTLIGHTS_3D
 		SPOTLIGHTS_3D
 
-		"		color = vec4(0.318310 * (max(diff + vec3(texture(Tx_lmap, UV_lmap)),							\n"
+		"		out_color = vec4(0.318310 * (max(diff + vec3(texture(Tx_lmap, UV_lmap)),						\n"
 		"			(0.5 + 0.5 * dot_NV) * u_ambient_light_RGB)													\n"
 		"			* vec3(RGBA)) + spec, RGBA[3]);																\n"
 
-		"		float M = max(max(color[0], color[1]), color[2]);												\n"
+		"		float M = max(max(out_color[0], out_color[1]), out_color[2]);									\n"
 		"		if (M > RMEC[3])																				\n"
 		"		{																								\n"
-		"			float m = min(min(min(color[0], color[1]), color[2]), 1.0);									\n"
-		"			color.xyz = m + ((RMEC[3] - m) / (M - m)) * (color.xyz - m);								\n"
+		"			float m = min(min(min(out_color[0], out_color[1]), out_color[2]), 1.0);						\n"
+		"			out_color.xyz = m + ((RMEC[3] - m) / (M - m)) * (out_color.xyz - m);						\n"
 		"		}																								\n"
 
-		"		normal_vec = vec4(moved_N_dir, 1.0);															\n"
+		"		out_normal = vec4(moved_N_dir, 1.0);															\n"
 		"	}																									\n"
 		;
 }
@@ -449,8 +449,8 @@ const char* const kiwi::source::forward_3d_normal::fragment_shader() noexcept
 		"	in mat3 moved_TBN;																					\n"
 		"	in vec2 UV;																							\n"
 		"	in vec2 UV_lmap;																					\n"
-		"	layout (location = 0) out vec4 color;																\n"
-		"	layout (location = 1) out vec4 normal_vec;															\n"
+		"	layout (location = 0) out vec4 out_color;															\n"
+		"	layout (location = 1) out vec4 out_normal;															\n"
 
 		LIGHTSET_BUFFERS
 
@@ -490,18 +490,18 @@ const char* const kiwi::source::forward_3d_normal::fragment_shader() noexcept
 		POINTLIGHTS_3D
 		SPOTLIGHTS_3D
 
-		"		color = vec4(0.318310 * (max(diff + vec3(texture(Tx_lmap, UV_lmap)),							\n"
+		"		out_color = vec4(0.318310 * (max(diff + vec3(texture(Tx_lmap, UV_lmap)),						\n"
 		"			(0.5 + 0.5 * dot_NV) * u_ambient_light_RGB)													\n"
 		"			* vec3(RGBA)) + spec, RGBA[3]);																\n"
 
-		"		float M = max(max(color[0], color[1]), color[2]);												\n"
+		"		float M = max(max(out_color[0], out_color[1]), out_color[2]);									\n"
 		"		if (M > RMEC[3])																				\n"
 		"		{																								\n"
-		"			float m = min(min(min(color[0], color[1]), color[2]), 1.0);									\n"
-		"			color.xyz = m + ((RMEC[3] - m) / (M - m)) * (color.xyz - m);								\n"
+		"			float m = min(min(min(out_color[0], out_color[1]), out_color[2]), 1.0);						\n"
+		"			out_color.xyz = m + ((RMEC[3] - m) / (M - m)) * (out_color.xyz - m);						\n"
 		"		}																								\n"
 
-		"		normal_vec = vec4(moved_N_dir, 1.0);															\n"
+		"		out_normal = vec4(moved_N_dir, 1.0);															\n"
 		"	}																									\n"
 		;
 }
@@ -541,8 +541,8 @@ const char* const kiwi::source::forward_3d_parallax::fragment_shader() noexcept
 		"	in mat3 moved_TBN;																					\n"
 		"	in vec2 UV;																							\n"
 		"	in vec2 UV_lmap;																					\n"
-		"	layout (location = 0) out vec4 color;																\n"
-		"	layout (location = 1) out vec4 normal_vec;															\n"
+		"	layout (location = 0) out vec4 out_color;															\n"
+		"	layout (location = 1) out vec4 out_normal;															\n"
 
 		LIGHTSET_BUFFERS
 
@@ -586,18 +586,18 @@ const char* const kiwi::source::forward_3d_parallax::fragment_shader() noexcept
 		POINTLIGHTS_3D
 		SPOTLIGHTS_3D
 
-		"		color = vec4(0.318310 * (max(diff + vec3(texture(Tx_lmap, UV_lmap)),							\n"
+		"		out_color = vec4(0.318310 * (max(diff + vec3(texture(Tx_lmap, UV_lmap)),						\n"
 		"			(0.5 + 0.5 * dot_NV) * u_ambient_light_RGB)													\n"
 		"			* vec3(RGBA)) + spec, RGBA[3]);																\n"
 
-		"		float M = max(max(color[0], color[1]), color[2]);												\n"
+		"		float M = max(max(out_color[0], out_color[1]), out_color[2]);									\n"
 		"		if (M > RMEC[3])																				\n"
 		"		{																								\n"
-		"			float m = min(min(min(color[0], color[1]), color[2]), 1.0);									\n"
-		"			color.xyz = m + ((RMEC[3] - m) / (M - m)) * (color.xyz - m);								\n"
+		"			float m = min(min(min(out_color[0], out_color[1]), out_color[2]), 1.0);						\n"
+		"			out_color.xyz = m + ((RMEC[3] - m) / (M - m)) * (out_color.xyz - m);						\n"
 		"		}																								\n"
 
-		"		normal_vec = vec4(moved_N_dir, 1.0);															\n"
+		"		out_normal = vec4(moved_N_dir, 1.0);															\n"
 		"	}																									\n"
 		;
 }

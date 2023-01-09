@@ -1,7 +1,7 @@
 #include "context/kiwi_looper_1th.hpp"
 
 
-void kiwi::looper_1th::setup()
+void kiwi::looper::setup()
 {
 	// setup buffers, shaders and programs
 	// kiwi::draw_init();
@@ -9,7 +9,7 @@ void kiwi::looper_1th::setup()
 	// kiwi::mouse_init();
 }
 
-void kiwi::looper_1th::loop(GLfloat loop_time_elapsed)
+void kiwi::looper::loop(GLfloat loop_time_elapsed)
 {
 	// kiwi::keyboard::clear_events();
 	// kiwi::mouse::clear_events();
@@ -17,16 +17,16 @@ void kiwi::looper_1th::loop(GLfloat loop_time_elapsed)
 	// display stuff
 }
 
-bool kiwi::looper_1th::exit_condition() { return false; }
+bool kiwi::looper::exit_condition() { return false; }
 
-int kiwi::looper_1th::exit()
+int kiwi::looper::exit()
 {
 	// terminate buffers, shaders and programs
 	// kiwi::draw_terminate();
 	return 0;
 }
 
-bool kiwi::looper_1th::window_resized() noexcept
+bool kiwi::looper::window_resized() noexcept
 {
 	unsigned int temp = kiwi::window_state_counter();
 
@@ -41,7 +41,7 @@ bool kiwi::looper_1th::window_resized() noexcept
 	}
 }
 
-int kiwi::looper_1th::show(const kiwi::size& size_2d, const char* const new_title)
+int kiwi::looper::show(const kiwi::size& size_2d, const char* const new_title)
 {
 	if (!kiwi::context::window_init(size_2d[0], size_2d[1],
 		m_window_resizable,
@@ -116,31 +116,31 @@ int kiwi::looper_1th::show(const kiwi::size& size_2d, const char* const new_titl
 	return result;
 }
 
-kiwi::looper_1th& kiwi::looper_1th::set_window_resizable(bool window_resizable) noexcept
+kiwi::looper& kiwi::looper::set_window_resizable(bool window_resizable) noexcept
 {
 	m_window_resizable = window_resizable;
 	return *this;
 }
 
-kiwi::looper_1th& kiwi::looper_1th::set_aspect_ratio_free(bool free_aspect_ratio) noexcept
+kiwi::looper& kiwi::looper::set_aspect_ratio_free(bool free_aspect_ratio) noexcept
 {
 	m_window_free_ratio = free_aspect_ratio;
 	return *this;
 }
 
-kiwi::looper_1th& kiwi::looper_1th::set_window_fullscreen(bool window_fullscreen) noexcept
+kiwi::looper& kiwi::looper::set_window_fullscreen(bool window_fullscreen) noexcept
 {
 	m_window_fullscreen = window_fullscreen;
 	return *this;
 }
 
-kiwi::looper_1th& kiwi::looper_1th::set_anti_aliasing(bool anti_aliasing_enabled) noexcept
+kiwi::looper& kiwi::looper::set_anti_aliasing(bool anti_aliasing_enabled) noexcept
 {
 	m_window_anti_aliasing = anti_aliasing_enabled;
 	return *this;
 }
 
-kiwi::looper_1th& kiwi::looper_1th::set_timeframe(double new_timeframe) noexcept
+kiwi::looper& kiwi::looper::set_timeframe(double new_timeframe) noexcept
 {
 	if (new_timeframe > 0.0)
 	{
