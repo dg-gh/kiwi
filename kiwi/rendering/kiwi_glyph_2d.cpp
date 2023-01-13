@@ -4,7 +4,7 @@
 
 thread_local unsigned int kiwi::glyph_2d::m_static_instance_count = 0;
 thread_local kiwi::program kiwi::glyph_2d::m_text_program = kiwi::program();
-thread_local kiwi::texture_buffer kiwi::glyph_2d::m_default_atlas_texture = kiwi::texture_buffer();
+thread_local kiwi::texture_2d kiwi::glyph_2d::m_default_atlas_texture = kiwi::texture_2d();
 
 thread_local GLint kiwi::glyph_2d::m_XY_UV_size_location = -1;
 thread_local GLint kiwi::glyph_2d::m_RGBA_location = -1;
@@ -81,7 +81,7 @@ kiwi::glyph_2d& kiwi::glyph_2d::use_default_atlas()
 	return *this;
 }
 
-kiwi::glyph_2d& kiwi::glyph_2d::set_atlas(const kiwi::texture_buffer* const atlas_texture_ptr, std::function<void(const int, const int, GLfloat* ptr)> atlas_function,
+kiwi::glyph_2d& kiwi::glyph_2d::set_atlas(const kiwi::texture_2d* const atlas_texture_ptr, std::function<void(const int, const int, GLfloat* ptr)> atlas_function,
 	const kiwi::UV& UV_size)
 {
 	m_atlas_texture = atlas_texture_ptr;
@@ -92,13 +92,13 @@ kiwi::glyph_2d& kiwi::glyph_2d::set_atlas(const kiwi::texture_buffer* const atla
 	return *this;
 }
 
-kiwi::glyph_2d& kiwi::glyph_2d::set_atlas_texture(const kiwi::texture_buffer* const atlas_texture_ptr)
+kiwi::glyph_2d& kiwi::glyph_2d::set_atlas_texture(const kiwi::texture_2d* const atlas_texture_ptr)
 {
 	m_atlas_texture = atlas_texture_ptr;
 	return *this;
 }
 
-const kiwi::texture_buffer* kiwi::glyph_2d::get_atlas_texture() const noexcept
+const kiwi::texture_2d* kiwi::glyph_2d::get_atlas_texture() const noexcept
 {
 	if (m_atlas_texture != &m_default_atlas_texture)
 	{

@@ -474,7 +474,7 @@ kiwi::_draw_basic_proxy kiwi::_load_basic_2d_proxy::using_color_gradient(const k
 	proxy.m_index_data_ptr = nullptr;
 	return proxy;
 }
-kiwi::_draw_basic_proxy kiwi::_load_basic_2d_proxy::using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture) noexcept
+kiwi::_draw_basic_proxy kiwi::_load_basic_2d_proxy::using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_2d& texture) noexcept
 {
 	vertex_buffer.to_location(0);
 	UV_buffer.to_location(1);
@@ -490,7 +490,7 @@ kiwi::_draw_basic_proxy kiwi::_load_basic_2d_proxy::using_texture(const kiwi::ve
 	return proxy;
 }
 kiwi::_draw_basic_proxy kiwi::_load_basic_2d_proxy::using_texture_alpha_test(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer,
-	const kiwi::texture_buffer& texture, GLfloat alpha_test_value) noexcept
+	const kiwi::texture_2d& texture, GLfloat alpha_test_value) noexcept
 {
 	vertex_buffer.to_location(0);
 	UV_buffer.to_location(1);
@@ -606,7 +606,7 @@ kiwi::_draw_basic_proxy kiwi::_load_basic_3d_proxy::using_color_gradient(const k
 	return proxy;
 }
 kiwi::_draw_basic_proxy kiwi::_load_basic_3d_proxy::using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer,
-	const kiwi::texture_buffer& texture_buffer) noexcept
+	const kiwi::texture_2d& texture_buffer) noexcept
 {
 	vertex_buffer.to_location(0);
 	UV_buffer.to_location(1);
@@ -622,7 +622,7 @@ kiwi::_draw_basic_proxy kiwi::_load_basic_3d_proxy::using_texture(const kiwi::ve
 	return proxy;
 }
 kiwi::_draw_basic_proxy kiwi::_load_basic_3d_proxy::using_texture_alpha_test(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer,
-	const kiwi::texture_buffer& texture_buffer, GLfloat alpha_test_value) noexcept
+	const kiwi::texture_2d& texture_buffer, GLfloat alpha_test_value) noexcept
 {
 	vertex_buffer.to_location(0);
 	UV_buffer.to_location(1);
@@ -702,7 +702,7 @@ kiwi::_draw_instanced_basic_proxy kiwi::_load_basic_3d_proxy::using_solid_color_
 }
 
 kiwi::_draw_basic_proxy kiwi::_load_basic_3d_proxy::using_texture_sprite(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer,
-	const kiwi::texture_buffer& texture_buffer, const GLfloat* const XYZA_ptr,
+	const kiwi::texture_2d& texture_buffer, const GLfloat* const XYZA_ptr,
 	GLfloat alpha_discard, bool depth_scaling, const GLfloat* const mvp_matrix_2d_ptr) noexcept
 {
 	vertex_buffer.to_location(0);

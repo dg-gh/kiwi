@@ -40,8 +40,8 @@ namespace kiwi
 		kiwi::frame_buffer m_frame_buffer_extended;
 		kiwi::frame_buffer m_multisampled_frame_buffer;
 
-		kiwi::texture_buffer m_textures[16];
-		kiwi::texture_buffer m_multisampled_texture;
+		kiwi::texture_2d m_textures[16];
+		kiwi::texture_2d m_multisampled_texture;
 
 		kiwi::render_buffer m_render_buffer;
 		kiwi::render_buffer m_multisampled_render_buffer;

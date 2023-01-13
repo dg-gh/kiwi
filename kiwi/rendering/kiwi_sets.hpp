@@ -1,8 +1,8 @@
-#ifndef KIWI_SETS_HPP
-#define KIWI_SETS_HPP
+#ifndef _KIWI_SETS_HPP
+#define _KIWI_SETS_HPP
 
 #include "context/kiwi_context.hpp"
-#include "buffers/kiwi_buffer_texture.hpp"
+#include "buffers/kiwi_buffer_texture_2d.hpp"
 #include "buffers/kiwi_buffer_texture_array.hpp"
 #include "buffers/kiwi_buffer_storage.hpp"
 #include "header_utils/kiwi_restrict.hpp"
@@ -249,7 +249,7 @@ namespace kiwi
 		const kiwi::UV_set& to_binding(GLuint storage_binding, GLuint texture_binding) const noexcept;
 		std::size_t instance_count() const noexcept;
 
-		kiwi::UV_set& set_atlas(const kiwi::texture_buffer* const atlas_texture_ptr,
+		kiwi::UV_set& set_atlas(const kiwi::texture_2d* const atlas_texture_ptr,
 			std::function<void(const int, GLfloat* ptr)> atlas_function, const kiwi::UV& UV_size) noexcept;
 
 		inline kiwi::UV_loader get_loader(void* ptr) noexcept;
@@ -263,7 +263,7 @@ namespace kiwi
 
 		kiwi::storage_buffer m_storage;
 		std::size_t m_instance_count;
-		const kiwi::texture_buffer* m_atlas_texture_ptr = nullptr;
+		const kiwi::texture_2d* m_atlas_texture_ptr = nullptr;
 		std::function<void(const int, GLfloat*)> m_atlas_coordinate_function;
 		GLfloat m_UV_size[2] = { static_cast<GLfloat>(0) };
 	};
@@ -1515,4 +1515,4 @@ inline GLfloat& kiwi::_spotlight_loader_proxy::edge_max() noexcept
 	return *(m_buffer_ptr + 15);
 }
 
-#endif // KIWI_SETS_HPP
+#endif // _KIWI_SETS_HPP

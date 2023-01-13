@@ -1,9 +1,9 @@
-#ifndef KIWI_BUFFER_FRAME_HPP
-#define KIWI_BUFFER_FRAME_HPP
+#ifndef _KIWI_BUFFER_FRAME_HPP
+#define _KIWI_BUFFER_FRAME_HPP
 
 #include "context/kiwi_context.hpp"
 #include "buffers/kiwi_buffer_pixel.hpp"
-#include "buffers/kiwi_buffer_texture.hpp"
+#include "buffers/kiwi_buffer_texture_2d.hpp"
 #include "buffers/kiwi_buffer_render.hpp"
 
 
@@ -49,7 +49,7 @@ namespace kiwi
 
 		static void exit_frame() noexcept;
 
-		kiwi::frame_buffer& attach_texture(kiwi::texture_buffer* texture_buffer_ptr, std::size_t color_attachment) noexcept;
+		kiwi::frame_buffer& attach_texture(kiwi::texture_2d* texture_buffer_ptr, std::size_t color_attachment) noexcept;
 		kiwi::frame_buffer& detach_texture(std::size_t color_attachment) noexcept;
 		kiwi::frame_buffer& detach_all_textures() noexcept;
 
@@ -179,4 +179,4 @@ namespace kiwi
 	};
 }
 
-#endif // KIWI_BUFFER_FRAME_HPP
+#endif // _KIWI_BUFFER_FRAME_HPP

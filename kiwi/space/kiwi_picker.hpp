@@ -43,7 +43,7 @@ namespace kiwi
 	private:
 
 		kiwi::frame_buffer m_frame_buffer;
-		kiwi::texture_buffer m_texture_buffer;
+		kiwi::texture_2d m_texture_buffer;
 		kiwi::render_buffer m_render_buffer;
 	};
 

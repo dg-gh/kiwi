@@ -222,7 +222,7 @@ namespace kiwi
 		};
 
 		kiwi::vertex_buffer m_lightmap_black_vertex;
-		kiwi::texture_buffer m_lightmap_black;
+		kiwi::texture_2d m_lightmap_black;
 
 		void init_black_lightmap();
 	};
@@ -391,8 +391,8 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_color_gradient(con
 
 // TEXTURE 2D
 
-kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture,
-	const kiwi::texture_buffer& RMEC_texture_buffer) noexcept
+kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_2d& texture,
+	const kiwi::texture_2d& RMEC_texture_buffer) noexcept
 {
 	vertex_buffer.to_location(0);
 	UV_buffer.to_location(4);
@@ -420,8 +420,8 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture(const kiwi
 	return proxy;
 }
 
-kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture,
-	const kiwi::texture_buffer& RMEC_texture_buffer, const kiwi::ECx& ECx) noexcept
+kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_2d& texture,
+	const kiwi::texture_2d& RMEC_texture_buffer, const kiwi::ECx& ECx) noexcept
 {
 	vertex_buffer.to_location(0);
 	UV_buffer.to_location(4);
@@ -447,8 +447,8 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture(const kiwi
 	return proxy;
 }
 
-kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture,
-	const kiwi::texture_buffer& RMEC_texture_buffer, const kiwi::texture_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
+kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_2d& texture,
+	const kiwi::texture_2d& RMEC_texture_buffer, const kiwi::texture_2d& lightmap_UV_buffer, const kiwi::texture_2d& lightmap) noexcept
 {
 	vertex_buffer.to_location(0);
 	UV_buffer.to_location(4);
@@ -476,8 +476,8 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture_lightmappe
 	return proxy;
 }
 
-kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture,
-	const kiwi::texture_buffer& RMEC_texture_buffer, const kiwi::ECx& ECx, const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
+kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_2d& texture,
+	const kiwi::texture_2d& RMEC_texture_buffer, const kiwi::ECx& ECx, const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_2d& lightmap) noexcept
 {
 	vertex_buffer.to_location(0);
 	UV_buffer.to_location(4);
@@ -507,8 +507,8 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_texture_lightmappe
 // NORMAL 2D
 
 kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TB_buffer,
-	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& normal_map,
-	const kiwi::texture_buffer& RMEC_texture_buffer) noexcept
+	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_2d& texture, const kiwi::texture_2d& normal_map,
+	const kiwi::texture_2d& RMEC_texture_buffer) noexcept
 {
 	vertex_buffer.to_location(0);
 	TB_buffer.to_location(1, 0, 2);
@@ -540,8 +540,8 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal(const kiwi:
 }
 
 kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TB_buffer,
-	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& normal_map,
-	const kiwi::texture_buffer& RMEC_texture_buffer, const kiwi::ECx& ECx) noexcept
+	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_2d& texture, const kiwi::texture_2d& normal_map,
+	const kiwi::texture_2d& RMEC_texture_buffer, const kiwi::ECx& ECx) noexcept
 {
 	vertex_buffer.to_location(0);
 	TB_buffer.to_location(1, 0, 2);
@@ -571,8 +571,8 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal(const kiwi:
 }
 
 kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TB_buffer,
-	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& normal_map, const kiwi::texture_buffer& RMEC_texture_buffer,
-	const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
+	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_2d& texture, const kiwi::texture_2d& normal_map, const kiwi::texture_2d& RMEC_texture_buffer,
+	const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_2d& lightmap) noexcept
 {
 	vertex_buffer.to_location(0);
 	TB_buffer.to_location(1, 0, 2);
@@ -604,8 +604,8 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal_lightmapped
 }
 
 kiwi::_draw_forward_proxy kiwi::_load_forward_2d_proxy::using_normal_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TB_buffer,
-	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& normal_map, const kiwi::texture_buffer& RMEC_texture_buffer,
-	const kiwi::ECx& ECx, const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
+	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_2d& texture, const kiwi::texture_2d& normal_map, const kiwi::texture_2d& RMEC_texture_buffer,
+	const kiwi::ECx& ECx, const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_2d& lightmap) noexcept
 {
 	vertex_buffer.to_location(0);
 	TB_buffer.to_location(1, 0, 2);
@@ -688,7 +688,7 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_color_gradient(con
 // TEXTURE 3D
 
 kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
-	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer) noexcept
+	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_2d& texture, const kiwi::texture_2d& RMEC_texture_buffer) noexcept
 {
 	vertex_buffer.to_location(0);
 	N_buffer.to_location(1);
@@ -718,7 +718,7 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture(const kiwi
 }
 
 kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
-	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer, const kiwi::ECx& ECx) noexcept
+	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_2d& texture, const kiwi::texture_2d& RMEC_texture_buffer, const kiwi::ECx& ECx) noexcept
 {
 	vertex_buffer.to_location(0);
 	N_buffer.to_location(1);
@@ -746,8 +746,8 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture(const kiwi
 }
 
 kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
-	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer,
-	const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
+	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_2d& texture, const kiwi::texture_2d& RMEC_texture_buffer,
+	const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_2d& lightmap) noexcept
 {
 	vertex_buffer.to_location(0);
 	N_buffer.to_location(1);
@@ -777,8 +777,8 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture_lightmappe
 }
 
 kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
-	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer, const kiwi::ECx& ECx,
-	const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
+	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_2d& texture, const kiwi::texture_2d& RMEC_texture_buffer, const kiwi::ECx& ECx,
+	const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_2d& lightmap) noexcept
 {
 	vertex_buffer.to_location(0);
 	N_buffer.to_location(1);
@@ -809,8 +809,8 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_texture_lightmappe
 // NORMAL 3D
 
 kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
-	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer,
-	const kiwi::texture_buffer& normal_map) noexcept
+	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_2d& texture, const kiwi::texture_2d& RMEC_texture_buffer,
+	const kiwi::texture_2d& normal_map) noexcept
 {
 	vertex_buffer.to_location(0);
 	TBN_buffer.to_location(1, 0, 3);
@@ -843,8 +843,8 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal(const kiwi:
 }
 
 kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
-	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer, const kiwi::ECx& ECx,
-	const kiwi::texture_buffer& normal_map) noexcept
+	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_2d& texture, const kiwi::texture_2d& RMEC_texture_buffer, const kiwi::ECx& ECx,
+	const kiwi::texture_2d& normal_map) noexcept
 {
 	vertex_buffer.to_location(0);
 	TBN_buffer.to_location(1, 0, 3);
@@ -875,8 +875,8 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal(const kiwi:
 }
 
 kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
-	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer,
-	const kiwi::texture_buffer& normal_map, const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
+	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_2d& texture, const kiwi::texture_2d& RMEC_texture_buffer,
+	const kiwi::texture_2d& normal_map, const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_2d& lightmap) noexcept
 {
 	vertex_buffer.to_location(0);
 	TBN_buffer.to_location(1, 0, 3);
@@ -909,8 +909,8 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal_lightmapped
 }
 
 kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
-	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer, const kiwi::ECx& ECx,
-	const kiwi::texture_buffer& normal_map, const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
+	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_2d& texture, const kiwi::texture_2d& RMEC_texture_buffer, const kiwi::ECx& ECx,
+	const kiwi::texture_2d& normal_map, const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_2d& lightmap) noexcept
 {
 	vertex_buffer.to_location(0);
 	TBN_buffer.to_location(1, 0, 3);
@@ -944,8 +944,8 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_normal_lightmapped
 // PARALLAX 3D
 
 kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
-	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer,
-	const kiwi::texture_buffer& normal_parallax_map, GLfloat parallax_shift_factor) noexcept
+	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_2d& texture, const kiwi::texture_2d& RMEC_texture_buffer,
+	const kiwi::texture_2d& normal_parallax_map, GLfloat parallax_shift_factor) noexcept
 {
 	vertex_buffer.to_location(0);
 	TBN_buffer.to_location(1, 0, 3);
@@ -979,8 +979,8 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax(const kiw
 }
 
 kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
-	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer, const kiwi::ECx& ECx,
-	const kiwi::texture_buffer& normal_parallax_map, GLfloat parallax_shift_factor) noexcept
+	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_2d& texture, const kiwi::texture_2d& RMEC_texture_buffer, const kiwi::ECx& ECx,
+	const kiwi::texture_2d& normal_parallax_map, GLfloat parallax_shift_factor) noexcept
 {
 	vertex_buffer.to_location(0);
 	TBN_buffer.to_location(1, 0, 3);
@@ -1012,9 +1012,9 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax(const kiw
 }
 
 kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
-	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer,
-	const kiwi::texture_buffer& normal_parallax_map, GLfloat parallax_shift_factor,
-	const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
+	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_2d& texture, const kiwi::texture_2d& RMEC_texture_buffer,
+	const kiwi::texture_2d& normal_parallax_map, GLfloat parallax_shift_factor,
+	const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_2d& lightmap) noexcept
 {
 	vertex_buffer.to_location(0);
 	TBN_buffer.to_location(1, 0, 3);
@@ -1048,9 +1048,9 @@ kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax_lightmapp
 }
 
 kiwi::_draw_forward_proxy kiwi::_load_forward_3d_proxy::using_parallax_lightmapped(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& TBN_buffer,
-	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture, const kiwi::texture_buffer& RMEC_texture_buffer, const kiwi::ECx& ECx,
-	const kiwi::texture_buffer& normal_parallax_map, GLfloat parallax_shift_factor,
-	const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_buffer& lightmap) noexcept
+	const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_2d& texture, const kiwi::texture_2d& RMEC_texture_buffer, const kiwi::ECx& ECx,
+	const kiwi::texture_2d& normal_parallax_map, GLfloat parallax_shift_factor,
+	const kiwi::vertex_buffer& lightmap_UV_buffer, const kiwi::texture_2d& lightmap) noexcept
 {
 	vertex_buffer.to_location(0);
 	TBN_buffer.to_location(1, 0, 3);

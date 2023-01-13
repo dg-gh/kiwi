@@ -1,9 +1,9 @@
-#ifndef KIWI_GLYPH_3D_HPP
-#define KIWI_GLYPH_3D_HPP
+#ifndef _KIWI_GLYPH_3D_HPP
+#define _KIWI_GLYPH_3D_HPP
 
 #include "rendering/kiwi_program.hpp"
 #include "buffers/kiwi_buffer_vertex.hpp"
-#include "buffers/kiwi_buffer_texture.hpp"
+#include "buffers/kiwi_buffer_texture_2d.hpp"
 #include "buffers/kiwi_buffer_storage.hpp"
 #include "context/kiwi_context.hpp"
 
@@ -25,10 +25,10 @@ namespace kiwi
 		bool init(std::size_t glyph_capacity);
 
 		kiwi::glyph_3d& use_default_atlas();
-		kiwi::glyph_3d& set_atlas(const kiwi::texture_buffer* const atlas_texture_ptr, std::function<void(const int, const int, GLfloat* ptr)> atlas_function,
+		kiwi::glyph_3d& set_atlas(const kiwi::texture_2d* const atlas_texture_ptr, std::function<void(const int, const int, GLfloat* ptr)> atlas_function,
 			const kiwi::UV& UV_size);
-		kiwi::glyph_3d& set_atlas_texture(const kiwi::texture_buffer* const atlas_texture_ptr);
-		const kiwi::texture_buffer* get_atlas_texture() const noexcept;
+		kiwi::glyph_3d& set_atlas_texture(const kiwi::texture_2d* const atlas_texture_ptr);
+		const kiwi::texture_2d* get_atlas_texture() const noexcept;
 
 		kiwi::glyph_3d& set_origin(GLfloat X, GLfloat Y) noexcept;
 		kiwi::glyph_3d& set_origin(const GLfloat* const XY_ptr) noexcept;
@@ -110,7 +110,7 @@ namespace kiwi
 		thread_local static unsigned int m_static_instance_count;
 
 		thread_local static kiwi::program m_program;
-		thread_local static kiwi::texture_buffer m_default_atlas_texture;
+		thread_local static kiwi::texture_2d m_default_atlas_texture;
 
 		thread_local static GLint m_XY_UV_size_location;
 		thread_local static GLint m_plane_location;
@@ -120,7 +120,7 @@ namespace kiwi
 
 
 		kiwi::storage_buffer m_XY_UV_coordinates;
-		const kiwi::texture_buffer* m_atlas_texture = &m_default_atlas_texture;
+		const kiwi::texture_2d* m_atlas_texture = &m_default_atlas_texture;
 		std::function<void(const int, const int, GLfloat*)> m_atlas_coordinate_function;
 
 		GLfloat m_XY_UV_size[4] = { GL0, GL0, GL0, GL0 };
@@ -151,4 +151,4 @@ namespace kiwi
 	};
 }
 
-#endif // KIWI_GLYPH_3D_HPP
+#endif // _KIWI_GLYPH_3D_HPP

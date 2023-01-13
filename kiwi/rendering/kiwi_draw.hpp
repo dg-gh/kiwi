@@ -1,12 +1,12 @@
-#ifndef KIWI_DRAW_HPP
-#define KIWI_DRAW_HPP
+#ifndef _KIWI_DRAW_HPP
+#define _KIWI_DRAW_HPP
 
 #include "context/kiwi_context.hpp"
 #include "buffers/kiwi_buffer_cubemap.hpp"
 #include "buffers/kiwi_buffer_vertex.hpp"
 #include "buffers/kiwi_buffer_index.hpp"
 #include "buffers/kiwi_buffer_storage.hpp"
-#include "buffers/kiwi_buffer_texture.hpp"
+#include "buffers/kiwi_buffer_texture_2d.hpp"
 #include "rendering/kiwi_program.hpp"
 #include "rendering/kiwi_sets.hpp"
 
@@ -43,9 +43,9 @@ namespace kiwi
 
 		kiwi::_draw_basic_proxy using_solid_color(const kiwi::vertex_buffer& vertex_buffer, const kiwi::RGBA& solid_color) noexcept;
 		kiwi::_draw_basic_proxy using_color_gradient(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& color_vertex_buffer) noexcept;
-		kiwi::_draw_basic_proxy using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture) noexcept;
+		kiwi::_draw_basic_proxy using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_2d& texture) noexcept;
 		kiwi::_draw_basic_proxy using_texture_alpha_test(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer,
-			const kiwi::texture_buffer& texture, GLfloat alpha_test_value) noexcept;
+			const kiwi::texture_2d& texture, GLfloat alpha_test_value) noexcept;
 		kiwi::_draw_basic_proxy using_no_shade(const kiwi::vertex_buffer& vertex_buffer) noexcept;
 
 		kiwi::_draw_instanced_basic_proxy using_solid_color_sprites(const kiwi::vertex_buffer& vertex_buffer,
@@ -69,9 +69,9 @@ namespace kiwi
 
 		kiwi::_draw_basic_proxy using_solid_color(const kiwi::vertex_buffer& vertex_buffer, const kiwi::RGBA& solid_color) noexcept;
 		kiwi::_draw_basic_proxy using_color_gradient(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& color_vertex_buffer) noexcept;
-		kiwi::_draw_basic_proxy using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_buffer& texture_buffer) noexcept;
+		kiwi::_draw_basic_proxy using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_2d& texture_buffer) noexcept;
 		kiwi::_draw_basic_proxy using_texture_alpha_test(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer,
-			const kiwi::texture_buffer& texture_buffer, GLfloat alpha_test_value) noexcept;
+			const kiwi::texture_2d& texture_buffer, GLfloat alpha_test_value) noexcept;
 
 		void using_skybox(const kiwi::cubemap_buffer& skybox_buffer) noexcept;
 		kiwi::_draw_basic_proxy using_no_shade(const kiwi::vertex_buffer& vertex_buffer, GLfloat depth_offset = static_cast<GLfloat>(0)) noexcept;
@@ -82,7 +82,7 @@ namespace kiwi
 			bool depth_scaling = true, const GLfloat* const mvp_matrix_2d_ptr = kiwi::window_matrix_data()) noexcept;
 
 		kiwi::_draw_basic_proxy using_texture_sprite(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer,
-			const kiwi::texture_buffer& texture_buffer, const GLfloat* const XYZA_ptr,
+			const kiwi::texture_2d& texture_buffer, const GLfloat* const XYZA_ptr,
 			GLfloat alpha_discard, bool depth_scaling = true, const GLfloat* const mvp_matrix_2d_ptr = kiwi::window_matrix_data()) noexcept;
 		kiwi::_draw_quad_sprite_proxy using_texture_sprites(const kiwi::XYZA_set& XYZA_set, const kiwi::UV_set& UV_set, const kiwi::XY& XY_size,
 			GLfloat alpha_discard, bool depth_scaling = true, const GLfloat* const mvp_matrix_2d_ptr = kiwi::window_matrix_data()) noexcept;
@@ -347,4 +347,4 @@ namespace kiwi
 	}
 }
 
-#endif // KIWI_DRAW_HPP
+#endif // _KIWI_DRAW_HPP

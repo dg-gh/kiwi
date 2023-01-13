@@ -115,7 +115,7 @@ bool kiwi::bloom::init(kiwi::size screen_size, bool extended, kiwi::texture_samp
 
 		for (std::size_t n = 0; n < 8; n++)
 		{
-			frame.get_frame_buffer().attach_texture(static_cast<kiwi::texture_buffer*>(m_textures) + n, n);
+			frame.get_frame_buffer().attach_texture(static_cast<kiwi::texture_2d*>(m_textures) + n, n);
 		}
 	}
 
@@ -146,7 +146,7 @@ bool kiwi::bloom::init(kiwi::size screen_size, bool extended, kiwi::texture_samp
 
 		for (std::size_t n = 0; n < 8; n++)
 		{
-			frame.get_frame_buffer().attach_texture(static_cast<kiwi::texture_buffer*>(m_textures) + n + 8, n);
+			frame.get_frame_buffer().attach_texture(static_cast<kiwi::texture_2d*>(m_textures) + n + 8, n);
 		}
 	}
 

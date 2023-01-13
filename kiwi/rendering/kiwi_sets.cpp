@@ -313,7 +313,7 @@ std::size_t kiwi::UV_set::instance_count() const noexcept
 {
 	return m_instance_count;
 }
-kiwi::UV_set& kiwi::UV_set::set_atlas(const kiwi::texture_buffer* const atlas_texture_ptr,
+kiwi::UV_set& kiwi::UV_set::set_atlas(const kiwi::texture_2d* const atlas_texture_ptr,
 	std::function<void(const int, GLfloat* ptr)> atlas_function, const kiwi::UV& UV_size) noexcept
 {
 	m_atlas_texture_ptr = atlas_texture_ptr;

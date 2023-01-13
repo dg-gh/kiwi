@@ -278,7 +278,7 @@ void kiwi::frame_buffer::exit_frame() noexcept
 	glViewport(0, 0, static_cast<GLint>(screen_width), static_cast<GLint>(screen_height));
 }
 
-kiwi::frame_buffer& kiwi::frame_buffer::attach_texture(kiwi::texture_buffer* texture_buffer_ptr, std::size_t color_attachment) noexcept
+kiwi::frame_buffer& kiwi::frame_buffer::attach_texture(kiwi::texture_2d* texture_buffer_ptr, std::size_t color_attachment) noexcept
 {
 	if (m_frame_buffer_index == 0)
 	{
