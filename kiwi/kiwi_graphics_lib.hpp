@@ -1,8 +1,8 @@
-#ifndef KIWI_GRAPHICS_LIB_HPP
-#define KIWI_GRAPHICS_LIB_HPP
+#ifndef _KIWI_GRAPHICS_LIB_HPP
+#define _KIWI_GRAPHICS_LIB_HPP
 
 #include "context/kiwi_context.hpp"
-#include "context/kiwi_looper_1th.hpp"
+#include "context/kiwi_looper.hpp"
 #include "context/kiwi_looper_2th.hpp"
 #include "context/kiwi_window.hpp"
 
@@ -41,4 +41,4 @@
 #include "inputs/kiwi_keyboard.hpp"
 #include "inputs/kiwi_mouse.hpp"
 
-#endif // KIWI_GRAPHICS_LIB_HPP
+#endif // _KIWI_GRAPHICS_LIB_HPP
