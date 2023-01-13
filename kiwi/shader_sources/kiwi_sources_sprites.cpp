@@ -393,7 +393,7 @@ const char* const kiwi::source::texture_array_sprites_3d::vertex_shader() noexce
 
 		"	#version 430 core																\n"
 		"	layout (std430, binding = 0) buffer s_XYZA { vec4[] XYZA; };					\n"
-		"	layout (std430, binding = 1) buffer s_Tx_id { int[] Tx_id;	};					\n"
+		"	layout (std430, binding = 1) buffer s_Tx_id { int[] Tx_id; };					\n"
 		"	out vec2 _UV;																	\n"
 		"	out float _Tx_id;																\n"
 		"	uniform mat3 u_mvp_M_2d;														\n"
