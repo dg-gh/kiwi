@@ -1,6 +1,7 @@
 #include "space/kiwi_geom.hpp"
 #include "header_utils/kiwi_simd.hpp"
-
+// #define _KIWI_AVX2_FMA
+// #include <immintrin.h>
 
 kiwi::_load_frame_proxy kiwi::load_geom(kiwi::vertex_buffer& vertex_buffer) noexcept
 {
@@ -58,11 +59,6 @@ void kiwi::make_TB_from_2d_triangles(GLfloat* const _KIWI_RESTRICT TB_ptr, const
 	std::size_t vertex_dim_t3 = 3 * vertex_dim;
 	GLfloat uv_vec[4];
 
-	GLfloat a0;
-	GLfloat b0;
-	GLfloat a1;
-	GLfloat b1;
-
 	for (std::size_t j = 0; j + 2 < vertex_count; j += 3)
 	{
 		uv_vec[0] = *(r + 2) - *r;
@@ -72,10 +68,10 @@ void kiwi::make_TB_from_2d_triangles(GLfloat* const _KIWI_RESTRICT TB_ptr, const
 
 		GLfloat factor = static_cast<GLfloat>(1) / (uv_vec[0] * uv_vec[3] - uv_vec[1] * uv_vec[2]);
 
-		a0 = uv_vec[3] * factor;
-		b0 = -uv_vec[1] * factor;
-		a1 = -uv_vec[2] * factor;
-		b1 = uv_vec[0] * factor;
+		GLfloat a0 = uv_vec[3] * factor;
+		GLfloat b0 = -uv_vec[1] * factor;
+		GLfloat a1 = -uv_vec[2] * factor;
+		GLfloat b1 = uv_vec[0] * factor;
 
 		uv_vec[0] = *(q + 2) - *q;
 		uv_vec[1] = *(q + 3) - *(q + 1);
@@ -100,7 +96,7 @@ void kiwi::make_TB_from_2d_triangles(GLfloat* const _KIWI_RESTRICT TB_ptr, const
 		std::memcpy(p + 4, p, 4 * sizeof(GLfloat));
 		std::memcpy(p + 8, p, 4 * sizeof(GLfloat));
 
-		p += 6; q += vertex_dim_t3; r += 6;
+		p += 12; q += vertex_dim_t3; r += 6;
 	}
 }
 
@@ -113,11 +109,6 @@ void kiwi::make_TB_from_2d_quads(GLfloat* const _KIWI_RESTRICT TB_ptr, const GLf
 	std::size_t vertex_dim_t4 = 4 * vertex_dim;
 	GLfloat uv_vec[4];
 
-	GLfloat a0;
-	GLfloat b0;
-	GLfloat a1;
-	GLfloat b1;
-
 	for (std::size_t j = 0; j + 3 < vertex_count; j += 4)
 	{
 		uv_vec[0] = *(r + 2) - *r;
@@ -127,10 +118,10 @@ void kiwi::make_TB_from_2d_quads(GLfloat* const _KIWI_RESTRICT TB_ptr, const GLf
 
 		GLfloat factor = static_cast<GLfloat>(1) / (uv_vec[0] * uv_vec[3] - uv_vec[1] * uv_vec[2]);
 
-		a0 = uv_vec[3] * factor;
-		b0 = -uv_vec[1] * factor;
-		a1 = -uv_vec[2] * factor;
-		b1 = uv_vec[0] * factor;
+		GLfloat a0 = uv_vec[3] * factor;
+		GLfloat b0 = -uv_vec[1] * factor;
+		GLfloat a1 = -uv_vec[2] * factor;
+		GLfloat b1 = uv_vec[0] * factor;
 
 		uv_vec[0] = *(q + 2) - *q;
 		uv_vec[1] = *(q + 3) - *(q + 1);
@@ -156,38 +147,50 @@ void kiwi::make_TB_from_2d_quads(GLfloat* const _KIWI_RESTRICT TB_ptr, const GLf
 		std::memcpy(p + 8, p, 4 * sizeof(GLfloat));
 		std::memcpy(p + 12, p, 4 * sizeof(GLfloat));
 
-		p += 8; q += vertex_dim_t4; r += 8;
+		p += 16; q += vertex_dim_t4; r += 8;
 	}
 }
 
 void kiwi::make_N_from_3d_triangles_ccw(GLfloat* const _KIWI_RESTRICT N_ptr, const GLfloat* const vertex_ptr, std::size_t vertex_count, std::size_t vertex_dim) noexcept
 {
-#if defined(__AVX2__) && defined(__FMA__)
+#ifdef _KIWI_AVX2_FMA
 	float* p = N_ptr;
 	const float* q = vertex_ptr;
 	std::size_t vertex_dim_t3 = 3 * vertex_dim;
 
-	__m128 u;
-	__m128 v;
-	__m128 w;
+	union { __m128 v; float arr[4]; } varr;
 
-	for (std::size_t j = 0; j + 2 < vertex_count; j += 3)
+	for (std::size_t j = 5; j < vertex_count; j += 3)
 	{
-		w = _mm_loadu_ps(q + 3);
-		u = _mm_sub_ps(w, _mm_loadu_ps(q));
-		v = _mm_sub_ps(_mm_loadu_ps(q + 6), w);
-		w = _mm_fnmadd_ps(_mm_shuffle_ps(u, u, _MM_SHUFFLE(3, 1, 0, 2)),
+		__m128 w = _mm_loadu_ps(q + 3);
+		__m128 u = _mm_sub_ps(w, _mm_loadu_ps(q));
+		__m128 v = _mm_sub_ps(_mm_loadu_ps(q + 6), w);
+		varr.v = _mm_fnmadd_ps(_mm_shuffle_ps(u, u, _MM_SHUFFLE(3, 1, 0, 2)),
 			_mm_shuffle_ps(v, v, _MM_SHUFFLE(3, 0, 2, 1)),
 			_mm_mul_ps(_mm_shuffle_ps(u, u, _MM_SHUFFLE(3, 0, 2, 1)),
 				_mm_shuffle_ps(v, v, _MM_SHUFFLE(3, 1, 0, 2))));
-		_mm_storeu_ps(p, _mm_dp_ps(w, w, 0x7f));
-		w = _mm_mul_ps(w, _mm_set1_ps(1.0f / std::sqrt(*p)));
+		w = _mm_mul_ps(varr.v, _mm_set1_ps(1.0f / std::sqrt(varr.arr[0] * varr.arr[0] + varr.arr[1] * varr.arr[1] + varr.arr[2] * varr.arr[2])));
 		_mm_storeu_ps(p, w);
 
-		std::memcpy(p + 3, p, 3 * sizeof(float));
-		std::memcpy(p + 6, p, 3 * sizeof(float));
+		_mm_storeu_ps(p + 3, w);
+		_mm_storeu_ps(p + 6, w);
 
 		p += 9; q += vertex_dim_t3;
+	}
+	if (vertex_count >= 3)
+	{
+		__m128 w = _mm_loadu_ps(q + 3);
+		__m128 u = _mm_sub_ps(w, _mm_loadu_ps(q));
+		__m128 v = _mm_sub_ps(_mm_setr_ps(*(q + 6), *(q + 7), *(q + 8), 0.0f), w);
+		varr.v = _mm_fnmadd_ps(_mm_shuffle_ps(u, u, _MM_SHUFFLE(3, 1, 0, 2)),
+			_mm_shuffle_ps(v, v, _MM_SHUFFLE(3, 0, 2, 1)),
+			_mm_mul_ps(_mm_shuffle_ps(u, u, _MM_SHUFFLE(3, 0, 2, 1)),
+				_mm_shuffle_ps(v, v, _MM_SHUFFLE(3, 1, 0, 2))));
+		w = _mm_mul_ps(varr.v, _mm_set1_ps(1.0f / std::sqrt(varr.arr[0] * varr.arr[0] + varr.arr[1] * varr.arr[1] + varr.arr[2] * varr.arr[2])));
+		_mm_storeu_ps(p, w);
+
+		_mm_storeu_ps(p + 3, w);
+		std::memcpy(p + 6, p, 3 * sizeof(float));
 	}
 #else
 	GLfloat* p = N_ptr;
@@ -223,32 +226,44 @@ void kiwi::make_N_from_3d_triangles_ccw(GLfloat* const _KIWI_RESTRICT N_ptr, con
 
 void kiwi::make_N_from_3d_triangles_cw(GLfloat* const _KIWI_RESTRICT N_ptr, const GLfloat* const vertex_ptr, std::size_t vertex_count, std::size_t vertex_dim) noexcept
 {
-#if defined(__AVX2__) && defined(__FMA__)
+#ifdef _KIWI_AVX2_FMA
 	float* p = N_ptr;
 	const float* q = vertex_ptr;
 	std::size_t vertex_dim_t3 = 3 * vertex_dim;
 
-	__m128 u;
-	__m128 v;
-	__m128 w;
+	union { __m128 v; float arr[4]; } varr;
 
-	for (std::size_t j = 0; j + 2 < vertex_count; j += 3)
+	for (std::size_t j = 5; j < vertex_count; j += 3)
 	{
-		w = _mm_loadu_ps(q + 3);
-		u = _mm_sub_ps(_mm_loadu_ps(q + 6), w);
-		v = _mm_sub_ps(w, _mm_loadu_ps(q));
-		w = _mm_fnmadd_ps(_mm_shuffle_ps(v, v, _MM_SHUFFLE(3, 1, 0, 2)),
+		__m128 w = _mm_loadu_ps(q + 3);
+		__m128 u = _mm_sub_ps(_mm_loadu_ps(q + 6), w);
+		__m128 v = _mm_sub_ps(w, _mm_loadu_ps(q));
+		varr.v = _mm_fnmadd_ps(_mm_shuffle_ps(v, v, _MM_SHUFFLE(3, 1, 0, 2)),
 			_mm_shuffle_ps(u, u, _MM_SHUFFLE(3, 0, 2, 1)),
 			_mm_mul_ps(_mm_shuffle_ps(v, v, _MM_SHUFFLE(3, 0, 2, 1)),
 				_mm_shuffle_ps(u, u, _MM_SHUFFLE(3, 1, 0, 2))));
-		_mm_storeu_ps(p, _mm_dp_ps(w, w, 0x7f));
-		w = _mm_mul_ps(w, _mm_set1_ps(1.0f / std::sqrt(*p)));
+		w = _mm_mul_ps(varr.v, _mm_set1_ps(1.0f / std::sqrt(varr.arr[0] * varr.arr[0] + varr.arr[1] * varr.arr[1] + varr.arr[2] * varr.arr[2])));
 		_mm_storeu_ps(p, w);
 
-		std::memcpy(p + 3, p, 3 * sizeof(GLfloat));
-		std::memcpy(p + 6, p, 3 * sizeof(GLfloat));
+		_mm_storeu_ps(p + 3, w);
+		_mm_storeu_ps(p + 6, w);
 
 		p += 9; q += vertex_dim_t3;
+	}
+	if (vertex_count >= 3)
+	{
+		__m128 w = _mm_loadu_ps(q + 3);
+		__m128 u = _mm_sub_ps(_mm_setr_ps(*(q + 6), *(q + 7), *(q + 8), 0.0f), w);
+		__m128 v = _mm_sub_ps(w, _mm_loadu_ps(q));
+		varr.v = _mm_fnmadd_ps(_mm_shuffle_ps(v, v, _MM_SHUFFLE(3, 1, 0, 2)),
+			_mm_shuffle_ps(u, u, _MM_SHUFFLE(3, 0, 2, 1)),
+			_mm_mul_ps(_mm_shuffle_ps(v, v, _MM_SHUFFLE(3, 0, 2, 1)),
+				_mm_shuffle_ps(u, u, _MM_SHUFFLE(3, 1, 0, 2))));
+		w = _mm_mul_ps(varr.v, _mm_set1_ps(1.0f / std::sqrt(varr.arr[0] * varr.arr[0] + varr.arr[1] * varr.arr[1] + varr.arr[2] * varr.arr[2])));
+		_mm_storeu_ps(p, w);
+
+		_mm_storeu_ps(p + 3, w);
+		std::memcpy(p + 6, p, 3 * sizeof(GLfloat));
 	}
 #else
 	GLfloat* p = N_ptr;
@@ -284,33 +299,46 @@ void kiwi::make_N_from_3d_triangles_cw(GLfloat* const _KIWI_RESTRICT N_ptr, cons
 
 void kiwi::make_N_from_3d_quads_ccw(GLfloat* const _KIWI_RESTRICT N_ptr, const GLfloat* const vertex_ptr, std::size_t vertex_count, std::size_t vertex_dim) noexcept
 {
-#if defined(__AVX2__) && defined(__FMA__)
+#ifdef _KIWI_AVX2_FMA
 	float* p = N_ptr;
 	const float* q = vertex_ptr;
 	std::size_t vertex_dim_t4 = 4 * vertex_dim;
 
-	__m128 u;
-	__m128 v;
-	__m128 w;
+	union { __m128 v; float arr[4]; } varr;
 
-	for (std::size_t j = 0; j + 3 < vertex_count; j += 4)
+	for (std::size_t j = 7; j < vertex_count; j += 4)
 	{
-		w = _mm_loadu_ps(q + 3);
-		u = _mm_sub_ps(w, _mm_loadu_ps(q));
-		v = _mm_sub_ps(_mm_loadu_ps(q + 6), w);
-		w = _mm_fnmadd_ps(_mm_shuffle_ps(u, u, _MM_SHUFFLE(3, 1, 0, 2)),
+		__m128 w = _mm_loadu_ps(q + 3);
+		__m128 u = _mm_sub_ps(w, _mm_loadu_ps(q));
+		__m128 v = _mm_sub_ps(_mm_loadu_ps(q + 6), w);
+		varr.v = _mm_fnmadd_ps(_mm_shuffle_ps(u, u, _MM_SHUFFLE(3, 1, 0, 2)),
 			_mm_shuffle_ps(v, v, _MM_SHUFFLE(3, 0, 2, 1)),
 			_mm_mul_ps(_mm_shuffle_ps(u, u, _MM_SHUFFLE(3, 0, 2, 1)),
 				_mm_shuffle_ps(v, v, _MM_SHUFFLE(3, 1, 0, 2))));
-		_mm_storeu_ps(p, _mm_dp_ps(w, w, 0x7f));
-		w = _mm_mul_ps(w, _mm_set1_ps(1.0f / std::sqrt(*p)));
+		w = _mm_mul_ps(varr.v, _mm_set1_ps(1.0f / std::sqrt(varr.arr[0] * varr.arr[0] + varr.arr[1] * varr.arr[1] + varr.arr[2] * varr.arr[2])));
 		_mm_storeu_ps(p, w);
 
-		std::memcpy(p + 3, p, 3 * sizeof(float));
-		std::memcpy(p + 6, p, 3 * sizeof(float));
-		std::memcpy(p + 9, p, 3 * sizeof(float));
+		_mm_storeu_ps(p + 3, w);
+		_mm_storeu_ps(p + 6, w);
+		_mm_storeu_ps(p + 9, w);
 
 		p += 12; q += vertex_dim_t4;
+	}
+	if (vertex_count >= 4)
+	{
+		__m128 w = _mm_loadu_ps(q + 3);
+		__m128 u = _mm_sub_ps(w, _mm_loadu_ps(q));
+		__m128 v = _mm_sub_ps(_mm_setr_ps(*(q + 6), *(q + 7), *(q + 8), 0.0f), w);
+		varr.v = _mm_fnmadd_ps(_mm_shuffle_ps(u, u, _MM_SHUFFLE(3, 1, 0, 2)),
+			_mm_shuffle_ps(v, v, _MM_SHUFFLE(3, 0, 2, 1)),
+			_mm_mul_ps(_mm_shuffle_ps(u, u, _MM_SHUFFLE(3, 0, 2, 1)),
+				_mm_shuffle_ps(v, v, _MM_SHUFFLE(3, 1, 0, 2))));
+		w = _mm_mul_ps(varr.v, _mm_set1_ps(1.0f / std::sqrt(varr.arr[0] * varr.arr[0] + varr.arr[1] * varr.arr[1] + varr.arr[2] * varr.arr[2])));
+		_mm_storeu_ps(p, w);
+
+		_mm_storeu_ps(p + 3, w);
+		_mm_storeu_ps(p + 6, w);
+		std::memcpy(p + 9, p, 3 * sizeof(GLfloat));
 	}
 #else
 	GLfloat* p = N_ptr;
@@ -347,33 +375,46 @@ void kiwi::make_N_from_3d_quads_ccw(GLfloat* const _KIWI_RESTRICT N_ptr, const G
 
 void kiwi::make_N_from_3d_quads_cw(GLfloat* const _KIWI_RESTRICT N_ptr, const GLfloat* const vertex_ptr, std::size_t vertex_count, std::size_t vertex_dim) noexcept
 {
-#if defined(__AVX2__) && defined(__FMA__)
+#ifdef _KIWI_AVX2_FMA
 	float* p = N_ptr;
 	const float* q = vertex_ptr;
 	std::size_t vertex_dim_t4 = 4 * vertex_dim;
 
-	__m128 u;
-	__m128 v;
-	__m128 w;
+	union { __m128 v; float arr[4]; } varr;
 
-	for (std::size_t j = 0; j + 3 < vertex_count; j += 4)
+	for (std::size_t j = 7; j < vertex_count; j += 4)
 	{
-		w = _mm_loadu_ps(q + 3);
-		u = _mm_sub_ps(_mm_loadu_ps(q + 6), w);
-		v = _mm_sub_ps(w, _mm_loadu_ps(q));
-		w = _mm_fnmadd_ps(_mm_shuffle_ps(v, v, _MM_SHUFFLE(3, 1, 0, 2)),
+		__m128 w = _mm_loadu_ps(q + 3);
+		__m128 u = _mm_sub_ps(_mm_loadu_ps(q + 6), w);
+		__m128 v = _mm_sub_ps(w, _mm_loadu_ps(q));
+		varr.v = _mm_fnmadd_ps(_mm_shuffle_ps(v, v, _MM_SHUFFLE(3, 1, 0, 2)),
 			_mm_shuffle_ps(u, u, _MM_SHUFFLE(3, 0, 2, 1)),
 			_mm_mul_ps(_mm_shuffle_ps(v, v, _MM_SHUFFLE(3, 0, 2, 1)),
 				_mm_shuffle_ps(u, u, _MM_SHUFFLE(3, 1, 0, 2))));
-		_mm_storeu_ps(p, _mm_dp_ps(w, w, 0x7f));
-		w = _mm_mul_ps(w, _mm_set1_ps(1.0f / std::sqrt(*p)));
+		w = _mm_mul_ps(varr.v, _mm_set1_ps(1.0f / std::sqrt(varr.arr[0] * varr.arr[0] + varr.arr[1] * varr.arr[1] + varr.arr[2] * varr.arr[2])));
 		_mm_storeu_ps(p, w);
 
-		std::memcpy(p + 3, p, 3 * sizeof(GLfloat));
-		std::memcpy(p + 6, p, 3 * sizeof(GLfloat));
-		std::memcpy(p + 9, p, 3 * sizeof(GLfloat));
+		_mm_storeu_ps(p + 3, w);
+		_mm_storeu_ps(p + 6, w);
+		_mm_storeu_ps(p + 9, w);
 
 		p += 12; q += vertex_dim_t4;
+	}
+	if (vertex_count >= 4)
+	{
+		__m128 w = _mm_loadu_ps(q + 3);
+		__m128 u = _mm_sub_ps(_mm_setr_ps(*(q + 6), *(q + 7), *(q + 8), 0.0f), w);
+		__m128 v = _mm_sub_ps(w, _mm_loadu_ps(q));
+		varr.v = _mm_fnmadd_ps(_mm_shuffle_ps(v, v, _MM_SHUFFLE(3, 1, 0, 2)),
+			_mm_shuffle_ps(u, u, _MM_SHUFFLE(3, 0, 2, 1)),
+			_mm_mul_ps(_mm_shuffle_ps(v, v, _MM_SHUFFLE(3, 0, 2, 1)),
+				_mm_shuffle_ps(u, u, _MM_SHUFFLE(3, 1, 0, 2))));
+		w = _mm_mul_ps(varr.v, _mm_set1_ps(1.0f / std::sqrt(varr.arr[0] * varr.arr[0] + varr.arr[1] * varr.arr[1] + varr.arr[2] * varr.arr[2])));
+		_mm_storeu_ps(p, w);
+
+		_mm_storeu_ps(p + 3, w);
+		_mm_storeu_ps(p + 6, w);
+		std::memcpy(p + 9, p, 3 * sizeof(GLfloat));
 	}
 #else
 	GLfloat* p = N_ptr;
@@ -411,59 +452,87 @@ void kiwi::make_N_from_3d_quads_cw(GLfloat* const _KIWI_RESTRICT N_ptr, const GL
 void kiwi::make_TBN_from_3d_triangles_ccw(GLfloat* const _KIWI_RESTRICT TBN_ptr, const GLfloat* const vertex_ptr, const GLfloat* const uv_ptr,
 	std::size_t vertex_count, std::size_t vertex_dim) noexcept
 {
-#if defined(__AVX2__) && defined(__FMA__)
+#ifdef _KIWI_AVX2_FMA
 	float* p = TBN_ptr;
 	const float* q = vertex_ptr;
 	const float* r = uv_ptr;
 	std::size_t vertex_dim_t3 = 3 * vertex_dim;
 
-	float ut[4];
+	union { __m128 v; float arr[4]; } varr;
 
-	__m128 u;
-	__m128 v;
-	__m128 w;
-	__m128 a0;
-	__m128 b0;
-	__m128 a1;
-	__m128 b1;
-
-	for (std::size_t j = 0; j + 2 < vertex_count; j += 3)
+	for (std::size_t j = 5; j < vertex_count; j += 3)
 	{
-		_mm_storeu_ps(static_cast<float*>(ut), _mm_sub_ps(_mm_loadu_ps(r + 2), _mm_loadu_ps(r)));
+		varr.v = _mm_sub_ps(_mm_loadu_ps(r + 2), _mm_loadu_ps(r));
+		varr.v = _mm_mul_ps(varr.v, _mm_set1_ps(1.0f / (varr.arr[0] * varr.arr[3] - varr.arr[1] * varr.arr[2])));
 
-		float factor = 1.0f / (ut[0] * ut[3] - ut[1] * ut[2]);
+		__m128 a0 = _mm_set1_ps(varr.arr[3]);
+		__m128 b0 = _mm_set1_ps(-varr.arr[1]);
+		__m128 a1 = _mm_set1_ps(-varr.arr[2]);
+		__m128 b1 = _mm_set1_ps(varr.arr[0]);
 
-		a0 = _mm_set1_ps(ut[3] * factor);
-		b0 = _mm_set1_ps(-ut[1] * factor);
-		a1 = _mm_set1_ps(-ut[2] * factor);
-		b1 = _mm_set1_ps(ut[0] * factor);
+		__m128 w = _mm_loadu_ps(q + 3);
+		__m128 u = _mm_sub_ps(w, _mm_loadu_ps(q));
+		__m128 v = _mm_sub_ps(_mm_loadu_ps(q + 6), w);
 
-		w = _mm_loadu_ps(q + 3);
-		u = _mm_sub_ps(w, _mm_loadu_ps(q));
-		v = _mm_sub_ps(_mm_loadu_ps(q + 6), w);
-
-		w = _mm_fmadd_ps(b0, v, _mm_mul_ps(a0, u));
-		_mm_storeu_ps(p, _mm_dp_ps(w, w, 0x7f));
-		w = _mm_mul_ps(w, _mm_set1_ps(1.0f / std::sqrt(*p)));
+		varr.v = _mm_fmadd_ps(b0, v, _mm_mul_ps(a0, u));
+		w = _mm_mul_ps(varr.v, _mm_set1_ps(1.0f / std::sqrt(varr.arr[0] * varr.arr[0] + varr.arr[1] * varr.arr[1] + varr.arr[2] * varr.arr[2])));
 		_mm_storeu_ps(p, w);
 
-		w = _mm_fmadd_ps(b1, v, _mm_mul_ps(a1, u));
-		_mm_storeu_ps(p + 3, _mm_dp_ps(w, w, 0x7f));
-		w = _mm_mul_ps(w, _mm_set1_ps(1.0f / std::sqrt(*(p + 3))));
+		varr.v = _mm_fmadd_ps(b1, v, _mm_mul_ps(a1, u));
+		w = _mm_mul_ps(varr.v, _mm_set1_ps(1.0f / std::sqrt(varr.arr[0] * varr.arr[0] + varr.arr[1] * varr.arr[1] + varr.arr[2] * varr.arr[2])));
 		_mm_storeu_ps(p + 3, w);
 
-		w = _mm_fnmadd_ps(_mm_shuffle_ps(u, u, _MM_SHUFFLE(3, 1, 0, 2)),
+		varr.v = _mm_fnmadd_ps(_mm_shuffle_ps(u, u, _MM_SHUFFLE(3, 1, 0, 2)),
 			_mm_shuffle_ps(v, v, _MM_SHUFFLE(3, 0, 2, 1)),
 			_mm_mul_ps(_mm_shuffle_ps(u, u, _MM_SHUFFLE(3, 0, 2, 1)),
 				_mm_shuffle_ps(v, v, _MM_SHUFFLE(3, 1, 0, 2))));
-		_mm_storeu_ps(p + 6, _mm_dp_ps(w, w, 0x7f));
-		w = _mm_mul_ps(w, _mm_set1_ps(1.0f / std::sqrt(*(p + 6))));
+		w = _mm_mul_ps(varr.v, _mm_set1_ps(1.0f / std::sqrt(varr.arr[0] * varr.arr[0] + varr.arr[1] * varr.arr[1] + varr.arr[2] * varr.arr[2])));
 		_mm_storeu_ps(p + 6, w);
 
-		std::memcpy(p + 9, p, 9 * sizeof(float));
-		std::memcpy(p + 18, p, 9 * sizeof(float));
+		__m256 cp = _mm256_loadu_ps(p);
+		float cplast = *(p + 8);
+		_mm256_storeu_ps(p + 9, cp);
+		*(p + 17) = cplast;
+		_mm256_storeu_ps(p + 18, cp);
+		*(p + 26) = cplast;
 
 		p += 27; q += vertex_dim_t3; r += 6;
+	}
+	if (vertex_count >= 3)
+	{
+		varr.v = _mm_sub_ps(_mm_loadu_ps(r + 2), _mm_loadu_ps(r));
+		varr.v = _mm_mul_ps(varr.v, _mm_set1_ps(1.0f / (varr.arr[0] * varr.arr[3] - varr.arr[1] * varr.arr[2])));
+
+		__m128 a0 = _mm_set1_ps(varr.arr[3]);
+		__m128 b0 = _mm_set1_ps(-varr.arr[1]);
+		__m128 a1 = _mm_set1_ps(-varr.arr[2]);
+		__m128 b1 = _mm_set1_ps(varr.arr[0]);
+
+		__m128 w = _mm_loadu_ps(q + 3);
+		__m128 u = _mm_sub_ps(w, _mm_loadu_ps(q));
+		__m128 v = _mm_sub_ps(_mm_setr_ps(*(q + 6), *(q + 7), *(q + 8), 0.0f), w);
+
+		varr.v = _mm_fmadd_ps(b0, v, _mm_mul_ps(a0, u));
+		w = _mm_mul_ps(varr.v, _mm_set1_ps(1.0f / std::sqrt(varr.arr[0] * varr.arr[0] + varr.arr[1] * varr.arr[1] + varr.arr[2] * varr.arr[2])));
+		_mm_storeu_ps(p, w);
+
+		varr.v = _mm_fmadd_ps(b1, v, _mm_mul_ps(a1, u));
+		w = _mm_mul_ps(varr.v, _mm_set1_ps(1.0f / std::sqrt(varr.arr[0] * varr.arr[0] + varr.arr[1] * varr.arr[1] + varr.arr[2] * varr.arr[2])));
+		_mm_storeu_ps(p + 3, w);
+
+		varr.v = _mm_fnmadd_ps(_mm_shuffle_ps(u, u, _MM_SHUFFLE(3, 1, 0, 2)),
+			_mm_shuffle_ps(v, v, _MM_SHUFFLE(3, 0, 2, 1)),
+			_mm_mul_ps(_mm_shuffle_ps(u, u, _MM_SHUFFLE(3, 0, 2, 1)),
+				_mm_shuffle_ps(v, v, _MM_SHUFFLE(3, 1, 0, 2))));
+		w = _mm_mul_ps(varr.v, _mm_set1_ps(1.0f / std::sqrt(varr.arr[0] * varr.arr[0] + varr.arr[1] * varr.arr[1] + varr.arr[2] * varr.arr[2])));
+		_mm_storeu_ps(p + 6, w);
+
+		__m256 cp = _mm256_loadu_ps(p);
+		float cplast = *(p + 8);
+		_mm256_storeu_ps(p + 9, cp);
+		*(p + 17) = cplast;
+		_mm256_storeu_ps(p + 18, cp);
+		*(p + 26) = cplast;
 	}
 #else
 	GLfloat* p = TBN_ptr;
@@ -471,10 +540,6 @@ void kiwi::make_TBN_from_3d_triangles_ccw(GLfloat* const _KIWI_RESTRICT TBN_ptr,
 	const GLfloat* r = uv_ptr;
 	std::size_t vertex_dim_t3 = 3 * vertex_dim;
 
-	GLfloat a0;
-	GLfloat b0;
-	GLfloat a1;
-	GLfloat b1;
 	GLfloat ut[4];
 	GLfloat vt[3];
 
@@ -487,10 +552,10 @@ void kiwi::make_TBN_from_3d_triangles_ccw(GLfloat* const _KIWI_RESTRICT TBN_ptr,
 
 		GLfloat factor = static_cast<GLfloat>(1) / (ut[0] * ut[3] - ut[1] * ut[2]);
 
-		a0 = ut[3] * factor;
-		b0 = -ut[1] * factor;
-		a1 = -ut[2] * factor;
-		b1 = ut[0] * factor;
+		GLfloat a0 = ut[3] * factor;
+		GLfloat b0 = -ut[1] * factor;
+		GLfloat a1 = -ut[2] * factor;
+		GLfloat b1 = ut[0] * factor;
 
 		ut[0] = *(q + 3) - *q;
 		ut[1] = *(q + 4) - *(q + 1);
@@ -541,59 +606,87 @@ void kiwi::make_TBN_from_3d_triangles_ccw(GLfloat* const _KIWI_RESTRICT TBN_ptr,
 void kiwi::make_TBN_from_3d_triangles_cw(GLfloat* const _KIWI_RESTRICT TBN_ptr, const GLfloat* const vertex_ptr, const GLfloat* const uv_ptr,
 	std::size_t vertex_count, std::size_t vertex_dim) noexcept
 {
-#if defined(__AVX2__) && defined(__FMA__)
+#ifdef _KIWI_AVX2_FMA
 	float* p = TBN_ptr;
 	const float* q = vertex_ptr;
 	const float* r = uv_ptr;
 	std::size_t vertex_dim_t3 = 3 * vertex_dim;
 
-	float ut[4];
+	union { __m128 v; float arr[4]; } varr;
 
-	__m128 u;
-	__m128 v;
-	__m128 w;
-	__m128 a0;
-	__m128 b0;
-	__m128 a1;
-	__m128 b1;
-
-	for (std::size_t j = 0; j + 2 < vertex_count; j += 3)
+	for (std::size_t j = 5; j < vertex_count; j += 3)
 	{
-		_mm_storeu_ps(static_cast<float*>(ut), _mm_sub_ps(_mm_loadu_ps(r + 2), _mm_loadu_ps(r)));
+		varr.v = _mm_sub_ps(_mm_loadu_ps(r + 2), _mm_loadu_ps(r));
+		varr.v = _mm_mul_ps(varr.v, _mm_set1_ps(static_cast<GLfloat>(1) / (varr.arr[0] * varr.arr[3] - varr.arr[1] * varr.arr[2])));
 
-		float factor = static_cast<GLfloat>(1) / (ut[0] * ut[3] - ut[1] * ut[2]);
+		__m128 a0 = _mm_set1_ps(varr.arr[3]);
+		__m128 b0 = _mm_set1_ps(-varr.arr[1]);
+		__m128 a1 = _mm_set1_ps(-varr.arr[2]);
+		__m128 b1 = _mm_set1_ps(varr.arr[0]);
 
-		a0 = _mm_set1_ps(ut[3] * factor);
-		b0 = _mm_set1_ps(-ut[1] * factor);
-		a1 = _mm_set1_ps(-ut[2] * factor);
-		b1 = _mm_set1_ps(ut[0] * factor);
+		__m128 w = _mm_loadu_ps(q + 3);
+		__m128 u = _mm_sub_ps(w, _mm_loadu_ps(q));
+		__m128 v = _mm_sub_ps(_mm_loadu_ps(q + 6), w);
 
-		w = _mm_loadu_ps(q + 3);
-		u = _mm_sub_ps(w, _mm_loadu_ps(q));
-		v = _mm_sub_ps(_mm_loadu_ps(q + 6), w);
-
-		w = _mm_fmadd_ps(b0, v, _mm_mul_ps(a0, u));
-		_mm_storeu_ps(p, _mm_dp_ps(w, w, 0x7f));
-		w = _mm_mul_ps(w, _mm_set1_ps(1.0f / std::sqrt(*p)));
+		varr.v = _mm_fmadd_ps(b0, v, _mm_mul_ps(a0, u));
+		w = _mm_mul_ps(varr.v, _mm_set1_ps(1.0f / std::sqrt(varr.arr[0] * varr.arr[0] + varr.arr[1] * varr.arr[1] + varr.arr[2] * varr.arr[2])));
 		_mm_storeu_ps(p, w);
 
-		w = _mm_fmadd_ps(b1, v, _mm_mul_ps(a1, u));
-		_mm_storeu_ps(p + 3, _mm_dp_ps(w, w, 0x7f));
-		w = _mm_mul_ps(w, _mm_set1_ps(1.0f / std::sqrt(*(p + 3))));
+		varr.v = _mm_fmadd_ps(b1, v, _mm_mul_ps(a1, u));
+		w = _mm_mul_ps(varr.v, _mm_set1_ps(1.0f / std::sqrt(varr.arr[0] * varr.arr[0] + varr.arr[1] * varr.arr[1] + varr.arr[2] * varr.arr[2])));
 		_mm_storeu_ps(p + 3, w);
 
-		w = _mm_fnmadd_ps(_mm_shuffle_ps(u, u, _MM_SHUFFLE(3, 0, 2, 1)),
+		varr.v = _mm_fnmadd_ps(_mm_shuffle_ps(u, u, _MM_SHUFFLE(3, 0, 2, 1)),
 			_mm_shuffle_ps(v, v, _MM_SHUFFLE(3, 1, 0, 2)),
 			_mm_mul_ps(_mm_shuffle_ps(u, u, _MM_SHUFFLE(3, 1, 0, 2)),
 				_mm_shuffle_ps(v, v, _MM_SHUFFLE(3, 0, 2, 1))));
-		_mm_storeu_ps(p + 6, _mm_dp_ps(w, w, 0x7f));
-		w = _mm_mul_ps(w, _mm_set1_ps(1.0f / std::sqrt(*(p + 6))));
+		w = _mm_mul_ps(varr.v, _mm_set1_ps(1.0f / std::sqrt(varr.arr[0] * varr.arr[0] + varr.arr[1] * varr.arr[1] + varr.arr[2] * varr.arr[2])));
 		_mm_storeu_ps(p + 6, w);
 
-		std::memcpy(p + 9, p, 9 * sizeof(float));
-		std::memcpy(p + 18, p, 9 * sizeof(float));
+		__m256 cp = _mm256_loadu_ps(p);
+		float cplast = *(p + 8);
+		_mm256_storeu_ps(p + 9, cp);
+		*(p + 17) = cplast;
+		_mm256_storeu_ps(p + 18, cp);
+		*(p + 26) = cplast;
 
 		p += 27; q += vertex_dim_t3; r += 6;
+	}
+	if (vertex_count >= 3)
+	{
+		varr.v = _mm_sub_ps(_mm_loadu_ps(r + 2), _mm_loadu_ps(r));
+		varr.v = _mm_mul_ps(varr.v, _mm_set1_ps(static_cast<GLfloat>(1) / (varr.arr[0] * varr.arr[3] - varr.arr[1] * varr.arr[2])));
+
+		__m128 a0 = _mm_set1_ps(varr.arr[3]);
+		__m128 b0 = _mm_set1_ps(-varr.arr[1]);
+		__m128 a1 = _mm_set1_ps(-varr.arr[2]);
+		__m128 b1 = _mm_set1_ps(varr.arr[0]);
+
+		__m128 w = _mm_loadu_ps(q + 3);
+		__m128 u = _mm_sub_ps(w, _mm_loadu_ps(q));
+		__m128 v = _mm_sub_ps(_mm_setr_ps(*(q + 6), *(q + 7), *(q + 8), 0.0f), w);
+
+		varr.v = _mm_fmadd_ps(b0, v, _mm_mul_ps(a0, u));
+		w = _mm_mul_ps(varr.v, _mm_set1_ps(1.0f / std::sqrt(varr.arr[0] * varr.arr[0] + varr.arr[1] * varr.arr[1] + varr.arr[2] * varr.arr[2])));
+		_mm_storeu_ps(p, w);
+
+		varr.v = _mm_fmadd_ps(b1, v, _mm_mul_ps(a1, u));
+		w = _mm_mul_ps(varr.v, _mm_set1_ps(1.0f / std::sqrt(varr.arr[0] * varr.arr[0] + varr.arr[1] * varr.arr[1] + varr.arr[2] * varr.arr[2])));
+		_mm_storeu_ps(p + 3, w);
+
+		varr.v = _mm_fnmadd_ps(_mm_shuffle_ps(u, u, _MM_SHUFFLE(3, 0, 2, 1)),
+			_mm_shuffle_ps(v, v, _MM_SHUFFLE(3, 1, 0, 2)),
+			_mm_mul_ps(_mm_shuffle_ps(u, u, _MM_SHUFFLE(3, 1, 0, 2)),
+				_mm_shuffle_ps(v, v, _MM_SHUFFLE(3, 0, 2, 1))));
+		w = _mm_mul_ps(varr.v, _mm_set1_ps(1.0f / std::sqrt(varr.arr[0] * varr.arr[0] + varr.arr[1] * varr.arr[1] + varr.arr[2] * varr.arr[2])));
+		_mm_storeu_ps(p + 6, w);
+
+		__m256 cp = _mm256_loadu_ps(p);
+		float cplast = *(p + 8);
+		_mm256_storeu_ps(p + 9, cp);
+		*(p + 17) = cplast;
+		_mm256_storeu_ps(p + 18, cp);
+		*(p + 26) = cplast;
 	}
 #else
 	GLfloat* p = TBN_ptr;
@@ -601,10 +694,6 @@ void kiwi::make_TBN_from_3d_triangles_cw(GLfloat* const _KIWI_RESTRICT TBN_ptr, 
 	const GLfloat* r = uv_ptr;
 	std::size_t vertex_dim_t3 = 3 * vertex_dim;
 
-	GLfloat a0;
-	GLfloat b0;
-	GLfloat a1;
-	GLfloat b1;
 	GLfloat ut[4];
 	GLfloat vt[3];
 
@@ -617,10 +706,10 @@ void kiwi::make_TBN_from_3d_triangles_cw(GLfloat* const _KIWI_RESTRICT TBN_ptr, 
 
 		GLfloat factor = static_cast<GLfloat>(1) / (ut[0] * ut[3] - ut[1] * ut[2]);
 
-		a0 = ut[3] * factor;
-		b0 = -ut[1] * factor;
-		a1 = -ut[2] * factor;
-		b1 = ut[0] * factor;
+		GLfloat a0 = ut[3] * factor;
+		GLfloat b0 = -ut[1] * factor;
+		GLfloat a1 = -ut[2] * factor;
+		GLfloat b1 = ut[0] * factor;
 
 		ut[0] = *(q + 3) - *(q);
 		ut[1] = *(q + 4) - *(q + 1);
@@ -671,60 +760,91 @@ void kiwi::make_TBN_from_3d_triangles_cw(GLfloat* const _KIWI_RESTRICT TBN_ptr, 
 void kiwi::make_TBN_from_3d_quads_cw(GLfloat* const _KIWI_RESTRICT TBN_ptr, const GLfloat* const vertex_ptr, const GLfloat* const uv_ptr,
 	std::size_t vertex_count, std::size_t vertex_dim) noexcept
 {
-#if defined(__AVX2__) && defined(__FMA__)
+#ifdef _KIWI_AVX2_FMA
 	float* p = TBN_ptr;
 	const float* q = vertex_ptr;
 	const float* r = uv_ptr;
 	std::size_t vertex_dim_t4 = 4 * vertex_dim;
 
-	float ut[4];
+	union { __m128 v; float arr[4]; } varr;
 
-	__m128 u;
-	__m128 v;
-	__m128 w;
-	__m128 a0;
-	__m128 b0;
-	__m128 a1;
-	__m128 b1;
-
-	for (std::size_t j = 0; j + 3 < vertex_count; j += 4)
+	for (std::size_t j = 7; j < vertex_count; j += 4)
 	{
-		_mm_storeu_ps(static_cast<float*>(ut), _mm_sub_ps(_mm_loadu_ps(r + 2), _mm_loadu_ps(r)));
+		varr.v = _mm_sub_ps(_mm_loadu_ps(r + 2), _mm_loadu_ps(r));		
+		varr.v = _mm_mul_ps(varr.v, _mm_set1_ps(static_cast<GLfloat>(1) / (varr.arr[0] * varr.arr[3] - varr.arr[1] * varr.arr[2])));
 
-		float factor = static_cast<GLfloat>(1) / (ut[0] * ut[3] - ut[1] * ut[2]);
+		__m128 a0 = _mm_set1_ps(varr.arr[3]);
+		__m128 b0 = _mm_set1_ps(-varr.arr[1]);
+		__m128 a1 = _mm_set1_ps(-varr.arr[2]);
+		__m128 b1 = _mm_set1_ps(varr.arr[0]);
 
-		a0 = _mm_set1_ps(ut[3] * factor);
-		b0 = _mm_set1_ps(-ut[1] * factor);
-		a1 = _mm_set1_ps(-ut[2] * factor);
-		b1 = _mm_set1_ps(ut[0] * factor);
+		__m128 w = _mm_loadu_ps(q + 3);
+		__m128 u = _mm_sub_ps(w, _mm_loadu_ps(q));
+		__m128 v = _mm_sub_ps(_mm_loadu_ps(q + 6), w);
 
-		w = _mm_loadu_ps(q + 3);
-		u = _mm_sub_ps(w, _mm_loadu_ps(q));
-		v = _mm_sub_ps(_mm_loadu_ps(q + 6), w);
-
-		w = _mm_fmadd_ps(b0, v, _mm_mul_ps(a0, u));
-		_mm_storeu_ps(p, _mm_dp_ps(w, w, 0x7f));
-		w = _mm_mul_ps(w, _mm_set1_ps(1.0f / std::sqrt(*p)));
+		varr.v = _mm_fmadd_ps(b0, v, _mm_mul_ps(a0, u));
+		w = _mm_mul_ps(varr.v, _mm_set1_ps(1.0f / std::sqrt(varr.arr[0] * varr.arr[0] + varr.arr[1] * varr.arr[1] + varr.arr[2] * varr.arr[2])));
 		_mm_storeu_ps(p, w);
 
-		w = _mm_fmadd_ps(b1, v, _mm_mul_ps(a1, u));
-		_mm_storeu_ps(p + 3, _mm_dp_ps(w, w, 0x7f));
-		w = _mm_mul_ps(w, _mm_set1_ps(1.0f / std::sqrt(*(p + 3))));
+		varr.v = _mm_fmadd_ps(b1, v, _mm_mul_ps(a1, u));
+		w = _mm_mul_ps(varr.v, _mm_set1_ps(1.0f / std::sqrt(varr.arr[0] * varr.arr[0] + varr.arr[1] * varr.arr[1] + varr.arr[2] * varr.arr[2])));
 		_mm_storeu_ps(p + 3, w);
 
-		w = _mm_fnmadd_ps(_mm_shuffle_ps(u, u, _MM_SHUFFLE(3, 0, 2, 1)),
+		varr.v = _mm_fnmadd_ps(_mm_shuffle_ps(u, u, _MM_SHUFFLE(3, 0, 2, 1)),
 			_mm_shuffle_ps(v, v, _MM_SHUFFLE(3, 1, 0, 2)),
 			_mm_mul_ps(_mm_shuffle_ps(u, u, _MM_SHUFFLE(3, 1, 0, 2)),
 				_mm_shuffle_ps(v, v, _MM_SHUFFLE(3, 0, 2, 1))));
-		_mm_storeu_ps(p + 6, _mm_dp_ps(w, w, 0x7f));
-		w = _mm_mul_ps(w, _mm_set1_ps(1.0f / std::sqrt(*(p + 6))));
+		w = _mm_mul_ps(varr.v, _mm_set1_ps(1.0f / std::sqrt(varr.arr[0] * varr.arr[0] + varr.arr[1] * varr.arr[1] + varr.arr[2] * varr.arr[2])));
 		_mm_storeu_ps(p + 6, w);
 
-		std::memcpy(p + 9, p, 9 * sizeof(float));
-		std::memcpy(p + 18, p, 9 * sizeof(float));
-		std::memcpy(p + 27, p, 9 * sizeof(float));
+		__m256 cp = _mm256_loadu_ps(p);
+		float cplast = *(p + 8);
+		_mm256_storeu_ps(p + 9, cp);
+		*(p + 17) = cplast;
+		_mm256_storeu_ps(p + 18, cp);
+		*(p + 26) = cplast;
+		_mm256_storeu_ps(p + 27, cp);
+		*(p + 35) = cplast;
 
 		p += 36; q += vertex_dim_t4; r += 8;
+	}
+	if (vertex_count >= 4)
+	{
+		varr.v = _mm_sub_ps(_mm_loadu_ps(r + 2), _mm_loadu_ps(r));
+		varr.v = _mm_mul_ps(varr.v, _mm_set1_ps(static_cast<GLfloat>(1) / (varr.arr[0] * varr.arr[3] - varr.arr[1] * varr.arr[2])));
+
+		__m128 a0 = _mm_set1_ps(varr.arr[3]);
+		__m128 b0 = _mm_set1_ps(-varr.arr[1]);
+		__m128 a1 = _mm_set1_ps(-varr.arr[2]);
+		__m128 b1 = _mm_set1_ps(varr.arr[0]);
+
+		__m128 w = _mm_loadu_ps(q + 3);
+		__m128 u = _mm_sub_ps(w, _mm_loadu_ps(q));
+		__m128 v = _mm_sub_ps(_mm_setr_ps(*(q + 6), *(q + 7), *(q + 8), 0.0f), w);
+
+		varr.v = _mm_fmadd_ps(b0, v, _mm_mul_ps(a0, u));
+		w = _mm_mul_ps(varr.v, _mm_set1_ps(1.0f / std::sqrt(varr.arr[0] * varr.arr[0] + varr.arr[1] * varr.arr[1] + varr.arr[2] * varr.arr[2])));
+		_mm_storeu_ps(p, w);
+
+		varr.v = _mm_fmadd_ps(b1, v, _mm_mul_ps(a1, u));
+		w = _mm_mul_ps(varr.v, _mm_set1_ps(1.0f / std::sqrt(varr.arr[0] * varr.arr[0] + varr.arr[1] * varr.arr[1] + varr.arr[2] * varr.arr[2])));
+		_mm_storeu_ps(p + 3, w);
+
+		varr.v = _mm_fnmadd_ps(_mm_shuffle_ps(u, u, _MM_SHUFFLE(3, 0, 2, 1)),
+			_mm_shuffle_ps(v, v, _MM_SHUFFLE(3, 1, 0, 2)),
+			_mm_mul_ps(_mm_shuffle_ps(u, u, _MM_SHUFFLE(3, 1, 0, 2)),
+				_mm_shuffle_ps(v, v, _MM_SHUFFLE(3, 0, 2, 1))));
+		w = _mm_mul_ps(varr.v, _mm_set1_ps(1.0f / std::sqrt(varr.arr[0] * varr.arr[0] + varr.arr[1] * varr.arr[1] + varr.arr[2] * varr.arr[2])));
+		_mm_storeu_ps(p + 6, w);
+
+		__m256 cp = _mm256_loadu_ps(p);
+		float cplast = *(p + 8);
+		_mm256_storeu_ps(p + 9, cp);
+		*(p + 17) = cplast;
+		_mm256_storeu_ps(p + 18, cp);
+		*(p + 26) = cplast;
+		_mm256_storeu_ps(p + 27, cp);
+		*(p + 35) = cplast;
 	}
 #else
 	GLfloat* p = TBN_ptr;
@@ -732,10 +852,6 @@ void kiwi::make_TBN_from_3d_quads_cw(GLfloat* const _KIWI_RESTRICT TBN_ptr, cons
 	const GLfloat* r = uv_ptr;
 	std::size_t vertex_dim_t4 = 4 * vertex_dim;
 
-	GLfloat a0;
-	GLfloat b0;
-	GLfloat a1;
-	GLfloat b1;
 	GLfloat ut[4];
 	GLfloat vt[3];
 
@@ -748,10 +864,10 @@ void kiwi::make_TBN_from_3d_quads_cw(GLfloat* const _KIWI_RESTRICT TBN_ptr, cons
 
 		GLfloat factor = static_cast<GLfloat>(1) / (ut[0] * ut[3] - ut[1] * ut[2]);
 
-		a0 = ut[3] * factor;
-		b0 = -ut[1] * factor;
-		a1 = -ut[2] * factor;
-		b1 = ut[0] * factor;
+		GLfloat a0 = ut[3] * factor;
+		GLfloat b0 = -ut[1] * factor;
+		GLfloat a1 = -ut[2] * factor;
+		GLfloat b1 = ut[0] * factor;
 
 		ut[0] = *(q + 3) - *(q);
 		ut[1] = *(q + 4) - *(q + 1);
@@ -803,60 +919,91 @@ void kiwi::make_TBN_from_3d_quads_cw(GLfloat* const _KIWI_RESTRICT TBN_ptr, cons
 void kiwi::make_TBN_from_3d_quads_ccw(GLfloat* const _KIWI_RESTRICT TBN_ptr, const GLfloat* const vertex_ptr, const GLfloat* const uv_ptr,
 	std::size_t vertex_count, std::size_t vertex_dim) noexcept
 {
-#if defined(__AVX2__) && defined(__FMA__)
+#ifdef _KIWI_AVX2_FMA
 	float* p = TBN_ptr;
 	const float* q = vertex_ptr;
 	const float* r = uv_ptr;
 	std::size_t vertex_dim_t4 = 4 * vertex_dim;
 
-	float ut[4];
+	union { __m128 v; float arr[4]; } varr;
 
-	__m128 u;
-	__m128 v;
-	__m128 w;
-	__m128 a0;
-	__m128 b0;
-	__m128 a1;
-	__m128 b1;
-
-	for (std::size_t j = 0; j + 3 < vertex_count; j += 4)
+	for (std::size_t j = 7; j < vertex_count; j += 4)
 	{
-		_mm_storeu_ps(static_cast<float*>(ut), _mm_sub_ps(_mm_loadu_ps(r + 2), _mm_loadu_ps(r)));
+		varr.v = _mm_sub_ps(_mm_loadu_ps(r + 2), _mm_loadu_ps(r));		
+		varr.v = _mm_mul_ps(varr.v, _mm_set1_ps(static_cast<GLfloat>(1) / (varr.arr[0] * varr.arr[3] - varr.arr[1] * varr.arr[2])));
 
-		float factor = 1.0f / (ut[0] * ut[3] - ut[1] * ut[2]);
+		__m128 a0 = _mm_set1_ps(varr.arr[3]);
+		__m128 b0 = _mm_set1_ps(-varr.arr[1]);
+		__m128 a1 = _mm_set1_ps(-varr.arr[2]);
+		__m128 b1 = _mm_set1_ps(varr.arr[0]);
 
-		a0 = _mm_set1_ps(ut[3] * factor);
-		b0 = _mm_set1_ps(-ut[1] * factor);
-		a1 = _mm_set1_ps(-ut[2] * factor);
-		b1 = _mm_set1_ps(ut[0] * factor);
+		__m128 w = _mm_loadu_ps(q + 3);
+		__m128 u = _mm_sub_ps(w, _mm_loadu_ps(q));
+		__m128 v = _mm_sub_ps(_mm_loadu_ps(q + 6), w);
 
-		w = _mm_loadu_ps(q + 3);
-		u = _mm_sub_ps(w, _mm_loadu_ps(q));
-		v = _mm_sub_ps(_mm_loadu_ps(q + 6), w);
-
-		w = _mm_fmadd_ps(b0, v, _mm_mul_ps(a0, u));
-		_mm_storeu_ps(p, _mm_dp_ps(w, w, 0x7f));
-		w = _mm_mul_ps(w, _mm_set1_ps(1.0f / std::sqrt(*p)));
+		varr.v = _mm_fmadd_ps(b0, v, _mm_mul_ps(a0, u));
+		w = _mm_mul_ps(varr.v, _mm_set1_ps(1.0f / std::sqrt(varr.arr[0] * varr.arr[0] + varr.arr[1] * varr.arr[1] + varr.arr[2] * varr.arr[2])));
 		_mm_storeu_ps(p, w);
 
-		w = _mm_fmadd_ps(b1, v, _mm_mul_ps(a1, u));
-		_mm_storeu_ps(p + 3, _mm_dp_ps(w, w, 0x7f));
-		w = _mm_mul_ps(w, _mm_set1_ps(1.0f / std::sqrt(*(p + 3))));
+		varr.v = _mm_fmadd_ps(b1, v, _mm_mul_ps(a1, u));
+		w = _mm_mul_ps(varr.v, _mm_set1_ps(1.0f / std::sqrt(varr.arr[0] * varr.arr[0] + varr.arr[1] * varr.arr[1] + varr.arr[2] * varr.arr[2])));
 		_mm_storeu_ps(p + 3, w);
 
-		w = _mm_fnmadd_ps(_mm_shuffle_ps(u, u, _MM_SHUFFLE(3, 1, 0, 2)),
+		varr.v = _mm_fnmadd_ps(_mm_shuffle_ps(u, u, _MM_SHUFFLE(3, 1, 0, 2)),
 			_mm_shuffle_ps(v, v, _MM_SHUFFLE(3, 0, 2, 1)),
 			_mm_mul_ps(_mm_shuffle_ps(u, u, _MM_SHUFFLE(3, 0, 2, 1)),
 				_mm_shuffle_ps(v, v, _MM_SHUFFLE(3, 1, 0, 2))));
-		_mm_storeu_ps(p + 6, _mm_dp_ps(w, w, 0x7f));
-		w = _mm_mul_ps(w, _mm_set1_ps(1.0f / std::sqrt(*(p + 6))));
+		w = _mm_mul_ps(varr.v, _mm_set1_ps(1.0f / std::sqrt(varr.arr[0] * varr.arr[0] + varr.arr[1] * varr.arr[1] + varr.arr[2] * varr.arr[2])));
 		_mm_storeu_ps(p + 6, w);
 
-		std::memcpy(p + 9, p, 9 * sizeof(float));
-		std::memcpy(p + 18, p, 9 * sizeof(float));
-		std::memcpy(p + 27, p, 9 * sizeof(float));
+		__m256 cp = _mm256_loadu_ps(p);
+		float cplast = *(p + 8);
+		_mm256_storeu_ps(p + 9, cp);
+		*(p + 17) = cplast;
+		_mm256_storeu_ps(p + 18, cp);
+		*(p + 26) = cplast;
+		_mm256_storeu_ps(p + 27, cp);
+		*(p + 35) = cplast;
 
 		p += 36; q += vertex_dim_t4; r += 8;
+	}
+	if (vertex_count >= 4)
+	{
+		varr.v = _mm_sub_ps(_mm_loadu_ps(r + 2), _mm_loadu_ps(r));
+		varr.v = _mm_mul_ps(varr.v, _mm_set1_ps(static_cast<GLfloat>(1) / (varr.arr[0] * varr.arr[3] - varr.arr[1] * varr.arr[2])));
+
+		__m128 a0 = _mm_set1_ps(varr.arr[3]);
+		__m128 b0 = _mm_set1_ps(-varr.arr[1]);
+		__m128 a1 = _mm_set1_ps(-varr.arr[2]);
+		__m128 b1 = _mm_set1_ps(varr.arr[0]);
+
+		__m128 w = _mm_loadu_ps(q + 3);
+		__m128 u = _mm_sub_ps(w, _mm_loadu_ps(q));
+		__m128 v = _mm_sub_ps(_mm_setr_ps(*(q + 6), *(q + 7), *(q + 8), 0.0f), w);
+
+		varr.v = _mm_fmadd_ps(b0, v, _mm_mul_ps(a0, u));
+		w = _mm_mul_ps(varr.v, _mm_set1_ps(1.0f / std::sqrt(varr.arr[0] * varr.arr[0] + varr.arr[1] * varr.arr[1] + varr.arr[2] * varr.arr[2])));
+		_mm_storeu_ps(p, w);
+
+		varr.v = _mm_fmadd_ps(b1, v, _mm_mul_ps(a1, u));
+		w = _mm_mul_ps(varr.v, _mm_set1_ps(1.0f / std::sqrt(varr.arr[0] * varr.arr[0] + varr.arr[1] * varr.arr[1] + varr.arr[2] * varr.arr[2])));
+		_mm_storeu_ps(p + 3, w);
+
+		varr.v = _mm_fnmadd_ps(_mm_shuffle_ps(u, u, _MM_SHUFFLE(3, 1, 0, 2)),
+			_mm_shuffle_ps(v, v, _MM_SHUFFLE(3, 0, 2, 1)),
+			_mm_mul_ps(_mm_shuffle_ps(u, u, _MM_SHUFFLE(3, 0, 2, 1)),
+				_mm_shuffle_ps(v, v, _MM_SHUFFLE(3, 1, 0, 2))));
+		w = _mm_mul_ps(varr.v, _mm_set1_ps(1.0f / std::sqrt(varr.arr[0] * varr.arr[0] + varr.arr[1] * varr.arr[1] + varr.arr[2] * varr.arr[2])));
+		_mm_storeu_ps(p + 6, w);
+
+		__m256 cp = _mm256_loadu_ps(p);
+		float cplast = *(p + 8);
+		_mm256_storeu_ps(p + 9, cp);
+		*(p + 17) = cplast;
+		_mm256_storeu_ps(p + 18, cp);
+		*(p + 26) = cplast;
+		_mm256_storeu_ps(p + 27, cp);
+		*(p + 35) = cplast;
 	}
 #else
 	GLfloat* p = TBN_ptr;
@@ -864,10 +1011,6 @@ void kiwi::make_TBN_from_3d_quads_ccw(GLfloat* const _KIWI_RESTRICT TBN_ptr, con
 	const GLfloat* r = uv_ptr;
 	std::size_t vertex_dim_t4 = 4 * vertex_dim;
 
-	GLfloat a0;
-	GLfloat b0;
-	GLfloat a1;
-	GLfloat b1;
 	GLfloat ut[4];
 	GLfloat vt[3];
 
@@ -880,10 +1023,10 @@ void kiwi::make_TBN_from_3d_quads_ccw(GLfloat* const _KIWI_RESTRICT TBN_ptr, con
 
 		GLfloat factor = static_cast<GLfloat>(1) / (ut[0] * ut[3] - ut[1] * ut[2]);
 
-		a0 = ut[3] * factor;
-		b0 = -ut[1] * factor;
-		a1 = -ut[2] * factor;
-		b1 = ut[0] * factor;
+		GLfloat a0 = ut[3] * factor;
+		GLfloat b0 = -ut[1] * factor;
+		GLfloat a1 = -ut[2] * factor;
+		GLfloat b1 = ut[0] * factor;
 
 		ut[0] = *(q + 3) - *q;
 		ut[1] = *(q + 4) - *(q + 1);
