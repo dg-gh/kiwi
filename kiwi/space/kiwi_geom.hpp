@@ -1,5 +1,5 @@
-#ifndef KIWI_GEOM_HPP
-#define KIWI_GEOM_HPP
+#ifndef _KIWI_GEOM_HPP
+#define _KIWI_GEOM_HPP
 
 #include "kiwi_includes.hpp"
 #include "buffers/kiwi_buffer_vertex.hpp"
@@ -166,4 +166,4 @@ template <class _Allocator> inline void kiwi::_load_frame_proxy::TBN_from_3d_qua
 	m_buffer_ptr->load(temp.data(), vertex_count, 9);
 }
 
-#endif // KIWI_GEOM_HPP
+#endif // _KIWI_GEOM_HPP
