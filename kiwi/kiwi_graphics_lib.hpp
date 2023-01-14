@@ -11,7 +11,7 @@
 #include "buffers/kiwi_buffer_index.hpp"
 #include "buffers/kiwi_buffer_storage.hpp"
 #include "buffers/kiwi_buffer_texture_2d.hpp"
-#include "buffers/kiwi_buffer_texture_array.hpp"
+#include "buffers/kiwi_buffer_texture_2d_array.hpp"
 #include "buffers/kiwi_buffer_vertex.hpp"
 
 #include "rendering/kiwi_bloom.hpp"

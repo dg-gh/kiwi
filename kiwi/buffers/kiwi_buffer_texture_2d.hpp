@@ -1,5 +1,5 @@
-#ifndef _KIWI_BUFFER_TEXTURE_HPP
-#define _KIWI_BUFFER_TEXTURE_HPP
+#ifndef _KIWI_BUFFER_TEXTURE_2D_HPP
+#define _KIWI_BUFFER_TEXTURE_2D_HPP
 
 #include "context/kiwi_context.hpp"
 #include "buffers/kiwi_buffer_pixel.hpp"
@@ -104,4 +104,4 @@ namespace kiwi
 	};
 }
 
-#endif // _KIWI_BUFFER_TEXTURE_HPP
+#endif // _KIWI_BUFFER_TEXTURE_2D_HPP

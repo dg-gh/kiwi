@@ -1,7 +1,7 @@
-#include "buffers/kiwi_buffer_texture_array.hpp"
+#include "buffers/kiwi_buffer_texture_2d_array.hpp"
 #include "header_utils/kiwi_glcall.hpp"
 
-kiwi::texture_array_buffer::texture_array_buffer() noexcept
+kiwi::texture_2d_array::texture_2d_array() noexcept
 {
 	m_buffer_index = 0;
 	m_pixel_buffer_type = kiwi::pixel_buffer_type::texture_2d;
@@ -12,7 +12,7 @@ kiwi::texture_array_buffer::texture_array_buffer() noexcept
 	m_format = kiwi::pixel_format::u8;
 }
 
-kiwi::texture_array_buffer::texture_array_buffer(kiwi::texture_array_buffer&& rhs) noexcept
+kiwi::texture_2d_array::texture_2d_array(kiwi::texture_2d_array&& rhs) noexcept
 {
 	m_buffer_index = rhs.m_buffer_index;
 	m_pixel_buffer_type = kiwi::pixel_buffer_type::texture_2d;
@@ -30,7 +30,7 @@ kiwi::texture_array_buffer::texture_array_buffer(kiwi::texture_array_buffer&& rh
 	rhs.m_format = kiwi::pixel_format::u8;
 }
 
-kiwi::texture_array_buffer& kiwi::texture_array_buffer::operator=(kiwi::texture_array_buffer&& rhs) noexcept
+kiwi::texture_2d_array& kiwi::texture_2d_array::operator=(kiwi::texture_2d_array&& rhs) noexcept
 {
 	if (m_buffer_index != 0)
 	{
@@ -54,7 +54,7 @@ kiwi::texture_array_buffer& kiwi::texture_array_buffer::operator=(kiwi::texture_
 	return *this;
 }
 
-kiwi::texture_array_buffer::~texture_array_buffer()
+kiwi::texture_2d_array::~texture_2d_array()
 {
 	if (m_buffer_index != 0)
 	{
@@ -62,7 +62,7 @@ kiwi::texture_array_buffer::~texture_array_buffer()
 	}
 }
 
-kiwi::texture_array_buffer& kiwi::texture_array_buffer::new_id() noexcept
+kiwi::texture_2d_array& kiwi::texture_2d_array::new_id() noexcept
 {
 	if (m_buffer_index != 0)
 	{
@@ -73,7 +73,7 @@ kiwi::texture_array_buffer& kiwi::texture_array_buffer::new_id() noexcept
 	return *this;
 }
 
-kiwi::texture_array_buffer& kiwi::texture_array_buffer::delete_id() noexcept
+kiwi::texture_2d_array& kiwi::texture_2d_array::delete_id() noexcept
 {
 	if (m_buffer_index != 0)
 	{
@@ -88,7 +88,7 @@ kiwi::texture_array_buffer& kiwi::texture_array_buffer::delete_id() noexcept
 	return *this;
 }
 
-kiwi::texture_array_buffer& kiwi::texture_array_buffer::bind() noexcept
+kiwi::texture_2d_array& kiwi::texture_2d_array::bind() noexcept
 {
 	if (m_buffer_index == 0)
 	{
@@ -99,18 +99,18 @@ kiwi::texture_array_buffer& kiwi::texture_array_buffer::bind() noexcept
 	return *this;
 }
 
-const kiwi::texture_array_buffer& kiwi::texture_array_buffer::bind() const noexcept
+const kiwi::texture_2d_array& kiwi::texture_2d_array::bind() const noexcept
 {
 	_KIWI_GLCALL(glBindTexture(GL_TEXTURE_2D_ARRAY, m_buffer_index));
 	return *this;
 }
 
-void kiwi::texture_array_buffer::unbind() noexcept
+void kiwi::texture_2d_array::unbind() noexcept
 {
 	_KIWI_GLCALL(glBindTexture(GL_TEXTURE_2D_ARRAY, 0));
 }
 
-kiwi::texture_array_buffer& kiwi::texture_array_buffer::allocate(kiwi::pixel_format format, kiwi::size size_2d,
+kiwi::texture_2d_array& kiwi::texture_2d_array::allocate(kiwi::pixel_format format, kiwi::size size_2d,
 	std::size_t layer_count, std::size_t pixel_dim,
 	kiwi::pixel_mapping mapping, kiwi::pixel_wrapping wrapping) noexcept
 {
@@ -157,7 +157,7 @@ kiwi::texture_array_buffer& kiwi::texture_array_buffer::allocate(kiwi::pixel_for
 	return *this;
 }
 
-kiwi::texture_array_buffer& kiwi::texture_array_buffer::load(const void* const texture_array_data_ptr) noexcept
+kiwi::texture_2d_array& kiwi::texture_2d_array::load(const void* const texture_array_data_ptr) noexcept
 {
 	if (m_buffer_index != 0)
 	{
@@ -178,7 +178,7 @@ kiwi::texture_array_buffer& kiwi::texture_array_buffer::load(const void* const t
 	return *this;
 }
 
-kiwi::texture_array_buffer& kiwi::texture_array_buffer::load(const void* const texture_array_data_ptr,
+kiwi::texture_2d_array& kiwi::texture_2d_array::load(const void* const texture_array_data_ptr,
 	std::size_t layer_count) noexcept
 {
 	if (m_buffer_index != 0 && layer_count <= m_layer_count)
@@ -200,7 +200,7 @@ kiwi::texture_array_buffer& kiwi::texture_array_buffer::load(const void* const t
 	return *this;
 }
 
-kiwi::texture_array_buffer& kiwi::texture_array_buffer::load(const void* const texture_array_data_ptr,
+kiwi::texture_2d_array& kiwi::texture_2d_array::load(const void* const texture_array_data_ptr,
 	std::size_t first_layer, std::size_t layer_count) noexcept
 {
 	if (m_buffer_index != 0 && first_layer + layer_count <= m_layer_count)
@@ -222,36 +222,36 @@ kiwi::texture_array_buffer& kiwi::texture_array_buffer::load(const void* const t
 	return *this;
 }
 
-kiwi::texture_array_buffer& kiwi::texture_array_buffer::to_binding(GLenum binding) noexcept
+kiwi::texture_2d_array& kiwi::texture_2d_array::to_binding(GLenum binding) noexcept
 {
 	_KIWI_GLCALL(glActiveTexture(GL_TEXTURE0 + binding));
 	_KIWI_GLCALL(glBindTexture(GL_TEXTURE_2D_ARRAY, m_buffer_index));
 	return *this;
 }
 
-const kiwi::texture_array_buffer& kiwi::texture_array_buffer::to_binding(GLenum binding) const noexcept
+const kiwi::texture_2d_array& kiwi::texture_2d_array::to_binding(GLenum binding) const noexcept
 {
 	_KIWI_GLCALL(glActiveTexture(GL_TEXTURE0 + binding));
 	_KIWI_GLCALL(glBindTexture(GL_TEXTURE_2D_ARRAY, m_buffer_index));
 	return *this;
 }
 
-std::size_t kiwi::texture_array_buffer::pixel_dim() const noexcept
+std::size_t kiwi::texture_2d_array::pixel_dim() const noexcept
 {
 	return m_dim;
 }
 
-std::size_t kiwi::texture_array_buffer::width() const noexcept
+std::size_t kiwi::texture_2d_array::width() const noexcept
 {
 	return m_width;
 }
 
-std::size_t kiwi::texture_array_buffer::height() const noexcept
+std::size_t kiwi::texture_2d_array::height() const noexcept
 {
 	return m_height;
 }
 
-std::size_t kiwi::texture_array_buffer::layer_count() const noexcept
+std::size_t kiwi::texture_2d_array::layer_count() const noexcept
 {
 	return m_layer_count;
 }

@@ -1,7 +1,7 @@
 #include "buffers/kiwi_buffer_cubemap.hpp"
 
 
-kiwi::cubemap_buffer::cubemap_buffer() noexcept
+kiwi::cubemap::cubemap() noexcept
 {
 	m_buffer_index = 0;
 	m_pixel_buffer_type = kiwi::pixel_buffer_type::cubemap;
@@ -10,7 +10,7 @@ kiwi::cubemap_buffer::cubemap_buffer() noexcept
 	m_format = kiwi::pixel_format::u8;
 }
 
-kiwi::cubemap_buffer::cubemap_buffer(kiwi::cubemap_buffer&& rhs) noexcept
+kiwi::cubemap::cubemap(kiwi::cubemap&& rhs) noexcept
 {
 	m_buffer_index = rhs.m_buffer_index;
 	m_dim = rhs.m_dim;
@@ -23,7 +23,7 @@ kiwi::cubemap_buffer::cubemap_buffer(kiwi::cubemap_buffer&& rhs) noexcept
 	rhs.m_format = kiwi::pixel_format::u8;
 }
 
-kiwi::cubemap_buffer& kiwi::cubemap_buffer::operator=(kiwi::cubemap_buffer&& rhs) noexcept
+kiwi::cubemap& kiwi::cubemap::operator=(kiwi::cubemap&& rhs) noexcept
 {
 	if (m_buffer_index != 0)
 	{
@@ -43,7 +43,7 @@ kiwi::cubemap_buffer& kiwi::cubemap_buffer::operator=(kiwi::cubemap_buffer&& rhs
 	return *this;
 }
 
-kiwi::cubemap_buffer::~cubemap_buffer()
+kiwi::cubemap::~cubemap()
 {
 	if (m_buffer_index != 0)
 	{
@@ -51,7 +51,7 @@ kiwi::cubemap_buffer::~cubemap_buffer()
 	}
 }
 
-kiwi::cubemap_buffer& kiwi::cubemap_buffer::new_id() noexcept
+kiwi::cubemap& kiwi::cubemap::new_id() noexcept
 {
 	if (m_buffer_index != 0)
 	{
@@ -61,7 +61,7 @@ kiwi::cubemap_buffer& kiwi::cubemap_buffer::new_id() noexcept
 	return *this;
 }
 
-kiwi::cubemap_buffer& kiwi::cubemap_buffer::delete_id() noexcept
+kiwi::cubemap& kiwi::cubemap::delete_id() noexcept
 {
 	if (m_buffer_index != 0)
 	{
@@ -74,12 +74,12 @@ kiwi::cubemap_buffer& kiwi::cubemap_buffer::delete_id() noexcept
 	return *this;
 }
 
-GLuint kiwi::cubemap_buffer::get_id() const noexcept
+GLuint kiwi::cubemap::get_id() const noexcept
 {
 	return m_buffer_index;
 }
 
-kiwi::cubemap_buffer& kiwi::cubemap_buffer::bind() noexcept
+kiwi::cubemap& kiwi::cubemap::bind() noexcept
 {
 	if (m_buffer_index == 0)
 	{
@@ -89,47 +89,47 @@ kiwi::cubemap_buffer& kiwi::cubemap_buffer::bind() noexcept
 	return *this;
 }
 
-const kiwi::cubemap_buffer& kiwi::cubemap_buffer::bind() const noexcept
+const kiwi::cubemap& kiwi::cubemap::bind() const noexcept
 {
 	glBindTexture(GL_TEXTURE_CUBE_MAP, m_buffer_index);
 	return *this;
 }
 
-void kiwi::cubemap_buffer::unbind() noexcept
+void kiwi::cubemap::unbind() noexcept
 {
 	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 }
 
-kiwi::cubemap_buffer& kiwi::cubemap_buffer::to_binding(GLenum binding) noexcept
+kiwi::cubemap& kiwi::cubemap::to_binding(GLenum binding) noexcept
 {
 	glActiveTexture(GL_TEXTURE0 + binding);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, m_buffer_index);
 	return *this;
 }
 
-const kiwi::cubemap_buffer& kiwi::cubemap_buffer::to_binding(GLenum binding) const noexcept
+const kiwi::cubemap& kiwi::cubemap::to_binding(GLenum binding) const noexcept
 {
 	glActiveTexture(GL_TEXTURE0 + binding);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, m_buffer_index);
 	return *this;
 }
 
-std::size_t kiwi::cubemap_buffer::pixel_dim() const noexcept
+std::size_t kiwi::cubemap::pixel_dim() const noexcept
 {
 	return m_dim;
 }
 
-std::size_t kiwi::cubemap_buffer::width() const noexcept
+std::size_t kiwi::cubemap::width() const noexcept
 {
 	return m_width;
 }
 
-std::size_t kiwi::cubemap_buffer::height() const noexcept
+std::size_t kiwi::cubemap::height() const noexcept
 {
 	return m_width;
 }
 
-kiwi::cubemap_buffer& kiwi::cubemap_buffer::load(
+kiwi::cubemap& kiwi::cubemap::load(
 	const void* const Xp_data_ptr, const void* const Xm_data_ptr,
 	const void* const Yp_data_ptr, const void* const Ym_data_ptr,
 	const void* const Zp_data_ptr, const void* const Zm_data_ptr,
@@ -183,7 +183,7 @@ kiwi::cubemap_buffer& kiwi::cubemap_buffer::load(
 	return *this;
 }
 
-kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_u8(
+kiwi::cubemap& kiwi::cubemap::load_u8(
 	const unsigned char* const Xp_data_ptr, const unsigned char* const Xm_data_ptr,
 	const unsigned char* const Yp_data_ptr, const unsigned char* const Ym_data_ptr,
 	const unsigned char* const Zp_data_ptr, const unsigned char* const Zm_data_ptr,
@@ -196,7 +196,7 @@ kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_u8(
 		width, pixel_dim, mapping, kiwi::pixel_format::u8);
 }
 
-kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_u16(
+kiwi::cubemap& kiwi::cubemap::load_u16(
 	const GLushort* const Xp_data_ptr, const GLushort* const Xm_data_ptr,
 	const GLushort* const Yp_data_ptr, const GLushort* const Ym_data_ptr,
 	const GLushort* const Zp_data_ptr, const GLushort* const Zm_data_ptr,
@@ -209,7 +209,7 @@ kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_u16(
 		width, pixel_dim, mapping, kiwi::pixel_format::u16);
 }
 
-kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_f32(
+kiwi::cubemap& kiwi::cubemap::load_f32(
 	const GLfloat* const Xp_data_ptr, const GLfloat* const Xm_data_ptr,
 	const GLfloat* const Yp_data_ptr, const GLfloat* const Ym_data_ptr,
 	const GLfloat* const Zp_data_ptr, const GLfloat* const Zm_data_ptr,
@@ -222,7 +222,7 @@ kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_f32(
 		width, pixel_dim, mapping, kiwi::pixel_format::f32);
 }
 
-kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_u8u(
+kiwi::cubemap& kiwi::cubemap::load_u8u(
 	const unsigned char* const Xp_data_ptr, const unsigned char* const Xm_data_ptr,
 	const unsigned char* const Yp_data_ptr, const unsigned char* const Ym_data_ptr,
 	const unsigned char* const Zp_data_ptr, const unsigned char* const Zm_data_ptr,
@@ -235,7 +235,7 @@ kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_u8u(
 		width, pixel_dim, mapping, kiwi::pixel_format::u8u);
 }
 
-kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_u16u(
+kiwi::cubemap& kiwi::cubemap::load_u16u(
 	const GLushort* const Xp_data_ptr, const GLushort* const Xm_data_ptr,
 	const GLushort* const Yp_data_ptr, const GLushort* const Ym_data_ptr,
 	const GLushort* const Zp_data_ptr, const GLushort* const Zm_data_ptr,
@@ -248,7 +248,7 @@ kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_u16u(
 		width, pixel_dim, mapping, kiwi::pixel_format::u16u);
 }
 
-kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_u32u(
+kiwi::cubemap& kiwi::cubemap::load_u32u(
 	const GLuint* const Xp_data_ptr, const GLuint* const Xm_data_ptr,
 	const GLuint* const Yp_data_ptr, const GLuint* const Ym_data_ptr,
 	const GLuint* const Zp_data_ptr, const GLuint* const Zm_data_ptr,
@@ -261,7 +261,7 @@ kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_u32u(
 		width, pixel_dim, mapping, kiwi::pixel_format::u32u);
 }
 
-kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_i8u(
+kiwi::cubemap& kiwi::cubemap::load_i8u(
 	const char* const Xp_data_ptr, const char* const Xm_data_ptr,
 	const char* const Yp_data_ptr, const char* const Ym_data_ptr,
 	const char* const Zp_data_ptr, const char* const Zm_data_ptr,
@@ -274,7 +274,7 @@ kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_i8u(
 		width, pixel_dim, mapping, kiwi::pixel_format::i8u);
 }
 
-kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_i16u(
+kiwi::cubemap& kiwi::cubemap::load_i16u(
 	const GLshort* const Xp_data_ptr, const GLshort* const Xm_data_ptr,
 	const GLshort* const Yp_data_ptr, const GLshort* const Ym_data_ptr,
 	const GLshort* const Zp_data_ptr, const GLshort* const Zm_data_ptr,
@@ -287,7 +287,7 @@ kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_i16u(
 		width, pixel_dim, mapping, kiwi::pixel_format::i16u);
 }
 
-kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_i32u(
+kiwi::cubemap& kiwi::cubemap::load_i32u(
 	const GLint* const Xp_data_ptr, const GLint* const Xm_data_ptr,
 	const GLint* const Yp_data_ptr, const GLint* const Ym_data_ptr,
 	const GLint* const Zp_data_ptr, const GLint* const Zm_data_ptr,
@@ -300,7 +300,7 @@ kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_i32u(
 		width, pixel_dim, mapping, kiwi::pixel_format::i32u);
 }
 
-kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_face(
+kiwi::cubemap& kiwi::cubemap::load_face(
 	const void* const texture_data_ptr, kiwi::cubemap_face face,
 	std::size_t width, std::size_t pixel_dim,
 	kiwi::pixel_mapping mapping, kiwi::pixel_format format) noexcept
@@ -356,42 +356,42 @@ kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_face(
 	return *this;
 }
 
-kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_face_u8(
+kiwi::cubemap& kiwi::cubemap::load_face_u8(
 	const unsigned char* const texture_data_ptr, kiwi::cubemap_face face,
 	std::size_t width, std::size_t pixel_dim, kiwi::pixel_mapping mapping) noexcept
 {
 	return load_face(static_cast<const void* const>(texture_data_ptr), face, width, pixel_dim, mapping, kiwi::pixel_format::u8);
 }
 
-kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_face_u16(
+kiwi::cubemap& kiwi::cubemap::load_face_u16(
 	const GLushort* const texture_data_ptr, kiwi::cubemap_face face,
 	std::size_t width, std::size_t pixel_dim, kiwi::pixel_mapping mapping) noexcept
 {
 	return load_face(static_cast<const void* const>(texture_data_ptr), face, width, pixel_dim, mapping, kiwi::pixel_format::u16);
 }
 
-kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_face_f32(
+kiwi::cubemap& kiwi::cubemap::load_face_f32(
 	const GLfloat* const texture_data_ptr, kiwi::cubemap_face face,
 	std::size_t width, std::size_t pixel_dim, kiwi::pixel_mapping mapping) noexcept
 {
 	return load_face(static_cast<const void* const>(texture_data_ptr), face, width, pixel_dim, mapping, kiwi::pixel_format::f32);
 }
 
-kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_face_u8u(
+kiwi::cubemap& kiwi::cubemap::load_face_u8u(
 	const unsigned char* const texture_data_ptr, kiwi::cubemap_face face,
 	std::size_t width, std::size_t pixel_dim, kiwi::pixel_mapping mapping) noexcept
 {
 	return load_face(static_cast<const void* const>(texture_data_ptr), face, width, pixel_dim, mapping, kiwi::pixel_format::u8u);
 }
 
-kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_face_u16u(
+kiwi::cubemap& kiwi::cubemap::load_face_u16u(
 	const GLushort* const texture_data_ptr, kiwi::cubemap_face face,
 	std::size_t width, std::size_t pixel_dim, kiwi::pixel_mapping mapping) noexcept
 {
 	return load_face(static_cast<const void* const>(texture_data_ptr), face, width, pixel_dim, mapping, kiwi::pixel_format::u16u);
 }
 
-kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_face_u32u(
+kiwi::cubemap& kiwi::cubemap::load_face_u32u(
 	const GLuint* const texture_data_ptr, kiwi::cubemap_face face,
 	std::size_t width, std::size_t pixel_dim, kiwi::pixel_mapping mapping) noexcept
 {
@@ -399,21 +399,21 @@ kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_face_u32u(
 }
 
 
-kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_face_i8u(
+kiwi::cubemap& kiwi::cubemap::load_face_i8u(
 	const char* const texture_data_ptr, kiwi::cubemap_face face,
 	std::size_t width, std::size_t pixel_dim, kiwi::pixel_mapping mapping) noexcept
 {
 	return load_face(static_cast<const void* const>(texture_data_ptr), face, width, pixel_dim, mapping, kiwi::pixel_format::i8u);
 }
 
-kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_face_i16u(
+kiwi::cubemap& kiwi::cubemap::load_face_i16u(
 	const GLshort* const texture_data_ptr, kiwi::cubemap_face face,
 	std::size_t width, std::size_t pixel_dim, kiwi::pixel_mapping mapping) noexcept
 {
 	return load_face(static_cast<const void* const>(texture_data_ptr), face, width, pixel_dim, mapping, kiwi::pixel_format::i16u);
 }
 
-kiwi::cubemap_buffer& kiwi::cubemap_buffer::load_face_i32u(
+kiwi::cubemap& kiwi::cubemap::load_face_i32u(
 	const GLint* const texture_data_ptr, kiwi::cubemap_face face,
 	std::size_t width, std::size_t pixel_dim, kiwi::pixel_mapping mapping) noexcept
 {

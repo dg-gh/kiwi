@@ -3,7 +3,7 @@
 
 #include "context/kiwi_context.hpp"
 #include "buffers/kiwi_buffer_texture_2d.hpp"
-#include "buffers/kiwi_buffer_texture_array.hpp"
+#include "buffers/kiwi_buffer_texture_2d_array.hpp"
 #include "buffers/kiwi_buffer_storage.hpp"
 #include "header_utils/kiwi_restrict.hpp"
 
@@ -356,7 +356,7 @@ namespace kiwi
 		const kiwi::id_set& to_binding(GLuint storage_binding, GLuint texture_binding) const noexcept;
 		std::size_t instance_count() const noexcept;
 
-		kiwi::id_set& set_atlas(const kiwi::texture_array_buffer* const atlas_texture_ptr) noexcept;
+		kiwi::id_set& set_atlas(const kiwi::texture_2d_array* const atlas_texture_ptr) noexcept;
 
 		kiwi::id_loader get_loader(void* ptr) noexcept;
 		kiwi::id_loader get_loader(void* ptr, std::size_t count) noexcept;
@@ -366,7 +366,7 @@ namespace kiwi
 
 		kiwi::storage_buffer m_storage;
 		std::size_t m_instance_count;
-		const kiwi::texture_array_buffer* m_texture_array_ptr = nullptr;
+		const kiwi::texture_2d_array* m_texture_array_ptr = nullptr;
 	};
 
 	class _id_proxy

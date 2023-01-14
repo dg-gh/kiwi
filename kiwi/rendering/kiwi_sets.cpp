@@ -382,7 +382,7 @@ std::size_t kiwi::id_set::instance_count() const noexcept
 	return m_instance_count;
 }
 
-kiwi::id_set& kiwi::id_set::set_atlas(const kiwi::texture_array_buffer* const atlas_texture_ptr) noexcept
+kiwi::id_set& kiwi::id_set::set_atlas(const kiwi::texture_2d_array* const atlas_texture_ptr) noexcept
 {
 	m_texture_array_ptr = atlas_texture_ptr;
 	return *this;

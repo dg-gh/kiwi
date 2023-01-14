@@ -197,10 +197,11 @@ const char* const kiwi::source::basic_3d_texture::fragment_shader() noexcept
 		"	in vec2 UV;										\n"
 		"	out vec4 out_color;								\n"
 		"	uniform sampler2D Tx;							\n"
+		"	uniform vec4 u_RGBAx;							\n"
 
 		"	void main()										\n"
 		"	{												\n"
-		"		out_color = texture(Tx, UV);				\n"
+		"		out_color = texture(Tx, UV) * u_RGBAx;		\n"
 		"	}												\n"
 		;
 }
@@ -228,11 +229,12 @@ const char* const kiwi::source::basic_3d_texture_alpha_test::fragment_shader() n
 		"	in vec2 UV;										\n"
 		"	out vec4 out_color;								\n"
 		"	uniform sampler2D Tx;							\n"
+		"	uniform vec4 u_RGBAx;							\n"
 		"	uniform float u_alpha_test;						\n"
 
 		"	void main()										\n"
 		"	{												\n"
-		"		out_color = texture(Tx, UV);				\n"
+		"		out_color = texture(Tx, UV) * u_RGBAx;		\n"
 
 		"		if (out_color[3] < u_alpha_test)			\n"
 		"		{											\n"

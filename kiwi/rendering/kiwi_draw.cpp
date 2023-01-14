@@ -200,6 +200,7 @@ namespace kiwi
 
 		kiwi::program program;
 		GLint mvp_matrix_location = -1;
+		GLint RGBAx_location = -1;
 
 		bool init() noexcept;
 	};
@@ -212,6 +213,7 @@ namespace kiwi
 		kiwi::program program;
 		GLint mvp_matrix_location = -1;
 		GLint alpha_test_location = -1;
+		GLint RGBAx_location = -1;
 
 		bool init() noexcept;
 	};
@@ -353,6 +355,8 @@ namespace kiwi
 		kiwi::basic_3d_texture_sprite m_program_texture_sprite_3d;
 		kiwi::basic_3d_texture_sprites m_program_texture_sprites_3d;
 		kiwi::basic_3d_texture_array_sprites m_program_texture_array_sprites_split_3d;
+
+		GLfloat RGBAx1111[4] = { GL1, GL1, GL1, GL1 };
 	};
 
 	std::unique_ptr<kiwi::default_buffers> default_buffers_ptr;
@@ -613,7 +617,25 @@ kiwi::_draw_basic_proxy kiwi::_load_basic_3d_proxy::using_texture(const kiwi::ve
 	texture_buffer.to_binding(0);
 
 	kiwi::default_buffers_ptr->m_program_texture_3d.program
-		.set_uniform_4x4f(kiwi::default_buffers_ptr->m_program_texture_3d.mvp_matrix_location, m_transformation_matrix_ptr);
+		.set_uniform_4x4f(kiwi::default_buffers_ptr->m_program_texture_3d.mvp_matrix_location, m_transformation_matrix_ptr)
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_texture_alpha_test_3d.RGBAx_location, static_cast<const GLfloat*>(kiwi::default_buffers_ptr->RGBAx1111));
+
+	kiwi::_draw_basic_proxy proxy;
+	proxy.m_vertex_count = vertex_buffer.vertex_count();
+	proxy.m_index_count = -1;
+	proxy.m_index_data_ptr = nullptr;
+	return proxy;
+}
+kiwi::_draw_basic_proxy kiwi::_load_basic_3d_proxy::using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer,
+	const kiwi::texture_2d& texture_buffer, const kiwi::RGBA& RGBAx) noexcept
+{
+	vertex_buffer.to_location(0);
+	UV_buffer.to_location(1);
+	texture_buffer.to_binding(0);
+
+	kiwi::default_buffers_ptr->m_program_texture_3d.program
+		.set_uniform_4x4f(kiwi::default_buffers_ptr->m_program_texture_3d.mvp_matrix_location, m_transformation_matrix_ptr)
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_texture_alpha_test_3d.RGBAx_location, RGBAx.data());
 
 	kiwi::_draw_basic_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -630,7 +652,26 @@ kiwi::_draw_basic_proxy kiwi::_load_basic_3d_proxy::using_texture_alpha_test(con
 
 	kiwi::default_buffers_ptr->m_program_texture_alpha_test_3d.program
 		.set_uniform_4x4f(kiwi::default_buffers_ptr->m_program_texture_alpha_test_3d.mvp_matrix_location, m_transformation_matrix_ptr)
-		.set_uniform_1f(kiwi::default_buffers_ptr->m_program_texture_alpha_test_3d.alpha_test_location, alpha_test_value);
+		.set_uniform_1f(kiwi::default_buffers_ptr->m_program_texture_alpha_test_3d.alpha_test_location, alpha_test_value)
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_texture_alpha_test_3d.RGBAx_location, static_cast<const GLfloat*>(kiwi::default_buffers_ptr->RGBAx1111));
+
+	kiwi::_draw_basic_proxy proxy;
+	proxy.m_vertex_count = vertex_buffer.vertex_count();
+	proxy.m_index_count = -1;
+	proxy.m_index_data_ptr = nullptr;
+	return proxy;
+}
+kiwi::_draw_basic_proxy kiwi::_load_basic_3d_proxy::using_texture_alpha_test(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer,
+	const kiwi::texture_2d& texture_buffer, GLfloat alpha_test_value, const kiwi::RGBA& RGBAx) noexcept
+{
+	vertex_buffer.to_location(0);
+	UV_buffer.to_location(1);
+	texture_buffer.to_binding(0);
+
+	kiwi::default_buffers_ptr->m_program_texture_alpha_test_3d.program
+		.set_uniform_4x4f(kiwi::default_buffers_ptr->m_program_texture_alpha_test_3d.mvp_matrix_location, m_transformation_matrix_ptr)
+		.set_uniform_1f(kiwi::default_buffers_ptr->m_program_texture_alpha_test_3d.alpha_test_location, alpha_test_value)
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_texture_alpha_test_3d.RGBAx_location, RGBAx.data());
 
 	kiwi::_draw_basic_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -639,7 +680,7 @@ kiwi::_draw_basic_proxy kiwi::_load_basic_3d_proxy::using_texture_alpha_test(con
 	return proxy;
 }
 
-void kiwi::_load_basic_3d_proxy::using_skybox(const kiwi::cubemap_buffer& skybox_buffer) noexcept
+void kiwi::_load_basic_3d_proxy::using_skybox(const kiwi::cubemap& skybox_buffer) noexcept
 {
 	skybox_buffer.to_binding(0);
 
@@ -2177,6 +2218,7 @@ bool kiwi::basic_3d_texture::init() noexcept
 	if (success)
 	{
 		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
+		RGBAx_location = program.new_uniform_location("u_RGBAx");
 		program.set_uniform_1i("Tx", static_cast<GLint>(0));
 	}
 
@@ -2194,6 +2236,7 @@ bool kiwi::basic_3d_texture_alpha_test::init() noexcept
 	{
 		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
 		alpha_test_location = program.new_uniform_location("u_alpha_test");
+		RGBAx_location = program.new_uniform_location("u_RGBAx");
 		program.set_uniform_1i("Tx", static_cast<GLint>(0));
 	}
 
