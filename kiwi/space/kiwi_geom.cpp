@@ -2,9 +2,9 @@
 #include "header_utils/kiwi_simd.hpp"
 
 
-kiwi::_load_frame_proxy kiwi::load_geom(kiwi::vertex_buffer& vertex_buffer) noexcept
+kiwi::_load_geom_proxy kiwi::load_geom(kiwi::vertex_buffer& vertex_buffer) noexcept
 {
-	kiwi::_load_frame_proxy proxy;
+	kiwi::_load_geom_proxy proxy;
 	proxy.m_buffer_ptr = &vertex_buffer;
 	return proxy;
 }
