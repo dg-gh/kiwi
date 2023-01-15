@@ -237,7 +237,7 @@ namespace kiwi
 
 	private:
 
-		GLfloat m_ECx[24] = { static_cast<GLfloat>(1), static_cast<GLfloat>(1) };
+		GLfloat m_ECx[2] = { static_cast<GLfloat>(1), static_cast<GLfloat>(1) };
 	};
 }
 
