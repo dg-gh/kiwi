@@ -1,13 +1,12 @@
-#ifndef KIWI_CONTEXT_HPP
-#define KIWI_CONTEXT_HPP
+#ifndef _KIWI_CONTEXT_HPP
+#define _KIWI_CONTEXT_HPP
 
-#include "kiwi_includes.hpp"
+#include "header_utils/kiwi_glcall.hpp"
+#include <cstddef>
 
 namespace kiwi
 {
 	using GLFWwindow_pointer = GLFWwindow*;
-	using current_buffer_pointer = const void*;
-	using current_texture_pointer = const void*;
 	using current_frame_pointer = const void*;
 	using current_color_attachment = std::size_t;
 	using current_program_pointer = const void*;
@@ -89,8 +88,6 @@ namespace kiwi
 	{
 		kiwi::GLFWwindow_pointer& window() noexcept;
 		GLbitfield& state() noexcept;
-		kiwi::current_buffer_pointer& current_buffer() noexcept;
-		kiwi::current_texture_pointer& current_texture_buffer() noexcept;
 		kiwi::current_frame_pointer& current_frame_buffer() noexcept;
 		kiwi::current_color_attachment& current_color_attachment() noexcept;
 		kiwi::current_program_pointer& current_program() noexcept;
@@ -113,4 +110,4 @@ namespace kiwi
 	}
 }
 
-#endif // KIWI_CONTEXT_HPP
+#endif // _KIWI_CONTEXT_HPP

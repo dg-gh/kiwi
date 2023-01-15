@@ -1,5 +1,5 @@
 #include "inputs/kiwi_keyboard.hpp"
-
+#include <atomic>
 
 namespace kiwi
 {

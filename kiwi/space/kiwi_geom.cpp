@@ -1,5 +1,6 @@
 #include "space/kiwi_geom.hpp"
 #include "header_utils/kiwi_simd.hpp"
+#include <cmath>
 
 
 kiwi::_load_geom_proxy kiwi::load_geom(kiwi::vertex_buffer& vertex_buffer) noexcept

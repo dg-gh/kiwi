@@ -94,28 +94,19 @@ kiwi::render_buffer& kiwi::render_buffer::bind() noexcept
 		glGenRenderbuffers(1, &m_buffer_index);
 	}
 
-	if (kiwi::context::current_texture_buffer() != static_cast<const void*>(this))
-	{
-		glBindRenderbuffer(GL_RENDERBUFFER, m_buffer_index);
-		kiwi::context::current_texture_buffer() = static_cast<const void*>(this);
-	}
+	glBindRenderbuffer(GL_RENDERBUFFER, m_buffer_index);
 	return *this;
 }
 
 const kiwi::render_buffer& kiwi::render_buffer::bind() const noexcept
 {
-	if (kiwi::context::current_texture_buffer() != static_cast<const void*>(this))
-	{
-		glBindRenderbuffer(GL_RENDERBUFFER, m_buffer_index);
-		kiwi::context::current_texture_buffer() = static_cast<const void*>(this);
-	}
+	glBindRenderbuffer(GL_RENDERBUFFER, m_buffer_index);
 	return *this;
 }
 
 void kiwi::render_buffer::unbind() noexcept
 {
 	glBindRenderbuffer(GL_RENDERBUFFER, 0);
-	kiwi::context::current_texture_buffer() = nullptr;
 }
 
 kiwi::render_buffer_type kiwi::render_buffer::buffer_type() const noexcept
@@ -128,25 +119,18 @@ kiwi::render_buffer_type kiwi::render_buffer::buffer_type() const noexcept
 	case GL_STENCIL_INDEX8: return kiwi::render_buffer_type::st8; break;
 	case GL_DEPTH24_STENCIL8: return kiwi::render_buffer_type::f24_st8; break;
 	case GL_DEPTH32F_STENCIL8: return kiwi::render_buffer_type::f32_st8; break;
+	default: return kiwi::render_buffer_type::f24_st8; break;
 	}
 }
 
 kiwi::render_buffer& kiwi::render_buffer::allocate(kiwi::render_buffer_type rbtype, kiwi::size size_2d) noexcept
 {
-	if (m_buffer_index != 0)
-	{
-		if (kiwi::context::current_texture_buffer() != static_cast<const void*>(this))
-		{
-			glBindRenderbuffer(GL_RENDERBUFFER, m_buffer_index);
-			kiwi::context::current_texture_buffer() = static_cast<const void*>(this);
-		}
-	}
-	else
+	if (m_buffer_index == 0)
 	{
 		glGenRenderbuffers(1, &m_buffer_index);
-		glBindRenderbuffer(GL_RENDERBUFFER, m_buffer_index);
-		kiwi::context::current_texture_buffer() = static_cast<const void*>(this);
 	}
+
+	glBindRenderbuffer(GL_RENDERBUFFER, m_buffer_index);
 
 	switch (rbtype)
 	{

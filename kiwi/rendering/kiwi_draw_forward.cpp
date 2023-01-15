@@ -1,6 +1,8 @@
 #include "rendering/kiwi_draw_forward.hpp"
 #include "shader_sources/kiwi_sources_forward_2d.hpp"
 #include "shader_sources/kiwi_sources_forward_3d.hpp"
+#include <memory>
+
 
 namespace kiwi
 {

@@ -314,16 +314,6 @@ GLbitfield& kiwi::context::state() noexcept
 	return kiwi::user_window_context.state;
 }
 
-kiwi::current_buffer_pointer& kiwi::context::current_buffer() noexcept
-{
-	return kiwi::user_window_context.current_buffer_ptr;
-}
-
-kiwi::current_texture_pointer& kiwi::context::current_texture_buffer() noexcept
-{
-	return kiwi::user_window_context.current_texture_ptr;
-}
-
 kiwi::current_frame_pointer& kiwi::context::current_frame_buffer() noexcept
 {
 	return kiwi::user_window_context.current_frame_ptr;
@@ -343,11 +333,11 @@ int kiwi::screen_width() noexcept { return kiwi::user_window_context.m_screen_wi
 int kiwi::screen_height() noexcept { return kiwi::user_window_context.m_screen_height; }
 GLint kiwi::X_to_pixel(GLfloat X) noexcept
 {
-	return kiwi::user_window_context.m_a_X * X + kiwi::user_window_context.m_b_X;
+	return static_cast<GLint>(kiwi::user_window_context.m_a_X * X + kiwi::user_window_context.m_b_X);
 }
 GLint kiwi::Y_to_pixel(GLfloat Y) noexcept
 {
-	return kiwi::user_window_context.m_a_Y * Y + kiwi::user_window_context.m_b_Y;
+	return static_cast<GLint>(kiwi::user_window_context.m_a_Y * Y + kiwi::user_window_context.m_b_Y);
 }
 GLfloat kiwi::screen_ratio() noexcept { return kiwi::user_window_context.m_screen_ratio; }
 GLfloat kiwi::screen_ratio_inv() noexcept { return kiwi::user_window_context.m_screen_ratio_inv; }
@@ -362,7 +352,6 @@ unsigned int kiwi::window_state_counter() noexcept { return kiwi::user_window_co
 
 void kiwi::context::window_resize_callback(GLFWwindow* window, int new_screen_width, int new_screen_height)
 {
-	static constexpr GLfloat GL0 = static_cast<GLfloat>(0);
 	static constexpr GLfloat GL1 = static_cast<GLfloat>(1);
 	static constexpr GLfloat GL2 = static_cast<GLfloat>(2);
 

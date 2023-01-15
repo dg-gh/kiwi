@@ -1,7 +1,8 @@
 #ifndef KIWI_BUFFER_UNIFORM_HPP
 #define KIWI_BUFFER_UNIFORM_HPP
 
-#include "context/kiwi_context.hpp"
+#include "header_utils/kiwi_glcall.hpp"
+#include <cstddef>
 
 
 namespace kiwi

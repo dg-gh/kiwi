@@ -6,6 +6,8 @@
 #include "buffers/kiwi_buffer_texture_2d.hpp"
 #include "buffers/kiwi_buffer_storage.hpp"
 #include "context/kiwi_context.hpp"
+#include <vector>
+#include <functional>
 
 
 namespace kiwi

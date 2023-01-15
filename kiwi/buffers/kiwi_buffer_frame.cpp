@@ -330,6 +330,7 @@ kiwi::frame_buffer& kiwi::frame_buffer::detach_texture(std::size_t color_attachm
 		m_texture_buffer_ptr[color_attachment] = nullptr;
 		return *this;
 	}
+	return *this;
 }
 
 kiwi::frame_buffer& kiwi::frame_buffer::detach_all_textures() noexcept
@@ -629,12 +630,12 @@ int kiwi::frame_spec::frame_height() const noexcept
 
 GLint kiwi::frame_spec::X_to_pixel(GLfloat X) const noexcept
 {
-	return m_a_X * X + m_b_X;
+	return static_cast<GLint>(m_a_X * X + m_b_X);
 }
 
 GLint kiwi::frame_spec::Y_to_pixel(GLfloat Y) const noexcept
 {
-	return m_a_Y * Y + m_b_Y;
+	return static_cast<GLint>(m_a_Y * Y + m_b_Y);
 }
 
 GLfloat kiwi::frame_spec::frame_ratio() const noexcept

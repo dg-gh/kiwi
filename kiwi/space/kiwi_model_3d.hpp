@@ -1,8 +1,9 @@
-#ifndef KIWI_MODEL_3D_HPP
-#define KIWI_MODEL_3D_HPP
+#ifndef _KIWI_MODEL_3D_HPP
+#define _KIWI_MODEL_3D_HPP
 
-#include "kiwi_includes.hpp"
+#include "header_utils/kiwi_glcall.hpp"
 #include "header_utils/kiwi_restrict.hpp"
+#include <cmath>
 
 
 namespace kiwi
@@ -716,4 +717,4 @@ inline kiwi::model_3d& kiwi::model_3d::eval() noexcept
 }
 
 
-#endif // KIWI_MODEL_3D_HPP
+#endif // _KIWI_MODEL_3D_HPP

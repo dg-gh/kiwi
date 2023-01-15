@@ -1,5 +1,5 @@
-#ifndef KIWI_BLOOM_HPP
-#define KIWI_BLOOM_HPP
+#ifndef _KIWI_BLOOM_HPP
+#define _KIWI_BLOOM_HPP
 
 #include "rendering/kiwi_program.hpp"
 #include "buffers/kiwi_buffer_vertex.hpp"
@@ -70,4 +70,4 @@ namespace kiwi
 	};
 }
 
-#endif // KIWI_BLOOM_HPP
+#endif // _KIWI_BLOOM_HPP

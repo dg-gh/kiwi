@@ -1,5 +1,6 @@
 #include "space/kiwi_picker.hpp"
 #include "shader_sources/kiwi_sources_picker.hpp"
+#include <memory>
 
 
 namespace kiwi

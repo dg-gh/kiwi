@@ -1,7 +1,8 @@
 #ifndef _KIWI_BASIC_DATA_HPP
 #define _KIWI_BASIC_DATA_HPP
 
-#include "kiwi_includes.hpp"
+#include "header_utils/kiwi_glcall.hpp"
+#include <cstddef>
 
 
 namespace kiwi
@@ -14,11 +15,11 @@ namespace kiwi
 		inline RGBA(GLfloat R, GLfloat G, GLfloat B) noexcept;
 		inline RGBA(GLfloat R, GLfloat G, GLfloat B, GLfloat A) noexcept;
 
-		RGBA() = default;
-		RGBA(const kiwi::RGBA&) = default;
-		kiwi::RGBA& operator=(const kiwi::RGBA&) = default;
-		RGBA(kiwi::RGBA&&) = default;
-		kiwi::RGBA& operator=(kiwi::RGBA&&) = default;
+		RGBA() noexcept = default;
+		RGBA(const kiwi::RGBA&) noexcept = default;
+		kiwi::RGBA& operator=(const kiwi::RGBA&) noexcept = default;
+		RGBA(kiwi::RGBA&&) noexcept = default;
+		kiwi::RGBA& operator=(kiwi::RGBA&&) noexcept = default;
 		~RGBA() = default;
 
 		inline GLfloat& operator[](std::size_t offset) noexcept;
@@ -48,11 +49,11 @@ namespace kiwi
 
 		inline size(std::size_t X, std::size_t Y) noexcept;
 
-		size() = default;
-		size(const kiwi::size&) = default;
-		kiwi::size& operator=(const kiwi::size&) = default;
-		size(kiwi::size&&) = default;
-		kiwi::size& operator=(kiwi::size&&) = default;
+		size() noexcept = default;
+		size(const kiwi::size&) noexcept = default;
+		kiwi::size& operator=(const kiwi::size&) noexcept = default;
+		size(kiwi::size&&) noexcept = default;
+		kiwi::size& operator=(kiwi::size&&) noexcept = default;
 		~size() = default;
 
 		inline std::size_t& operator[](std::size_t offset) noexcept;
@@ -83,12 +84,12 @@ namespace kiwi
 		inline XY(GLfloat X, GLfloat Y) noexcept;
 		inline XY(kiwi::XYZ _XYZ) noexcept;
 
-		XY() = default;
-		XY(const kiwi::XY&) = default;
-		kiwi::XY& operator=(const kiwi::XY&) = default;
-		XY(kiwi::XY&&) = default;
-		kiwi::XY& operator=(kiwi::XY&&) = default;
-		~XY() = default;
+		XY() noexcept = default;
+		XY(const kiwi::XY&) noexcept = default;
+		kiwi::XY& operator=(const kiwi::XY&) noexcept = default;
+		XY(kiwi::XY&&) noexcept = default;
+		kiwi::XY& operator=(kiwi::XY&&) noexcept = default;
+		~XY() noexcept = default;
 
 		inline GLfloat& operator[](std::size_t offset) noexcept;
 		inline const GLfloat& operator[](std::size_t offset) const noexcept;
@@ -117,11 +118,11 @@ namespace kiwi
 		inline XYZ(kiwi::XY _XY) noexcept;
 		inline XYZ(kiwi::XY _XY, GLfloat Z) noexcept;
 
-		XYZ() = default;
-		XYZ(const kiwi::XYZ&) = default;
-		kiwi::XYZ& operator=(const kiwi::XYZ&) = default;
-		XYZ(kiwi::XYZ&&) = default;
-		kiwi::XYZ& operator=(kiwi::XYZ&&) = default;
+		XYZ() noexcept = default;
+		XYZ(const kiwi::XYZ&) noexcept = default;
+		kiwi::XYZ& operator=(const kiwi::XYZ&) noexcept = default;
+		XYZ(kiwi::XYZ&&) noexcept = default;
+		kiwi::XYZ& operator=(kiwi::XYZ&&) noexcept = default;
 		~XYZ() = default;
 
 		inline GLfloat& operator[](std::size_t offset) noexcept;
@@ -150,10 +151,10 @@ namespace kiwi
 		inline UV(GLfloat U, GLfloat V) noexcept;
 
 		UV() = default;
-		UV(const kiwi::UV&) = default;
-		kiwi::UV& operator=(const kiwi::UV&) = default;
-		UV(kiwi::UV&&) = default;
-		kiwi::UV& operator=(kiwi::UV&&) = default;
+		UV(const kiwi::UV&) noexcept = default;
+		kiwi::UV& operator=(const kiwi::UV&) noexcept = default;
+		UV(kiwi::UV&&) noexcept = default;
+		kiwi::UV& operator=(kiwi::UV&&) noexcept = default;
 		~UV() = default;
 
 		inline GLfloat& operator[](std::size_t offset) noexcept;
@@ -182,11 +183,11 @@ namespace kiwi
 		inline RMEC(GLfloat roughness, GLfloat metalness, GLfloat emissivity) noexcept;
 		inline RMEC(GLfloat roughness, GLfloat metalness, GLfloat emissivity, GLfloat ceiling) noexcept;
 
-		RMEC() = default;
-		RMEC(const kiwi::RMEC&) = default;
-		kiwi::RMEC& operator=(const kiwi::RMEC&) = default;
-		RMEC(kiwi::RMEC&&) = default;
-		kiwi::RMEC& operator=(kiwi::RMEC&&) = default;
+		RMEC() noexcept = default;
+		RMEC(const kiwi::RMEC&) noexcept = default;
+		kiwi::RMEC& operator=(const kiwi::RMEC&) noexcept = default;
+		RMEC(kiwi::RMEC&&) noexcept = default;
+		kiwi::RMEC& operator=(kiwi::RMEC&&) noexcept = default;
 		~RMEC() = default;
 
 		inline GLfloat& operator[](std::size_t offset) noexcept;
@@ -217,11 +218,11 @@ namespace kiwi
 		inline ECx(GLfloat emissivity_factor) noexcept;
 		inline ECx(GLfloat emissivity_factor, GLfloat ceiling_factor) noexcept;
 
-		ECx() = default;
-		ECx(const kiwi::ECx&) = default;
-		kiwi::ECx& operator=(const kiwi::ECx&) = default;
-		ECx(kiwi::ECx&&) = default;
-		kiwi::ECx& operator=(kiwi::ECx&&) = default;
+		ECx() noexcept = default;
+		ECx(const kiwi::ECx&) noexcept = default;
+		kiwi::ECx& operator=(const kiwi::ECx&) noexcept = default;
+		ECx(kiwi::ECx&&) noexcept = default;
+		kiwi::ECx& operator=(kiwi::ECx&&) noexcept = default;
 		~ECx() = default;
 
 		inline GLfloat& operator[](std::size_t offset) noexcept;

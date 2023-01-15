@@ -1,5 +1,7 @@
 #include "rendering/kiwi_glyph_3d.hpp"
 #include "shader_sources/kiwi_sources_glyph.hpp"
+#include <cstdint>
+#include <string>
 
 
 thread_local unsigned int kiwi::glyph_3d::m_static_instance_count = 0;

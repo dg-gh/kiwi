@@ -77,21 +77,13 @@ kiwi::uniform_buffer& kiwi::uniform_buffer::bind() noexcept
 		glGenBuffers(1, &m_buffer_index);
 	}
 
-	if (kiwi::context::current_buffer() != static_cast<const void*>(this))
-	{
-		glBindBuffer(GL_UNIFORM_BUFFER, m_buffer_index);
-		kiwi::context::current_buffer() = static_cast<const void*>(this);
-	}
+	glBindBuffer(GL_UNIFORM_BUFFER, m_buffer_index);
 	return *this;
 }
 
 const kiwi::uniform_buffer& kiwi::uniform_buffer::bind() const noexcept
 {
-	if (kiwi::context::current_buffer() != static_cast<const void*>(this))
-	{
-		glBindBuffer(GL_UNIFORM_BUFFER, m_buffer_index);
-		kiwi::context::current_buffer() = static_cast<const void*>(this);
-	}
+	glBindBuffer(GL_UNIFORM_BUFFER, m_buffer_index);
 	return *this;
 }
 
@@ -102,14 +94,8 @@ kiwi::uniform_buffer& kiwi::uniform_buffer::allocate(std::size_t number_of_bytes
 		glGenBuffers(1, &m_buffer_index);
 	}
 
-	if (kiwi::context::current_buffer() != static_cast<const void*>(this))
-	{
-		glBindBuffer(GL_UNIFORM_BUFFER, m_buffer_index);
-		kiwi::context::current_buffer() = static_cast<const void*>(this);
-	}
-
+	glBindBuffer(GL_UNIFORM_BUFFER, m_buffer_index);
 	glBufferData(GL_UNIFORM_BUFFER, number_of_bytes, nullptr, GL_STATIC_DRAW);
-
 	return *this;
 }
 
@@ -117,18 +103,10 @@ kiwi::uniform_buffer& kiwi::uniform_buffer::load(const void* const data_ptr, std
 {
 	if (m_buffer_index != 0)
 	{
-		if (kiwi::context::current_buffer() != static_cast<const void*>(this))
-		{
-			glBindBuffer(GL_UNIFORM_BUFFER, m_buffer_index);
-			kiwi::context::current_buffer() = static_cast<const void*>(this);
-		}
-	}
-	else
-	{
 		glGenBuffers(1, &m_buffer_index);
-		glBindBuffer(GL_UNIFORM_BUFFER, m_buffer_index);
-		kiwi::context::current_buffer() = static_cast<const void*>(this);
 	}
+
+	glBindBuffer(GL_UNIFORM_BUFFER, m_buffer_index);
 
 	if (number_of_bytes <= m_data_current_size)
 	{
@@ -145,12 +123,7 @@ kiwi::uniform_buffer& kiwi::uniform_buffer::load(const void* const data_ptr, std
 
 kiwi::uniform_buffer& kiwi::uniform_buffer::substitute(const void* const data_ptr, std::size_t begin_byte, std::size_t number_of_bytes) noexcept
 {
-	if (kiwi::context::current_buffer() != static_cast<const void*>(this))
-	{
-		glBindBuffer(GL_UNIFORM_BUFFER, m_buffer_index);
-		kiwi::context::current_buffer() = static_cast<const void*>(this);
-	}
-
+	glBindBuffer(GL_UNIFORM_BUFFER, m_buffer_index);
 	glBufferSubData(GL_UNIFORM_BUFFER, static_cast<GLintptr>(begin_byte), static_cast<GLintptr>(number_of_bytes), data_ptr);
 	return *this;
 }
@@ -162,22 +135,12 @@ kiwi::uniform_buffer& kiwi::uniform_buffer::to_binding(GLuint binding) noexcept
 		glGenBuffers(1, &m_buffer_index);
 	}
 
-	if (kiwi::context::current_buffer() != static_cast<const void*>(this))
-	{
-		kiwi::context::current_buffer() = static_cast<const void*>(this);
-	}
-
 	glBindBufferBase(GL_UNIFORM_BUFFER, binding, m_buffer_index);
 	return *this;
 }
 
 const kiwi::uniform_buffer& kiwi::uniform_buffer::to_binding(GLuint binding) const noexcept
 {
-	if (kiwi::context::current_buffer() != static_cast<const void*>(this))
-	{
-		kiwi::context::current_buffer() = static_cast<const void*>(this);
-	}
-
 	glBindBufferBase(GL_UNIFORM_BUFFER, binding, m_buffer_index);
 	return *this;
 }
@@ -189,11 +152,6 @@ kiwi::uniform_buffer& kiwi::uniform_buffer::to_binding(GLuint binding, std::size
 		glGenBuffers(1, &m_buffer_index);
 	}
 
-	if (kiwi::context::current_buffer() != static_cast<const void*>(this))
-	{
-		kiwi::context::current_buffer() = static_cast<const void*>(this);
-	}
-
 	glBindBufferRange(GL_UNIFORM_BUFFER, binding, m_buffer_index, static_cast<GLintptr>(begin_byte),
 		static_cast<GLsizeiptr>(number_of_bytes));
 
@@ -202,11 +160,6 @@ kiwi::uniform_buffer& kiwi::uniform_buffer::to_binding(GLuint binding, std::size
 
 const kiwi::uniform_buffer& kiwi::uniform_buffer::to_binding(GLuint binding, std::size_t begin_byte, std::size_t number_of_bytes) const noexcept
 {
-	if (kiwi::context::current_buffer() != static_cast<const void*>(this))
-	{
-		kiwi::context::current_buffer() = static_cast<const void*>(this);
-	}
-
 	glBindBufferRange(GL_UNIFORM_BUFFER, binding, m_buffer_index, static_cast<GLintptr>(begin_byte),
 		static_cast<GLsizeiptr>(number_of_bytes));
 
@@ -216,13 +169,11 @@ const kiwi::uniform_buffer& kiwi::uniform_buffer::to_binding(GLuint binding, std
 kiwi::uniform_buffer& kiwi::uniform_buffer::unbind() noexcept
 {
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
-	kiwi::context::current_buffer() = nullptr;
 	return *this;
 }
 
 const kiwi::uniform_buffer& kiwi::uniform_buffer::unbind() const noexcept
 {
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
-	kiwi::context::current_buffer() = nullptr;
 	return *this;
 }

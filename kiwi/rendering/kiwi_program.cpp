@@ -1,4 +1,5 @@
 #include "rendering/kiwi_program.hpp"
+#include <iostream>
 
 
 kiwi::program::program() noexcept

@@ -1,4 +1,5 @@
 #include "inputs/kiwi_mouse.hpp"
+#include <atomic>
 
 
 namespace kiwi

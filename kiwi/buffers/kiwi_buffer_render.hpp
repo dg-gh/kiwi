@@ -1,7 +1,7 @@
-#ifndef KIWI_BUFFER_RENDER_HPP
-#define KIWI_BUFFER_RENDER_HPP
+#ifndef _KIWI_BUFFER_RENDER_HPP
+#define _KIWI_BUFFER_RENDER_HPP
 
-#include "context/kiwi_context.hpp"
+#include "header_utils/kiwi_glcall.hpp"
 #include "header_utils/kiwi_basic_data.hpp"
 
 
@@ -55,4 +55,4 @@ namespace kiwi
 	};
 }
 
-#endif // KIWI_BUFFER_RENDER_HPP
+#endif // _KIWI_BUFFER_RENDER_HPP

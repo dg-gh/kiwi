@@ -1,7 +1,8 @@
-#ifndef KIWI_BUFFER_VERTEX_HPP
-#define KIWI_BUFFER_VERTEX_HPP
+#ifndef _KIWI_BUFFER_VERTEX_HPP
+#define _KIWI_BUFFER_VERTEX_HPP
 
-#include "context/kiwi_context.hpp"
+#include "header_utils/kiwi_glcall.hpp"
+#include <cstddef>
 
 
 namespace kiwi
@@ -45,4 +46,4 @@ namespace kiwi
 	};
 }
 
-#endif // KIWI_BUFFER_VERTEX_HPP
+#endif // _KIWI_BUFFER_VERTEX_HPP

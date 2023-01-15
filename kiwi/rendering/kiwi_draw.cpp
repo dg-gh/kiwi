@@ -2,6 +2,8 @@
 #include "shader_sources/kiwi_sources_basic_2d.hpp"
 #include "shader_sources/kiwi_sources_basic_3d.hpp"
 #include "shader_sources/kiwi_sources_sprites.hpp"
+#include <memory>
+
 
 namespace kiwi
 {
@@ -1602,15 +1604,15 @@ void kiwi::_draw_instanced_basic_proxy::triangle_fan_instanced(std::size_t insta
 
 void kiwi::_draw_quad_sprite_proxy::quad_sprites() noexcept
 {
-	glDrawArrays(GL_QUADS, 0, 4 * m_sprite_count);
+	glDrawArrays(GL_QUADS, 0, static_cast<GLsizei>(4 * m_sprite_count));
 }
 void kiwi::_draw_quad_sprite_proxy::quad_sprites(std::size_t sprite_count) noexcept
 {
-	glDrawArrays(GL_QUADS, 0, 4 * sprite_count);
+	glDrawArrays(GL_QUADS, 0, static_cast<GLsizei>(4 * sprite_count));
 }
 void kiwi::_draw_quad_sprite_proxy::quad_sprites(std::size_t sprite_begin, std::size_t sprite_count) noexcept
 {
-	glDrawArrays(GL_QUADS, 4 * sprite_begin, 4 * sprite_count);
+	glDrawArrays(GL_QUADS, static_cast<GLint>(4 * sprite_begin), static_cast<GLsizei>(4 * sprite_count));
 }
 
 

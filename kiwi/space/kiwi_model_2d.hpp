@@ -1,8 +1,9 @@
-#ifndef KIWI_MODEL_2D_HPP
-#define KIWI_MODEL_2D_HPP
+#ifndef _KIWI_MODEL_2D_HPP
+#define _KIWI_MODEL_2D_HPP
 
-#include "kiwi_includes.hpp"
+#include "header_utils/kiwi_glcall.hpp"
 #include "header_utils/kiwi_restrict.hpp"
+#include <cmath>
 
 
 namespace kiwi
@@ -407,4 +408,4 @@ inline kiwi::model_2d& kiwi::model_2d::eval() noexcept
 	return *this;
 }
 
-#endif // KIWI_MODEL_2D_HPP
+#endif // _KIWI_MODEL_2D_HPP

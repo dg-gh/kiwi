@@ -1,7 +1,7 @@
 #ifndef _KIWI_BUFFER_TEXTURE_2D_HPP
 #define _KIWI_BUFFER_TEXTURE_2D_HPP
 
-#include "context/kiwi_context.hpp"
+#include "header_utils/kiwi_glcall.hpp"
 #include "buffers/kiwi_buffer_pixel.hpp"
 #include "header_utils/kiwi_basic_data.hpp"
 

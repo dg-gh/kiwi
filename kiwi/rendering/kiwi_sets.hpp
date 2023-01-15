@@ -6,6 +6,8 @@
 #include "buffers/kiwi_buffer_texture_2d_array.hpp"
 #include "buffers/kiwi_buffer_storage.hpp"
 #include "header_utils/kiwi_restrict.hpp"
+#include <cmath>
+#include <functional>
 
 
 // XYZA

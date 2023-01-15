@@ -1,7 +1,8 @@
-#ifndef KIWI_BUFFER_INDEX_HPP
-#define KIWI_BUFFER_INDEX_HPP
+#ifndef _KIWI_BUFFER_INDEX_HPP
+#define _KIWI_BUFFER_INDEX_HPP
 
-#include "context/kiwi_context.hpp"
+#include "header_utils/kiwi_glcall.hpp"
+#include <cstddef>
 
 
 namespace kiwi
@@ -13,7 +14,7 @@ namespace kiwi
 
 		GLuint m_buffer_index;
 		std::size_t m_index_count;
-		std::size_t m_current_data_size;
+		std::size_t m_data_current_size;
 
 	public:
 
@@ -33,8 +34,10 @@ namespace kiwi
 		static void unbind() noexcept;
 
 		kiwi::index_buffer& load(const GLuint* const index_data_ptr, std::size_t new_index_count) noexcept;
+		kiwi::index_buffer& allocate(std::size_t new_index_count) noexcept;
+		kiwi::index_buffer& substitute(const GLuint* const index_data_ptr, std::size_t begin_index, std::size_t number_of_indices) noexcept;
 		std::size_t index_count() const noexcept;
 	};
 }
 
-#endif // KIWI_BUFFER_INDEX_HPP
+#endif // _KIWI_BUFFER_INDEX_HPP

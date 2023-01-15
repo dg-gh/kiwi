@@ -1,9 +1,9 @@
 #ifndef _KIWI_GEOM_HPP
 #define _KIWI_GEOM_HPP
 
-#include "kiwi_includes.hpp"
 #include "buffers/kiwi_buffer_vertex.hpp"
 #include "header_utils/kiwi_restrict.hpp"
+#include <vector>
 
 
 namespace kiwi
