@@ -9,7 +9,7 @@ kiwi::_load_frame_proxy kiwi::load_geom(kiwi::vertex_buffer& vertex_buffer) noex
 	return proxy;
 }
 
-void kiwi::make_N_from_2d_lines(kiwi::orient orientation, GLfloat* const  _KIWI_RESTRICT N_ptr, const GLfloat* const vertex_ptr, std::size_t vertex_count, std::size_t vertex_dim) noexcept
+void kiwi::make_N_from_lines_2d(kiwi::orient orientation, GLfloat* const  _KIWI_RESTRICT N_ptr, const GLfloat* const vertex_ptr, std::size_t vertex_count, std::size_t vertex_dim) noexcept
 {
 	GLfloat* p = N_ptr;
 	const GLfloat* q = vertex_ptr;
@@ -32,7 +32,7 @@ void kiwi::make_N_from_2d_lines(kiwi::orient orientation, GLfloat* const  _KIWI_
 	}
 }
 
-void kiwi::make_TB_from_2d_triangles(GLfloat* const _KIWI_RESTRICT TB_ptr, const GLfloat* const vertex_ptr, const GLfloat* const uv_ptr,
+void kiwi::make_TB_from_triangles_2d(GLfloat* const _KIWI_RESTRICT TB_ptr, const GLfloat* const vertex_ptr, const GLfloat* const uv_ptr,
 	std::size_t vertex_count, std::size_t vertex_dim) noexcept
 {
 	GLfloat* p = TB_ptr;
@@ -85,7 +85,7 @@ void kiwi::make_TB_from_2d_triangles(GLfloat* const _KIWI_RESTRICT TB_ptr, const
 	}
 }
 
-void kiwi::make_TB_from_2d_quads(GLfloat* const _KIWI_RESTRICT TB_ptr, const GLfloat* const vertex_ptr, const GLfloat* const uv_ptr,
+void kiwi::make_TB_from_quads_2d(GLfloat* const _KIWI_RESTRICT TB_ptr, const GLfloat* const vertex_ptr, const GLfloat* const uv_ptr,
 	std::size_t vertex_count, std::size_t vertex_dim) noexcept
 {
 	GLfloat* p = TB_ptr;
@@ -139,7 +139,7 @@ void kiwi::make_TB_from_2d_quads(GLfloat* const _KIWI_RESTRICT TB_ptr, const GLf
 	}
 }
 
-void kiwi::make_N_from_3d_triangles(kiwi::orient orientation, GLfloat* const _KIWI_RESTRICT N_ptr, const GLfloat* const vertex_ptr, std::size_t vertex_count, std::size_t vertex_dim) noexcept
+void kiwi::make_N_from_triangles_3d(kiwi::orient orientation, GLfloat* const _KIWI_RESTRICT N_ptr, const GLfloat* const vertex_ptr, std::size_t vertex_count, std::size_t vertex_dim) noexcept
 {
 #ifdef _KIWI_AVX2_FMA
 	float* p = N_ptr;
@@ -222,7 +222,7 @@ void kiwi::make_N_from_3d_triangles(kiwi::orient orientation, GLfloat* const _KI
 #endif // SIMD
 }
 
-void kiwi::make_N_from_3d_quads(kiwi::orient orientation, GLfloat* const _KIWI_RESTRICT N_ptr, const GLfloat* const vertex_ptr, std::size_t vertex_count, std::size_t vertex_dim) noexcept
+void kiwi::make_N_from_quads_3d(kiwi::orient orientation, GLfloat* const _KIWI_RESTRICT N_ptr, const GLfloat* const vertex_ptr, std::size_t vertex_count, std::size_t vertex_dim) noexcept
 {
 #ifdef _KIWI_AVX2_FMA
 	float* p = N_ptr;
@@ -308,7 +308,7 @@ void kiwi::make_N_from_3d_quads(kiwi::orient orientation, GLfloat* const _KIWI_R
 #endif // SIMD
 }
 
-void kiwi::make_TBN_from_3d_triangles(kiwi::orient orientation, GLfloat* const _KIWI_RESTRICT TBN_ptr, const GLfloat* const vertex_ptr, const GLfloat* const uv_ptr,
+void kiwi::make_TBN_from_triangles_3d(kiwi::orient orientation, GLfloat* const _KIWI_RESTRICT TBN_ptr, const GLfloat* const vertex_ptr, const GLfloat* const uv_ptr,
 	std::size_t vertex_count, std::size_t vertex_dim) noexcept
 {
 #ifdef _KIWI_AVX2_FMA
@@ -469,7 +469,7 @@ void kiwi::make_TBN_from_3d_triangles(kiwi::orient orientation, GLfloat* const _
 #endif // SIMD
 }
 
-void kiwi::make_TBN_from_3d_quads(kiwi::orient orientation, GLfloat* const _KIWI_RESTRICT TBN_ptr, const GLfloat* const vertex_ptr, const GLfloat* const uv_ptr,
+void kiwi::make_TBN_from_quads_3d(kiwi::orient orientation, GLfloat* const _KIWI_RESTRICT TBN_ptr, const GLfloat* const vertex_ptr, const GLfloat* const uv_ptr,
 	std::size_t vertex_count, std::size_t vertex_dim) noexcept
 {
 #ifdef _KIWI_AVX2_FMA
