@@ -1,5 +1,5 @@
-#ifndef KIWI_BASIC_DATA_HPP
-#define KIWI_BASIC_DATA_HPP
+#ifndef _KIWI_BASIC_DATA_HPP
+#define _KIWI_BASIC_DATA_HPP
 
 #include "kiwi_includes.hpp"
 
@@ -192,14 +192,14 @@ namespace kiwi
 		inline GLfloat& operator[](std::size_t offset) noexcept;
 		inline const GLfloat& operator[](std::size_t offset) const noexcept;
 
-		inline GLfloat& roughness() noexcept;
-		inline const GLfloat& roughness() const noexcept;
-		inline GLfloat& metalness() noexcept;
-		inline const GLfloat& metalness() const noexcept;
-		inline GLfloat& emissivity() noexcept;
-		inline const GLfloat& emissivity() const noexcept;
-		inline GLfloat& ceiling() noexcept;
-		inline const GLfloat& ceiling() const noexcept;
+		inline GLfloat& R() noexcept;
+		inline const GLfloat& R() const noexcept;
+		inline GLfloat& M() noexcept;
+		inline const GLfloat& M() const noexcept;
+		inline GLfloat& E() noexcept;
+		inline const GLfloat& E() const noexcept;
+		inline GLfloat& C() noexcept;
+		inline const GLfloat& C() const noexcept;
 
 		inline GLfloat* data() noexcept;
 		inline const GLfloat* data() const noexcept;
@@ -315,14 +315,14 @@ inline kiwi::RMEC::RMEC(GLfloat roughness, GLfloat metalness, GLfloat emissivity
 inline kiwi::RMEC::RMEC(GLfloat roughness, GLfloat metalness, GLfloat emissivity, GLfloat ceiling) noexcept : m_RMEC{ roughness, metalness, emissivity, ceiling } {}
 inline GLfloat& kiwi::RMEC::operator[](std::size_t offset) noexcept { return m_RMEC[offset]; }
 inline const GLfloat& kiwi::RMEC::operator[](std::size_t offset) const noexcept { return m_RMEC[offset]; }
-inline GLfloat& kiwi::RMEC::roughness() noexcept { return m_RMEC[0]; }
-inline const GLfloat& kiwi::RMEC::roughness() const noexcept { return m_RMEC[0]; }
-inline GLfloat& kiwi::RMEC::metalness() noexcept { return m_RMEC[1]; }
-inline const GLfloat& kiwi::RMEC::metalness() const noexcept { return m_RMEC[1]; }
-inline GLfloat& kiwi::RMEC::emissivity() noexcept { return m_RMEC[2]; }
-inline const GLfloat& kiwi::RMEC::emissivity() const noexcept { return m_RMEC[2]; }
-inline GLfloat& kiwi::RMEC::ceiling() noexcept { return m_RMEC[3]; }
-inline const GLfloat& kiwi::RMEC::ceiling() const noexcept { return m_RMEC[3]; }
+inline GLfloat& kiwi::RMEC::R() noexcept { return m_RMEC[0]; }
+inline const GLfloat& kiwi::RMEC::R() const noexcept { return m_RMEC[0]; }
+inline GLfloat& kiwi::RMEC::M() noexcept { return m_RMEC[1]; }
+inline const GLfloat& kiwi::RMEC::M() const noexcept { return m_RMEC[1]; }
+inline GLfloat& kiwi::RMEC::E() noexcept { return m_RMEC[2]; }
+inline const GLfloat& kiwi::RMEC::E() const noexcept { return m_RMEC[2]; }
+inline GLfloat& kiwi::RMEC::C() noexcept { return m_RMEC[3]; }
+inline const GLfloat& kiwi::RMEC::C() const noexcept { return m_RMEC[3]; }
 inline GLfloat* kiwi::RMEC::data() noexcept { return static_cast<GLfloat*>(m_RMEC); }
 inline const GLfloat* kiwi::RMEC::data() const noexcept { return static_cast<const GLfloat*>(m_RMEC); }
 
@@ -338,4 +338,4 @@ inline const GLfloat& kiwi::ECx::Cx() const noexcept { return m_ECx[1]; }
 inline GLfloat* kiwi::ECx::data() noexcept { return static_cast<GLfloat*>(m_ECx); }
 inline const GLfloat* kiwi::ECx::data() const noexcept { return static_cast<const GLfloat*>(m_ECx); }
 
-#endif // KIWI_BASIC_DATA_HPP
+#endif // _KIWI_BASIC_DATA_HPP
