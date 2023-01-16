@@ -9,7 +9,6 @@ namespace kiwi
 	using GLFWwindow_pointer = GLFWwindow*;
 	using current_frame_pointer = const void*;
 	using current_color_attachment = std::size_t;
-	using current_program_pointer = const void*;
 }
 
 namespace kiwi
@@ -90,7 +89,6 @@ namespace kiwi
 		GLbitfield& state() noexcept;
 		kiwi::current_frame_pointer& current_frame_buffer() noexcept;
 		kiwi::current_color_attachment& current_color_attachment() noexcept;
-		kiwi::current_program_pointer& current_program() noexcept;
 
 		void window_resize_callback(GLFWwindow* window, int screen_width, int screen_height);
 		void delete_window_size_info();

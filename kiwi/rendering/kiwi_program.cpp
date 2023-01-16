@@ -47,21 +47,13 @@ GLuint kiwi::program::get_id() const noexcept
 
 kiwi::program& kiwi::program::use() noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	return *this;
 }
 
 const kiwi::program& kiwi::program::use() const noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	return *this;
 }
 
@@ -154,11 +146,7 @@ void kiwi::program::delete_program() noexcept
 
 GLuint kiwi::program::new_uniform_block_index(const char* const uniform_variable, GLuint binding) const noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLuint uniform_block_index = glGetUniformBlockIndex(m_program_index, uniform_variable);
 	glUniformBlockBinding(m_program_index, uniform_block_index, binding);
 	return uniform_block_index;
@@ -166,22 +154,14 @@ GLuint kiwi::program::new_uniform_block_index(const char* const uniform_variable
 
 kiwi::program& kiwi::program::set_uniform_block(const kiwi::uniform_buffer& uniform_buffer, GLuint binding) noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniformBlockBinding(m_program_index, uniform_buffer.bind().get_id(), binding);
 	return *this;
 }
 
 const kiwi::program& kiwi::program::set_uniform_block(const kiwi::uniform_buffer& uniform_buffer, GLuint binding) const noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniformBlockBinding(m_program_index, uniform_buffer.bind().get_id(), binding);
 	return *this;
 }
@@ -194,11 +174,7 @@ GLint kiwi::program::new_uniform_location(const char* const uniform_variable) co
 		return -1;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 
 	GLint loc = glGetUniformLocation(m_program_index, uniform_variable);
 	if (loc == -1)
@@ -218,11 +194,7 @@ kiwi::program& kiwi::program::set_uniform_1f(const char* const uniform_variable,
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -244,11 +216,7 @@ const kiwi::program& kiwi::program::set_uniform_1f(const char* const uniform_var
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -264,11 +232,7 @@ const kiwi::program& kiwi::program::set_uniform_1f(const char* const uniform_var
 kiwi::program& kiwi::program::set_uniform_1f(GLint location,
 	GLfloat u0) noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniform1f(location, u0);
 	return *this;
 }
@@ -276,11 +240,7 @@ kiwi::program& kiwi::program::set_uniform_1f(GLint location,
 const kiwi::program& kiwi::program::set_uniform_1f(GLint location,
 	GLfloat u0) const noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniform1f(location, u0);
 	return *this;
 }
@@ -295,11 +255,7 @@ kiwi::program& kiwi::program::set_uniform_2f(const char* const uniform_variable,
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -321,11 +277,7 @@ const kiwi::program& kiwi::program::set_uniform_2f(const char* const uniform_var
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -341,11 +293,7 @@ const kiwi::program& kiwi::program::set_uniform_2f(const char* const uniform_var
 kiwi::program& kiwi::program::set_uniform_2f(GLint location,
 	GLfloat u0, GLfloat u1) noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniform2f(location, u0, u1);
 	return *this;
 }
@@ -353,11 +301,7 @@ kiwi::program& kiwi::program::set_uniform_2f(GLint location,
 const kiwi::program& kiwi::program::set_uniform_2f(GLint location,
 	GLfloat u0, GLfloat u1) const noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniform2f(location, u0, u1);
 	return *this;
 }
@@ -372,11 +316,7 @@ kiwi::program& kiwi::program::set_uniform_3f(const char* const uniform_variable,
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -398,11 +338,7 @@ const kiwi::program& kiwi::program::set_uniform_3f(const char* const uniform_var
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -418,11 +354,7 @@ const kiwi::program& kiwi::program::set_uniform_3f(const char* const uniform_var
 kiwi::program& kiwi::program::set_uniform_3f(GLint location,
 	GLfloat u0, GLfloat u1, GLfloat u2) noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniform3f(location, u0, u1, u2);
 	return *this;
 }
@@ -430,11 +362,7 @@ kiwi::program& kiwi::program::set_uniform_3f(GLint location,
 const kiwi::program& kiwi::program::set_uniform_3f(GLint location,
 	GLfloat u0, GLfloat u1, GLfloat u2) const noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniform3f(location, u0, u1, u2);
 	return *this;
 }
@@ -449,11 +377,7 @@ kiwi::program& kiwi::program::set_uniform_4f(const char* const uniform_variable,
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -475,11 +399,7 @@ const kiwi::program& kiwi::program::set_uniform_4f(const char* const uniform_var
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -495,11 +415,7 @@ const kiwi::program& kiwi::program::set_uniform_4f(const char* const uniform_var
 kiwi::program& kiwi::program::set_uniform_4f(GLint location,
 	GLfloat u0, GLfloat u1, GLfloat u2, GLfloat u3) noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniform4f(location, u0, u1, u2, u3);
 	return *this;
 }
@@ -507,11 +423,7 @@ kiwi::program& kiwi::program::set_uniform_4f(GLint location,
 const kiwi::program& kiwi::program::set_uniform_4f(GLint location,
 	GLfloat u0, GLfloat u1, GLfloat u2, GLfloat u3) const noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniform4f(location, u0, u1, u2, u3);
 	return *this;
 }
@@ -526,11 +438,7 @@ kiwi::program& kiwi::program::set_uniform_2f(const char* const uniform_variable,
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -552,11 +460,7 @@ const kiwi::program& kiwi::program::set_uniform_2f(const char* const uniform_var
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -572,11 +476,7 @@ const kiwi::program& kiwi::program::set_uniform_2f(const char* const uniform_var
 kiwi::program& kiwi::program::set_uniform_2f(GLint location,
 	const GLfloat* const values_ptr) noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniform2fv(location, 1, values_ptr);
 	return *this;
 }
@@ -584,11 +484,7 @@ kiwi::program& kiwi::program::set_uniform_2f(GLint location,
 const kiwi::program& kiwi::program::set_uniform_2f(GLint location,
 	const GLfloat* const values_ptr) const noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniform2fv(location, 1, values_ptr);
 	return *this;
 }
@@ -603,11 +499,7 @@ kiwi::program& kiwi::program::set_uniform_3f(const char* const uniform_variable,
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -629,11 +521,7 @@ const kiwi::program& kiwi::program::set_uniform_3f(const char* const uniform_var
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -649,11 +537,7 @@ const kiwi::program& kiwi::program::set_uniform_3f(const char* const uniform_var
 kiwi::program& kiwi::program::set_uniform_3f(GLint location,
 	const GLfloat* const values_ptr) noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniform3fv(location, 1, values_ptr);
 	return *this;
 }
@@ -661,11 +545,7 @@ kiwi::program& kiwi::program::set_uniform_3f(GLint location,
 const kiwi::program& kiwi::program::set_uniform_3f(GLint location,
 	const GLfloat* const values_ptr) const noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniform3fv(location, 1, values_ptr);
 	return *this;
 }
@@ -680,11 +560,7 @@ kiwi::program& kiwi::program::set_uniform_4f(const char* const uniform_variable,
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -706,11 +582,7 @@ const kiwi::program& kiwi::program::set_uniform_4f(const char* const uniform_var
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -726,11 +598,7 @@ const kiwi::program& kiwi::program::set_uniform_4f(const char* const uniform_var
 kiwi::program& kiwi::program::set_uniform_4f(GLint location,
 	const GLfloat* const values_ptr) noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniform4fv(location, 1, values_ptr);
 	return *this;
 }
@@ -738,11 +606,7 @@ kiwi::program& kiwi::program::set_uniform_4f(GLint location,
 const kiwi::program& kiwi::program::set_uniform_4f(GLint location,
 	const GLfloat* const values_ptr) const noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniform4fv(location, 1, values_ptr);
 	return *this;
 }
@@ -757,11 +621,7 @@ kiwi::program& kiwi::program::set_uniform_3x3f(const char* const uniform_variabl
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -783,11 +643,7 @@ const kiwi::program& kiwi::program::set_uniform_3x3f(const char* const uniform_v
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -803,11 +659,7 @@ const kiwi::program& kiwi::program::set_uniform_3x3f(const char* const uniform_v
 kiwi::program& kiwi::program::set_uniform_3x3f(GLint location,
 	const GLfloat* const values_ptr) noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniformMatrix3fv(location, 1, GL_FALSE, values_ptr);
 	return *this;
 }
@@ -815,11 +667,7 @@ kiwi::program& kiwi::program::set_uniform_3x3f(GLint location,
 const kiwi::program& kiwi::program::set_uniform_3x3f(GLint location,
 	const GLfloat* const values_ptr) const noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniformMatrix3fv(location, 1, GL_FALSE, values_ptr);
 	return *this;
 }
@@ -834,11 +682,7 @@ kiwi::program& kiwi::program::set_uniform_4x4f(const char* const uniform_variabl
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -860,11 +704,7 @@ const kiwi::program& kiwi::program::set_uniform_4x4f(const char* const uniform_v
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -880,11 +720,7 @@ const kiwi::program& kiwi::program::set_uniform_4x4f(const char* const uniform_v
 kiwi::program& kiwi::program::set_uniform_4x4f(GLint location,
 	const GLfloat* const values_ptr) noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniformMatrix4fv(location, 1, GL_FALSE, values_ptr);
 	return *this;
 }
@@ -892,11 +728,7 @@ kiwi::program& kiwi::program::set_uniform_4x4f(GLint location,
 const kiwi::program& kiwi::program::set_uniform_4x4f(GLint location,
 	const GLfloat* const values_ptr) const noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniformMatrix4fv(location, 1, GL_FALSE, values_ptr);
 	return *this;
 }
@@ -911,11 +743,7 @@ kiwi::program& kiwi::program::set_uniform_1i(const char* const uniform_variable,
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -937,11 +765,7 @@ const kiwi::program& kiwi::program::set_uniform_1i(const char* const uniform_var
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -958,11 +782,7 @@ const kiwi::program& kiwi::program::set_uniform_1i(const char* const uniform_var
 kiwi::program& kiwi::program::set_uniform_1i(GLint location,
 	GLint u0) noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniform1i(location, u0);
 	return *this;
 }
@@ -970,11 +790,7 @@ kiwi::program& kiwi::program::set_uniform_1i(GLint location,
 const kiwi::program& kiwi::program::set_uniform_1i(GLint location,
 	GLint u0) const noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniform1i(location, u0);
 	return *this;
 }
@@ -989,11 +805,7 @@ kiwi::program& kiwi::program::set_uniform_2i(const char* const uniform_variable,
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -1015,11 +827,7 @@ const kiwi::program& kiwi::program::set_uniform_2i(const char* const uniform_var
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -1035,11 +843,7 @@ const kiwi::program& kiwi::program::set_uniform_2i(const char* const uniform_var
 kiwi::program& kiwi::program::set_uniform_2i(GLint location,
 	GLint u0, GLint u1) noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniform2i(location, u0, u1);
 	return *this;
 }
@@ -1047,11 +851,7 @@ kiwi::program& kiwi::program::set_uniform_2i(GLint location,
 const kiwi::program& kiwi::program::set_uniform_2i(GLint location,
 	GLint u0, GLint u1) const noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniform2i(location, u0, u1);
 	return *this;
 }
@@ -1066,11 +866,7 @@ kiwi::program& kiwi::program::set_uniform_3i(const char* const uniform_variable,
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -1092,11 +888,7 @@ const kiwi::program& kiwi::program::set_uniform_3i(const char* const uniform_var
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -1112,11 +904,7 @@ const kiwi::program& kiwi::program::set_uniform_3i(const char* const uniform_var
 kiwi::program& kiwi::program::set_uniform_3i(GLint location,
 	GLint u0, GLint u1, GLint u2) noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniform3i(location, u0, u1, u2);
 	return *this;
 }
@@ -1124,11 +912,7 @@ kiwi::program& kiwi::program::set_uniform_3i(GLint location,
 const kiwi::program& kiwi::program::set_uniform_3i(GLint location,
 	GLint u0, GLint u1, GLint u2) const noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniform3i(location, u0, u1, u2);
 	return *this;
 }
@@ -1143,11 +927,7 @@ kiwi::program& kiwi::program::set_uniform_4i(const char* const uniform_variable,
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -1169,11 +949,7 @@ const kiwi::program& kiwi::program::set_uniform_4i(const char* const uniform_var
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -1189,11 +965,7 @@ const kiwi::program& kiwi::program::set_uniform_4i(const char* const uniform_var
 kiwi::program& kiwi::program::set_uniform_4i(GLint location,
 	GLuint u0, GLuint u1, GLuint u2, GLuint u3) noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniform4ui(location, u0, u1, u2, u3);
 	return *this;
 }
@@ -1201,11 +973,7 @@ kiwi::program& kiwi::program::set_uniform_4i(GLint location,
 const kiwi::program& kiwi::program::set_uniform_4i(GLint location,
 	GLuint u0, GLuint u1, GLuint u2, GLuint u3) const noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniform4ui(location, u0, u1, u2, u3);
 	return *this;
 }
@@ -1220,11 +988,7 @@ kiwi::program& kiwi::program::set_uniform_2i(const char* const uniform_variable,
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -1246,11 +1010,7 @@ const kiwi::program& kiwi::program::set_uniform_2i(const char* const uniform_var
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -1266,11 +1026,7 @@ const kiwi::program& kiwi::program::set_uniform_2i(const char* const uniform_var
 kiwi::program& kiwi::program::set_uniform_2i(GLint location,
 	const GLint* const values_ptr) noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniform2iv(location, 1, values_ptr);
 	return *this;
 }
@@ -1278,11 +1034,7 @@ kiwi::program& kiwi::program::set_uniform_2i(GLint location,
 const kiwi::program& kiwi::program::set_uniform_2i(GLint location,
 	const GLint* const values_ptr) const noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniform2iv(location, 1, values_ptr);
 	return *this;
 }
@@ -1297,11 +1049,7 @@ kiwi::program& kiwi::program::set_uniform_3i(const char* const uniform_variable,
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -1323,11 +1071,7 @@ const kiwi::program& kiwi::program::set_uniform_3i(const char* const uniform_var
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -1343,11 +1087,7 @@ const kiwi::program& kiwi::program::set_uniform_3i(const char* const uniform_var
 kiwi::program& kiwi::program::set_uniform_3i(GLint location,
 	const GLint* const values_ptr) noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniform3iv(location, 1, values_ptr);
 	return *this;
 }
@@ -1355,11 +1095,7 @@ kiwi::program& kiwi::program::set_uniform_3i(GLint location,
 const kiwi::program& kiwi::program::set_uniform_3i(GLint location,
 	const GLint* const values_ptr) const noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniform3iv(location, 1, values_ptr);
 	return *this;
 }
@@ -1374,11 +1110,7 @@ kiwi::program& kiwi::program::set_uniform_4i(const char* const uniform_variable,
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -1400,11 +1132,7 @@ const kiwi::program& kiwi::program::set_uniform_4i(const char* const uniform_var
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -1420,11 +1148,7 @@ const kiwi::program& kiwi::program::set_uniform_4i(const char* const uniform_var
 kiwi::program& kiwi::program::set_uniform_4i(GLint location,
 	const GLint* const values_ptr) noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniform4iv(location, 1, values_ptr);
 	return *this;
 }
@@ -1432,11 +1156,7 @@ kiwi::program& kiwi::program::set_uniform_4i(GLint location,
 const kiwi::program& kiwi::program::set_uniform_4i(GLint location,
 	const GLint* const values_ptr) const noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniform4iv(location, 1, values_ptr);
 	return *this;
 }
@@ -1451,11 +1171,7 @@ kiwi::program& kiwi::program::set_uniform_1ui(const char* const uniform_variable
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -1477,11 +1193,7 @@ const kiwi::program& kiwi::program::set_uniform_1ui(const char* const uniform_va
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -1497,11 +1209,7 @@ const kiwi::program& kiwi::program::set_uniform_1ui(const char* const uniform_va
 kiwi::program& kiwi::program::set_uniform_1ui(GLint location,
 	GLuint u0) noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniform1ui(location, u0);
 	return *this;
 }
@@ -1509,11 +1217,7 @@ kiwi::program& kiwi::program::set_uniform_1ui(GLint location,
 const kiwi::program& kiwi::program::set_uniform_1ui(GLint location,
 	GLuint u0) const noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniform1ui(location, u0);
 	return *this;
 }
@@ -1528,11 +1232,7 @@ kiwi::program& kiwi::program::set_uniform_2ui(const char* const uniform_variable
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -1554,11 +1254,7 @@ const kiwi::program& kiwi::program::set_uniform_2ui(const char* const uniform_va
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -1574,11 +1270,7 @@ const kiwi::program& kiwi::program::set_uniform_2ui(const char* const uniform_va
 kiwi::program& kiwi::program::set_uniform_2ui(GLint location,
 	GLuint u0, GLuint u1) noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniform2ui(location, u0, u1);
 	return *this;
 }
@@ -1586,11 +1278,7 @@ kiwi::program& kiwi::program::set_uniform_2ui(GLint location,
 const kiwi::program& kiwi::program::set_uniform_2ui(GLint location,
 	GLuint u0, GLuint u1) const noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniform2ui(location, u0, u1);
 	return *this;
 }
@@ -1605,11 +1293,7 @@ kiwi::program& kiwi::program::set_uniform_3ui(const char* const uniform_variable
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -1631,11 +1315,7 @@ const kiwi::program& kiwi::program::set_uniform_3ui(const char* const uniform_va
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -1651,11 +1331,7 @@ const kiwi::program& kiwi::program::set_uniform_3ui(const char* const uniform_va
 kiwi::program& kiwi::program::set_uniform_3ui(GLint location,
 	GLuint u0, GLuint u1, GLuint u2) noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniform3ui(location, u0, u1, u2);
 	return *this;
 }
@@ -1663,11 +1339,7 @@ kiwi::program& kiwi::program::set_uniform_3ui(GLint location,
 const kiwi::program& kiwi::program::set_uniform_3ui(GLint location,
 	GLuint u0, GLuint u1, GLuint u2) const noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniform3ui(location, u0, u1, u2);
 	return *this;
 }
@@ -1682,11 +1354,7 @@ kiwi::program& kiwi::program::set_uniform_4ui(const char* const uniform_variable
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -1708,11 +1376,7 @@ const kiwi::program& kiwi::program::set_uniform_4ui(const char* const uniform_va
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -1728,11 +1392,7 @@ const kiwi::program& kiwi::program::set_uniform_4ui(const char* const uniform_va
 kiwi::program& kiwi::program::set_uniform_4ui(GLint location,
 	GLuint u0, GLuint u1, GLuint u2, GLuint u3) noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniform4ui(location, u0, u1, u2, u3);
 	return *this;
 }
@@ -1740,11 +1400,7 @@ kiwi::program& kiwi::program::set_uniform_4ui(GLint location,
 const kiwi::program& kiwi::program::set_uniform_4ui(GLint location,
 	GLuint u0, GLuint u1, GLuint u2, GLuint u3) const noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniform4ui(location, u0, u1, u2, u3);
 	return *this;
 }
@@ -1759,11 +1415,7 @@ kiwi::program& kiwi::program::set_uniform_2ui(const char* const uniform_variable
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -1785,11 +1437,7 @@ const kiwi::program& kiwi::program::set_uniform_2ui(const char* const uniform_va
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -1805,11 +1453,7 @@ const kiwi::program& kiwi::program::set_uniform_2ui(const char* const uniform_va
 kiwi::program& kiwi::program::set_uniform_2ui(GLint location,
 	const GLuint* const values_ptr) noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniform2uiv(location, 1, values_ptr);
 	return *this;
 }
@@ -1817,11 +1461,7 @@ kiwi::program& kiwi::program::set_uniform_2ui(GLint location,
 const kiwi::program& kiwi::program::set_uniform_2ui(GLint location,
 	const GLuint* const values_ptr) const noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniform2uiv(location, 1, values_ptr);
 	return *this;
 }
@@ -1836,11 +1476,7 @@ kiwi::program& kiwi::program::set_uniform_3ui(const char* const uniform_variable
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -1862,11 +1498,7 @@ const kiwi::program& kiwi::program::set_uniform_3ui(const char* const uniform_va
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -1882,11 +1514,7 @@ const kiwi::program& kiwi::program::set_uniform_3ui(const char* const uniform_va
 kiwi::program& kiwi::program::set_uniform_3ui(GLint location,
 	const GLuint* const values_ptr) noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniform3uiv(location, 1, values_ptr);
 	return *this;
 }
@@ -1894,11 +1522,7 @@ kiwi::program& kiwi::program::set_uniform_3ui(GLint location,
 const kiwi::program& kiwi::program::set_uniform_3ui(GLint location,
 	const GLuint* const values_ptr) const noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniform3uiv(location, 1, values_ptr);
 	return *this;
 }
@@ -1913,11 +1537,7 @@ kiwi::program& kiwi::program::set_uniform_4ui(const char* const uniform_variable
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -1939,11 +1559,7 @@ const kiwi::program& kiwi::program::set_uniform_4ui(const char* const uniform_va
 		return *this;
 	}
 
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	GLint location = glGetUniformLocation(m_program_index, uniform_variable);
 	if (location == -1)
 	{
@@ -1959,11 +1575,7 @@ const kiwi::program& kiwi::program::set_uniform_4ui(const char* const uniform_va
 kiwi::program& kiwi::program::set_uniform_4ui(GLint location,
 	const GLuint* const values_ptr) noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniform4uiv(location, 1, values_ptr);
 	return *this;
 }
@@ -1971,11 +1583,7 @@ kiwi::program& kiwi::program::set_uniform_4ui(GLint location,
 const kiwi::program& kiwi::program::set_uniform_4ui(GLint location,
 	const GLuint* const values_ptr) const noexcept
 {
-	if (kiwi::context::current_program() != static_cast<const void*>(this))
-	{
-		glUseProgram(m_program_index);
-		kiwi::context::current_program() = static_cast<const void*>(this);
-	}
+	glUseProgram(m_program_index);
 	glUniform4uiv(location, 1, values_ptr);
 	return *this;
 }

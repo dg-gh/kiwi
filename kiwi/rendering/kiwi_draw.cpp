@@ -390,6 +390,7 @@ bool kiwi::draw_init()
 			success &= default_buffers_ptr->m_program_texture_array_sprites_2d.init();
 
 			success &= default_buffers_ptr->m_program_solid_color_3d.init();
+			success &= default_buffers_ptr->m_program_color_gradient_3d.init();
 			success &= default_buffers_ptr->m_program_bicolor_point_dist_3d.init();
 			success &= default_buffers_ptr->m_program_bicolor_point_dir_3d.init();
 			success &= default_buffers_ptr->m_program_texture_3d.init();

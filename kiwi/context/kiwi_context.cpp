@@ -324,11 +324,6 @@ kiwi::current_color_attachment& kiwi::context::current_color_attachment() noexce
 	return kiwi::user_window_context.current_color_attachment;
 }
 
-kiwi::current_program_pointer& kiwi::context::current_program() noexcept
-{
-	return kiwi::user_window_context.current_program_ptr;
-}
-
 int kiwi::screen_width() noexcept { return kiwi::user_window_context.m_screen_width; }
 int kiwi::screen_height() noexcept { return kiwi::user_window_context.m_screen_height; }
 GLint kiwi::X_to_pixel(GLfloat X) noexcept

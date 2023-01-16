@@ -1,7 +1,7 @@
 #ifndef KIWI_PROGRAM_HPP
 #define KIWI_PROGRAM_HPP
 
-#include "context/kiwi_context.hpp"
+#include "header_utils/kiwi_glcall.hpp"
 #include "buffers/kiwi_buffer_uniform.hpp"
 
 namespace kiwi
