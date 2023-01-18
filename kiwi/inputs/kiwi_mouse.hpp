@@ -14,32 +14,32 @@ namespace kiwi
 		float X() noexcept;
 		float Y() noexcept;
 
-		bool button_1() noexcept;
-		bool button_2() noexcept;
-		bool button_3() noexcept;
-		bool button_4() noexcept;
-		bool button_5() noexcept;
-		bool button_6() noexcept;
-		bool button_7() noexcept;
-		bool button_8() noexcept;
+		bool button1() noexcept;
+		bool button2() noexcept;
+		bool button3() noexcept;
+		bool button4() noexcept;
+		bool button5() noexcept;
+		bool button6() noexcept;
+		bool button7() noexcept;
+		bool button8() noexcept;
 
-		bool button_1_press() noexcept;
-		bool button_2_press() noexcept;
-		bool button_3_press() noexcept;
-		bool button_4_press() noexcept;
-		bool button_5_press() noexcept;
-		bool button_6_press() noexcept;
-		bool button_7_press() noexcept;
-		bool button_8_press() noexcept;
+		bool button1(kiwi::key_down_t) noexcept;
+		bool button2(kiwi::key_down_t) noexcept;
+		bool button3(kiwi::key_down_t) noexcept;
+		bool button4(kiwi::key_down_t) noexcept;
+		bool button5(kiwi::key_down_t) noexcept;
+		bool button6(kiwi::key_down_t) noexcept;
+		bool button7(kiwi::key_down_t) noexcept;
+		bool button8(kiwi::key_down_t) noexcept;
 
-		bool button_1_release() noexcept;
-		bool button_2_release() noexcept;
-		bool button_3_release() noexcept;
-		bool button_4_release() noexcept;
-		bool button_5_release() noexcept;
-		bool button_6_release() noexcept;
-		bool button_7_release() noexcept;
-		bool button_8_release() noexcept;
+		bool button1(kiwi::key_up_t) noexcept;
+		bool button2(kiwi::key_up_t) noexcept;
+		bool button3(kiwi::key_up_t) noexcept;
+		bool button4(kiwi::key_up_t) noexcept;
+		bool button5(kiwi::key_up_t) noexcept;
+		bool button6(kiwi::key_up_t) noexcept;
+		bool button7(kiwi::key_up_t) noexcept;
+		bool button8(kiwi::key_up_t) noexcept;
 
 		bool in_box(float X_min, float Y_min, float X_max, float Y_max) noexcept;
 		bool in_tri(float X0, float Y0, float X1, float Y1, float X2, float Y2) noexcept;

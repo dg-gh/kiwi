@@ -27,23 +27,7 @@ namespace kiwi
 
 		public:
 
-			std::atomic<bool> mouse_1_press{ false };
-			std::atomic<bool> mouse_2_press{ false };
-			std::atomic<bool> mouse_3_press{ false };
-			std::atomic<bool> mouse_4_press{ false };
-			std::atomic<bool> mouse_5_press{ false };
-			std::atomic<bool> mouse_6_press{ false };
-			std::atomic<bool> mouse_7_press{ false };
-			std::atomic<bool> mouse_8_press{ false };
-
-			std::atomic<bool> mouse_1_release{ false };
-			std::atomic<bool> mouse_2_release{ false };
-			std::atomic<bool> mouse_3_release{ false };
-			std::atomic<bool> mouse_4_release{ false };
-			std::atomic<bool> mouse_5_release{ false };
-			std::atomic<bool> mouse_6_release{ false };
-			std::atomic<bool> mouse_7_release{ false };
-			std::atomic<bool> mouse_8_release{ false };
+			std::atomic<bool> mouse_button_up_down[16];
 		};
 	}
 }
@@ -58,32 +42,32 @@ namespace kiwi
 float kiwi::mouse::X() noexcept { return user_mouse_position_input.mouse_X; }
 float kiwi::mouse::Y() noexcept { return user_mouse_position_input.mouse_Y; }
 
-bool kiwi::mouse::button_1() noexcept { return glfwGetMouseButton(kiwi::mouse_context_window_ptr, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS; }
-bool kiwi::mouse::button_2() noexcept { return glfwGetMouseButton(kiwi::mouse_context_window_ptr, GLFW_MOUSE_BUTTON_2) == GLFW_PRESS; }
-bool kiwi::mouse::button_3() noexcept { return glfwGetMouseButton(kiwi::mouse_context_window_ptr, GLFW_MOUSE_BUTTON_3) == GLFW_PRESS; }
-bool kiwi::mouse::button_4() noexcept { return glfwGetMouseButton(kiwi::mouse_context_window_ptr, GLFW_MOUSE_BUTTON_4) == GLFW_PRESS; }
-bool kiwi::mouse::button_5() noexcept { return glfwGetMouseButton(kiwi::mouse_context_window_ptr, GLFW_MOUSE_BUTTON_5) == GLFW_PRESS; }
-bool kiwi::mouse::button_6() noexcept { return glfwGetMouseButton(kiwi::mouse_context_window_ptr, GLFW_MOUSE_BUTTON_6) == GLFW_PRESS; }
-bool kiwi::mouse::button_7() noexcept { return glfwGetMouseButton(kiwi::mouse_context_window_ptr, GLFW_MOUSE_BUTTON_7) == GLFW_PRESS; }
-bool kiwi::mouse::button_8() noexcept { return glfwGetMouseButton(kiwi::mouse_context_window_ptr, GLFW_MOUSE_BUTTON_8) == GLFW_PRESS; }
+bool kiwi::mouse::button1() noexcept { return glfwGetMouseButton(kiwi::mouse_context_window_ptr, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS; }
+bool kiwi::mouse::button2() noexcept { return glfwGetMouseButton(kiwi::mouse_context_window_ptr, GLFW_MOUSE_BUTTON_2) == GLFW_PRESS; }
+bool kiwi::mouse::button3() noexcept { return glfwGetMouseButton(kiwi::mouse_context_window_ptr, GLFW_MOUSE_BUTTON_3) == GLFW_PRESS; }
+bool kiwi::mouse::button4() noexcept { return glfwGetMouseButton(kiwi::mouse_context_window_ptr, GLFW_MOUSE_BUTTON_4) == GLFW_PRESS; }
+bool kiwi::mouse::button5() noexcept { return glfwGetMouseButton(kiwi::mouse_context_window_ptr, GLFW_MOUSE_BUTTON_5) == GLFW_PRESS; }
+bool kiwi::mouse::button6() noexcept { return glfwGetMouseButton(kiwi::mouse_context_window_ptr, GLFW_MOUSE_BUTTON_6) == GLFW_PRESS; }
+bool kiwi::mouse::button7() noexcept { return glfwGetMouseButton(kiwi::mouse_context_window_ptr, GLFW_MOUSE_BUTTON_7) == GLFW_PRESS; }
+bool kiwi::mouse::button8() noexcept { return glfwGetMouseButton(kiwi::mouse_context_window_ptr, GLFW_MOUSE_BUTTON_8) == GLFW_PRESS; }
 
-bool kiwi::mouse::button_1_press() noexcept { return kiwi::user_mouse_button_input.mouse_1_press.load(); }
-bool kiwi::mouse::button_2_press() noexcept { return kiwi::user_mouse_button_input.mouse_2_press.load(); }
-bool kiwi::mouse::button_3_press() noexcept { return kiwi::user_mouse_button_input.mouse_3_press.load(); }
-bool kiwi::mouse::button_4_press() noexcept { return kiwi::user_mouse_button_input.mouse_4_press.load(); }
-bool kiwi::mouse::button_5_press() noexcept { return kiwi::user_mouse_button_input.mouse_5_press.load(); }
-bool kiwi::mouse::button_6_press() noexcept { return kiwi::user_mouse_button_input.mouse_6_press.load(); }
-bool kiwi::mouse::button_7_press() noexcept { return kiwi::user_mouse_button_input.mouse_7_press.load(); }
-bool kiwi::mouse::button_8_press() noexcept { return kiwi::user_mouse_button_input.mouse_8_press.load(); }
+bool kiwi::mouse::button1(kiwi::key_down_t) noexcept { return kiwi::user_mouse_button_input.mouse_button_up_down[8].load(); }
+bool kiwi::mouse::button2(kiwi::key_down_t) noexcept { return kiwi::user_mouse_button_input.mouse_button_up_down[9].load(); }
+bool kiwi::mouse::button3(kiwi::key_down_t) noexcept { return kiwi::user_mouse_button_input.mouse_button_up_down[10].load(); }
+bool kiwi::mouse::button4(kiwi::key_down_t) noexcept { return kiwi::user_mouse_button_input.mouse_button_up_down[11].load(); }
+bool kiwi::mouse::button5(kiwi::key_down_t) noexcept { return kiwi::user_mouse_button_input.mouse_button_up_down[12].load(); }
+bool kiwi::mouse::button6(kiwi::key_down_t) noexcept { return kiwi::user_mouse_button_input.mouse_button_up_down[13].load(); }
+bool kiwi::mouse::button7(kiwi::key_down_t) noexcept { return kiwi::user_mouse_button_input.mouse_button_up_down[14].load(); }
+bool kiwi::mouse::button8(kiwi::key_down_t) noexcept { return kiwi::user_mouse_button_input.mouse_button_up_down[15].load(); }
 
-bool kiwi::mouse::button_1_release() noexcept { return kiwi::user_mouse_button_input.mouse_1_release.load(); }
-bool kiwi::mouse::button_2_release() noexcept { return kiwi::user_mouse_button_input.mouse_2_release.load(); }
-bool kiwi::mouse::button_3_release() noexcept { return kiwi::user_mouse_button_input.mouse_3_release.load(); }
-bool kiwi::mouse::button_4_release() noexcept { return kiwi::user_mouse_button_input.mouse_4_release.load(); }
-bool kiwi::mouse::button_5_release() noexcept { return kiwi::user_mouse_button_input.mouse_5_release.load(); }
-bool kiwi::mouse::button_6_release() noexcept { return kiwi::user_mouse_button_input.mouse_6_release.load(); }
-bool kiwi::mouse::button_7_release() noexcept { return kiwi::user_mouse_button_input.mouse_7_release.load(); }
-bool kiwi::mouse::button_8_release() noexcept { return kiwi::user_mouse_button_input.mouse_8_release.load(); }
+bool kiwi::mouse::button1(kiwi::key_up_t) noexcept { return kiwi::user_mouse_button_input.mouse_button_up_down[0].load(); }
+bool kiwi::mouse::button2(kiwi::key_up_t) noexcept { return kiwi::user_mouse_button_input.mouse_button_up_down[1].load(); }
+bool kiwi::mouse::button3(kiwi::key_up_t) noexcept { return kiwi::user_mouse_button_input.mouse_button_up_down[2].load(); }
+bool kiwi::mouse::button4(kiwi::key_up_t) noexcept { return kiwi::user_mouse_button_input.mouse_button_up_down[3].load(); }
+bool kiwi::mouse::button5(kiwi::key_up_t) noexcept { return kiwi::user_mouse_button_input.mouse_button_up_down[4].load(); }
+bool kiwi::mouse::button6(kiwi::key_up_t) noexcept { return kiwi::user_mouse_button_input.mouse_button_up_down[5].load(); }
+bool kiwi::mouse::button7(kiwi::key_up_t) noexcept { return kiwi::user_mouse_button_input.mouse_button_up_down[6].load(); }
+bool kiwi::mouse::button8(kiwi::key_up_t) noexcept { return kiwi::user_mouse_button_input.mouse_button_up_down[7].load(); }
 
 bool kiwi::mouse::in_box(float X_min, float Y_min, float X_max, float Y_max) noexcept
 {
@@ -140,45 +124,10 @@ namespace kiwi
 	{
 		void button_callback(GLFWwindow*, int button, int action, int) noexcept
 		{
-			switch (button)
-			{
+			constexpr int first_button = static_cast<int>(GLFW_MOUSE_BUTTON_1);
+			std::size_t offset = static_cast<std::size_t>(button - first_button + 8 * action);
 
-			case GLFW_MOUSE_BUTTON_1:
-				kiwi::user_mouse_button_input.mouse_1_press.store(action == GLFW_PRESS);
-				kiwi::user_mouse_button_input.mouse_1_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_MOUSE_BUTTON_2:
-				kiwi::user_mouse_button_input.mouse_2_press.store(action == GLFW_PRESS);
-				kiwi::user_mouse_button_input.mouse_2_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_MOUSE_BUTTON_3:
-				kiwi::user_mouse_button_input.mouse_3_press.store(action == GLFW_PRESS);
-				kiwi::user_mouse_button_input.mouse_3_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_MOUSE_BUTTON_4:
-				kiwi::user_mouse_button_input.mouse_4_press.store(action == GLFW_PRESS);
-				kiwi::user_mouse_button_input.mouse_4_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_MOUSE_BUTTON_5:
-				kiwi::user_mouse_button_input.mouse_5_press.store(action == GLFW_PRESS);
-				kiwi::user_mouse_button_input.mouse_5_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_MOUSE_BUTTON_6:
-				kiwi::user_mouse_button_input.mouse_6_press.store(action == GLFW_PRESS);
-				kiwi::user_mouse_button_input.mouse_6_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_MOUSE_BUTTON_7:
-				kiwi::user_mouse_button_input.mouse_7_press.store(action == GLFW_PRESS);
-				kiwi::user_mouse_button_input.mouse_7_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_MOUSE_BUTTON_8:
-				kiwi::user_mouse_button_input.mouse_8_press.store(action == GLFW_PRESS);
-				kiwi::user_mouse_button_input.mouse_8_release.store(action == GLFW_RELEASE);
-				break;
-
-			default:
-				break;
-			}
+			kiwi::user_mouse_button_input.mouse_button_up_down[offset].store(true);
 		}
 
 		void position_callback(GLFWwindow*, double input_mouse_X, double input_mouse_Y) noexcept
