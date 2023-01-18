@@ -25,6 +25,12 @@ const GLfloat* kiwi::camera_2d::data() noexcept
 	return static_cast<const GLfloat*>(m_vp_matrix);
 }
 
+kiwi::camera_2d::operator const GLfloat* () noexcept
+{
+	if (m_XY_modified | m_angle_modified) { eval(); }
+	return static_cast<const GLfloat*>(m_vp_matrix);
+}
+
 const GLfloat* kiwi::camera_2d::data(const GLfloat* const model_matrix_ptr) noexcept
 {
 	if (m_XY_modified | m_angle_modified) { eval(); }
@@ -32,10 +38,10 @@ const GLfloat* kiwi::camera_2d::data(const GLfloat* const model_matrix_ptr) noex
 	return static_cast<const GLfloat*>(m_mvp_matrix);
 }
 
-const GLfloat* kiwi::camera_2d::data(kiwi::model_2d& model) noexcept
+const GLfloat* kiwi::camera_2d::operator()(const GLfloat* const model_matrix_ptr) noexcept
 {
 	if (m_XY_modified | m_angle_modified) { eval(); }
-	m33xm33(static_cast<GLfloat*>(m_mvp_matrix), static_cast<const GLfloat*>(m_vp_matrix), model.data());
+	m33xm33(static_cast<GLfloat*>(m_mvp_matrix), static_cast<const GLfloat*>(m_vp_matrix), model_matrix_ptr);
 	return static_cast<const GLfloat*>(m_mvp_matrix);
 }
 

@@ -102,24 +102,17 @@ const GLfloat* kiwi::camera_3d::data(const GLfloat* const m_matrix_ptr) noexcept
 	return static_cast<const GLfloat*>(m_mvp_matrix);
 }
 
+const GLfloat* kiwi::camera_3d::operator()(const GLfloat* const m_matrix_ptr) noexcept
+{
+	if (m_XYZ_modified | m_angles_modified) { eval(); }
+	m44xm44(static_cast<GLfloat*>(m_mvp_matrix), static_cast<const GLfloat*>(m_vp_matrix), m_matrix_ptr);
+	return static_cast<const GLfloat*>(m_mvp_matrix);
+}
+
 const GLfloat* kiwi::camera_3d::skybox_data(const GLfloat* const m_matrix_ptr) noexcept
 {
 	if (m_XYZ_modified | m_angles_modified) { eval(); }
 	m44xm44(static_cast<GLfloat*>(m_mskybox_matrix), static_cast<const GLfloat*>(m_skybox_matrix), m_matrix_ptr);
-	return static_cast<const GLfloat*>(m_mskybox_matrix);
-}
-
-const GLfloat* kiwi::camera_3d::data(kiwi::model_3d& model) noexcept
-{
-	if (m_angles_modified | m_angles_modified) { eval(); }
-	m44xm44(static_cast<GLfloat*>(m_mvp_matrix), static_cast<const GLfloat*>(m_vp_matrix), model.data());
-	return static_cast<const GLfloat*>(m_mvp_matrix);
-}
-
-const GLfloat* kiwi::camera_3d::skybox_data(kiwi::model_3d& model) noexcept
-{
-	if (m_angles_modified) { eval(); }
-	m44xm44(static_cast<GLfloat*>(m_mskybox_matrix), static_cast<const GLfloat*>(m_skybox_matrix), model.data());
 	return static_cast<const GLfloat*>(m_mskybox_matrix);
 }
 

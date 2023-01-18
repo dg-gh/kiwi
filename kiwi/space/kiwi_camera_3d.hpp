@@ -1,9 +1,10 @@
-#ifndef KIWI_CAMERA_3D_HPP
-#define KIWI_CAMERA_3D_HPP
+#ifndef _KIWI_CAMERA_3D_HPP
+#define _KIWI_CAMERA_3D_HPP
 
 #include "context/kiwi_context.hpp"
 #include "buffers/kiwi_buffer_frame.hpp"
-#include "space/kiwi_model_3d.hpp"
+#include "header_utils/kiwi_restrict.hpp"
+#include <cmath>
 
 
 namespace kiwi
@@ -24,9 +25,8 @@ namespace kiwi
 		kiwi::camera_3d& new_projection_matrix_ortho(GLfloat screen_ratio, const kiwi::XY& scale, GLfloat z_near, GLfloat z_far) noexcept;
 
 		const GLfloat* data(const GLfloat* const model_matrix_ptr) noexcept;
+		const GLfloat* operator()(const GLfloat* const model_matrix_ptr) noexcept;
 		const GLfloat* skybox_data(const GLfloat* const model_matrix_ptr) noexcept;
-		const GLfloat* data(kiwi::model_3d& model) noexcept;
-		const GLfloat* skybox_data(kiwi::model_3d& model) noexcept;
 
 		const GLfloat* XYZ_data() noexcept;
 		const GLfloat* front_dir_data() noexcept;
@@ -760,4 +760,4 @@ inline GLfloat kiwi::camera_3d::pick_view_depth(GLfloat X_screen, GLfloat Y_scre
 	}
 }
 
-#endif // KIWI_CAMERA_3D_HPP
+#endif // _KIWI_CAMERA_3D_HPP

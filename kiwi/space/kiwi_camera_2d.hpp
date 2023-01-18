@@ -1,7 +1,9 @@
-#ifndef KIWI_CAMERA_2D_HPP
-#define KIWI_CAMERA_2D_HPP
+#ifndef _KIWI_CAMERA_2D_HPP
+#define _KIWI_CAMERA_2D_HPP
 
-#include "kiwi_model_2d.hpp"
+#include "header_utils/kiwi_glcall.hpp"
+#include "header_utils/kiwi_restrict.hpp"
+#include <cmath>
 
 
 namespace kiwi
@@ -21,9 +23,10 @@ namespace kiwi
 		kiwi::camera_2d& set_new_projection_matrix(GLfloat screen_ratio) noexcept;
 
 		const GLfloat* data() noexcept;
+		operator const GLfloat* () noexcept;
 
 		const GLfloat* data(const GLfloat* const model_matrix_ptr) noexcept;
-		const GLfloat* data(kiwi::model_2d& model) noexcept;
+		const GLfloat* operator()(const GLfloat* const model_matrix_ptr) noexcept;
 
 		const GLfloat* XY_data() noexcept;
 		const GLfloat* right_dir_data() noexcept;
@@ -278,4 +281,4 @@ inline bool kiwi::camera_2d::in_view(GLfloat object_X, GLfloat object_Y, GLfloat
 	return ((-X_bound <= X_screen) & (X_screen <= X_bound)) & ((-Y_bound <= Y_screen) & (Y_screen <= Y_bound));
 }
 
-#endif // KIWI_CAMERA_2D_HPP
+#endif // _KIWI_CAMERA_2D_HPP

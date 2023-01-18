@@ -21,6 +21,7 @@ namespace kiwi
 		~model_3d() = default;
 
 		inline const GLfloat* data() noexcept;
+		inline operator const GLfloat* () noexcept;
 
 		kiwi::model_3d& set_base_model(kiwi::model_3d* base_model_ptr) noexcept;
 		kiwi::model_3d* get_base_model() const noexcept;
@@ -133,6 +134,12 @@ namespace kiwi
 // INLINES IMPLEMENTATION
 
 inline const GLfloat* kiwi::model_3d::data() noexcept
+{
+	eval();
+	return static_cast<GLfloat*>(m_matrix_free);
+}
+
+inline kiwi::model_3d::operator const GLfloat* () noexcept
 {
 	eval();
 	return static_cast<GLfloat*>(m_matrix_free);
