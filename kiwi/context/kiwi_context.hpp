@@ -24,9 +24,6 @@ namespace kiwi
 	void clear_depth_buffer();
 	void clear_stencil_buffer();
 
-	enum key_up_t { key_up };
-	enum key_down_t { key_down };
-
 	namespace mode
 	{
 		void clear_color(GLfloat R, GLfloat G, GLfloat B, GLfloat A);

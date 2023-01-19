@@ -1,203 +1,10 @@
 #include "inputs/kiwi_keyboard.hpp"
-#include <atomic>
-
-namespace kiwi
-{
-	namespace keyboard
-	{
-		class key_input
-		{
-
-		public:
-
-			// event press
-
-			std::atomic<bool> space_press{ false };
-			std::atomic<bool> apostrophe_press{ false };
-			std::atomic<bool> comma_press{ false };
-			std::atomic<bool> minus_press{ false };
-			std::atomic<bool> period_press{ false };
-			std::atomic<bool> slash_press{ false };
-
-			std::atomic<bool> A_press{ false };
-			std::atomic<bool> B_press{ false };
-			std::atomic<bool> C_press{ false };
-			std::atomic<bool> D_press{ false };
-			std::atomic<bool> E_press{ false };
-			std::atomic<bool> F_press{ false };
-			std::atomic<bool> G_press{ false };
-			std::atomic<bool> H_press{ false };
-			std::atomic<bool> I_press{ false };
-			std::atomic<bool> J_press{ false };
-			std::atomic<bool> K_press{ false };
-			std::atomic<bool> L_press{ false };
-			std::atomic<bool> M_press{ false };
-			std::atomic<bool> N_press{ false };
-			std::atomic<bool> O_press{ false };
-			std::atomic<bool> P_press{ false };
-			std::atomic<bool> Q_press{ false };
-			std::atomic<bool> R_press{ false };
-			std::atomic<bool> S_press{ false };
-			std::atomic<bool> T_press{ false };
-			std::atomic<bool> U_press{ false };
-			std::atomic<bool> V_press{ false };
-			std::atomic<bool> W_press{ false };
-			std::atomic<bool> X_press{ false };
-			std::atomic<bool> Y_press{ false };
-			std::atomic<bool> Z_press{ false };
-
-			std::atomic<bool> num0_press{ false };
-			std::atomic<bool> num1_press{ false };
-			std::atomic<bool> num2_press{ false };
-			std::atomic<bool> num3_press{ false };
-			std::atomic<bool> num4_press{ false };
-			std::atomic<bool> num5_press{ false };
-			std::atomic<bool> num6_press{ false };
-			std::atomic<bool> num7_press{ false };
-			std::atomic<bool> num8_press{ false };
-			std::atomic<bool> num9_press{ false };
-
-			std::atomic<bool> numpad0_press{ false };
-			std::atomic<bool> numpad1_press{ false };
-			std::atomic<bool> numpad2_press{ false };
-			std::atomic<bool> numpad3_press{ false };
-			std::atomic<bool> numpad4_press{ false };
-			std::atomic<bool> numpad5_press{ false };
-			std::atomic<bool> numpad6_press{ false };
-			std::atomic<bool> numpad7_press{ false };
-			std::atomic<bool> numpad8_press{ false };
-			std::atomic<bool> numpad9_press{ false };
-
-			std::atomic<bool> add_press{ false };
-			std::atomic<bool> sub_press{ false };
-			std::atomic<bool> mul_press{ false };
-			std::atomic<bool> div_press{ false };
-
-			std::atomic<bool> f1_press{ false };
-			std::atomic<bool> f2_press{ false };
-			std::atomic<bool> f3_press{ false };
-			std::atomic<bool> f4_press{ false };
-			std::atomic<bool> f5_press{ false };
-			std::atomic<bool> f6_press{ false };
-			std::atomic<bool> f7_press{ false };
-			std::atomic<bool> f8_press{ false };
-			std::atomic<bool> f9_press{ false };
-			std::atomic<bool> f10_press{ false };
-			std::atomic<bool> f11_press{ false };
-			std::atomic<bool> f12_press{ false };
-
-			std::atomic<bool> escape_press{ false };
-			std::atomic<bool> enter_press{ false };
-			std::atomic<bool> tab_press{ false };
-			std::atomic<bool> backspace_press{ false };
-			std::atomic<bool> insert_press{ false };
-			std::atomic<bool> delete__press{ false };
-			std::atomic<bool> right_press{ false };
-			std::atomic<bool> left_press{ false };
-			std::atomic<bool> down_press{ false };
-			std::atomic<bool> up_press{ false };
-			std::atomic<bool> alt_press{ false };
-			std::atomic<bool> shift_press{ false };
-			std::atomic<bool> ctrl_press{ false };
-
-			// event release
-
-			std::atomic<bool> space_release{ false };
-			std::atomic<bool> apostrophe_release{ false };
-			std::atomic<bool> comma_release{ false };
-			std::atomic<bool> minus_release{ false };
-			std::atomic<bool> period_release{ false };
-			std::atomic<bool> slash_release{ false };
-
-			std::atomic<bool> A_release{ false };
-			std::atomic<bool> B_release{ false };
-			std::atomic<bool> C_release{ false };
-			std::atomic<bool> D_release{ false };
-			std::atomic<bool> E_release{ false };
-			std::atomic<bool> F_release{ false };
-			std::atomic<bool> G_release{ false };
-			std::atomic<bool> H_release{ false };
-			std::atomic<bool> I_release{ false };
-			std::atomic<bool> J_release{ false };
-			std::atomic<bool> K_release{ false };
-			std::atomic<bool> L_release{ false };
-			std::atomic<bool> M_release{ false };
-			std::atomic<bool> N_release{ false };
-			std::atomic<bool> O_release{ false };
-			std::atomic<bool> P_release{ false };
-			std::atomic<bool> Q_release{ false };
-			std::atomic<bool> R_release{ false };
-			std::atomic<bool> S_release{ false };
-			std::atomic<bool> T_release{ false };
-			std::atomic<bool> U_release{ false };
-			std::atomic<bool> V_release{ false };
-			std::atomic<bool> W_release{ false };
-			std::atomic<bool> X_release{ false };
-			std::atomic<bool> Y_release{ false };
-			std::atomic<bool> Z_release{ false };
-
-			std::atomic<bool> num0_release{ false };
-			std::atomic<bool> num1_release{ false };
-			std::atomic<bool> num2_release{ false };
-			std::atomic<bool> num3_release{ false };
-			std::atomic<bool> num4_release{ false };
-			std::atomic<bool> num5_release{ false };
-			std::atomic<bool> num6_release{ false };
-			std::atomic<bool> num7_release{ false };
-			std::atomic<bool> num8_release{ false };
-			std::atomic<bool> num9_release{ false };
-
-			std::atomic<bool> numpad0_release{ false };
-			std::atomic<bool> numpad1_release{ false };
-			std::atomic<bool> numpad2_release{ false };
-			std::atomic<bool> numpad3_release{ false };
-			std::atomic<bool> numpad4_release{ false };
-			std::atomic<bool> numpad5_release{ false };
-			std::atomic<bool> numpad6_release{ false };
-			std::atomic<bool> numpad7_release{ false };
-			std::atomic<bool> numpad8_release{ false };
-			std::atomic<bool> numpad9_release{ false };
-
-			std::atomic<bool> add_release{ false };
-			std::atomic<bool> sub_release{ false };
-			std::atomic<bool> mul_release{ false };
-			std::atomic<bool> div_release{ false };
-
-			std::atomic<bool> f1_release{ false };
-			std::atomic<bool> f2_release{ false };
-			std::atomic<bool> f3_release{ false };
-			std::atomic<bool> f4_release{ false };
-			std::atomic<bool> f5_release{ false };
-			std::atomic<bool> f6_release{ false };
-			std::atomic<bool> f7_release{ false };
-			std::atomic<bool> f8_release{ false };
-			std::atomic<bool> f9_release{ false };
-			std::atomic<bool> f10_release{ false };
-			std::atomic<bool> f11_release{ false };
-			std::atomic<bool> f12_release{ false };
-
-			std::atomic<bool> escape_release{ false };
-			std::atomic<bool> enter_release{ false };
-			std::atomic<bool> tab_release{ false };
-			std::atomic<bool> backspace_release{ false };
-			std::atomic<bool> insert_release{ false };
-			std::atomic<bool> delete__release{ false };
-			std::atomic<bool> right_release{ false };
-			std::atomic<bool> left_release{ false };
-			std::atomic<bool> down_release{ false };
-			std::atomic<bool> up_release{ false };
-			std::atomic<bool> alt_release{ false };
-			std::atomic<bool> shift_release{ false };
-			std::atomic<bool> ctrl_release{ false };
-		};
-	}
-}
-
+#include <bitset>
 
 namespace kiwi
 {
 	static GLFWwindow* keyboard_context_window_ptr;
-	static kiwi::keyboard::key_input user_keyboard_key_input;
+	static std::bitset<768> user_keyboard_key_input;
 }
 
 namespace kiwi
@@ -206,353 +13,8 @@ namespace kiwi
 	{
 		void callback(GLFWwindow*, int key, int, int action, int) noexcept
 		{
-			switch (key)
-			{
-
-			case GLFW_KEY_SPACE:
-				kiwi::user_keyboard_key_input.space_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.space_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_APOSTROPHE:
-				kiwi::user_keyboard_key_input.apostrophe_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.apostrophe_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_COMMA:
-				kiwi::user_keyboard_key_input.comma_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.comma_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_MINUS:
-				kiwi::user_keyboard_key_input.minus_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.minus_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_PERIOD:
-				kiwi::user_keyboard_key_input.period_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.period_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_SLASH:
-				kiwi::user_keyboard_key_input.slash_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.slash_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_A:
-				kiwi::user_keyboard_key_input.A_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.A_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_B:
-				kiwi::user_keyboard_key_input.B_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.B_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_C:
-				kiwi::user_keyboard_key_input.C_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.C_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_D:
-				kiwi::user_keyboard_key_input.D_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.D_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_E:
-				kiwi::user_keyboard_key_input.E_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.E_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_F:
-				kiwi::user_keyboard_key_input.F_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.F_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_G:
-				kiwi::user_keyboard_key_input.G_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.G_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_H:
-				kiwi::user_keyboard_key_input.H_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.H_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_I:
-				kiwi::user_keyboard_key_input.I_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.I_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_J:
-				kiwi::user_keyboard_key_input.J_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.J_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_K:
-				kiwi::user_keyboard_key_input.K_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.K_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_L:
-				kiwi::user_keyboard_key_input.L_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.L_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_M:
-				kiwi::user_keyboard_key_input.M_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.M_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_N:
-				kiwi::user_keyboard_key_input.N_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.N_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_O:
-				kiwi::user_keyboard_key_input.O_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.O_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_P:
-				kiwi::user_keyboard_key_input.P_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.P_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_Q:
-				kiwi::user_keyboard_key_input.Q_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.Q_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_R:
-				kiwi::user_keyboard_key_input.R_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.R_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_S:
-				kiwi::user_keyboard_key_input.S_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.S_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_T:
-				kiwi::user_keyboard_key_input.T_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.T_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_U:
-				kiwi::user_keyboard_key_input.U_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.U_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_V:
-				kiwi::user_keyboard_key_input.V_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.V_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_W:
-				kiwi::user_keyboard_key_input.W_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.W_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_X:
-				kiwi::user_keyboard_key_input.X_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.X_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_Y:
-				kiwi::user_keyboard_key_input.Y_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.Y_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_Z:
-				kiwi::user_keyboard_key_input.Z_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.Z_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_0:
-				kiwi::user_keyboard_key_input.num0_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.num0_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_1:
-				kiwi::user_keyboard_key_input.num1_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.num1_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_2:
-				kiwi::user_keyboard_key_input.num2_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.num2_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_3:
-				kiwi::user_keyboard_key_input.num3_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.num3_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_4:
-				kiwi::user_keyboard_key_input.num4_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.num4_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_5:
-				kiwi::user_keyboard_key_input.num5_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.num5_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_6:
-				kiwi::user_keyboard_key_input.num6_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.num6_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_7:
-				kiwi::user_keyboard_key_input.num7_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.num7_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_8:
-				kiwi::user_keyboard_key_input.num8_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.num8_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_9:
-				kiwi::user_keyboard_key_input.num9_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.num9_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_KP_0:
-				kiwi::user_keyboard_key_input.numpad0_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.numpad0_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_KP_1:
-				kiwi::user_keyboard_key_input.numpad1_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.numpad1_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_KP_2:
-				kiwi::user_keyboard_key_input.numpad2_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.numpad2_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_KP_3:
-				kiwi::user_keyboard_key_input.numpad3_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.numpad3_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_KP_4:
-				kiwi::user_keyboard_key_input.numpad4_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.numpad4_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_KP_5:
-				kiwi::user_keyboard_key_input.numpad5_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.numpad5_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_KP_6:
-				kiwi::user_keyboard_key_input.numpad6_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.numpad6_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_KP_7:
-				kiwi::user_keyboard_key_input.numpad7_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.numpad7_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_KP_8:
-				kiwi::user_keyboard_key_input.numpad8_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.numpad8_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_KP_9:
-				kiwi::user_keyboard_key_input.numpad9_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.numpad9_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_KP_ADD:
-				kiwi::user_keyboard_key_input.add_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.add_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_KP_SUBTRACT:
-				kiwi::user_keyboard_key_input.sub_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.sub_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_KP_MULTIPLY:
-				kiwi::user_keyboard_key_input.mul_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.mul_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_KP_DIVIDE:
-				kiwi::user_keyboard_key_input.div_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.div_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_KP_ENTER:
-				kiwi::user_keyboard_key_input.enter_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.enter_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_F1:
-				kiwi::user_keyboard_key_input.f1_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.f1_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_F2:
-				kiwi::user_keyboard_key_input.f2_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.f2_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_F3:
-				kiwi::user_keyboard_key_input.f3_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.f3_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_F4:
-				kiwi::user_keyboard_key_input.f4_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.f4_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_F5:
-				kiwi::user_keyboard_key_input.f5_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.f5_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_F6:
-				kiwi::user_keyboard_key_input.f6_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.f6_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_F7:
-				kiwi::user_keyboard_key_input.f7_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.f7_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_F8:
-				kiwi::user_keyboard_key_input.f8_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.f8_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_F9:
-				kiwi::user_keyboard_key_input.f9_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.f9_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_F10:
-				kiwi::user_keyboard_key_input.f10_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.f10_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_F11:
-				kiwi::user_keyboard_key_input.f11_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.f11_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_F12:
-				kiwi::user_keyboard_key_input.f12_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.f12_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_ESCAPE:
-				kiwi::user_keyboard_key_input.escape_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.escape_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_ENTER:
-				kiwi::user_keyboard_key_input.enter_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.enter_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_TAB:
-				kiwi::user_keyboard_key_input.tab_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.tab_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_BACKSPACE:
-				kiwi::user_keyboard_key_input.backspace_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.backspace_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_INSERT:
-				kiwi::user_keyboard_key_input.insert_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.insert_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_DELETE:
-				kiwi::user_keyboard_key_input.delete__press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.delete__release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_RIGHT:
-				kiwi::user_keyboard_key_input.right_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.right_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_LEFT:
-				kiwi::user_keyboard_key_input.left_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.left_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_DOWN:
-				kiwi::user_keyboard_key_input.down_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.down_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_UP:
-				kiwi::user_keyboard_key_input.up_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.up_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_LEFT_ALT:
-				kiwi::user_keyboard_key_input.alt_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.alt_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_RIGHT_ALT:
-				kiwi::user_keyboard_key_input.alt_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.alt_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_LEFT_SHIFT:
-				kiwi::user_keyboard_key_input.shift_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.shift_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_RIGHT_SHIFT:
-				kiwi::user_keyboard_key_input.shift_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.shift_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_LEFT_CONTROL:
-				kiwi::user_keyboard_key_input.ctrl_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.ctrl_release.store(action == GLFW_RELEASE);
-				break;
-			case GLFW_KEY_RIGHT_CONTROL:
-				kiwi::user_keyboard_key_input.ctrl_press.store(action == GLFW_PRESS);
-				kiwi::user_keyboard_key_input.ctrl_release.store(action == GLFW_RELEASE);
-				break;
-
-			default:
-				break;
-			}
+			action = (action > 1) ? 1 : action;
+			kiwi::user_keyboard_key_input[static_cast<std::size_t>(key + action * 384)] = true; 
 		}
 	}
 }
@@ -672,170 +134,209 @@ bool kiwi::keyboard::ctrl() noexcept {
 }
 
 
-bool kiwi::keyboard::space(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.space_release.load(); }
-bool kiwi::keyboard::apostrophe(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.apostrophe_release.load(); }
-bool kiwi::keyboard::comma(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.comma_release.load(); }
-bool kiwi::keyboard::minus(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.minus_release.load(); }
-bool kiwi::keyboard::period(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.period_release.load(); }
-bool kiwi::keyboard::slash(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.slash_release.load(); }
+bool kiwi::keyboard::space_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_SPACE + 384]; }
+bool kiwi::keyboard::apostrophe_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_APOSTROPHE + 384]; }
+bool kiwi::keyboard::comma_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_COMMA + 384]; }
+bool kiwi::keyboard::minus_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_MINUS + 384]; }
+bool kiwi::keyboard::period_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_PERIOD + 384]; }
+bool kiwi::keyboard::slash_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_SLASH + 384]; }
 
-bool kiwi::keyboard::A(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.A_release.load(); }
-bool kiwi::keyboard::B(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.B_release.load(); }
-bool kiwi::keyboard::C(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.C_release.load(); }
-bool kiwi::keyboard::D(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.D_release.load(); }
-bool kiwi::keyboard::E(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.E_release.load(); }
-bool kiwi::keyboard::F(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.F_release.load(); }
-bool kiwi::keyboard::G(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.G_release.load(); }
-bool kiwi::keyboard::H(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.H_release.load(); }
-bool kiwi::keyboard::I(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.I_release.load(); }
-bool kiwi::keyboard::J(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.J_release.load(); }
-bool kiwi::keyboard::K(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.K_release.load(); }
-bool kiwi::keyboard::L(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.L_release.load(); }
-bool kiwi::keyboard::M(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.M_release.load(); }
-bool kiwi::keyboard::N(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.N_release.load(); }
-bool kiwi::keyboard::O(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.O_release.load(); }
-bool kiwi::keyboard::P(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.P_release.load(); }
-bool kiwi::keyboard::Q(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.Q_release.load(); }
-bool kiwi::keyboard::R(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.R_release.load(); }
-bool kiwi::keyboard::S(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.S_release.load(); }
-bool kiwi::keyboard::T(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.T_release.load(); }
-bool kiwi::keyboard::U(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.U_release.load(); }
-bool kiwi::keyboard::V(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.V_release.load(); }
-bool kiwi::keyboard::W(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.W_release.load(); }
-bool kiwi::keyboard::X(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.X_release.load(); }
-bool kiwi::keyboard::Y(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.Y_release.load(); }
-bool kiwi::keyboard::Z(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.Z_release.load(); }
+bool kiwi::keyboard::A_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_A + 384]; }
+bool kiwi::keyboard::B_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_B + 384]; }
+bool kiwi::keyboard::C_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_C + 384]; }
+bool kiwi::keyboard::D_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_D + 384]; }
+bool kiwi::keyboard::E_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_E + 384]; }
+bool kiwi::keyboard::F_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_F + 384]; }
+bool kiwi::keyboard::G_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_G + 384]; }
+bool kiwi::keyboard::H_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_H + 384]; }
+bool kiwi::keyboard::I_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_I + 384]; }
+bool kiwi::keyboard::J_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_J + 384]; }
+bool kiwi::keyboard::K_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_K + 384]; }
+bool kiwi::keyboard::L_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_L + 384]; }
+bool kiwi::keyboard::M_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_M + 384]; }
+bool kiwi::keyboard::N_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_N + 384]; }
+bool kiwi::keyboard::O_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_O + 384]; }
+bool kiwi::keyboard::P_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_P + 384]; }
+bool kiwi::keyboard::Q_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_Q + 384]; }
+bool kiwi::keyboard::R_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_R + 384]; }
+bool kiwi::keyboard::S_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_S + 384]; }
+bool kiwi::keyboard::T_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_T + 384]; }
+bool kiwi::keyboard::U_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_U + 384]; }
+bool kiwi::keyboard::V_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_V + 384]; }
+bool kiwi::keyboard::W_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_W + 384]; }
+bool kiwi::keyboard::X_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_X + 384]; }
+bool kiwi::keyboard::Y_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_Y + 384]; }
+bool kiwi::keyboard::Z_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_Z + 384]; }
 
-bool kiwi::keyboard::key0(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.num0_release.load(); }
-bool kiwi::keyboard::key1(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.num1_release.load(); }
-bool kiwi::keyboard::key2(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.num2_release.load(); }
-bool kiwi::keyboard::key3(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.num3_release.load(); }
-bool kiwi::keyboard::key4(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.num4_release.load(); }
-bool kiwi::keyboard::key5(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.num5_release.load(); }
-bool kiwi::keyboard::key6(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.num6_release.load(); }
-bool kiwi::keyboard::key7(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.num7_release.load(); }
-bool kiwi::keyboard::key8(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.num8_release.load(); }
-bool kiwi::keyboard::key9(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.num9_release.load(); }
+bool kiwi::keyboard::key0_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_0 + 384]; }
+bool kiwi::keyboard::key1_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_1 + 384]; }
+bool kiwi::keyboard::key2_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_2 + 384]; }
+bool kiwi::keyboard::key3_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_3 + 384]; }
+bool kiwi::keyboard::key4_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_4 + 384]; }
+bool kiwi::keyboard::key5_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_5 + 384]; }
+bool kiwi::keyboard::key6_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_6 + 384]; }
+bool kiwi::keyboard::key7_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_7 + 384]; }
+bool kiwi::keyboard::key8_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_8 + 384]; }
+bool kiwi::keyboard::key9_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_9 + 384]; }
 
-bool kiwi::keyboard::pad0(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.numpad0_release.load(); }
-bool kiwi::keyboard::pad1(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.numpad1_release.load(); }
-bool kiwi::keyboard::pad2(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.numpad2_release.load(); }
-bool kiwi::keyboard::pad3(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.numpad3_release.load(); }
-bool kiwi::keyboard::pad4(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.numpad4_release.load(); }
-bool kiwi::keyboard::pad5(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.numpad5_release.load(); }
-bool kiwi::keyboard::pad6(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.numpad6_release.load(); }
-bool kiwi::keyboard::pad7(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.numpad7_release.load(); }
-bool kiwi::keyboard::pad8(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.numpad8_release.load(); }
-bool kiwi::keyboard::pad9(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.numpad9_release.load(); }
+bool kiwi::keyboard::pad0_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_KP_0 + 384]; }
+bool kiwi::keyboard::pad1_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_KP_1 + 384]; }
+bool kiwi::keyboard::pad2_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_KP_2 + 384]; }
+bool kiwi::keyboard::pad3_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_KP_3 + 384]; }
+bool kiwi::keyboard::pad4_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_KP_4 + 384]; }
+bool kiwi::keyboard::pad5_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_KP_5 + 384]; }
+bool kiwi::keyboard::pad6_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_KP_6 + 384]; }
+bool kiwi::keyboard::pad7_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_KP_7 + 384]; }
+bool kiwi::keyboard::pad8_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_KP_8 + 384]; }
+bool kiwi::keyboard::pad9_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_KP_9 + 384]; }
 
-bool kiwi::keyboard::add(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.add_release.load(); }
-bool kiwi::keyboard::sub(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.sub_release.load(); }
-bool kiwi::keyboard::mul(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.mul_release.load(); }
-bool kiwi::keyboard::div(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.div_release.load(); }
+bool kiwi::keyboard::add_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_KP_ADD + 384]; }
+bool kiwi::keyboard::sub_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_KP_SUBTRACT + 384]; }
+bool kiwi::keyboard::mul_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_KP_MULTIPLY + 384]; }
+bool kiwi::keyboard::div_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_KP_DIVIDE + 384]; }
 
-bool kiwi::keyboard::F1(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.f1_release.load(); }
-bool kiwi::keyboard::F2(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.f2_release.load(); }
-bool kiwi::keyboard::F3(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.f3_release.load(); }
-bool kiwi::keyboard::F4(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.f4_release.load(); }
-bool kiwi::keyboard::F5(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.f5_release.load(); }
-bool kiwi::keyboard::F6(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.f6_release.load(); }
-bool kiwi::keyboard::F7(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.f7_release.load(); }
-bool kiwi::keyboard::F8(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.f8_release.load(); }
-bool kiwi::keyboard::F9(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.f9_release.load(); }
-bool kiwi::keyboard::F10(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.f10_release.load(); }
-bool kiwi::keyboard::F11(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.f11_release.load(); }
-bool kiwi::keyboard::F12(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.f12_release.load(); }
+bool kiwi::keyboard::F1_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_F1 + 384]; }
+bool kiwi::keyboard::F2_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_F2 + 384]; }
+bool kiwi::keyboard::F3_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_F3 + 384]; }
+bool kiwi::keyboard::F4_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_F4 + 384]; }
+bool kiwi::keyboard::F5_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_F5 + 384]; }
+bool kiwi::keyboard::F6_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_F6 + 384]; }
+bool kiwi::keyboard::F7_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_F7 + 384]; }
+bool kiwi::keyboard::F8_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_F8 + 384]; }
+bool kiwi::keyboard::F9_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_F9 + 384]; }
+bool kiwi::keyboard::F10_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_F10 + 384]; }
+bool kiwi::keyboard::F11_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_F11 + 384]; }
+bool kiwi::keyboard::F12_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_F12 + 384]; }
 
-bool kiwi::keyboard::escape(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.escape_release.load(); }
-bool kiwi::keyboard::enter(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.enter_release.load(); }
-bool kiwi::keyboard::tab(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.tab_release.load(); }
-bool kiwi::keyboard::backspace(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.backspace_release.load(); }
-bool kiwi::keyboard::insert(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.insert_release.load(); }
-bool kiwi::keyboard::del(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.delete__release.load(); }
-bool kiwi::keyboard::right(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.right_release.load(); }
-bool kiwi::keyboard::left(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.left_release.load(); }
-bool kiwi::keyboard::down(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.down_release.load(); }
-bool kiwi::keyboard::up(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.up_release.load(); }
-bool kiwi::keyboard::alt(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.alt_release.load(); }
-bool kiwi::keyboard::shift(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.shift_release.load(); }
-bool kiwi::keyboard::ctrl(kiwi::key_down_t) noexcept { return kiwi::user_keyboard_key_input.ctrl_release.load(); }
+bool kiwi::keyboard::escape_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_ESCAPE + 384]; }
+bool kiwi::keyboard::enter_press() noexcept {
+	return kiwi::user_keyboard_key_input[GLFW_KEY_ENTER + 384]
+		|| kiwi::user_keyboard_key_input[GLFW_KEY_KP_ENTER + 384];
+}
+bool kiwi::keyboard::tab_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_TAB + 384]; }
+bool kiwi::keyboard::backspace_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_BACKSPACE + 384]; }
+bool kiwi::keyboard::insert_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_INSERT + 384]; }
+bool kiwi::keyboard::del_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_DELETE + 384]; }
+bool kiwi::keyboard::right_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_RIGHT + 384]; }
+bool kiwi::keyboard::left_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_LEFT + 384]; }
+bool kiwi::keyboard::down_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_DOWN + 384]; }
+bool kiwi::keyboard::up_press() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_UP + 384]; }
+bool kiwi::keyboard::alt_press() noexcept {
+	return kiwi::user_keyboard_key_input[GLFW_KEY_LEFT_ALT + 384]
+		|| kiwi::user_keyboard_key_input[GLFW_KEY_RIGHT_ALT + 384];
+}
+bool kiwi::keyboard::shift_press() noexcept {
+	return kiwi::user_keyboard_key_input[GLFW_KEY_LEFT_SHIFT + 384]
+		|| kiwi::user_keyboard_key_input[GLFW_KEY_RIGHT_SHIFT + 384];
+}
+bool kiwi::keyboard::ctrl_press() noexcept {
+	return kiwi::user_keyboard_key_input[GLFW_KEY_LEFT_CONTROL + 384]
+		|| kiwi::user_keyboard_key_input[GLFW_KEY_RIGHT_CONTROL + 384];
+}
 
 
-bool kiwi::keyboard::space(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.space_press.load(); }
-bool kiwi::keyboard::apostrophe(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.apostrophe_press.load(); }
-bool kiwi::keyboard::comma(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.comma_press.load(); }
-bool kiwi::keyboard::minus(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.minus_press.load(); }
-bool kiwi::keyboard::period(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.period_press.load(); }
-bool kiwi::keyboard::slash(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.slash_press.load(); }
+bool kiwi::keyboard::space_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_SPACE]; }
+bool kiwi::keyboard::apostrophe_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_APOSTROPHE]; }
+bool kiwi::keyboard::comma_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_COMMA]; }
+bool kiwi::keyboard::minus_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_MINUS]; }
+bool kiwi::keyboard::period_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_PERIOD]; }
+bool kiwi::keyboard::slash_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_SLASH]; }
 
-bool kiwi::keyboard::A(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.A_press.load(); }
-bool kiwi::keyboard::B(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.B_press.load(); }
-bool kiwi::keyboard::C(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.C_press.load(); }
-bool kiwi::keyboard::D(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.D_press.load(); }
-bool kiwi::keyboard::E(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.E_press.load(); }
-bool kiwi::keyboard::F(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.F_press.load(); }
-bool kiwi::keyboard::G(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.G_press.load(); }
-bool kiwi::keyboard::H(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.H_press.load(); }
-bool kiwi::keyboard::I(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.I_press.load(); }
-bool kiwi::keyboard::J(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.J_press.load(); }
-bool kiwi::keyboard::K(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.K_press.load(); }
-bool kiwi::keyboard::L(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.L_press.load(); }
-bool kiwi::keyboard::M(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.M_press.load(); }
-bool kiwi::keyboard::N(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.N_press.load(); }
-bool kiwi::keyboard::O(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.O_press.load(); }
-bool kiwi::keyboard::P(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.P_press.load(); }
-bool kiwi::keyboard::Q(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.Q_press.load(); }
-bool kiwi::keyboard::R(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.R_press.load(); }
-bool kiwi::keyboard::S(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.S_press.load(); }
-bool kiwi::keyboard::T(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.T_press.load(); }
-bool kiwi::keyboard::U(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.U_press.load(); }
-bool kiwi::keyboard::V(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.V_press.load(); }
-bool kiwi::keyboard::W(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.W_press.load(); }
-bool kiwi::keyboard::X(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.X_press.load(); }
-bool kiwi::keyboard::Y(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.Y_press.load(); }
-bool kiwi::keyboard::Z(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.Z_press.load(); }
+bool kiwi::keyboard::A_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_A]; }
+bool kiwi::keyboard::B_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_B]; }
+bool kiwi::keyboard::C_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_C]; }
+bool kiwi::keyboard::D_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_D]; }
+bool kiwi::keyboard::E_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_E]; }
+bool kiwi::keyboard::F_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_F]; }
+bool kiwi::keyboard::G_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_G]; }
+bool kiwi::keyboard::H_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_H]; }
+bool kiwi::keyboard::I_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_I]; }
+bool kiwi::keyboard::J_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_J]; }
+bool kiwi::keyboard::K_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_K]; }
+bool kiwi::keyboard::L_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_L]; }
+bool kiwi::keyboard::M_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_M]; }
+bool kiwi::keyboard::N_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_N]; }
+bool kiwi::keyboard::O_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_O]; }
+bool kiwi::keyboard::P_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_P]; }
+bool kiwi::keyboard::Q_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_Q]; }
+bool kiwi::keyboard::R_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_R]; }
+bool kiwi::keyboard::S_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_S]; }
+bool kiwi::keyboard::T_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_T]; }
+bool kiwi::keyboard::U_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_U]; }
+bool kiwi::keyboard::V_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_V]; }
+bool kiwi::keyboard::W_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_W]; }
+bool kiwi::keyboard::X_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_X]; }
+bool kiwi::keyboard::Y_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_Y]; }
+bool kiwi::keyboard::Z_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_Z]; }
 
-bool kiwi::keyboard::key0(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.num0_press.load(); }
-bool kiwi::keyboard::key1(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.num1_press.load(); }
-bool kiwi::keyboard::key2(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.num2_press.load(); }
-bool kiwi::keyboard::key3(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.num3_press.load(); }
-bool kiwi::keyboard::key4(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.num4_press.load(); }
-bool kiwi::keyboard::key5(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.num5_press.load(); }
-bool kiwi::keyboard::key6(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.num6_press.load(); }
-bool kiwi::keyboard::key7(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.num7_press.load(); }
-bool kiwi::keyboard::key8(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.num8_press.load(); }
-bool kiwi::keyboard::key9(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.num9_press.load(); }
+bool kiwi::keyboard::key0_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_0]; }
+bool kiwi::keyboard::key1_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_1]; }
+bool kiwi::keyboard::key2_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_2]; }
+bool kiwi::keyboard::key3_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_3]; }
+bool kiwi::keyboard::key4_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_4]; }
+bool kiwi::keyboard::key5_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_5]; }
+bool kiwi::keyboard::key6_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_6]; }
+bool kiwi::keyboard::key7_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_7]; }
+bool kiwi::keyboard::key8_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_8]; }
+bool kiwi::keyboard::key9_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_9]; }
 
-bool kiwi::keyboard::pad0(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.numpad0_press.load(); }
-bool kiwi::keyboard::pad1(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.numpad1_press.load(); }
-bool kiwi::keyboard::pad2(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.numpad2_press.load(); }
-bool kiwi::keyboard::pad3(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.numpad3_press.load(); }
-bool kiwi::keyboard::pad4(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.numpad4_press.load(); }
-bool kiwi::keyboard::pad5(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.numpad5_press.load(); }
-bool kiwi::keyboard::pad6(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.numpad6_press.load(); }
-bool kiwi::keyboard::pad7(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.numpad7_press.load(); }
-bool kiwi::keyboard::pad8(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.numpad8_press.load(); }
-bool kiwi::keyboard::pad9(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.numpad9_press.load(); }
+bool kiwi::keyboard::pad0_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_KP_0]; }
+bool kiwi::keyboard::pad1_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_KP_1]; }
+bool kiwi::keyboard::pad2_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_KP_2]; }
+bool kiwi::keyboard::pad3_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_KP_3]; }
+bool kiwi::keyboard::pad4_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_KP_4]; }
+bool kiwi::keyboard::pad5_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_KP_5]; }
+bool kiwi::keyboard::pad6_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_KP_6]; }
+bool kiwi::keyboard::pad7_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_KP_7]; }
+bool kiwi::keyboard::pad8_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_KP_8]; }
+bool kiwi::keyboard::pad9_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_KP_9]; }
 
-bool kiwi::keyboard::add(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.add_press.load(); }
-bool kiwi::keyboard::sub(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.sub_press.load(); }
-bool kiwi::keyboard::mul(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.mul_press.load(); }
-bool kiwi::keyboard::div(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.div_press.load(); }
+bool kiwi::keyboard::add_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_KP_ADD]; }
+bool kiwi::keyboard::sub_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_KP_SUBTRACT]; }
+bool kiwi::keyboard::mul_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_KP_MULTIPLY]; }
+bool kiwi::keyboard::div_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_KP_DIVIDE]; }
 
-bool kiwi::keyboard::F1(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.f1_press.load(); }
-bool kiwi::keyboard::F2(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.f2_press.load(); }
-bool kiwi::keyboard::F3(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.f3_press.load(); }
-bool kiwi::keyboard::F4(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.f4_press.load(); }
-bool kiwi::keyboard::F5(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.f5_press.load(); }
-bool kiwi::keyboard::F6(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.f6_press.load(); }
-bool kiwi::keyboard::F7(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.f7_press.load(); }
-bool kiwi::keyboard::F8(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.f8_press.load(); }
-bool kiwi::keyboard::F9(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.f9_press.load(); }
-bool kiwi::keyboard::F10(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.f10_press.load(); }
-bool kiwi::keyboard::F11(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.f11_press.load(); }
-bool kiwi::keyboard::F12(kiwi::key_up_t) noexcept { return kiwi::user_keyboard_key_input.f12_press.load(); }
+bool kiwi::keyboard::F1_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_F1]; }
+bool kiwi::keyboard::F2_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_F2]; }
+bool kiwi::keyboard::F3_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_F3]; }
+bool kiwi::keyboard::F4_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_F4]; }
+bool kiwi::keyboard::F5_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_F5]; }
+bool kiwi::keyboard::F6_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_F6]; }
+bool kiwi::keyboard::F7_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_F7]; }
+bool kiwi::keyboard::F8_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_F8]; }
+bool kiwi::keyboard::F9_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_F9]; }
+bool kiwi::keyboard::F10_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_F10]; }
+bool kiwi::keyboard::F11_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_F11]; }
+bool kiwi::keyboard::F12_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_F12]; }
+
+bool kiwi::keyboard::escape_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_ESCAPE]; }
+bool kiwi::keyboard::enter_release() noexcept {
+	return kiwi::user_keyboard_key_input[GLFW_KEY_ENTER]
+		|| kiwi::user_keyboard_key_input[GLFW_KEY_KP_ENTER];
+}
+bool kiwi::keyboard::tab_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_TAB]; }
+bool kiwi::keyboard::backspace_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_BACKSPACE]; }
+bool kiwi::keyboard::insert_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_INSERT]; }
+bool kiwi::keyboard::del_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_DELETE]; }
+bool kiwi::keyboard::right_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_RIGHT]; }
+bool kiwi::keyboard::left_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_LEFT]; }
+bool kiwi::keyboard::down_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_DOWN]; }
+bool kiwi::keyboard::up_release() noexcept { return kiwi::user_keyboard_key_input[GLFW_KEY_UP]; }
+bool kiwi::keyboard::alt_release() noexcept {
+	return kiwi::user_keyboard_key_input[GLFW_KEY_LEFT_ALT]
+		|| kiwi::user_keyboard_key_input[GLFW_KEY_RIGHT_ALT];
+}
+bool kiwi::keyboard::shift_release() noexcept {
+	return kiwi::user_keyboard_key_input[GLFW_KEY_LEFT_SHIFT]
+		|| kiwi::user_keyboard_key_input[GLFW_KEY_RIGHT_SHIFT];
+}
+bool kiwi::keyboard::ctrl_release() noexcept {
+	return kiwi::user_keyboard_key_input[GLFW_KEY_LEFT_CONTROL]
+		|| kiwi::user_keyboard_key_input[GLFW_KEY_RIGHT_CONTROL];
+}
+
 
 void kiwi::keyboard::clear_events() noexcept
 {
-	std::memset(&user_keyboard_key_input, 0, sizeof(kiwi::keyboard::key_input));
+	std::memset(&kiwi::user_keyboard_key_input, 0, sizeof(kiwi::user_keyboard_key_input));
 }
