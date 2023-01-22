@@ -15,7 +15,7 @@ void kiwi::make_N_from_lines_2d(kiwi::orient orientation, GLfloat* const  _KIWI_
 	GLfloat* p = N_ptr;
 	const GLfloat* q = vertex_ptr;
 	std::size_t vertex_dim_t2 = vertex_dim * 2;
-	GLfloat orient_coeff = static_cast<GLfloat>(orientation) - static_cast<GLfloat>(1);
+	GLfloat orient_coeff = (orientation == kiwi::orient::ccw) ? static_cast<GLfloat>(1) : static_cast<GLfloat>(-1);
 
 	for (std::size_t j = 1; j < vertex_count; j += 2)
 	{
@@ -147,8 +147,8 @@ void kiwi::make_N_from_triangles_3d(kiwi::orient orientation, GLfloat* const _KI
 	const float* q = vertex_ptr;
 	std::size_t vertex_dim_t2 = 2 * vertex_dim;
 	std::size_t vertex_dim_t3 = 3 * vertex_dim;
-	float orient_coeff = static_cast<float>(orientation) - 1.0f;
-	
+	float orient_coeff = (orientation == kiwi::orient::ccw) ? static_cast<float>(1) : static_cast<float>(-1);
+
 	union { __m128 v; float arr[4]; } varr;
 
 	for (std::size_t j = 5; j < vertex_count; j += 3)
@@ -189,7 +189,7 @@ void kiwi::make_N_from_triangles_3d(kiwi::orient orientation, GLfloat* const _KI
 	const GLfloat* q = vertex_ptr;
 	std::size_t vertex_dim_t2 = 2 * vertex_dim;
 	std::size_t vertex_dim_t3 = 3 * vertex_dim;
-	GLfloat orient_coeff = static_cast<GLfloat>(orientation) - static_cast<GLfloat>(1);
+	GLfloat orient_coeff = (orientation == kiwi::orient::ccw) ? static_cast<GLfloat>(1) : static_cast<GLfloat>(-1);
 
 	GLfloat u3[3];
 	GLfloat v3[3];
@@ -230,7 +230,7 @@ void kiwi::make_N_from_quads_3d(kiwi::orient orientation, GLfloat* const _KIWI_R
 	const float* q = vertex_ptr;
 	std::size_t vertex_dim_t2 = 2 * vertex_dim;
 	std::size_t vertex_dim_t4 = 4 * vertex_dim;
-	float orient_coeff = static_cast<float>(orientation) - 1.0f;
+	float orient_coeff = (orientation == kiwi::orient::ccw) ? static_cast<float>(1) : static_cast<float>(-1);
 
 	union { __m128 v; float arr[4]; } varr;
 
@@ -274,7 +274,7 @@ void kiwi::make_N_from_quads_3d(kiwi::orient orientation, GLfloat* const _KIWI_R
 	const GLfloat* q = vertex_ptr;
 	std::size_t vertex_dim_t2 = 2 * vertex_dim;
 	std::size_t vertex_dim_t4 = 4 * vertex_dim;
-	GLfloat orient_coeff = static_cast<GLfloat>(orientation) - static_cast<GLfloat>(1);
+	GLfloat orient_coeff = (orientation == kiwi::orient::ccw) ? static_cast<GLfloat>(1) : static_cast<GLfloat>(-1);
 
 	GLfloat u3[3];
 	GLfloat v3[3];
@@ -318,7 +318,7 @@ void kiwi::make_TBN_from_triangles_3d(kiwi::orient orientation, GLfloat* const _
 	const float* r = uv_ptr;
 	std::size_t vertex_dim_t2 = 2 * vertex_dim;
 	std::size_t vertex_dim_t3 = 3 * vertex_dim;
-	float orient_coeff = static_cast<float>(orientation) - 1.0f;
+	float orient_coeff = (orientation == kiwi::orient::ccw) ? static_cast<float>(1) : static_cast<float>(-1);
 
 	union { __m128 v; float arr[4]; } varr;
 
@@ -403,7 +403,7 @@ void kiwi::make_TBN_from_triangles_3d(kiwi::orient orientation, GLfloat* const _
 	const GLfloat* r = uv_ptr;
 	std::size_t vertex_dim_t2 = 2 * vertex_dim;
 	std::size_t vertex_dim_t3 = 3 * vertex_dim;
-	GLfloat orient_coeff = static_cast<GLfloat>(orientation) - static_cast<GLfloat>(1);
+	GLfloat orient_coeff = (orientation == kiwi::orient::ccw) ? static_cast<GLfloat>(1) : static_cast<GLfloat>(-1);
 
 	GLfloat u4[4];
 	GLfloat v3[3];
@@ -479,7 +479,7 @@ void kiwi::make_TBN_from_quads_3d(kiwi::orient orientation, GLfloat* const _KIWI
 	const float* r = uv_ptr;
 	std::size_t vertex_dim_t2 = 2 * vertex_dim;
 	std::size_t vertex_dim_t4 = 4 * vertex_dim;
-	float orient_coeff = static_cast<float>(orientation) - 1.0f;
+	float orient_coeff = (orientation == kiwi::orient::ccw) ? static_cast<float>(1) : static_cast<float>(-1);
 
 	union { __m128 v; float arr[4]; } varr;
 
@@ -568,7 +568,7 @@ void kiwi::make_TBN_from_quads_3d(kiwi::orient orientation, GLfloat* const _KIWI
 	const GLfloat* r = uv_ptr;
 	std::size_t vertex_dim_t2 = 2 * vertex_dim;
 	std::size_t vertex_dim_t4 = 4 * vertex_dim;
-	GLfloat orient_coeff = static_cast<GLfloat>(orientation) - static_cast<GLfloat>(1);
+	GLfloat orient_coeff = (orientation == kiwi::orient::ccw) ? static_cast<GLfloat>(1) : static_cast<GLfloat>(-1);
 
 	GLfloat u4[4];
 	GLfloat v3[3];
