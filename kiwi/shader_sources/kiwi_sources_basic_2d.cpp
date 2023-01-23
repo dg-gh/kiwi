@@ -56,10 +56,12 @@ const char* const kiwi::source::basic_2d_color_gradient::fragment_shader() noexc
 		"	#version 330 core									\n"
 		"	in vec4 RGBA;										\n"
 		"	out vec4 out_color;									\n"
+		"	uniform vec4 u_RGBAx;								\n"
+		"	uniform vec4 u_RGBAo;								\n"
 
 		"	void main()											\n"
 		"	{													\n"
-		"		out_color = RGBA;								\n"
+		"		out_color = u_RGBAx * RGBA + u_RGBAo;			\n"
 		"	}													\n"
 		;
 }
@@ -91,10 +93,13 @@ const char* const kiwi::source::basic_2d_texture::fragment_shader() noexcept
 		"	in vec2 UV;											\n"
 		"	out vec4 out_color;									\n"
 		"	uniform sampler2D Tx;								\n"
+		"	uniform vec4 u_RGBAx;								\n"
+		"	uniform vec4 u_RGBAo;								\n"
 
 		"	void main()											\n"
 		"	{													\n"
-		"		out_color = texture(Tx, UV);					\n"
+		"		out_color = u_RGBAx * texture(Tx, UV);			\n"
+		"			+ u_RGBAo;									\n"
 		"	}													\n"
 		;
 }
@@ -126,11 +131,14 @@ const char* const kiwi::source::basic_2d_texture_alpha_test::fragment_shader() n
 		"	in vec2 UV;											\n"
 		"	out vec4 out_color;									\n"
 		"	uniform sampler2D Tx;								\n"
+		"	uniform vec4 u_RGBAx;								\n"
+		"	uniform vec4 u_RGBAo;								\n"
 		"	uniform float u_alpha_test;							\n"
 
 		"	void main()											\n"
 		"	{													\n"
-		"		out_color = texture(Tx, UV);					\n"
+		"		out_color = u_RGBAx * texture(Tx, UV);			\n"
+		"			+ u_RGBAo;									\n"
 
 		"		if (out_color[3] < u_alpha_test)				\n"
 		"		{												\n"

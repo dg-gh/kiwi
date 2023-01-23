@@ -54,6 +54,8 @@ namespace kiwi
 
 		kiwi::program program;
 		GLint mvp_matrix_location = -1;
+		GLint RGBAx_location = -1;
+		GLint RGBAo_location = -1;
 
 		bool init() noexcept;
 	};
@@ -65,6 +67,8 @@ namespace kiwi
 
 		kiwi::program program;
 		GLint mvp_matrix_location = -1;
+		GLint RGBAx_location = -1;
+		GLint RGBAo_location = -1;
 
 		bool init() noexcept;
 	};
@@ -76,6 +80,8 @@ namespace kiwi
 
 		kiwi::program program;
 		GLint mvp_matrix_location = -1;
+		GLint RGBAx_location = -1;
+		GLint RGBAo_location = -1;
 		GLint alpha_test_location = -1;
 
 		bool init() noexcept;
@@ -191,6 +197,8 @@ namespace kiwi
 
 		kiwi::program program;
 		GLint mvp_matrix_location = -1;
+		GLint RGBAx_location = -1;
+		GLint RGBAo_location = -1;
 
 		bool init() noexcept;
 	};
@@ -203,6 +211,7 @@ namespace kiwi
 		kiwi::program program;
 		GLint mvp_matrix_location = -1;
 		GLint RGBAx_location = -1;
+		GLint RGBAo_location = -1;
 
 		bool init() noexcept;
 	};
@@ -214,8 +223,9 @@ namespace kiwi
 
 		kiwi::program program;
 		GLint mvp_matrix_location = -1;
-		GLint alpha_test_location = -1;
 		GLint RGBAx_location = -1;
+		GLint RGBAo_location = -1;
+		GLint alpha_test_location = -1;
 
 		bool init() noexcept;
 	};
@@ -358,7 +368,8 @@ namespace kiwi
 		kiwi::basic_3d_texture_sprites m_program_texture_sprites_3d;
 		kiwi::basic_3d_texture_array_sprites m_program_texture_array_sprites_split_3d;
 
-		GLfloat RGBAx1111[4] = { GL1, GL1, GL1, GL1 };
+		GLfloat RGBA1111[4] = { GL1, GL1, GL1, GL1 };
+		GLfloat RGBA0000[4] = { GL0, GL0, GL0, GL0 };
 	};
 
 	std::unique_ptr<kiwi::default_buffers> default_buffers_ptr;
@@ -473,7 +484,43 @@ kiwi::_draw_basic_proxy kiwi::_load_basic_2d_proxy::using_color_gradient(const k
 	color_vertex_buffer.to_location(1);
 
 	kiwi::default_buffers_ptr->m_program_color_gradient_2d.program
-		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_color_gradient_2d.mvp_matrix_location, m_transformation_matrix_ptr);
+		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_color_gradient_2d.mvp_matrix_location, m_transformation_matrix_ptr)
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_color_gradient_2d.RGBAx_location, static_cast<const GLfloat*>(kiwi::default_buffers_ptr->RGBA1111))
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_color_gradient_2d.RGBAo_location, static_cast<const GLfloat*>(kiwi::default_buffers_ptr->RGBA0000));
+
+	kiwi::_draw_basic_proxy proxy;
+	proxy.m_vertex_count = vertex_buffer.vertex_count();
+	proxy.m_index_count = -1;
+	proxy.m_index_data_ptr = nullptr;
+	return proxy;
+}
+kiwi::_draw_basic_proxy kiwi::_load_basic_2d_proxy::using_color_gradient(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& color_vertex_buffer,
+	const kiwi::RGBA& RGBAx) noexcept
+{
+	vertex_buffer.to_location(0);
+	color_vertex_buffer.to_location(1);
+
+	kiwi::default_buffers_ptr->m_program_color_gradient_2d.program
+		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_color_gradient_2d.mvp_matrix_location, m_transformation_matrix_ptr)
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_color_gradient_2d.RGBAx_location, RGBAx.data())
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_color_gradient_2d.RGBAo_location, static_cast<const GLfloat*>(kiwi::default_buffers_ptr->RGBA0000));
+
+	kiwi::_draw_basic_proxy proxy;
+	proxy.m_vertex_count = vertex_buffer.vertex_count();
+	proxy.m_index_count = -1;
+	proxy.m_index_data_ptr = nullptr;
+	return proxy;
+}
+kiwi::_draw_basic_proxy kiwi::_load_basic_2d_proxy::using_color_gradient(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& color_vertex_buffer,
+	const kiwi::RGBA& RGBAx, const kiwi::RGBA& RGBAo) noexcept
+{
+	vertex_buffer.to_location(0);
+	color_vertex_buffer.to_location(1);
+
+	kiwi::default_buffers_ptr->m_program_color_gradient_2d.program
+		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_color_gradient_2d.mvp_matrix_location, m_transformation_matrix_ptr)
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_color_gradient_2d.RGBAx_location, RGBAx.data())
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_color_gradient_2d.RGBAo_location, RGBAo.data());
 
 	kiwi::_draw_basic_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -488,7 +535,45 @@ kiwi::_draw_basic_proxy kiwi::_load_basic_2d_proxy::using_texture(const kiwi::ve
 	texture.to_binding(0);
 
 	kiwi::default_buffers_ptr->m_program_texture_2d.program
-		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_texture_2d.mvp_matrix_location, m_transformation_matrix_ptr);
+		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_texture_2d.mvp_matrix_location, m_transformation_matrix_ptr)
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_texture_2d.RGBAx_location, static_cast<const GLfloat*>(kiwi::default_buffers_ptr->RGBA1111))
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_texture_2d.RGBAo_location, static_cast<const GLfloat*>(kiwi::default_buffers_ptr->RGBA0000));
+
+	kiwi::_draw_basic_proxy proxy;
+	proxy.m_vertex_count = vertex_buffer.vertex_count();
+	proxy.m_index_count = -1;
+	proxy.m_index_data_ptr = nullptr;
+	return proxy;
+}
+kiwi::_draw_basic_proxy kiwi::_load_basic_2d_proxy::using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_2d& texture,
+	const kiwi::RGBA& RGBAx) noexcept
+{
+	vertex_buffer.to_location(0);
+	UV_buffer.to_location(1);
+	texture.to_binding(0);
+
+	kiwi::default_buffers_ptr->m_program_texture_2d.program
+		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_texture_2d.mvp_matrix_location, m_transformation_matrix_ptr)
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_texture_2d.RGBAx_location, RGBAx.data())
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_texture_2d.RGBAo_location, static_cast<const GLfloat*>(kiwi::default_buffers_ptr->RGBA0000));
+
+	kiwi::_draw_basic_proxy proxy;
+	proxy.m_vertex_count = vertex_buffer.vertex_count();
+	proxy.m_index_count = -1;
+	proxy.m_index_data_ptr = nullptr;
+	return proxy;
+}
+kiwi::_draw_basic_proxy kiwi::_load_basic_2d_proxy::using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_2d& texture,
+	const kiwi::RGBA& RGBAx, const kiwi::RGBA& RGBAo) noexcept
+{
+	vertex_buffer.to_location(0);
+	UV_buffer.to_location(1);
+	texture.to_binding(0);
+
+	kiwi::default_buffers_ptr->m_program_texture_2d.program
+		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_texture_2d.mvp_matrix_location, m_transformation_matrix_ptr)
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_texture_2d.RGBAx_location, RGBAx.data())
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_texture_2d.RGBAo_location, RGBAo.data());
 
 	kiwi::_draw_basic_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -505,6 +590,46 @@ kiwi::_draw_basic_proxy kiwi::_load_basic_2d_proxy::using_texture_alpha_test(con
 
 	kiwi::default_buffers_ptr->m_program_texture_alpha_test_2d.program
 		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_texture_alpha_test_2d.mvp_matrix_location, m_transformation_matrix_ptr)
+		.set_uniform_1f(kiwi::default_buffers_ptr->m_program_texture_alpha_test_2d.alpha_test_location, alpha_test_value)
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_texture_alpha_test_2d.RGBAx_location, static_cast<const GLfloat*>(kiwi::default_buffers_ptr->RGBA1111))
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_texture_alpha_test_2d.RGBAo_location, static_cast<const GLfloat*>(kiwi::default_buffers_ptr->RGBA0000));
+
+	kiwi::_draw_basic_proxy proxy;
+	proxy.m_vertex_count = vertex_buffer.vertex_count();
+	proxy.m_index_count = -1;
+	proxy.m_index_data_ptr = nullptr;
+	return proxy;
+}
+kiwi::_draw_basic_proxy kiwi::_load_basic_2d_proxy::using_texture_alpha_test(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer,
+	const kiwi::texture_2d& texture, GLfloat alpha_test_value, const kiwi::RGBA& RGBAx) noexcept
+{
+	vertex_buffer.to_location(0);
+	UV_buffer.to_location(1);
+	texture.to_binding(0);
+
+	kiwi::default_buffers_ptr->m_program_texture_alpha_test_2d.program
+		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_texture_alpha_test_2d.mvp_matrix_location, m_transformation_matrix_ptr)
+		.set_uniform_1f(kiwi::default_buffers_ptr->m_program_texture_alpha_test_2d.alpha_test_location, alpha_test_value)
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_texture_alpha_test_2d.RGBAx_location, RGBAx.data())
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_texture_alpha_test_2d.RGBAo_location, static_cast<const GLfloat*>(kiwi::default_buffers_ptr->RGBA0000));
+
+	kiwi::_draw_basic_proxy proxy;
+	proxy.m_vertex_count = vertex_buffer.vertex_count();
+	proxy.m_index_count = -1;
+	proxy.m_index_data_ptr = nullptr;
+	return proxy;
+}
+kiwi::_draw_basic_proxy kiwi::_load_basic_2d_proxy::using_texture_alpha_test(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer,
+	const kiwi::texture_2d& texture, GLfloat alpha_test_value, const kiwi::RGBA& RGBAx, const kiwi::RGBA& RGBAo) noexcept
+{
+	vertex_buffer.to_location(0);
+	UV_buffer.to_location(1);
+	texture.to_binding(0);
+
+	kiwi::default_buffers_ptr->m_program_texture_alpha_test_2d.program
+		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_texture_alpha_test_2d.mvp_matrix_location, m_transformation_matrix_ptr)
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_texture_alpha_test_2d.RGBAx_location, RGBAx.data())
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_texture_alpha_test_2d.RGBAo_location, RGBAo.data())
 		.set_uniform_1f(kiwi::default_buffers_ptr->m_program_texture_alpha_test_2d.alpha_test_location, alpha_test_value);
 
 	kiwi::_draw_basic_proxy proxy;
@@ -604,7 +729,43 @@ kiwi::_draw_basic_proxy kiwi::_load_basic_3d_proxy::using_color_gradient(const k
 	color_vertex_buffer.to_location(1);
 
 	kiwi::default_buffers_ptr->m_program_color_gradient_3d.program
-		.set_uniform_4x4f(kiwi::default_buffers_ptr->m_program_color_gradient_3d.mvp_matrix_location, m_transformation_matrix_ptr);
+		.set_uniform_4x4f(kiwi::default_buffers_ptr->m_program_color_gradient_3d.mvp_matrix_location, m_transformation_matrix_ptr)
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_color_gradient_3d.RGBAx_location, static_cast<const GLfloat*>(kiwi::default_buffers_ptr->RGBA1111))
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_color_gradient_3d.RGBAo_location, static_cast<const GLfloat*>(kiwi::default_buffers_ptr->RGBA0000));
+
+	kiwi::_draw_basic_proxy proxy;
+	proxy.m_vertex_count = vertex_buffer.vertex_count();
+	proxy.m_index_count = -1;
+	proxy.m_index_data_ptr = nullptr;
+	return proxy;
+}
+kiwi::_draw_basic_proxy kiwi::_load_basic_3d_proxy::using_color_gradient(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& color_vertex_buffer,
+	const kiwi::RGBA& RGBAx) noexcept
+{
+	vertex_buffer.to_location(0);
+	color_vertex_buffer.to_location(1);
+
+	kiwi::default_buffers_ptr->m_program_color_gradient_3d.program
+		.set_uniform_4x4f(kiwi::default_buffers_ptr->m_program_color_gradient_3d.mvp_matrix_location, m_transformation_matrix_ptr)
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_color_gradient_3d.RGBAx_location, RGBAx.data())
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_color_gradient_3d.RGBAo_location, static_cast<const GLfloat*>(kiwi::default_buffers_ptr->RGBA0000));
+
+	kiwi::_draw_basic_proxy proxy;
+	proxy.m_vertex_count = vertex_buffer.vertex_count();
+	proxy.m_index_count = -1;
+	proxy.m_index_data_ptr = nullptr;
+	return proxy;
+}
+kiwi::_draw_basic_proxy kiwi::_load_basic_3d_proxy::using_color_gradient(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& color_vertex_buffer,
+	const kiwi::RGBA& RGBAx, const kiwi::RGBA& RGBAo) noexcept
+{
+	vertex_buffer.to_location(0);
+	color_vertex_buffer.to_location(1);
+
+	kiwi::default_buffers_ptr->m_program_color_gradient_3d.program
+		.set_uniform_4x4f(kiwi::default_buffers_ptr->m_program_color_gradient_3d.mvp_matrix_location, m_transformation_matrix_ptr)
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_color_gradient_3d.RGBAx_location, RGBAx.data())
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_color_gradient_3d.RGBAo_location, RGBAo.data());
 
 	kiwi::_draw_basic_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -621,7 +782,8 @@ kiwi::_draw_basic_proxy kiwi::_load_basic_3d_proxy::using_texture(const kiwi::ve
 
 	kiwi::default_buffers_ptr->m_program_texture_3d.program
 		.set_uniform_4x4f(kiwi::default_buffers_ptr->m_program_texture_3d.mvp_matrix_location, m_transformation_matrix_ptr)
-		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_texture_alpha_test_3d.RGBAx_location, static_cast<const GLfloat*>(kiwi::default_buffers_ptr->RGBAx1111));
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_texture_3d.RGBAx_location, static_cast<const GLfloat*>(kiwi::default_buffers_ptr->RGBA1111))
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_texture_3d.RGBAo_location, static_cast<const GLfloat*>(kiwi::default_buffers_ptr->RGBA0000));
 
 	kiwi::_draw_basic_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -638,7 +800,26 @@ kiwi::_draw_basic_proxy kiwi::_load_basic_3d_proxy::using_texture(const kiwi::ve
 
 	kiwi::default_buffers_ptr->m_program_texture_3d.program
 		.set_uniform_4x4f(kiwi::default_buffers_ptr->m_program_texture_3d.mvp_matrix_location, m_transformation_matrix_ptr)
-		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_texture_alpha_test_3d.RGBAx_location, RGBAx.data());
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_texture_3d.RGBAx_location, RGBAx.data())
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_texture_3d.RGBAo_location, static_cast<const GLfloat*>(kiwi::default_buffers_ptr->RGBA0000));
+
+	kiwi::_draw_basic_proxy proxy;
+	proxy.m_vertex_count = vertex_buffer.vertex_count();
+	proxy.m_index_count = -1;
+	proxy.m_index_data_ptr = nullptr;
+	return proxy;
+}
+kiwi::_draw_basic_proxy kiwi::_load_basic_3d_proxy::using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer,
+	const kiwi::texture_2d& texture_buffer, const kiwi::RGBA& RGBAx, const kiwi::RGBA& RGBAo) noexcept
+{
+	vertex_buffer.to_location(0);
+	UV_buffer.to_location(1);
+	texture_buffer.to_binding(0);
+
+	kiwi::default_buffers_ptr->m_program_texture_3d.program
+		.set_uniform_4x4f(kiwi::default_buffers_ptr->m_program_texture_3d.mvp_matrix_location, m_transformation_matrix_ptr)
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_texture_3d.RGBAx_location, RGBAx.data())
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_texture_3d.RGBAo_location, RGBAo.data());
 
 	kiwi::_draw_basic_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -656,7 +837,8 @@ kiwi::_draw_basic_proxy kiwi::_load_basic_3d_proxy::using_texture_alpha_test(con
 	kiwi::default_buffers_ptr->m_program_texture_alpha_test_3d.program
 		.set_uniform_4x4f(kiwi::default_buffers_ptr->m_program_texture_alpha_test_3d.mvp_matrix_location, m_transformation_matrix_ptr)
 		.set_uniform_1f(kiwi::default_buffers_ptr->m_program_texture_alpha_test_3d.alpha_test_location, alpha_test_value)
-		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_texture_alpha_test_3d.RGBAx_location, static_cast<const GLfloat*>(kiwi::default_buffers_ptr->RGBAx1111));
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_texture_alpha_test_3d.RGBAx_location, static_cast<const GLfloat*>(kiwi::default_buffers_ptr->RGBA1111))
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_texture_alpha_test_3d.RGBAo_location, static_cast<const GLfloat*>(kiwi::default_buffers_ptr->RGBA0000));
 
 	kiwi::_draw_basic_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -674,7 +856,27 @@ kiwi::_draw_basic_proxy kiwi::_load_basic_3d_proxy::using_texture_alpha_test(con
 	kiwi::default_buffers_ptr->m_program_texture_alpha_test_3d.program
 		.set_uniform_4x4f(kiwi::default_buffers_ptr->m_program_texture_alpha_test_3d.mvp_matrix_location, m_transformation_matrix_ptr)
 		.set_uniform_1f(kiwi::default_buffers_ptr->m_program_texture_alpha_test_3d.alpha_test_location, alpha_test_value)
-		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_texture_alpha_test_3d.RGBAx_location, RGBAx.data());
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_texture_alpha_test_3d.RGBAx_location, RGBAx.data())
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_texture_alpha_test_3d.RGBAo_location, static_cast<const GLfloat*>(kiwi::default_buffers_ptr->RGBA0000));
+
+	kiwi::_draw_basic_proxy proxy;
+	proxy.m_vertex_count = vertex_buffer.vertex_count();
+	proxy.m_index_count = -1;
+	proxy.m_index_data_ptr = nullptr;
+	return proxy;
+}
+kiwi::_draw_basic_proxy kiwi::_load_basic_3d_proxy::using_texture_alpha_test(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer,
+	const kiwi::texture_2d& texture_buffer, GLfloat alpha_test_value, const kiwi::RGBA& RGBAx, const kiwi::RGBA& RGBAo) noexcept
+{
+	vertex_buffer.to_location(0);
+	UV_buffer.to_location(1);
+	texture_buffer.to_binding(0);
+
+	kiwi::default_buffers_ptr->m_program_texture_alpha_test_3d.program
+		.set_uniform_4x4f(kiwi::default_buffers_ptr->m_program_texture_alpha_test_3d.mvp_matrix_location, m_transformation_matrix_ptr)	
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_texture_alpha_test_3d.RGBAx_location, RGBAx.data())
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_texture_alpha_test_3d.RGBAo_location, RGBAo.data())
+		.set_uniform_1f(kiwi::default_buffers_ptr->m_program_texture_alpha_test_3d.alpha_test_location, alpha_test_value);
 
 	kiwi::_draw_basic_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -2038,6 +2240,8 @@ bool kiwi::basic_2d_color_gradient::init() noexcept
 	if (success)
 	{
 		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
+		RGBAx_location = program.new_uniform_location("u_RGBAx");
+		RGBAo_location = program.new_uniform_location("u_RGBAo");
 	}
 
 	return success;
@@ -2053,6 +2257,8 @@ bool kiwi::basic_2d_texture::init() noexcept
 	if (success)
 	{
 		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
+		RGBAx_location = program.new_uniform_location("u_RGBAx");
+		RGBAo_location = program.new_uniform_location("u_RGBAo");
 		program.set_uniform_1i("Tx", static_cast<GLint>(0));
 	}
 
@@ -2069,6 +2275,8 @@ bool kiwi::basic_2d_texture_alpha_test::init() noexcept
 	if (success)
 	{
 		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
+		RGBAx_location = program.new_uniform_location("u_RGBAx");
+		RGBAo_location = program.new_uniform_location("u_RGBAo");
 		alpha_test_location = program.new_uniform_location("u_alpha_test");
 		program.set_uniform_1i("Tx", static_cast<GLint>(0));
 	}
@@ -2206,6 +2414,8 @@ bool kiwi::basic_3d_color_gradient::init() noexcept
 	if (success)
 	{
 		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
+		RGBAx_location = program.new_uniform_location("u_RGBAx");
+		RGBAo_location = program.new_uniform_location("u_RGBAo");
 	}
 
 	return success;
@@ -2222,6 +2432,7 @@ bool kiwi::basic_3d_texture::init() noexcept
 	{
 		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
 		RGBAx_location = program.new_uniform_location("u_RGBAx");
+		RGBAo_location = program.new_uniform_location("u_RGBAo");
 		program.set_uniform_1i("Tx", static_cast<GLint>(0));
 	}
 
@@ -2238,8 +2449,9 @@ bool kiwi::basic_3d_texture_alpha_test::init() noexcept
 	if (success)
 	{
 		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
-		alpha_test_location = program.new_uniform_location("u_alpha_test");
 		RGBAx_location = program.new_uniform_location("u_RGBAx");
+		RGBAo_location = program.new_uniform_location("u_RGBAo");
+		alpha_test_location = program.new_uniform_location("u_alpha_test");
 		program.set_uniform_1i("Tx", static_cast<GLint>(0));
 	}
 

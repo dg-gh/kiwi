@@ -43,9 +43,21 @@ namespace kiwi
 
 		kiwi::_draw_basic_proxy using_solid_color(const kiwi::vertex_buffer& vertex_buffer, const kiwi::RGBA& solid_color) noexcept;
 		kiwi::_draw_basic_proxy using_color_gradient(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& color_vertex_buffer) noexcept;
+		kiwi::_draw_basic_proxy using_color_gradient(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& color_vertex_buffer,
+			const kiwi::RGBA& RGBAx) noexcept;
+		kiwi::_draw_basic_proxy using_color_gradient(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& color_vertex_buffer,
+			const kiwi::RGBA& RGBAx, const kiwi::RGBA& RGBAo) noexcept;
 		kiwi::_draw_basic_proxy using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_2d& texture) noexcept;
+		kiwi::_draw_basic_proxy using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_2d& texture,
+			const kiwi::RGBA& RGBAx) noexcept;
+		kiwi::_draw_basic_proxy using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer, const kiwi::texture_2d& texture,
+			const kiwi::RGBA& RGBAx, const kiwi::RGBA& RGBAo) noexcept;
 		kiwi::_draw_basic_proxy using_texture_alpha_test(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer,
 			const kiwi::texture_2d& texture, GLfloat alpha_test_value) noexcept;
+		kiwi::_draw_basic_proxy using_texture_alpha_test(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer,
+			const kiwi::texture_2d& texture, GLfloat alpha_test_value, const kiwi::RGBA& RGBA) noexcept;
+		kiwi::_draw_basic_proxy using_texture_alpha_test(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer,
+			const kiwi::texture_2d& texture, GLfloat alpha_test_value, const kiwi::RGBA& RGBAx, const kiwi::RGBA& RGBAo) noexcept;
 		kiwi::_draw_basic_proxy using_no_shade(const kiwi::vertex_buffer& vertex_buffer) noexcept;
 
 		kiwi::_draw_instanced_basic_proxy using_solid_color_sprites(const kiwi::vertex_buffer& vertex_buffer,
@@ -69,14 +81,22 @@ namespace kiwi
 
 		kiwi::_draw_basic_proxy using_solid_color(const kiwi::vertex_buffer& vertex_buffer, const kiwi::RGBA& solid_color) noexcept;
 		kiwi::_draw_basic_proxy using_color_gradient(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& color_vertex_buffer) noexcept;
+		kiwi::_draw_basic_proxy using_color_gradient(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& color_vertex_buffer,
+			const kiwi::RGBA& RGBAx) noexcept;
+		kiwi::_draw_basic_proxy using_color_gradient(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& color_vertex_buffer,
+			const kiwi::RGBA& RGBAx, const kiwi::RGBA& RGBAo) noexcept;
 		kiwi::_draw_basic_proxy using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer,
 			const kiwi::texture_2d& texture_buffer) noexcept;
 		kiwi::_draw_basic_proxy using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer,
 			const kiwi::texture_2d& texture_buffer, const kiwi::RGBA& RGBAx) noexcept;
+		kiwi::_draw_basic_proxy using_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer,
+			const kiwi::texture_2d& texture_buffer, const kiwi::RGBA& RGBAx, const kiwi::RGBA& RGBAo) noexcept;
 		kiwi::_draw_basic_proxy using_texture_alpha_test(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer,
 			const kiwi::texture_2d& texture_buffer, GLfloat alpha_test_value) noexcept;
 		kiwi::_draw_basic_proxy using_texture_alpha_test(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer,
 			const kiwi::texture_2d& texture_buffer, GLfloat alpha_test_value, const kiwi::RGBA& RGBAx) noexcept;
+		kiwi::_draw_basic_proxy using_texture_alpha_test(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer,
+			const kiwi::texture_2d& texture_buffer, GLfloat alpha_test_value, const kiwi::RGBA& RGBAx, const kiwi::RGBA& RGBAo) noexcept;
 
 		void using_skybox(const kiwi::cubemap& skybox_buffer) noexcept;
 		kiwi::_draw_basic_proxy using_no_shade(const kiwi::vertex_buffer& vertex_buffer, GLfloat depth_offset = static_cast<GLfloat>(0)) noexcept;
