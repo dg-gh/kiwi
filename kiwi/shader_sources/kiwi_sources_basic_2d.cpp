@@ -98,7 +98,7 @@ const char* const kiwi::source::basic_2d_texture::fragment_shader() noexcept
 
 		"	void main()											\n"
 		"	{													\n"
-		"		out_color = u_RGBAx * texture(Tx, UV);			\n"
+		"		out_color = u_RGBAx * texture(Tx, UV)			\n"
 		"			+ u_RGBAo;									\n"
 		"	}													\n"
 		;
@@ -137,7 +137,7 @@ const char* const kiwi::source::basic_2d_texture_alpha_test::fragment_shader() n
 
 		"	void main()											\n"
 		"	{													\n"
-		"		out_color = u_RGBAx * texture(Tx, UV);			\n"
+		"		out_color = u_RGBAx * texture(Tx, UV)			\n"
 		"			+ u_RGBAo;									\n"
 
 		"		if (out_color[3] < u_alpha_test)				\n"

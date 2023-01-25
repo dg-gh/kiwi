@@ -24,30 +24,39 @@ namespace kiwi
 	protected:
 
 		virtual void setup();
-		// {
-			// setup buffers, shaders and programs
-
-			// kiwi::draw_init();
-			// kiwi::keyboard_init();
-			// kiwi::mouse_init();
-		// }
+		//	void setup() override
+		//	{
+		//		// setup buffers, shaders and programs
+		//
+		//		kiwi::draw_init();
+		//		kiwi::keyboard_init();
+		//		kiwi::mouse_init();
+		//	}
 
 		virtual void loop(GLfloat loop_time_elapsed);
-		// {
-			// kiwi::keyboard::clear_events();
-			// kiwi::mouse::clear_events();
-			// kiwi::poll_for_events();
+		//	void loop(GLfloat loop_time_elapsed) override
+		//	{
+		//		kiwi::clear_frame_buffer();
+		//		kiwi::keyboard::clear_events();
+		//		kiwi::mouse::clear_events();
+		//		kiwi::poll_for_events();
+		//
+		//		// display stuff
+		//	}
 
-			// display stuff
-		// }
+		virtual bool exit_condition();
+		//	bool exit_condition() override
+		//	{
+		//		return kiwi::keyboard::escape();
+		//	}
 
-		virtual bool exit_condition(); // { return false; }
 		virtual int exit();
-		// {
-			// terminate buffers, shaders and programs
-
-			// kiwi::draw_terminate();
-			// return 0;
+		//	int exit() override
+		//	{
+		//		// terminate buffers, shaders and programs
+		//
+		//		kiwi::draw_terminate();
+		//		return 0;
 		// }
 
 		bool window_resized() noexcept;
