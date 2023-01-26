@@ -3,7 +3,6 @@
 
 #include "context/kiwi_context.hpp"
 #include "context/kiwi_looper.hpp"
-#include "context/kiwi_looper_2th.hpp"
 #include "context/kiwi_window.hpp"
 
 #include "buffers/kiwi_buffer_cubemap.hpp"
