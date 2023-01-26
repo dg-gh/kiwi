@@ -255,19 +255,20 @@
 const char* const kiwi::source::forward_2d_solid_color::vertex_shader() noexcept
 {
 	return
-		"	#version 330 core																					\n"
+		"	#version 430 core																					\n"
 		"	layout (location = 0) in vec3 in_XY;																\n"
-		"	out vec2 XY;																						\n"
+		"	out vec3 moved_XYZ;																					\n"
 		"	uniform mat3 u_mvp_M;																				\n"
+		"	uniform mat3 u_m_M;																					\n"
 
 		"	void main()																							\n"
 		"	{																									\n"
-		"		vec3 in_XYh = u_mvp_M * vec3(vec2(in_XY), 1.0);													\n"
-
+		"		vec3 XY1 = vec3(vec2(in_XY), 1.0);																\n"
+		"		vec3 in_XYh = u_mvp_M * XY1;																	\n"
 		"		gl_Position = vec4(in_XYh[0], in_XYh[1],														\n"
 		"			in_XY[2], 1.0);																				\n"
-
-		"		XY = vec2(in_XY);																				\n"
+		"		moved_XYZ = u_m_M * XY1;																		\n"
+		"		moved_XYZ[2] = 0.0;																				\n"
 		"	}																									\n"
 		;
 }
@@ -275,7 +276,7 @@ const char* const kiwi::source::forward_2d_solid_color::fragment_shader() noexce
 {
 	return
 		"	#version 430 core																					\n"
-		"	in vec2 XY;																							\n"
+		"	in vec3 moved_XYZ;																					\n"
 		"	out vec4 out_color;																					\n"
 
 		LIGHTSET_BUFFERS
@@ -286,13 +287,11 @@ const char* const kiwi::source::forward_2d_solid_color::fragment_shader() noexce
 		"	uniform vec4 u_RGBA;																				\n"
 
 		"	uniform vec3 u_view_XYZ;																			\n"
-		"	uniform mat3 u_m_M;																					\n"
 
 		GGX_FUNC_2D
 
 		"	void main()																							\n"
 		"	{																									\n"
-		"		vec3 moved_XYZ = vec3(vec2(u_m_M * vec3(XY, 1.0)), 0.0); 										\n"
 		"		vec3 V_dir = normalize(u_view_XYZ - moved_XYZ); 												\n"
 		"		float dot_NV = V_dir[2];																		\n"
 
@@ -326,23 +325,24 @@ const char* const kiwi::source::forward_2d_solid_color::fragment_shader() noexce
 const char* const kiwi::source::forward_2d_color_gradient_vRMEC::vertex_shader() noexcept
 {
 	return
-		"	#version 330 core																					\n"
+		"	#version 430 core																					\n"
 		"	layout (location = 0) in vec3 in_XY;																\n"
 		"	layout (location = 6) in vec4 in_RGBA;																\n"
 		"	layout (location = 7) in vec4 in_RMEC;																\n"
-		"	out vec2 XY;																						\n"
+		"	out vec3 moved_XYZ;																					\n"
 		"	out vec4 RGBA;																						\n"
 		"	out vec4 RMEC;																						\n"
 		"	uniform mat3 u_mvp_M;																				\n"
+		"	uniform mat3 u_m_M;																					\n"
 
 		"	void main()																							\n"
 		"	{																									\n"
-		"		vec3 in_XYh = u_mvp_M * vec3(vec2(in_XY), 1.0);													\n"
-
+		"		vec3 XY1 = vec3(vec2(in_XY), 1.0);																\n"
+		"		vec3 in_XYh = u_mvp_M * XY1;																	\n"
 		"		gl_Position = vec4(in_XYh[0], in_XYh[1],														\n"
 		"			in_XY[2], 1.0);																				\n"
-
-		"		XY = vec2(in_XY);																				\n"
+		"		moved_XYZ = u_m_M * XY1;																		\n"
+		"		moved_XYZ[2] = 0.0;																				\n"
 		"		RGBA = in_RGBA;																					\n"
 		"		RMEC = in_RMEC;																					\n"
 		"	}																									\n"
@@ -352,7 +352,7 @@ const char* const kiwi::source::forward_2d_color_gradient_vRMEC::fragment_shader
 {
 	return
 		"	#version 430 core																					\n"
-		"	in vec2 XY;																							\n"
+		"	in vec3 moved_XYZ;																					\n"
 		"	in vec4 RGBA;																						\n"
 		"	in vec4 RMEC;																						\n"
 		"	out vec4 out_color;																					\n"
@@ -362,13 +362,11 @@ const char* const kiwi::source::forward_2d_color_gradient_vRMEC::fragment_shader
 		"	uniform vec3 u_ambient_light_RGB;																	\n"
 
 		"	uniform vec3 u_view_XYZ;																			\n"
-		"	uniform mat3 u_m_M;																					\n"
 
 		GGX_FUNC_2D
 
 		"	void main()																							\n"
 		"	{																									\n"
-		"		vec3 moved_XYZ = vec3(vec2(u_m_M * vec3(XY, 1.0)), 0.0); 										\n"
 		"		vec3 V_dir = normalize(u_view_XYZ - moved_XYZ); 												\n"
 		"		float dot_NV = V_dir[2];																		\n"
 
@@ -402,23 +400,24 @@ const char* const kiwi::source::forward_2d_color_gradient_vRMEC::fragment_shader
 const char* const kiwi::source::forward_2d_texture_mRMEC::vertex_shader() noexcept
 {
 	return
-		"	#version 330 core																					\n"
+		"	#version 430 core																					\n"
 		"	layout (location = 0) in vec3 in_XY;																\n"
 		"	layout (location = 4) in vec2 in_UV;																\n"
 		"	layout (location = 5) in vec2 in_UV_lmap;															\n"
-		"	out vec2 XY;																						\n"
+		"	out vec3 moved_XYZ;																					\n"
 		"	out vec2 UV;																						\n"
 		"	out vec2 UV_lmap;																					\n"
 		"	uniform mat3 u_mvp_M;																				\n"
+		"	uniform mat3 u_m_M;																					\n"
 
 		"	void main()																							\n"
 		"	{																									\n"
-		"		vec3 in_XYh = u_mvp_M * vec3(vec2(in_XY), 1.0);													\n"
-
+		"		vec3 XY1 = vec3(vec2(in_XY), 1.0);																\n"
+		"		vec3 in_XYh = u_mvp_M * XY1;																	\n"
 		"		gl_Position = vec4(in_XYh[0], in_XYh[1],														\n"
 		"			in_XY[2], 1.0);																				\n"
-
-		"		XY = vec2(in_XY);																				\n"
+		"		moved_XYZ = u_m_M * XY1;																		\n"
+		"		moved_XYZ[2] = 0.0;																				\n"
 		"		UV = in_UV;																						\n"
 		"		UV_lmap = in_UV_lmap;																			\n"
 		"	}																									\n"
@@ -428,7 +427,7 @@ const char* const kiwi::source::forward_2d_texture_mRMEC::fragment_shader() noex
 {
 	return
 		"	#version 430 core																					\n"
-		"	in vec2 XY;																							\n"
+		"	in vec3 moved_XYZ;																					\n"
 		"	in vec2 UV;																							\n"
 		"	in vec2 UV_lmap;																					\n"
 		"	out vec4 out_color;																					\n"
@@ -439,7 +438,6 @@ const char* const kiwi::source::forward_2d_texture_mRMEC::fragment_shader() noex
 		"	uniform vec2 u_ECx;																					\n"
 
 		"	uniform vec3 u_view_XYZ;																			\n"
-		"	uniform mat3 u_m_M;																					\n"
 
 		"	layout (binding = 0) uniform sampler2D Tx;															\n"
 		"	layout (binding = 1) uniform sampler2D Tx_lmap;														\n"
@@ -449,7 +447,6 @@ const char* const kiwi::source::forward_2d_texture_mRMEC::fragment_shader() noex
 
 		"	void main()																							\n"
 		"	{																									\n"
-		"		vec3 moved_XYZ = vec3(vec2(u_m_M * vec3(XY, 1.0)), 0.0); 										\n"
 		"		vec3 V_dir = normalize(u_view_XYZ - moved_XYZ); 												\n"
 		"		float dot_NV = V_dir[2];																		\n"
 
@@ -486,7 +483,7 @@ const char* const kiwi::source::forward_2d_texture_mRMEC::fragment_shader() noex
 const char* const kiwi::source::forward_2d_normal_mRMEC::vertex_shader() noexcept
 {
 	return
-		"	#version 330 core																					\n"
+		"	#version 430 core																					\n"
 		"	layout (location = 0) in vec3 in_XY;																\n"
 		"	layout (location = 1) in vec2 in_T_dir;																\n"
 		"	layout (location = 2) in vec2 in_B_dir;																\n"
@@ -501,13 +498,11 @@ const char* const kiwi::source::forward_2d_normal_mRMEC::vertex_shader() noexcep
 
 		"	void main()																							\n"
 		"	{																									\n"
-		"		vec3 temp = vec3(vec2(in_XY), 1.0);																\n"
-		"		vec3 in_XYh = u_mvp_M * temp;																	\n"
-
+		"		vec3 XY1 = vec3(vec2(in_XY), 1.0);																\n"
+		"		vec3 in_XYh = u_mvp_M * XY1;																	\n"
 		"		gl_Position = vec4(in_XYh[0], in_XYh[1],														\n"
 		"			in_XY[2], 1.0);																				\n"
-
-		"		moved_XYZ = u_m_M * temp;																		\n"
+		"		moved_XYZ = u_m_M * XY1;																		\n"
 		"		moved_XYZ[2] = 0.0;																				\n"
 		"		moved_TB = mat2(u_m_M) * mat2(in_T_dir, in_B_dir);												\n"
 		"		UV = in_UV;																						\n"
