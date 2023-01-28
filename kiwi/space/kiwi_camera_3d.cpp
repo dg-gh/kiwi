@@ -2,20 +2,20 @@
 #include "header_utils/kiwi_simd.hpp"
 
 
-kiwi::camera_3d& kiwi::camera_3d::new_projection_matrix(GLfloat screen_ratio, GLfloat fov, GLfloat z_near, GLfloat z_far) noexcept
+kiwi::camera_3d& kiwi::camera_3d::new_projection_matrix(GLfloat screen_ratio, GLfloat fov, const kiwi::NF& near_far) noexcept
 {
 	if (screen_ratio >= GL1)
 	{
 		m_tan_half_fov = std::tan(static_cast<GLfloat>(0.5f) * fov);
 		GLfloat temp = screen_ratio * m_tan_half_fov;
 
-		GLfloat dz_inv = GL1 / (z_far - z_near);
+		GLfloat dz_inv = GL1 / (near_far[1] - near_far[0]);
 		m_p_matrix[0] = GL1 / temp;
 		m_p_matrix[5] = GL1 / m_tan_half_fov;
-		m_p_matrix[10] = (z_far + z_near) * dz_inv;
+		m_p_matrix[10] = (near_far[0] + near_far[1]) * dz_inv;
 
 		m_p_matrix[11] = GL1;
-		m_p_matrix[14] = (static_cast<GLfloat>(-2) * z_near) * (z_far * dz_inv);
+		m_p_matrix[14] = (static_cast<GLfloat>(-2) * near_far[0]) * (near_far[1] * dz_inv);
 		m_p_matrix[15] = GL0;
 
 		m_cos_half_fov_x = GL1 / std::sqrt(GL1 + temp * temp);
@@ -29,13 +29,13 @@ kiwi::camera_3d& kiwi::camera_3d::new_projection_matrix(GLfloat screen_ratio, GL
 		m_tan_half_fov = std::tan(static_cast<GLfloat>(0.5f) * fov);
 		GLfloat temp = screen_ratio / m_tan_half_fov;
 
-		GLfloat dz_inv = GL1 / (z_far - z_near);
+		GLfloat dz_inv = GL1 / (near_far[1] - near_far[0]);
 		m_p_matrix[0] = GL1 / m_tan_half_fov;
 		m_p_matrix[5] = temp;
-		m_p_matrix[10] = (z_far + z_near) * dz_inv;
+		m_p_matrix[10] = (near_far[0] + near_far[1]) * dz_inv;
 
 		m_p_matrix[11] = GL1;
-		m_p_matrix[14] = (static_cast<GLfloat>(-2) * z_near) * (z_far * dz_inv);
+		m_p_matrix[14] = (static_cast<GLfloat>(-2) * near_far[0]) * (near_far[1] * dz_inv);
 		m_p_matrix[15] = GL0;
 
 		m_cos_half_fov_x = GL1 / std::sqrt(GL1 + m_tan_half_fov * m_tan_half_fov);
@@ -45,10 +45,10 @@ kiwi::camera_3d& kiwi::camera_3d::new_projection_matrix(GLfloat screen_ratio, GL
 		m_cos_half_fov_y = temp * m_sin_half_fov_y;
 	}
 
-	m_z_near = z_near;
-	m_z_far = z_far;
-	m_mz = z_near * z_far;
-	m_dz = z_far - z_near;
+	m_z_near = near_far[0];
+	m_z_far = near_far[1];
+	m_mz = near_far[0] * near_far[1];
+	m_dz = near_far[1] - near_far[0];
 
 	m_angles_modified = true;
 	m_perspective = true;
@@ -57,9 +57,9 @@ kiwi::camera_3d& kiwi::camera_3d::new_projection_matrix(GLfloat screen_ratio, GL
 	return *this;
 }
 
-kiwi::camera_3d& kiwi::camera_3d::new_projection_matrix_ortho(GLfloat screen_ratio, const kiwi::XY& scale, GLfloat z_near, GLfloat z_far) noexcept
+kiwi::camera_3d& kiwi::camera_3d::new_projection_matrix_ortho(GLfloat screen_ratio, const kiwi::XY& scale, const kiwi::NF& near_far) noexcept
 {
-	GLfloat dz_inv = GL1 / (z_far - z_near);
+	GLfloat dz_inv = GL1 / (near_far[1] - near_far[0]);
 
 	m_bound_X = static_cast<GLfloat>(0.5f) * scale[0];
 	m_bound_Y = static_cast<GLfloat>(0.5f) * scale[1];
@@ -71,7 +71,7 @@ kiwi::camera_3d& kiwi::camera_3d::new_projection_matrix_ortho(GLfloat screen_rat
 	m_p_matrix[10] = GL2 * dz_inv;
 
 	m_p_matrix[11] = GL0;
-	m_p_matrix[14] = -(z_near + z_far) * dz_inv;
+	m_p_matrix[14] = -(near_far[0] + near_far[1]) * dz_inv;
 	m_p_matrix[15] = m;
 
 	if (screen_ratio >= GL1)
@@ -85,8 +85,8 @@ kiwi::camera_3d& kiwi::camera_3d::new_projection_matrix_ortho(GLfloat screen_rat
 		m_scale_Y = m_bound_Y * screen_ratio;
 	}
 
-	m_z_near = z_near;
-	m_dz = z_far - z_near;
+	m_z_near = near_far[0];
+	m_dz = near_far[1] - near_far[0];
 
 	m_perspective = false;
 	m_angles_modified = true;

@@ -240,6 +240,36 @@ namespace kiwi
 
 		GLfloat m_ECx[2] = { static_cast<GLfloat>(1), static_cast<GLfloat>(1) };
 	};
+
+	class NF
+	{
+
+	public:
+
+		inline NF(GLfloat near, GLfloat far) noexcept;
+
+		NF() = default;
+		NF(const kiwi::NF&) noexcept = default;
+		kiwi::NF& operator=(const kiwi::NF&) noexcept = default;
+		NF(kiwi::NF&&) noexcept = default;
+		kiwi::NF& operator=(kiwi::NF&&) noexcept = default;
+		~NF() = default;
+
+		inline GLfloat& operator[](std::size_t offset) noexcept;
+		inline const GLfloat& operator[](std::size_t offset) const noexcept;
+
+		inline GLfloat& N() noexcept;
+		inline const GLfloat& N() const noexcept;
+		inline GLfloat& F() noexcept;
+		inline const GLfloat& F() const noexcept;
+
+		inline GLfloat* data() noexcept;
+		inline const GLfloat* data() const noexcept;
+
+	private:
+
+		GLfloat m_NF[2] = { static_cast<GLfloat>(0), static_cast<GLfloat>(0) };
+	};
 }
 
 
@@ -338,5 +368,15 @@ inline GLfloat& kiwi::ECx::Cx() noexcept { return m_ECx[1]; }
 inline const GLfloat& kiwi::ECx::Cx() const noexcept { return m_ECx[1]; }
 inline GLfloat* kiwi::ECx::data() noexcept { return static_cast<GLfloat*>(m_ECx); }
 inline const GLfloat* kiwi::ECx::data() const noexcept { return static_cast<const GLfloat*>(m_ECx); }
+
+inline kiwi::NF::NF(GLfloat near, GLfloat far) noexcept : m_NF{ near, far } {}
+inline GLfloat& kiwi::NF::operator[](std::size_t offset) noexcept { return m_NF[offset]; }
+inline const GLfloat& kiwi::NF::operator[](std::size_t offset) const noexcept { return m_NF[offset]; }
+inline GLfloat& kiwi::NF::N() noexcept { return m_NF[0]; }
+inline const GLfloat& kiwi::NF::N() const noexcept { return m_NF[0]; }
+inline GLfloat& kiwi::NF::F() noexcept { return m_NF[1]; }
+inline const GLfloat& kiwi::NF::F() const noexcept { return m_NF[1]; }
+inline GLfloat* kiwi::NF::data() noexcept { return static_cast<GLfloat*>(m_NF); }
+inline const GLfloat* kiwi::NF::data() const noexcept { return static_cast<const GLfloat*>(m_NF); }
 
 #endif // _KIWI_BASIC_DATA_HPP

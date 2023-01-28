@@ -21,8 +21,8 @@ namespace kiwi
 		kiwi::camera_3d& operator=(kiwi::camera_3d&&) = default;
 		~camera_3d() = default;
 
-		kiwi::camera_3d& new_projection_matrix(GLfloat screen_ratio, GLfloat fov, GLfloat z_near, GLfloat z_far) noexcept;
-		kiwi::camera_3d& new_projection_matrix_ortho(GLfloat screen_ratio, const kiwi::XY& scale, GLfloat z_near, GLfloat z_far) noexcept;
+		kiwi::camera_3d& new_projection_matrix(GLfloat screen_ratio, GLfloat fov, const kiwi::NF& near_far) noexcept;
+		kiwi::camera_3d& new_projection_matrix_ortho(GLfloat screen_ratio, const kiwi::XY& scale, const kiwi::NF& near_far) noexcept;
 
 		const GLfloat* data(const GLfloat* const model_matrix_ptr) noexcept;
 		const GLfloat* operator()(const GLfloat* const model_matrix_ptr) noexcept;
