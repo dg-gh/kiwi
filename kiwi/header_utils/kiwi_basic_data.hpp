@@ -22,6 +22,8 @@ namespace kiwi
 		kiwi::RGBA& operator=(kiwi::RGBA&&) noexcept = default;
 		~RGBA() = default;
 
+		static inline const kiwi::RGBA& ref(const GLfloat* const ptr) noexcept;
+
 		inline GLfloat& operator[](std::size_t offset) noexcept;
 		inline const GLfloat& operator[](std::size_t offset) const noexcept;
 
@@ -55,6 +57,8 @@ namespace kiwi
 		size(kiwi::size&&) noexcept = default;
 		kiwi::size& operator=(kiwi::size&&) noexcept = default;
 		~size() = default;
+
+		static inline const kiwi::size& ref(const std::size_t* const ptr) noexcept;
 
 		inline std::size_t& operator[](std::size_t offset) noexcept;
 		inline const std::size_t& operator[](std::size_t offset) const noexcept;
@@ -91,6 +95,8 @@ namespace kiwi
 		kiwi::XY& operator=(kiwi::XY&&) noexcept = default;
 		~XY() noexcept = default;
 
+		static inline const kiwi::XY& ref(const GLfloat* const ptr) noexcept;
+
 		inline GLfloat& operator[](std::size_t offset) noexcept;
 		inline const GLfloat& operator[](std::size_t offset) const noexcept;
 
@@ -125,6 +131,8 @@ namespace kiwi
 		kiwi::XYZ& operator=(kiwi::XYZ&&) noexcept = default;
 		~XYZ() = default;
 
+		static inline const kiwi::XYZ& ref(const GLfloat* const ptr) noexcept;
+
 		inline GLfloat& operator[](std::size_t offset) noexcept;
 		inline const GLfloat& operator[](std::size_t offset) const noexcept;
 
@@ -156,6 +164,8 @@ namespace kiwi
 		UV(kiwi::UV&&) noexcept = default;
 		kiwi::UV& operator=(kiwi::UV&&) noexcept = default;
 		~UV() = default;
+
+		static inline const kiwi::UV& ref(const GLfloat* const ptr) noexcept;
 
 		inline GLfloat& operator[](std::size_t offset) noexcept;
 		inline const GLfloat& operator[](std::size_t offset) const noexcept;
@@ -189,6 +199,8 @@ namespace kiwi
 		RMEC(kiwi::RMEC&&) noexcept = default;
 		kiwi::RMEC& operator=(kiwi::RMEC&&) noexcept = default;
 		~RMEC() = default;
+
+		static inline const kiwi::RMEC& ref(const GLfloat* const ptr) noexcept;
 
 		inline GLfloat& operator[](std::size_t offset) noexcept;
 		inline const GLfloat& operator[](std::size_t offset) const noexcept;
@@ -225,6 +237,8 @@ namespace kiwi
 		kiwi::ECx& operator=(kiwi::ECx&&) noexcept = default;
 		~ECx() = default;
 
+		static inline const kiwi::ECx& ref(const GLfloat* const ptr) noexcept;
+
 		inline GLfloat& operator[](std::size_t offset) noexcept;
 		inline const GLfloat& operator[](std::size_t offset) const noexcept;
 
@@ -255,6 +269,8 @@ namespace kiwi
 		kiwi::NF& operator=(kiwi::NF&&) noexcept = default;
 		~NF() = default;
 
+		static inline const kiwi::NF& ref(const GLfloat* const ptr) noexcept;
+
 		inline GLfloat& operator[](std::size_t offset) noexcept;
 		inline const GLfloat& operator[](std::size_t offset) const noexcept;
 
@@ -277,6 +293,7 @@ namespace kiwi
 
 inline kiwi::RGBA::RGBA(GLfloat R, GLfloat G, GLfloat B) noexcept : m_RGBA{ R, G, B, 1.0f } {}
 inline kiwi::RGBA::RGBA(GLfloat R, GLfloat G, GLfloat B, GLfloat A) noexcept : m_RGBA{ R, G, B, A } {}
+inline const kiwi::RGBA& kiwi::RGBA::ref(const GLfloat* const ptr) noexcept { return reinterpret_cast<const kiwi::RGBA&>(*ptr); }
 inline GLfloat& kiwi::RGBA::operator[](std::size_t offset) noexcept { return m_RGBA[offset]; }
 inline const GLfloat& kiwi::RGBA::operator[](std::size_t offset) const noexcept { return m_RGBA[offset]; }
 inline GLfloat& kiwi::RGBA::R() noexcept { return m_RGBA[0]; }
@@ -292,6 +309,7 @@ inline const GLfloat* kiwi::RGBA::data() const noexcept { return static_cast<con
 
 
 inline kiwi::size::size(std::size_t X, std::size_t Y) noexcept : m_resolution{ X, Y } {}
+inline const kiwi::size& kiwi::size::ref(const std::size_t* const ptr) noexcept { return reinterpret_cast<const kiwi::size&>(*ptr); }
 inline std::size_t& kiwi::size::operator[](std::size_t offset) noexcept { return m_resolution[offset]; }
 inline const std::size_t& kiwi::size::operator[](std::size_t offset) const noexcept { return m_resolution[offset]; }
 inline std::size_t& kiwi::size::X() noexcept { return m_resolution[0]; }
@@ -304,6 +322,7 @@ inline const std::size_t* kiwi::size::data() const noexcept { return static_cast
 
 inline kiwi::XY::XY(GLfloat X, GLfloat Y) noexcept : m_XY{ X, Y } {}
 inline kiwi::XY::XY(kiwi::XYZ _XYZ) noexcept : m_XY{ _XYZ.m_XYZ[0], _XYZ.m_XYZ[1] } {}
+inline const kiwi::XY& kiwi::XY::ref(const GLfloat* const ptr) noexcept { return reinterpret_cast<const kiwi::XY&>(*ptr); }
 inline GLfloat& kiwi::XY::operator[](std::size_t offset) noexcept { return m_XY[offset]; }
 inline const GLfloat& kiwi::XY::operator[](std::size_t offset) const noexcept { return m_XY[offset]; }
 inline GLfloat& kiwi::XY::X() noexcept { return m_XY[0]; }
@@ -317,6 +336,7 @@ inline const GLfloat* kiwi::XY::data() const noexcept { return static_cast<const
 inline kiwi::XYZ::XYZ(GLfloat X, GLfloat Y, GLfloat Z) noexcept : m_XYZ{ X, Y, Z } {}
 inline kiwi::XYZ::XYZ(kiwi::XY _XY) noexcept : m_XYZ{ _XY.m_XY[0], _XY.m_XY[1], static_cast<GLfloat>(0) } {}
 inline kiwi::XYZ::XYZ(kiwi::XY _XY, GLfloat Z) noexcept : m_XYZ{ _XY.m_XY[0], _XY.m_XY[1], Z } {}
+inline const kiwi::XYZ& kiwi::XYZ::ref(const GLfloat* const ptr) noexcept { return reinterpret_cast<const kiwi::XYZ&>(*ptr); }
 inline GLfloat& kiwi::XYZ::operator[](std::size_t offset) noexcept { return m_XYZ[offset]; }
 inline const GLfloat& kiwi::XYZ::operator[](std::size_t offset) const noexcept { return m_XYZ[offset]; }
 inline GLfloat& kiwi::XYZ::X() noexcept { return m_XYZ[0]; }
@@ -330,6 +350,7 @@ inline const GLfloat* kiwi::XYZ::data() const noexcept { return static_cast<cons
 
 
 inline kiwi::UV::UV(GLfloat U, GLfloat V) noexcept : m_UV{ U, V } {}
+inline const kiwi::UV& kiwi::UV::ref(const GLfloat* const ptr) noexcept { return reinterpret_cast<const kiwi::UV&>(*ptr); }
 inline GLfloat& kiwi::UV::operator[](std::size_t offset) noexcept { return m_UV[offset]; }
 inline const GLfloat& kiwi::UV::operator[](std::size_t offset) const noexcept { return m_UV[offset]; }
 inline GLfloat& kiwi::UV::U() noexcept { return m_UV[0]; }
@@ -344,6 +365,7 @@ inline kiwi::RMEC::RMEC(GLfloat roughness) noexcept : m_RMEC{ roughness, static_
 inline kiwi::RMEC::RMEC(GLfloat roughness, GLfloat metalness) noexcept : m_RMEC{ roughness, metalness, static_cast<GLfloat>(0), static_cast<GLfloat>(1) } {}
 inline kiwi::RMEC::RMEC(GLfloat roughness, GLfloat metalness, GLfloat emissivity) noexcept : m_RMEC{ roughness, metalness, emissivity, static_cast<GLfloat>(1) } {}
 inline kiwi::RMEC::RMEC(GLfloat roughness, GLfloat metalness, GLfloat emissivity, GLfloat ceiling) noexcept : m_RMEC{ roughness, metalness, emissivity, ceiling } {}
+inline const kiwi::RMEC& kiwi::RMEC::ref(const GLfloat* const ptr) noexcept { return reinterpret_cast<const kiwi::RMEC&>(*ptr); }
 inline GLfloat& kiwi::RMEC::operator[](std::size_t offset) noexcept { return m_RMEC[offset]; }
 inline const GLfloat& kiwi::RMEC::operator[](std::size_t offset) const noexcept { return m_RMEC[offset]; }
 inline GLfloat& kiwi::RMEC::R() noexcept { return m_RMEC[0]; }
@@ -360,6 +382,7 @@ inline const GLfloat* kiwi::RMEC::data() const noexcept { return static_cast<con
 
 inline kiwi::ECx::ECx(GLfloat emissivity_factor) noexcept : m_ECx{ emissivity_factor, static_cast<GLfloat>(1) } {}
 inline kiwi::ECx::ECx(GLfloat emissivity_factor, GLfloat ceiling_factor) noexcept : m_ECx{ emissivity_factor, ceiling_factor } {}
+inline const kiwi::ECx& kiwi::ECx::ref(const GLfloat* const ptr) noexcept { return reinterpret_cast<const kiwi::ECx&>(*ptr); }
 inline GLfloat& kiwi::ECx::operator[](std::size_t offset) noexcept { return m_ECx[offset]; }
 inline const GLfloat& kiwi::ECx::operator[](std::size_t offset) const noexcept { return m_ECx[offset]; }
 inline GLfloat& kiwi::ECx::Ex() noexcept { return m_ECx[0]; }
@@ -370,6 +393,7 @@ inline GLfloat* kiwi::ECx::data() noexcept { return static_cast<GLfloat*>(m_ECx)
 inline const GLfloat* kiwi::ECx::data() const noexcept { return static_cast<const GLfloat*>(m_ECx); }
 
 inline kiwi::NF::NF(GLfloat near, GLfloat far) noexcept : m_NF{ near, far } {}
+inline const kiwi::NF& kiwi::NF::ref(const GLfloat* const ptr) noexcept { return reinterpret_cast<const kiwi::NF&>(*ptr); }
 inline GLfloat& kiwi::NF::operator[](std::size_t offset) noexcept { return m_NF[offset]; }
 inline const GLfloat& kiwi::NF::operator[](std::size_t offset) const noexcept { return m_NF[offset]; }
 inline GLfloat& kiwi::NF::N() noexcept { return m_NF[0]; }

@@ -11,6 +11,8 @@ namespace kiwi
 	class basic_2d_color_gradient;
 	class basic_2d_texture;
 	class basic_2d_texture_alpha_test;
+	class basic_2d_point_dist_texture;
+	class basic_2d_plane_dist_texture;
 	class basic_2d_no_shade;
 
 	class basic_2d_solid_color_sprites;
@@ -18,12 +20,12 @@ namespace kiwi
 	class basic_2d_texture_array_sprites;
 
 	class basic_3d_solid_color;
-	class basic_3d_bicolor_point_dist;
-	class basic_3d_bicolor_point_dir;
 	class basic_3d_bicolor_axis_dir;
 	class basic_3d_color_gradient;
 	class basic_3d_texture;
 	class basic_3d_texture_alpha_test;
+	class basic_3d_point_dist_texture;
+	class basic_3d_plane_dist_texture;
 	class basic_3d_skybox;
 	class basic_3d_no_shade;
 
@@ -83,6 +85,39 @@ namespace kiwi
 		GLint RGBAx_location = -1;
 		GLint RGBAo_location = -1;
 		GLint alpha_test_location = -1;
+
+		bool init() noexcept;
+	};
+
+	class basic_2d_point_dist_texture
+	{
+
+	public:
+
+		kiwi::program program;
+		GLint mvp_matrix_location = -1;
+		GLint m_matrix_location = -1;
+		GLint origin_location = -1;
+		GLint near_far_location = -1;
+		GLint RGBAx_location = -1;
+		GLint RGBAo_location = -1;
+
+		bool init() noexcept;
+	};
+
+	class basic_2d_plane_dist_texture
+	{
+
+	public:
+
+		kiwi::program program;
+		GLint mvp_matrix_location = -1;
+		GLint m_matrix_location = -1;
+		GLint origin_location = -1;
+		GLint dir_location = -1;
+		GLint near_far_location = -1;
+		GLint RGBAx_location = -1;
+		GLint RGBAo_location = -1;
 
 		bool init() noexcept;
 	};
@@ -147,49 +182,6 @@ namespace kiwi
 		bool init() noexcept;
 	};
 
-	class basic_3d_bicolor_point_dist
-	{
-
-	public:
-
-		kiwi::program program;
-		GLint m_matrix_location = -1;
-		GLint mvp_matrix_location = -1;
-		GLint point_XYZ_location = -1;
-		GLint near_RGBA_location = -1;
-		GLint far_RGBA_location = -1;
-		GLint near_far_dist_location = -1;
-
-		bool init() noexcept;
-	};
-
-	class basic_3d_bicolor_point_dir
-	{
-
-	public:
-
-		kiwi::program program;
-		GLint m_matrix_location = -1;
-		GLint mvp_matrix_location = -1;
-		GLint point_XYZ_location = -1;
-		GLint front_RGBA_location = -1;
-		GLint side_RGBA_location = -1;
-
-		bool init() noexcept;
-	};
-
-	class basic_3d_bicolor_axis_dir
-	{
-
-	public:
-
-		kiwi::program program;
-		GLint mvp_matrix_location = -1;
-		GLint RGBA_location = -1;
-
-		bool init() noexcept;
-	};
-
 	class basic_3d_color_gradient
 	{
 
@@ -226,6 +218,39 @@ namespace kiwi
 		GLint RGBAx_location = -1;
 		GLint RGBAo_location = -1;
 		GLint alpha_test_location = -1;
+
+		bool init() noexcept;
+	};
+
+	class basic_3d_point_dist_texture
+	{
+
+	public:
+
+		kiwi::program program;
+		GLint mvp_matrix_location = -1;
+		GLint m_matrix_location = -1;
+		GLint origin_location = -1;
+		GLint near_far_location = -1;
+		GLint RGBAx_location = -1;
+		GLint RGBAo_location = -1;
+
+		bool init() noexcept;
+	};
+
+	class basic_3d_plane_dist_texture
+	{
+
+	public:
+
+		kiwi::program program;
+		GLint mvp_matrix_location = -1;
+		GLint m_matrix_location = -1;
+		GLint origin_location = -1;
+		GLint dir_location = -1;
+		GLint near_far_location = -1;
+		GLint RGBAx_location = -1;
+		GLint RGBAo_location = -1;
 
 		bool init() noexcept;
 	};
@@ -346,6 +371,8 @@ namespace kiwi
 		kiwi::basic_2d_color_gradient m_program_color_gradient_2d;
 		kiwi::basic_2d_texture m_program_texture_2d;
 		kiwi::basic_2d_texture_alpha_test m_program_texture_alpha_test_2d;
+		kiwi::basic_2d_point_dist_texture m_program_point_dist_texture_2d;
+		kiwi::basic_2d_plane_dist_texture m_program_plane_dist_texture_2d;
 		kiwi::basic_2d_no_shade m_program_no_shade_2d;
 
 		kiwi::basic_2d_solid_color_sprites m_program_solid_color_sprites_2d;
@@ -353,11 +380,11 @@ namespace kiwi
 		kiwi::basic_2d_texture_array_sprites m_program_texture_array_sprites_2d;
 
 		kiwi::basic_3d_solid_color m_program_solid_color_3d;
-		kiwi::basic_3d_bicolor_point_dist m_program_bicolor_point_dist_3d;
-		kiwi::basic_3d_bicolor_point_dir m_program_bicolor_point_dir_3d;
 		kiwi::basic_3d_color_gradient m_program_color_gradient_3d;
 		kiwi::basic_3d_texture m_program_texture_3d;
 		kiwi::basic_3d_texture_alpha_test m_program_texture_alpha_test_3d;
+		kiwi::basic_3d_point_dist_texture m_program_point_dist_texture_3d;
+		kiwi::basic_3d_plane_dist_texture m_program_plane_dist_texture_3d;
 		kiwi::basic_3d_skybox m_program_skybox_3d;
 		kiwi::basic_3d_no_shade m_program_no_shade_3d;
 
@@ -394,6 +421,8 @@ bool kiwi::draw_init()
 			success &= default_buffers_ptr->m_program_color_gradient_2d.init();
 			success &= default_buffers_ptr->m_program_texture_2d.init();
 			success &= default_buffers_ptr->m_program_texture_alpha_test_2d.init();
+			success &= default_buffers_ptr->m_program_point_dist_texture_2d.init();
+			success &= default_buffers_ptr->m_program_plane_dist_texture_2d.init();
 			success &= default_buffers_ptr->m_program_no_shade_2d.init();
 
 			success &= default_buffers_ptr->m_program_solid_color_sprites_2d.init();
@@ -402,10 +431,10 @@ bool kiwi::draw_init()
 
 			success &= default_buffers_ptr->m_program_solid_color_3d.init();
 			success &= default_buffers_ptr->m_program_color_gradient_3d.init();
-			success &= default_buffers_ptr->m_program_bicolor_point_dist_3d.init();
-			success &= default_buffers_ptr->m_program_bicolor_point_dir_3d.init();
 			success &= default_buffers_ptr->m_program_texture_3d.init();
 			success &= default_buffers_ptr->m_program_texture_alpha_test_3d.init();
+			success &= default_buffers_ptr->m_program_point_dist_texture_3d.init();
+			success &= default_buffers_ptr->m_program_plane_dist_texture_3d.init();
 			success &= default_buffers_ptr->m_program_skybox_3d.init();
 			success &= default_buffers_ptr->m_program_no_shade_3d.init();
 
@@ -445,6 +474,14 @@ kiwi::_load_basic_2d_proxy kiwi::draw_2d_with(const GLfloat* const transformatio
 	return proxy;
 }
 
+kiwi::_load_spec_2d_proxy kiwi::draw_2d_with(const GLfloat* const transformation_matrix_ptr, const GLfloat* const m_matrix_ptr) noexcept
+{
+	kiwi::_load_spec_2d_proxy proxy;
+	proxy.m_transformation_matrix_ptr = transformation_matrix_ptr;
+	proxy.m_m_matrix_ptr = m_matrix_ptr;
+	return proxy;
+}
+
 // 3D SELECT PROGRAM
 
 kiwi::_load_basic_3d_proxy kiwi::draw_3d_with(const GLfloat* const transformation_matrix_ptr) noexcept
@@ -458,7 +495,7 @@ kiwi::_load_spec_3d_proxy kiwi::draw_3d_with(const GLfloat* const transformation
 {
 	kiwi::_load_spec_3d_proxy proxy;
 	proxy.m_transformation_matrix_ptr = transformation_matrix_ptr;
-	proxy.m_matrix_ptr = m_matrix_ptr;
+	proxy.m_m_matrix_ptr = m_matrix_ptr;
 	return proxy;
 }
 
@@ -687,7 +724,6 @@ kiwi::_draw_quad_sprite_proxy kiwi::_load_basic_2d_proxy::using_texture_sprites(
 	proxy.m_sprite_count = XYZA_set.instance_count();
 	return proxy;
 }
-
 kiwi::_draw_quad_sprite_proxy kiwi::_load_basic_2d_proxy::using_texture_sprites(const kiwi::XYZA_set& XYZA_set, const kiwi::id_set& id_set, const kiwi::XY& XY_size,
 	GLfloat alpha_discard) noexcept
 {
@@ -703,6 +739,130 @@ kiwi::_draw_quad_sprite_proxy kiwi::_load_basic_2d_proxy::using_texture_sprites(
 
 	kiwi::_draw_quad_sprite_proxy proxy;
 	proxy.m_sprite_count = XYZA_set.instance_count();
+	return proxy;
+}
+
+kiwi::_draw_basic_proxy kiwi::_load_spec_2d_proxy::using_point_dist_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::texture_1d& texture,
+	const kiwi::XY& origin, const kiwi::NF& near_far) noexcept
+{
+	vertex_buffer.to_location(0);
+	texture.to_binding(0);
+
+	kiwi::default_buffers_ptr->m_program_point_dist_texture_2d.program
+		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_point_dist_texture_2d.mvp_matrix_location, m_transformation_matrix_ptr)
+		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_point_dist_texture_2d.m_matrix_location, m_m_matrix_ptr)
+		.set_uniform_2f(kiwi::default_buffers_ptr->m_program_point_dist_texture_2d.origin_location, origin.data())
+		.set_uniform_2f(kiwi::default_buffers_ptr->m_program_point_dist_texture_2d.near_far_location, near_far.data())
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_point_dist_texture_2d.RGBAx_location, static_cast<const GLfloat*>(kiwi::default_buffers_ptr->RGBA1111))
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_point_dist_texture_2d.RGBAo_location, static_cast<const GLfloat*>(kiwi::default_buffers_ptr->RGBA0000));
+
+	kiwi::_draw_basic_proxy proxy;
+	proxy.m_vertex_count = vertex_buffer.vertex_count();
+	proxy.m_index_count = -1;
+	proxy.m_index_data_ptr = nullptr;
+	return proxy;
+}
+kiwi::_draw_basic_proxy kiwi::_load_spec_2d_proxy::using_point_dist_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::texture_1d& texture,
+	const kiwi::XY& origin, const kiwi::NF& near_far, const kiwi::RGBA& RGBAx) noexcept
+{
+	vertex_buffer.to_location(0);
+	texture.to_binding(0);
+
+	kiwi::default_buffers_ptr->m_program_point_dist_texture_2d.program
+		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_point_dist_texture_2d.mvp_matrix_location, m_transformation_matrix_ptr)
+		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_point_dist_texture_2d.m_matrix_location, m_m_matrix_ptr)
+		.set_uniform_2f(kiwi::default_buffers_ptr->m_program_point_dist_texture_2d.origin_location, origin.data())
+		.set_uniform_2f(kiwi::default_buffers_ptr->m_program_point_dist_texture_2d.near_far_location, near_far.data())
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_point_dist_texture_2d.RGBAx_location, RGBAx.data())
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_point_dist_texture_2d.RGBAo_location, static_cast<const GLfloat*>(kiwi::default_buffers_ptr->RGBA0000));
+
+	kiwi::_draw_basic_proxy proxy;
+	proxy.m_vertex_count = vertex_buffer.vertex_count();
+	proxy.m_index_count = -1;
+	proxy.m_index_data_ptr = nullptr;
+	return proxy;
+}
+kiwi::_draw_basic_proxy kiwi::_load_spec_2d_proxy::using_point_dist_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::texture_1d& texture,
+	const kiwi::XY& origin, const kiwi::NF& near_far, const kiwi::RGBA& RGBAx, const kiwi::RGBA& RGBAo) noexcept
+{
+	vertex_buffer.to_location(0);
+	texture.to_binding(0);
+
+	kiwi::default_buffers_ptr->m_program_point_dist_texture_2d.program
+		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_point_dist_texture_2d.mvp_matrix_location, m_transformation_matrix_ptr)
+		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_point_dist_texture_2d.m_matrix_location, m_m_matrix_ptr)
+		.set_uniform_2f(kiwi::default_buffers_ptr->m_program_point_dist_texture_2d.origin_location, origin.data())
+		.set_uniform_2f(kiwi::default_buffers_ptr->m_program_point_dist_texture_2d.near_far_location, near_far.data())
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_point_dist_texture_2d.RGBAx_location, RGBAx.data())
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_point_dist_texture_2d.RGBAo_location, RGBAo.data());
+
+	kiwi::_draw_basic_proxy proxy;
+	proxy.m_vertex_count = vertex_buffer.vertex_count();
+	proxy.m_index_count = -1;
+	proxy.m_index_data_ptr = nullptr;
+	return proxy;
+}
+kiwi::_draw_basic_proxy kiwi::_load_spec_2d_proxy::using_plane_dist_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::texture_1d& texture,
+	const kiwi::XY& origin, const kiwi::XY& dir, const kiwi::NF& near_far) noexcept
+{
+	vertex_buffer.to_location(0);
+	texture.to_binding(0);
+
+	kiwi::default_buffers_ptr->m_program_plane_dist_texture_2d.program
+		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_plane_dist_texture_2d.mvp_matrix_location, m_transformation_matrix_ptr)
+		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_plane_dist_texture_2d.m_matrix_location, m_m_matrix_ptr)
+		.set_uniform_2f(kiwi::default_buffers_ptr->m_program_plane_dist_texture_2d.origin_location, origin.data())
+		.set_uniform_2f(kiwi::default_buffers_ptr->m_program_plane_dist_texture_2d.dir_location, dir.data())
+		.set_uniform_2f(kiwi::default_buffers_ptr->m_program_plane_dist_texture_2d.near_far_location, near_far.data())
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_plane_dist_texture_2d.RGBAx_location, static_cast<const GLfloat*>(kiwi::default_buffers_ptr->RGBA1111))
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_plane_dist_texture_2d.RGBAo_location, static_cast<const GLfloat*>(kiwi::default_buffers_ptr->RGBA0000));
+
+	kiwi::_draw_basic_proxy proxy;
+	proxy.m_vertex_count = vertex_buffer.vertex_count();
+	proxy.m_index_count = -1;
+	proxy.m_index_data_ptr = nullptr;
+	return proxy;
+}
+kiwi::_draw_basic_proxy kiwi::_load_spec_2d_proxy::using_plane_dist_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::texture_1d& texture,
+	const kiwi::XY& origin, const kiwi::XY& dir, const kiwi::NF& near_far, const kiwi::RGBA& RGBAx) noexcept
+{
+	vertex_buffer.to_location(0);
+	texture.to_binding(0);
+
+	kiwi::default_buffers_ptr->m_program_plane_dist_texture_2d.program
+		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_plane_dist_texture_2d.mvp_matrix_location, m_transformation_matrix_ptr)
+		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_plane_dist_texture_2d.m_matrix_location, m_m_matrix_ptr)
+		.set_uniform_2f(kiwi::default_buffers_ptr->m_program_plane_dist_texture_2d.origin_location, origin.data())
+		.set_uniform_2f(kiwi::default_buffers_ptr->m_program_plane_dist_texture_2d.dir_location, dir.data())
+		.set_uniform_2f(kiwi::default_buffers_ptr->m_program_plane_dist_texture_2d.near_far_location, near_far.data())
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_plane_dist_texture_2d.RGBAx_location, RGBAx.data())
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_plane_dist_texture_2d.RGBAo_location, static_cast<const GLfloat*>(kiwi::default_buffers_ptr->RGBA0000));
+
+	kiwi::_draw_basic_proxy proxy;
+	proxy.m_vertex_count = vertex_buffer.vertex_count();
+	proxy.m_index_count = -1;
+	proxy.m_index_data_ptr = nullptr;
+	return proxy;
+}
+kiwi::_draw_basic_proxy kiwi::_load_spec_2d_proxy::using_plane_dist_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::texture_1d& texture,
+	const kiwi::XY& origin, const kiwi::XY& dir, const kiwi::NF& near_far, const kiwi::RGBA& RGBAx, const kiwi::RGBA& RGBAo) noexcept
+{
+	vertex_buffer.to_location(0);
+	texture.to_binding(0);
+
+	kiwi::default_buffers_ptr->m_program_plane_dist_texture_2d.program
+		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_plane_dist_texture_2d.mvp_matrix_location, m_transformation_matrix_ptr)
+		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_plane_dist_texture_2d.m_matrix_location, m_m_matrix_ptr)
+		.set_uniform_2f(kiwi::default_buffers_ptr->m_program_plane_dist_texture_2d.origin_location, origin.data())
+		.set_uniform_2f(kiwi::default_buffers_ptr->m_program_plane_dist_texture_2d.dir_location, dir.data())
+		.set_uniform_2f(kiwi::default_buffers_ptr->m_program_plane_dist_texture_2d.near_far_location, near_far.data())
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_plane_dist_texture_2d.RGBAx_location, RGBAx.data())
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_plane_dist_texture_2d.RGBAo_location, RGBAo.data());
+
+	kiwi::_draw_basic_proxy proxy;
+	proxy.m_vertex_count = vertex_buffer.vertex_count();
+	proxy.m_index_count = -1;
+	proxy.m_index_data_ptr = nullptr;
 	return proxy;
 }
 
@@ -1007,21 +1167,19 @@ kiwi::_draw_quad_sprite_proxy kiwi::_load_basic_3d_proxy::using_texture_sprites(
 	return proxy;
 }
 
-
-kiwi::_draw_basic_proxy kiwi::_load_spec_3d_proxy::using_dualcolor_point_dist(const kiwi::vertex_buffer& vertex_buffer, const GLfloat* const point_ptr, const kiwi::RGBA& color_near,
-	const kiwi::RGBA& color_far, GLfloat near_dist, GLfloat far_dist) noexcept
+kiwi::_draw_basic_proxy kiwi::_load_spec_3d_proxy::using_point_dist_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::texture_1d& texture,
+	const kiwi::XYZ& origin, const kiwi::NF& near_far) noexcept
 {
 	vertex_buffer.to_location(0);
+	texture.to_binding(0);
 
-	GLfloat near_far_dist[2] = { near_dist, far_dist };
-
-	kiwi::default_buffers_ptr->m_program_bicolor_point_dist_3d.program
-		.set_uniform_4x4f(kiwi::default_buffers_ptr->m_program_bicolor_point_dist_3d.mvp_matrix_location, m_transformation_matrix_ptr)
-		.set_uniform_4x4f(kiwi::default_buffers_ptr->m_program_bicolor_point_dist_3d.m_matrix_location, m_matrix_ptr)
-		.set_uniform_3f(kiwi::default_buffers_ptr->m_program_bicolor_point_dist_3d.point_XYZ_location, point_ptr)
-		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_bicolor_point_dist_3d.near_RGBA_location, color_near.data())
-		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_bicolor_point_dist_3d.far_RGBA_location, color_far.data())
-		.set_uniform_2f(kiwi::default_buffers_ptr->m_program_bicolor_point_dist_3d.near_far_dist_location, static_cast<GLfloat*>(near_far_dist));
+	kiwi::default_buffers_ptr->m_program_point_dist_texture_3d.program
+		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_point_dist_texture_3d.mvp_matrix_location, m_transformation_matrix_ptr)
+		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_point_dist_texture_3d.m_matrix_location, m_m_matrix_ptr)
+		.set_uniform_2f(kiwi::default_buffers_ptr->m_program_point_dist_texture_3d.origin_location, origin.data())
+		.set_uniform_2f(kiwi::default_buffers_ptr->m_program_point_dist_texture_3d.near_far_location, near_far.data())
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_point_dist_texture_3d.RGBAx_location, static_cast<const GLfloat*>(kiwi::default_buffers_ptr->RGBA1111))
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_point_dist_texture_3d.RGBAo_location, static_cast<const GLfloat*>(kiwi::default_buffers_ptr->RGBA0000));
 
 	kiwi::_draw_basic_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -1029,18 +1187,19 @@ kiwi::_draw_basic_proxy kiwi::_load_spec_3d_proxy::using_dualcolor_point_dist(co
 	proxy.m_index_data_ptr = nullptr;
 	return proxy;
 }
-kiwi::_draw_basic_proxy kiwi::_load_spec_3d_proxy::using_bicolor_point_dir(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
-	const GLfloat* const point_ptr, const kiwi::RGBA& color_front, const kiwi::RGBA& color_side) noexcept
+kiwi::_draw_basic_proxy kiwi::_load_spec_3d_proxy::using_point_dist_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::texture_1d& texture,
+	const kiwi::XYZ& origin, const kiwi::NF& near_far, const kiwi::RGBA& RGBAx) noexcept
 {
 	vertex_buffer.to_location(0);
-	N_buffer.to_location(1);
+	texture.to_binding(0);
 
-	kiwi::default_buffers_ptr->m_program_bicolor_point_dir_3d.program
-		.set_uniform_4x4f(kiwi::default_buffers_ptr->m_program_bicolor_point_dir_3d.mvp_matrix_location, m_transformation_matrix_ptr)
-		.set_uniform_4x4f(kiwi::default_buffers_ptr->m_program_bicolor_point_dir_3d.m_matrix_location, m_matrix_ptr)
-		.set_uniform_3f(kiwi::default_buffers_ptr->m_program_bicolor_point_dir_3d.point_XYZ_location, point_ptr)
-		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_bicolor_point_dir_3d.front_RGBA_location, color_front.data())
-		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_bicolor_point_dir_3d.side_RGBA_location, color_side.data());
+	kiwi::default_buffers_ptr->m_program_point_dist_texture_3d.program
+		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_point_dist_texture_3d.mvp_matrix_location, m_transformation_matrix_ptr)
+		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_point_dist_texture_3d.m_matrix_location, m_m_matrix_ptr)
+		.set_uniform_2f(kiwi::default_buffers_ptr->m_program_point_dist_texture_3d.origin_location, origin.data())
+		.set_uniform_2f(kiwi::default_buffers_ptr->m_program_point_dist_texture_3d.near_far_location, near_far.data())
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_point_dist_texture_3d.RGBAx_location, RGBAx.data())
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_point_dist_texture_3d.RGBAo_location, static_cast<const GLfloat*>(kiwi::default_buffers_ptr->RGBA0000));
 
 	kiwi::_draw_basic_proxy proxy;
 	proxy.m_vertex_count = vertex_buffer.vertex_count();
@@ -1048,7 +1207,89 @@ kiwi::_draw_basic_proxy kiwi::_load_spec_3d_proxy::using_bicolor_point_dir(const
 	proxy.m_index_data_ptr = nullptr;
 	return proxy;
 }
+kiwi::_draw_basic_proxy kiwi::_load_spec_3d_proxy::using_point_dist_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::texture_1d& texture,
+	const kiwi::XYZ& origin, const kiwi::NF& near_far, const kiwi::RGBA& RGBAx, const kiwi::RGBA& RGBAo) noexcept
+{
+	vertex_buffer.to_location(0);
+	texture.to_binding(0);
 
+	kiwi::default_buffers_ptr->m_program_point_dist_texture_3d.program
+		.set_uniform_4x4f(kiwi::default_buffers_ptr->m_program_point_dist_texture_3d.mvp_matrix_location, m_transformation_matrix_ptr)
+		.set_uniform_4x4f(kiwi::default_buffers_ptr->m_program_point_dist_texture_3d.m_matrix_location, m_m_matrix_ptr)
+		.set_uniform_3f(kiwi::default_buffers_ptr->m_program_point_dist_texture_3d.origin_location, origin.data())
+		.set_uniform_2f(kiwi::default_buffers_ptr->m_program_point_dist_texture_3d.near_far_location, near_far.data())
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_point_dist_texture_3d.RGBAx_location, RGBAx.data())
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_point_dist_texture_3d.RGBAo_location, RGBAo.data());
+
+	kiwi::_draw_basic_proxy proxy;
+	proxy.m_vertex_count = vertex_buffer.vertex_count();
+	proxy.m_index_count = -1;
+	proxy.m_index_data_ptr = nullptr;
+	return proxy;
+}
+kiwi::_draw_basic_proxy kiwi::_load_spec_3d_proxy::using_plane_dist_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::texture_1d& texture,
+	const kiwi::XYZ& origin, const kiwi::XYZ& dir, const kiwi::NF& near_far) noexcept
+{
+	vertex_buffer.to_location(0);
+	texture.to_binding(0);
+
+	kiwi::default_buffers_ptr->m_program_plane_dist_texture_3d.program
+		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_plane_dist_texture_3d.mvp_matrix_location, m_transformation_matrix_ptr)
+		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_plane_dist_texture_3d.m_matrix_location, m_m_matrix_ptr)
+		.set_uniform_2f(kiwi::default_buffers_ptr->m_program_plane_dist_texture_3d.origin_location, origin.data())
+		.set_uniform_2f(kiwi::default_buffers_ptr->m_program_plane_dist_texture_3d.dir_location, dir.data())
+		.set_uniform_2f(kiwi::default_buffers_ptr->m_program_plane_dist_texture_3d.near_far_location, near_far.data())
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_plane_dist_texture_3d.RGBAx_location, static_cast<const GLfloat*>(kiwi::default_buffers_ptr->RGBA1111))
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_plane_dist_texture_3d.RGBAo_location, static_cast<const GLfloat*>(kiwi::default_buffers_ptr->RGBA0000));
+
+	kiwi::_draw_basic_proxy proxy;
+	proxy.m_vertex_count = vertex_buffer.vertex_count();
+	proxy.m_index_count = -1;
+	proxy.m_index_data_ptr = nullptr;
+	return proxy;
+}
+kiwi::_draw_basic_proxy kiwi::_load_spec_3d_proxy::using_plane_dist_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::texture_1d& texture,
+	const kiwi::XYZ& origin, const kiwi::XYZ& dir, const kiwi::NF& near_far, const kiwi::RGBA& RGBAx) noexcept
+{
+	vertex_buffer.to_location(0);
+	texture.to_binding(0);
+
+	kiwi::default_buffers_ptr->m_program_plane_dist_texture_3d.program
+		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_plane_dist_texture_3d.mvp_matrix_location, m_transformation_matrix_ptr)
+		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_plane_dist_texture_3d.m_matrix_location, m_m_matrix_ptr)
+		.set_uniform_2f(kiwi::default_buffers_ptr->m_program_plane_dist_texture_3d.origin_location, origin.data())
+		.set_uniform_2f(kiwi::default_buffers_ptr->m_program_plane_dist_texture_3d.dir_location, dir.data())
+		.set_uniform_2f(kiwi::default_buffers_ptr->m_program_plane_dist_texture_3d.near_far_location, near_far.data())
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_plane_dist_texture_3d.RGBAx_location, RGBAx.data())
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_plane_dist_texture_3d.RGBAo_location, static_cast<const GLfloat*>(kiwi::default_buffers_ptr->RGBA0000));
+
+	kiwi::_draw_basic_proxy proxy;
+	proxy.m_vertex_count = vertex_buffer.vertex_count();
+	proxy.m_index_count = -1;
+	proxy.m_index_data_ptr = nullptr;
+	return proxy;
+}
+kiwi::_draw_basic_proxy kiwi::_load_spec_3d_proxy::using_plane_dist_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::texture_1d& texture,
+	const kiwi::XYZ& origin, const kiwi::XYZ& dir, const kiwi::NF& near_far, const kiwi::RGBA& RGBAx, const kiwi::RGBA& RGBAo) noexcept
+{
+	vertex_buffer.to_location(0);
+	texture.to_binding(0);
+
+	kiwi::default_buffers_ptr->m_program_plane_dist_texture_3d.program
+		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_plane_dist_texture_3d.mvp_matrix_location, m_transformation_matrix_ptr)
+		.set_uniform_3x3f(kiwi::default_buffers_ptr->m_program_plane_dist_texture_3d.m_matrix_location, m_m_matrix_ptr)
+		.set_uniform_2f(kiwi::default_buffers_ptr->m_program_plane_dist_texture_3d.origin_location, origin.data())
+		.set_uniform_2f(kiwi::default_buffers_ptr->m_program_plane_dist_texture_3d.dir_location, dir.data())
+		.set_uniform_2f(kiwi::default_buffers_ptr->m_program_plane_dist_texture_3d.near_far_location, near_far.data())
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_plane_dist_texture_3d.RGBAx_location, RGBAx.data())
+		.set_uniform_4f(kiwi::default_buffers_ptr->m_program_plane_dist_texture_3d.RGBAo_location, RGBAo.data());
+
+	kiwi::_draw_basic_proxy proxy;
+	proxy.m_vertex_count = vertex_buffer.vertex_count();
+	proxy.m_index_count = -1;
+	proxy.m_index_data_ptr = nullptr;
+	return proxy;
+}
 
 
 ////// 2D/3D USE INDICES //////
@@ -1891,6 +2132,49 @@ bool kiwi::basic_2d_texture_alpha_test::init() noexcept
 	return success;
 }
 
+bool kiwi::basic_2d_point_dist_texture::init() noexcept
+{
+	bool success = program.new_program(
+		kiwi::source::basic_2d_point_dist_texture::vertex_shader(),
+		kiwi::source::basic_2d_point_dist_texture::fragment_shader()
+	);
+
+	if (success)
+	{
+		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
+		m_matrix_location = program.new_uniform_location("u_m_M");
+		origin_location = program.new_uniform_location("u_XY_orig");
+		near_far_location = program.new_uniform_location("u_near_far");
+		RGBAx_location = program.new_uniform_location("u_RGBAx");
+		RGBAo_location = program.new_uniform_location("u_RGBAo");
+		program.set_uniform_1i("Tx", static_cast<GLint>(0));
+	}
+
+	return success;
+}
+
+bool kiwi::basic_2d_plane_dist_texture::init() noexcept
+{
+	bool success = program.new_program(
+		kiwi::source::basic_2d_plane_dist_texture::vertex_shader(),
+		kiwi::source::basic_2d_plane_dist_texture::fragment_shader()
+	);
+
+	if (success)
+	{
+		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
+		m_matrix_location = program.new_uniform_location("u_m_M");
+		origin_location = program.new_uniform_location("u_XY_orig");
+		dir_location = program.new_uniform_location("u_XY_dir");
+		near_far_location = program.new_uniform_location("u_near_far");
+		RGBAx_location = program.new_uniform_location("u_RGBAx");
+		RGBAo_location = program.new_uniform_location("u_RGBAo");
+		program.set_uniform_1i("Tx", static_cast<GLint>(0));
+	}
+
+	return success;
+}
+
 bool kiwi::basic_2d_no_shade::init() noexcept
 {
 	bool success = program.new_program(
@@ -1972,45 +2256,6 @@ bool kiwi::basic_3d_solid_color::init() noexcept
 	return success;
 }
 
-bool kiwi::basic_3d_bicolor_point_dist::init() noexcept
-{
-	bool success = program.new_program(
-		kiwi::source::basic_3d_bicolor_point_dist::vertex_shader(),
-		kiwi::source::basic_3d_bicolor_point_dist::fragment_shader()
-	);
-
-	if (success)
-	{
-		m_matrix_location = program.new_uniform_location("u_m_M");
-		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
-		point_XYZ_location = program.new_uniform_location("u_point_XYZ");
-		near_RGBA_location = program.new_uniform_location("u_near_RGBA");
-		far_RGBA_location = program.new_uniform_location("u_far_RGBA");
-		near_far_dist_location = program.new_uniform_location("u_near_far_dist");
-	}
-
-	return success;
-}
-
-bool kiwi::basic_3d_bicolor_point_dir::init() noexcept
-{
-	bool success = program.new_program(
-		kiwi::source::basic_3d_bicolor_point_dir::vertex_shader(),
-		kiwi::source::basic_3d_bicolor_point_dir::fragment_shader()
-	);
-
-	if (success)
-	{
-		m_matrix_location = program.new_uniform_location("u_m_M");
-		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
-		point_XYZ_location = program.new_uniform_location("u_point_XYZ");
-		front_RGBA_location = program.new_uniform_location("u_front_RGBA");
-		side_RGBA_location = program.new_uniform_location("u_side_RGBA");
-	}
-
-	return success;
-}
-
 bool kiwi::basic_3d_color_gradient::init() noexcept
 {
 	bool success = program.new_program(
@@ -2059,6 +2304,49 @@ bool kiwi::basic_3d_texture_alpha_test::init() noexcept
 		RGBAx_location = program.new_uniform_location("u_RGBAx");
 		RGBAo_location = program.new_uniform_location("u_RGBAo");
 		alpha_test_location = program.new_uniform_location("u_alpha_test");
+		program.set_uniform_1i("Tx", static_cast<GLint>(0));
+	}
+
+	return success;
+}
+
+bool kiwi::basic_3d_point_dist_texture::init() noexcept
+{
+	bool success = program.new_program(
+		kiwi::source::basic_3d_point_dist_texture::vertex_shader(),
+		kiwi::source::basic_3d_point_dist_texture::fragment_shader()
+	);
+
+	if (success)
+	{
+		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
+		m_matrix_location = program.new_uniform_location("u_m_M");
+		origin_location = program.new_uniform_location("u_XYZ_orig");
+		near_far_location = program.new_uniform_location("u_near_far");
+		RGBAx_location = program.new_uniform_location("u_RGBAx");
+		RGBAo_location = program.new_uniform_location("u_RGBAo");
+		program.set_uniform_1i("Tx", static_cast<GLint>(0));
+	}
+
+	return success;
+}
+
+bool kiwi::basic_3d_plane_dist_texture::init() noexcept
+{
+	bool success = program.new_program(
+		kiwi::source::basic_3d_plane_dist_texture::vertex_shader(),
+		kiwi::source::basic_3d_plane_dist_texture::fragment_shader()
+	);
+
+	if (success)
+	{
+		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
+		m_matrix_location = program.new_uniform_location("u_m_M");
+		origin_location = program.new_uniform_location("u_XYZ_orig");
+		dir_location = program.new_uniform_location("u_XYZ_dir");
+		near_far_location = program.new_uniform_location("u_near_far");
+		RGBAx_location = program.new_uniform_location("u_RGBAx");
+		RGBAo_location = program.new_uniform_location("u_RGBAo");
 		program.set_uniform_1i("Tx", static_cast<GLint>(0));
 	}
 

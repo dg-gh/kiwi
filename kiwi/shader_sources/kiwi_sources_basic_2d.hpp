@@ -1,5 +1,5 @@
-#ifndef KIWI_SOURCES_BASIC_2D_HPP
-#define KIWI_SOURCES_BASIC_2D_HPP
+#ifndef _KIWI_SOURCES_BASIC_2D_HPP
+#define _KIWI_SOURCES_BASIC_2D_HPP
 
 namespace kiwi
 {
@@ -29,6 +29,18 @@ namespace kiwi
 			const char* const fragment_shader() noexcept;
 		}
 
+		namespace basic_2d_point_dist_texture
+		{
+			const char* const vertex_shader() noexcept;
+			const char* const fragment_shader() noexcept;
+		}
+
+		namespace basic_2d_plane_dist_texture
+		{
+			const char* const vertex_shader() noexcept;
+			const char* const fragment_shader() noexcept;
+		}
+
 		namespace basic_2d_no_shade
 		{
 			const char* const vertex_shader() noexcept;
@@ -37,4 +49,4 @@ namespace kiwi
 	}
 }
 
-#endif // KIWI_SOURCES_BASIC_2D_HPP
+#endif // _KIWI_SOURCES_BASIC_2D_HPP

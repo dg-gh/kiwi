@@ -1,29 +1,11 @@
-#ifndef KIWI_SOURCES_BASIC_3D_HPP
-#define KIWI_SOURCES_BASIC_3D_HPP
+#ifndef _KIWI_SOURCES_BASIC_3D_HPP
+#define _KIWI_SOURCES_BASIC_3D_HPP
 
 namespace kiwi
 {
 	namespace source
 	{
 		namespace basic_3d_solid_color
-		{
-			const char* const vertex_shader() noexcept;
-			const char* const fragment_shader() noexcept;
-		}
-
-		namespace basic_3d_bicolor_point_dist
-		{
-			const char* const vertex_shader() noexcept;
-			const char* const fragment_shader() noexcept;
-		}
-
-		namespace basic_3d_bicolor_axis_dir
-		{
-			const char* const vertex_shader() noexcept;
-			const char* const fragment_shader() noexcept;
-		}
-
-		namespace basic_3d_bicolor_point_dir
 		{
 			const char* const vertex_shader() noexcept;
 			const char* const fragment_shader() noexcept;
@@ -47,6 +29,18 @@ namespace kiwi
 			const char* const fragment_shader() noexcept;
 		}
 
+		namespace basic_3d_point_dist_texture		
+		{
+			const char* const vertex_shader() noexcept;
+			const char* const fragment_shader() noexcept;
+		}
+
+		namespace basic_3d_plane_dist_texture
+		{
+			const char* const vertex_shader() noexcept;
+			const char* const fragment_shader() noexcept;
+		}
+
 		namespace basic_3d_skybox
 		{
 			const char* const vertex_shader() noexcept;
@@ -61,4 +55,4 @@ namespace kiwi
 	}
 }
 
-#endif // KIWI_SOURCES_BASIC_3D_HPP
+#endif // _KIWI_SOURCES_BASIC_3D_HPP

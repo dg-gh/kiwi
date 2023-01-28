@@ -6,6 +6,7 @@
 #include "buffers/kiwi_buffer_vertex.hpp"
 #include "buffers/kiwi_buffer_index.hpp"
 #include "buffers/kiwi_buffer_storage.hpp"
+#include "buffers/kiwi_buffer_texture_1d.hpp"
 #include "buffers/kiwi_buffer_texture_2d.hpp"
 #include "rendering/kiwi_program.hpp"
 #include "rendering/kiwi_sets.hpp"
@@ -25,6 +26,7 @@ namespace kiwi
 	class _draw_quad_sprite_proxy;
 
 	kiwi::_load_basic_2d_proxy draw_2d_with(const GLfloat* const transformation_matrix_ptr = kiwi::window_matrix_data()) noexcept;
+	kiwi::_load_spec_2d_proxy draw_2d_with(const GLfloat* const transformation_matrix_ptr, const GLfloat* const m_matrix_ptr) noexcept;
 
 	kiwi::_load_basic_3d_proxy draw_3d_with(const GLfloat* const transformation_matrix_ptr) noexcept;
 	kiwi::_load_spec_3d_proxy draw_3d_with(const GLfloat* const transformation_matrix_ptr, const GLfloat* const m_matrix_ptr) noexcept;
@@ -62,10 +64,37 @@ namespace kiwi
 
 		kiwi::_draw_instanced_basic_proxy using_solid_color_sprites(const kiwi::vertex_buffer& vertex_buffer,
 			const kiwi::XYZA_set& XYZA_set, const kiwi::RGBA_set& RGBA_set) noexcept;
+
 		kiwi::_draw_quad_sprite_proxy using_texture_sprites(const kiwi::XYZA_set& XYZA_set, const kiwi::UV_set& UV_set, const kiwi::XY& XY_size,
 			GLfloat alpha_discard) noexcept;
 		kiwi::_draw_quad_sprite_proxy using_texture_sprites(const kiwi::XYZA_set& XYZA_set, const kiwi::id_set& id_set, const kiwi::XY& XY_size,
 			GLfloat alpha_discard) noexcept;
+	};
+
+	class _load_spec_2d_proxy
+	{
+
+	private:
+
+		const GLfloat* m_transformation_matrix_ptr;
+		const GLfloat* m_m_matrix_ptr;
+
+	public:
+
+		friend kiwi::_load_spec_2d_proxy draw_2d_with(const GLfloat* const transformation_matrix_ptr, const GLfloat* const m_matrix_ptr) noexcept;
+
+		kiwi::_draw_basic_proxy using_point_dist_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::texture_1d& texture,
+			const kiwi::XY& origin, const kiwi::NF& near_far) noexcept;
+		kiwi::_draw_basic_proxy using_point_dist_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::texture_1d& texture,
+			const kiwi::XY& origin, const kiwi::NF& near_far, const kiwi::RGBA& RGBAx) noexcept;
+		kiwi::_draw_basic_proxy using_point_dist_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::texture_1d& texture,
+			const kiwi::XY& origin, const kiwi::NF& near_far, const kiwi::RGBA& RGBAx, const kiwi::RGBA& RGBAo) noexcept;
+		kiwi::_draw_basic_proxy using_plane_dist_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::texture_1d& texture,
+			const kiwi::XY& origin, const kiwi::XY& dir, const kiwi::NF& near_far) noexcept;
+		kiwi::_draw_basic_proxy using_plane_dist_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::texture_1d& texture,
+			const kiwi::XY& origin, const kiwi::XY& dir, const kiwi::NF& near_far, const kiwi::RGBA& RGBAx) noexcept;
+		kiwi::_draw_basic_proxy using_plane_dist_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::texture_1d& texture,
+			const kiwi::XY& origin, const kiwi::XY& dir,  const kiwi::NF& near_far, const kiwi::RGBA& RGBAx, const kiwi::RGBA& RGBAo) noexcept;
 	};
 
 	class _load_basic_3d_proxy
@@ -122,18 +151,24 @@ namespace kiwi
 	private:
 
 		const GLfloat* m_transformation_matrix_ptr;
-		const GLfloat* m_matrix_ptr;
+		const GLfloat* m_m_matrix_ptr;
 
 	public:
 
 		friend kiwi::_load_spec_3d_proxy draw_3d_with(const GLfloat* const transformation_matrix_ptr, const GLfloat* const m_matrix_ptr) noexcept;
 
-		kiwi::_draw_basic_proxy using_dualcolor_point_dist(const kiwi::vertex_buffer& vertex_buffer, const GLfloat* const point_ptr, const kiwi::RGBA& color_near,
-			const kiwi::RGBA& color_far, GLfloat near_dist, GLfloat far_dist) noexcept;
-		kiwi::_draw_basic_proxy using_bicolor_point_dir(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
-			const GLfloat* const point_ptr, const kiwi::RGBA& color_front, const kiwi::RGBA& color_side) noexcept;
-		kiwi::_draw_basic_proxy using_bicolor_axis_dir(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer,
-			const GLfloat* const axis_ptr, const kiwi::RGBA& solid_color_forward, const kiwi::RGBA& solid_color_backward) noexcept;
+		kiwi::_draw_basic_proxy using_point_dist_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::texture_1d& texture,
+			const kiwi::XYZ& origin, const kiwi::NF& near_far) noexcept;
+		kiwi::_draw_basic_proxy using_point_dist_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::texture_1d& texture,
+			const kiwi::XYZ& origin, const kiwi::NF& near_far, const kiwi::RGBA& RGBAx) noexcept;
+		kiwi::_draw_basic_proxy using_point_dist_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::texture_1d& texture,
+			const kiwi::XYZ& origin, const kiwi::NF& near_far, const kiwi::RGBA& RGBAx, const kiwi::RGBA& RGBAo) noexcept;
+		kiwi::_draw_basic_proxy using_plane_dist_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::texture_1d& texture,
+			const kiwi::XYZ& origin, const kiwi::XYZ& dir, const kiwi::NF& near_far) noexcept;
+		kiwi::_draw_basic_proxy using_plane_dist_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::texture_1d& texture,
+			const kiwi::XYZ& origin, const kiwi::XYZ& dir, const kiwi::NF& near_far, const kiwi::RGBA& RGBAx) noexcept;
+		kiwi::_draw_basic_proxy using_plane_dist_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::texture_1d& texture,
+			const kiwi::XYZ& origin, const kiwi::XYZ& dir, const kiwi::NF& near_far, const kiwi::RGBA& RGBAx, const kiwi::RGBA& RGBAo) noexcept;
 	};
 
 	class _draw_basic_proxy
