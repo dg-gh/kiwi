@@ -128,15 +128,18 @@ namespace kiwi
 			const kiwi::texture_2d& texture_buffer, GLfloat alpha_test_value, const kiwi::RGBA& RGBAx, const kiwi::RGBA& RGBAo) noexcept;
 
 		void using_skybox(const kiwi::cubemap& skybox_buffer) noexcept;
+		void using_skybox(const kiwi::cubemap& skybox_buffer, const kiwi::RGBA& RGBAx) noexcept;
+		void using_skybox(const kiwi::cubemap& skybox_buffer, const kiwi::RGBA& RGBAx, const kiwi::RGBA& RGBAo) noexcept;
+
 		kiwi::_draw_basic_proxy using_no_shade(const kiwi::vertex_buffer& vertex_buffer, GLfloat depth_offset = static_cast<GLfloat>(0)) noexcept;
 
-		kiwi::_draw_basic_proxy using_solid_color_sprite(const kiwi::vertex_buffer& vertex_buffer, const GLfloat* const XYZang_ptr, const kiwi::RGBA& solid_color,
+		kiwi::_draw_basic_proxy using_solid_color_sprite(const kiwi::vertex_buffer& vertex_buffer, const kiwi::XYZ& position, GLfloat angle, const kiwi::RGBA& solid_color,
 			bool depth_scaling = true, const GLfloat* const mvp_matrix_2d_ptr = kiwi::window_matrix_data()) noexcept;
 		kiwi::_draw_instanced_basic_proxy using_solid_color_sprites(const kiwi::vertex_buffer& vertex_buffer, const kiwi::XYZA_set& XYZA_set, const kiwi::RGBA_set& RGBA_set,
 			bool depth_scaling = true, const GLfloat* const mvp_matrix_2d_ptr = kiwi::window_matrix_data()) noexcept;
 
 		kiwi::_draw_basic_proxy using_texture_sprite(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer,
-			const kiwi::texture_2d& texture_buffer, const GLfloat* const XYZA_ptr,
+			const kiwi::texture_2d& texture_buffer, const kiwi::XYZ& position, GLfloat angle,
 			GLfloat alpha_discard, bool depth_scaling = true, const GLfloat* const mvp_matrix_2d_ptr = kiwi::window_matrix_data()) noexcept;
 		kiwi::_draw_quad_sprite_proxy using_texture_sprites(const kiwi::XYZA_set& XYZA_set, const kiwi::UV_set& UV_set, const kiwi::XY& XY_size,
 			GLfloat alpha_discard, bool depth_scaling = true, const GLfloat* const mvp_matrix_2d_ptr = kiwi::window_matrix_data()) noexcept;
@@ -163,12 +166,26 @@ namespace kiwi
 			const kiwi::XYZ& origin, const kiwi::NF& near_far, const kiwi::RGBA& RGBAx) noexcept;
 		kiwi::_draw_basic_proxy using_point_dist_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::texture_1d& texture,
 			const kiwi::XYZ& origin, const kiwi::NF& near_far, const kiwi::RGBA& RGBAx, const kiwi::RGBA& RGBAo) noexcept;
+
 		kiwi::_draw_basic_proxy using_plane_dist_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::texture_1d& texture,
 			const kiwi::XYZ& origin, const kiwi::XYZ& dir, const kiwi::NF& near_far) noexcept;
 		kiwi::_draw_basic_proxy using_plane_dist_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::texture_1d& texture,
 			const kiwi::XYZ& origin, const kiwi::XYZ& dir, const kiwi::NF& near_far, const kiwi::RGBA& RGBAx) noexcept;
 		kiwi::_draw_basic_proxy using_plane_dist_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::texture_1d& texture,
 			const kiwi::XYZ& origin, const kiwi::XYZ& dir, const kiwi::NF& near_far, const kiwi::RGBA& RGBAx, const kiwi::RGBA& RGBAo) noexcept;
+
+		kiwi::_draw_basic_proxy using_normal_dir_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer, const kiwi::texture_1d& texture,
+			const kiwi::XYZ& dir) noexcept;
+		kiwi::_draw_basic_proxy using_normal_dir_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer, const kiwi::texture_1d& texture,
+			const kiwi::XYZ& dir, const kiwi::RGBA& RGBAx) noexcept;
+		kiwi::_draw_basic_proxy using_normal_dir_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer, const kiwi::texture_1d& texture,
+			const kiwi::XYZ& dir, const kiwi::RGBA& RGBAx, const kiwi::RGBA& RGBAo) noexcept;
+
+		kiwi::_draw_basic_proxy using_normal_cubemap_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer, const kiwi::cubemap& cubemap) noexcept;
+		kiwi::_draw_basic_proxy using_normal_cubemap_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer, const kiwi::cubemap& cubemap,
+			const kiwi::RGBA& RGBAx) noexcept;
+		kiwi::_draw_basic_proxy using_normal_cubemap_texture(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& N_buffer, const kiwi::cubemap& cubemap,
+			const kiwi::RGBA& RGBAx, const kiwi::RGBA& RGBAo) noexcept;
 	};
 
 	class _draw_basic_proxy

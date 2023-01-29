@@ -213,6 +213,89 @@ const char* const kiwi::source::basic_3d_plane_dist_texture::fragment_shader() n
 		;
 }
 
+const char* const kiwi::source::basic_3d_normal_dir_texture::vertex_shader() noexcept
+{
+	return
+		"	#version 330 core										\n"
+		"	layout (location = 0) in vec3 in_XYZ;					\n"
+		"	layout (location = 1) in vec3 in_N_dir;					\n"
+		"	out vec3 moved_XYZ;										\n"
+		"	out vec3 moved_N_dir;									\n"
+		"	uniform mat4 u_mvp_M;									\n"
+		"	uniform mat4 u_m_M;										\n"
+
+		"	void main()												\n"
+		"	{														\n"
+		"		vec4 XYZ1 = vec4(in_XYZ, 1.0);						\n"
+		"		gl_Position = u_mvp_M * XYZ1;						\n"
+		"		moved_XYZ = vec3(u_m_M * XYZ1);						\n"
+		"		moved_N_dir = mat3(u_m_M) * in_N_dir;				\n"
+		"	}														\n"
+		;
+}
+const char* const kiwi::source::basic_3d_normal_dir_texture::fragment_shader() noexcept
+{
+	return
+		"	#version 330 core										\n"
+		"	in vec3 moved_XYZ;										\n"
+		"	in vec3 moved_N_dir;									\n"
+		"	out vec4 out_color;										\n"
+		"	uniform sampler1D Tx;									\n"
+		"	uniform vec3 u_XYZ_dir;									\n"
+		"	uniform vec4 u_RGBAx;									\n"
+		"	uniform vec4 u_RGBAo;									\n"
+
+		"	void main()												\n"
+		"	{														\n"
+		"		out_color = u_RGBAx * texture(Tx, 0.5				\n"
+		"			+ 0.5 * dot(normalize(moved_N_dir),				\n"
+		"			+ normalize(u_XYZ_dir)))						\n"
+		"			+ u_RGBAo;										\n"
+		"	}														\n"
+		;
+}
+
+const char* const kiwi::source::basic_3d_normal_cubemap_texture::vertex_shader() noexcept
+{
+	return
+		"	#version 330 core										\n"
+		"	layout (location = 0) in vec3 in_XYZ;					\n"
+		"	layout (location = 1) in vec3 in_N_dir;					\n"
+		"	out vec3 moved_XYZ;										\n"
+		"	out vec3 _moved_N_dir;									\n"
+		"	uniform mat4 u_mvp_M;									\n"
+		"	uniform mat4 u_m_M;										\n"
+
+		"	void main()												\n"
+		"	{														\n"
+		"		vec4 XYZ1 = vec4(in_XYZ, 1.0);						\n"
+		"		gl_Position = u_mvp_M * XYZ1;						\n"
+		"		moved_XYZ = vec3(u_m_M * XYZ1);						\n"
+		"		_moved_N_dir = mat3(u_m_M) * in_N_dir;				\n"
+		"	}														\n"
+		;
+}
+const char* const kiwi::source::basic_3d_normal_cubemap_texture::fragment_shader() noexcept
+{
+	return
+		"	#version 330 core										\n"
+		"	in vec3 moved_XYZ;										\n"
+		"	in vec3 _moved_N_dir;									\n"
+		"	out vec4 out_color;										\n"
+		"	uniform samplerCube Tx;									\n"
+		"	uniform vec4 u_RGBAx;									\n"
+		"	uniform vec4 u_RGBAo;									\n"
+
+		"	void main()												\n"
+		"	{														\n"
+		"		vec3 moved_N_dir = normalize(_moved_N_dir);			\n"
+		"		out_color = u_RGBAx * texture(Tx,					\n"
+		"			vec3(-moved_N_dir.yz, moved_N_dir[0]))			\n"
+		"			+ u_RGBAo;										\n"
+		"	}														\n"
+		;
+}
+
 const char* const kiwi::source::basic_3d_skybox::vertex_shader() noexcept
 {
 	return
@@ -244,12 +327,13 @@ const char* const kiwi::source::basic_3d_skybox::fragment_shader() noexcept
 		"	#version 330 core																					\n"
 		"	in vec3 XYZ;																						\n"
 		"	out vec4 out_color;																					\n"
-
 		"	uniform samplerCube skybox;																			\n"
+		"	uniform vec4 u_RGBAx;																				\n"
+		"	uniform vec4 u_RGBAo;																				\n"
 
 		"	void main()																							\n"
 		"	{																									\n"
-		"		out_color = texture(skybox, XYZ);																\n"
+		"		out_color = u_RGBAx * texture(skybox, XYZ) + u_RGBAo;											\n"
 		"	}																									\n"
 		;
 }

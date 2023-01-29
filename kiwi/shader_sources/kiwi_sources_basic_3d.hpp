@@ -41,6 +41,18 @@ namespace kiwi
 			const char* const fragment_shader() noexcept;
 		}
 
+		namespace basic_3d_normal_dir_texture
+		{
+			const char* const vertex_shader() noexcept;
+			const char* const fragment_shader() noexcept;
+		}
+
+		namespace basic_3d_normal_cubemap_texture
+		{
+			const char* const vertex_shader() noexcept;
+			const char* const fragment_shader() noexcept;
+		}
+
 		namespace basic_3d_skybox
 		{
 			const char* const vertex_shader() noexcept;
