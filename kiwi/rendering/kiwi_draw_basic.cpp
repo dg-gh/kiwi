@@ -13,6 +13,7 @@ namespace kiwi
 	class basic_2d_texture_alpha_test;
 	class basic_2d_point_dist_texture;
 	class basic_2d_plane_dist_texture;
+	class basic_2d_texture_quad;
 	class basic_2d_no_shade;
 
 	class basic_2d_solid_color_sprites;
@@ -124,6 +125,23 @@ namespace kiwi
 		GLint near_far_location = -1;
 		GLint RGBAx_location = -1;
 		GLint RGBAo_location = -1;
+		bool RGBA_mod = true;
+
+		bool init() noexcept;
+	};
+
+	class basic_2d_texture_quad
+	{
+
+	public:
+
+		kiwi::program program;
+		GLint mvp_matrix_location = -1;
+		GLint orig_size_location = -1;
+		GLint depth_location = -1;
+		GLint RGBAx_location = -1;
+		GLint RGBAo_location = -1;
+		GLfloat depth_mod = static_cast<GLfloat>(0);
 		bool RGBA_mod = true;
 
 		bool init() noexcept;
@@ -420,6 +438,7 @@ namespace kiwi
 		kiwi::basic_2d_texture_alpha_test m_program_texture_alpha_test_2d;
 		kiwi::basic_2d_point_dist_texture m_program_point_dist_texture_2d;
 		kiwi::basic_2d_plane_dist_texture m_program_plane_dist_texture_2d;
+		kiwi::basic_2d_texture_quad m_program_texture_quad_2d;
 		kiwi::basic_2d_no_shade m_program_no_shade_2d;
 
 		kiwi::basic_2d_solid_color_sprites m_program_solid_color_sprites_2d;
@@ -472,6 +491,7 @@ bool kiwi::draw_init()
 			success &= default_buffers_ptr->m_program_texture_alpha_test_2d.init();
 			success &= default_buffers_ptr->m_program_point_dist_texture_2d.init();
 			success &= default_buffers_ptr->m_program_plane_dist_texture_2d.init();
+			success &= default_buffers_ptr->m_program_texture_quad_2d.init();
 			success &= default_buffers_ptr->m_program_no_shade_2d.init();
 
 			success &= default_buffers_ptr->m_program_solid_color_sprites_2d.init();
@@ -753,6 +773,148 @@ kiwi::_draw_basic_proxy kiwi::_load_basic_2d_proxy::using_texture_alpha_test(con
 	proxy.m_index_count = -1;
 	proxy.m_index_data_ptr = nullptr;
 	return proxy;
+}
+void kiwi::_load_basic_2d_proxy::using_texture_quad(const kiwi::texture_2d& texture, const kiwi::XY& origin, const kiwi::XY& size) noexcept
+{
+	texture.to_binding(0);
+
+	GLfloat arr[4] = { origin[0], origin[1], size[0], size[1] };
+
+	kiwi::basic_2d_texture_quad& prog_data = kiwi::default_buffers_ptr->m_program_texture_quad_2d;
+	prog_data.program
+		.set_uniform_3x3f(prog_data.mvp_matrix_location, m_transformation_matrix_ptr)
+		.set_uniform_4f(prog_data.orig_size_location, static_cast<const GLfloat*>(arr));
+	if (prog_data.depth_mod != static_cast<GLfloat>(0))
+	{
+		prog_data.depth_mod = static_cast<GLfloat>(0);
+		prog_data.program.set_uniform_1f(prog_data.depth_location, static_cast<GLfloat>(0));
+	}
+	if (prog_data.RGBA_mod)
+	{
+		prog_data.RGBA_mod = false;
+		prog_data.program
+			.set_uniform_4f(prog_data.RGBAx_location, static_cast<const GLfloat*>(kiwi::default_buffers_ptr->RGBA1111))
+			.set_uniform_4f(prog_data.RGBAo_location, static_cast<const GLfloat*>(kiwi::default_buffers_ptr->RGBA0000));
+	}
+
+	glDrawArrays(GL_QUADS, 0, 4);
+}
+void kiwi::_load_basic_2d_proxy::using_texture_quad(const kiwi::texture_2d& texture, const kiwi::XY& origin, const kiwi::XY& size,
+	const kiwi::RGBA& RGBAx) noexcept
+{
+	texture.to_binding(0);
+
+	GLfloat arr[4] = { origin[0], origin[1], size[0], size[1] };
+
+	kiwi::basic_2d_texture_quad& prog_data = kiwi::default_buffers_ptr->m_program_texture_quad_2d;
+	prog_data.program
+		.set_uniform_3x3f(prog_data.mvp_matrix_location, m_transformation_matrix_ptr)
+		.set_uniform_4f(prog_data.orig_size_location, static_cast<const GLfloat*>(arr));
+	if (prog_data.depth_mod != static_cast<GLfloat>(0))
+	{
+		prog_data.depth_mod = static_cast<GLfloat>(0);
+		prog_data.program.set_uniform_1f(prog_data.depth_location, static_cast<GLfloat>(0));
+	}
+	prog_data.program
+		.set_uniform_4f(prog_data.RGBAx_location, RGBAx.data())
+		.set_uniform_4f(prog_data.RGBAo_location, static_cast<const GLfloat*>(kiwi::default_buffers_ptr->RGBA0000));
+	prog_data.RGBA_mod = true;
+
+	glDrawArrays(GL_QUADS, 0, 4);
+}
+void kiwi::_load_basic_2d_proxy::using_texture_quad(const kiwi::texture_2d& texture, const kiwi::XY& origin, const kiwi::XY& size,
+	const kiwi::RGBA& RGBAx, const kiwi::RGBA& RGBAo) noexcept
+{
+	texture.to_binding(0);
+
+	GLfloat arr[4] = { origin[0], origin[1], size[0], size[1] };
+
+	kiwi::basic_2d_texture_quad& prog_data = kiwi::default_buffers_ptr->m_program_texture_quad_2d;
+	prog_data.program
+		.set_uniform_3x3f(prog_data.mvp_matrix_location, m_transformation_matrix_ptr)
+		.set_uniform_4f(prog_data.orig_size_location, static_cast<const GLfloat*>(arr));
+	if (prog_data.depth_mod != static_cast<GLfloat>(0))
+	{
+		prog_data.depth_mod = static_cast<GLfloat>(0);
+		prog_data.program.set_uniform_1f(prog_data.depth_location, static_cast<GLfloat>(0));
+	}
+	prog_data.program
+		.set_uniform_4f(prog_data.RGBAx_location, RGBAx.data())
+		.set_uniform_4f(prog_data.RGBAo_location, RGBAo.data());
+	prog_data.RGBA_mod = true;
+
+	glDrawArrays(GL_QUADS, 0, 4);
+}
+void kiwi::_load_basic_2d_proxy::using_texture_quad(const kiwi::texture_2d& texture, const kiwi::XY& origin, const kiwi::XY& size, GLfloat depth) noexcept
+{
+	texture.to_binding(0);
+
+	GLfloat arr[4] = { origin[0], origin[1], size[0], size[1] };
+
+	kiwi::basic_2d_texture_quad& prog_data = kiwi::default_buffers_ptr->m_program_texture_quad_2d;
+	prog_data.program
+		.set_uniform_3x3f(prog_data.mvp_matrix_location, m_transformation_matrix_ptr)
+		.set_uniform_4f(prog_data.orig_size_location, static_cast<const GLfloat*>(arr));
+	if (prog_data.depth_mod != depth)
+	{
+		prog_data.depth_mod = depth;
+		prog_data.program.set_uniform_1f(prog_data.depth_location, depth);
+	}
+	if (prog_data.RGBA_mod)
+	{
+		prog_data.RGBA_mod = false;
+		prog_data.program
+			.set_uniform_4f(prog_data.RGBAx_location, static_cast<const GLfloat*>(kiwi::default_buffers_ptr->RGBA1111))
+			.set_uniform_4f(prog_data.RGBAo_location, static_cast<const GLfloat*>(kiwi::default_buffers_ptr->RGBA0000));
+	}
+
+	glDrawArrays(GL_QUADS, 0, 4);
+}
+void kiwi::_load_basic_2d_proxy::using_texture_quad(const kiwi::texture_2d& texture, const kiwi::XY& origin, const kiwi::XY& size, GLfloat depth,
+	const kiwi::RGBA& RGBAx) noexcept
+{
+	texture.to_binding(0);
+
+	GLfloat arr[4] = { origin[0], origin[1], size[0], size[1] };
+
+	kiwi::basic_2d_texture_quad& prog_data = kiwi::default_buffers_ptr->m_program_texture_quad_2d;
+	prog_data.program
+		.set_uniform_3x3f(prog_data.mvp_matrix_location, m_transformation_matrix_ptr)
+		.set_uniform_4f(prog_data.orig_size_location, static_cast<const GLfloat*>(arr));
+	if (prog_data.depth_mod != depth)
+	{
+		prog_data.depth_mod = depth;
+		prog_data.program.set_uniform_1f(prog_data.depth_location, depth);
+	}
+	prog_data.program
+		.set_uniform_4f(prog_data.RGBAx_location, RGBAx.data())
+		.set_uniform_4f(prog_data.RGBAo_location, static_cast<const GLfloat*>(kiwi::default_buffers_ptr->RGBA0000));
+	prog_data.RGBA_mod = true;
+
+	glDrawArrays(GL_QUADS, 0, 4);
+}
+void kiwi::_load_basic_2d_proxy::using_texture_quad(const kiwi::texture_2d& texture, const kiwi::XY& origin, const kiwi::XY& size, GLfloat depth,
+	const kiwi::RGBA& RGBAx, const kiwi::RGBA& RGBAo) noexcept
+{
+	texture.to_binding(0);
+
+	GLfloat arr[4] = { origin[0], origin[1], size[0], size[1] };
+
+	kiwi::basic_2d_texture_quad& prog_data = kiwi::default_buffers_ptr->m_program_texture_quad_2d;
+	prog_data.program
+		.set_uniform_3x3f(prog_data.mvp_matrix_location, m_transformation_matrix_ptr)
+		.set_uniform_4f(prog_data.orig_size_location, static_cast<const GLfloat*>(arr));
+	if (prog_data.depth_mod != depth)
+	{
+		prog_data.depth_mod = depth;
+		prog_data.program.set_uniform_1f(prog_data.depth_location, depth);
+	}
+	prog_data.program
+		.set_uniform_4f(prog_data.RGBAx_location, RGBAx.data())
+		.set_uniform_4f(prog_data.RGBAo_location, RGBAo.data());
+	prog_data.RGBA_mod = true;
+
+	glDrawArrays(GL_QUADS, 0, 4);
 }
 kiwi::_draw_basic_proxy kiwi::_load_basic_2d_proxy::using_no_shade(const kiwi::vertex_buffer& vertex_buffer) noexcept
 {
@@ -2495,6 +2657,26 @@ bool kiwi::basic_2d_plane_dist_texture::init() noexcept
 		origin_location = program.new_uniform_location("u_XY_orig");
 		dir_location = program.new_uniform_location("u_XY_dir");
 		near_far_location = program.new_uniform_location("u_near_far");
+		RGBAx_location = program.new_uniform_location("u_RGBAx");
+		RGBAo_location = program.new_uniform_location("u_RGBAo");
+		program.set_uniform_1i("Tx", static_cast<GLint>(0));
+	}
+
+	return success;
+}
+
+bool kiwi::basic_2d_texture_quad::init() noexcept
+{
+	bool success = program.new_program(
+		kiwi::source::basic_2d_texture_quad::vertex_shader(),
+		kiwi::source::basic_2d_texture_quad::fragment_shader()
+	);
+
+	if (success)
+	{
+		mvp_matrix_location = program.new_uniform_location("u_mvp_M");
+		orig_size_location = program.new_uniform_location("u_orig_size");
+		depth_location = program.new_uniform_location("u_depth");
 		RGBAx_location = program.new_uniform_location("u_RGBAx");
 		RGBAo_location = program.new_uniform_location("u_RGBAo");
 		program.set_uniform_1i("Tx", static_cast<GLint>(0));

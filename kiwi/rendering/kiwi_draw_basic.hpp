@@ -60,6 +60,16 @@ namespace kiwi
 			const kiwi::texture_2d& texture, GLfloat alpha_test_value, const kiwi::RGBA& RGBA) noexcept;
 		kiwi::_draw_basic_proxy using_texture_alpha_test(const kiwi::vertex_buffer& vertex_buffer, const kiwi::vertex_buffer& UV_buffer,
 			const kiwi::texture_2d& texture, GLfloat alpha_test_value, const kiwi::RGBA& RGBAx, const kiwi::RGBA& RGBAo) noexcept;
+		void using_texture_quad(const kiwi::texture_2d& texture, const kiwi::XY& origin, const kiwi::XY& size) noexcept;
+		void using_texture_quad(const kiwi::texture_2d& texture, const kiwi::XY& origin, const kiwi::XY& size,
+			const kiwi::RGBA& RGBAx) noexcept;
+		void using_texture_quad(const kiwi::texture_2d& texture, const kiwi::XY& origin, const kiwi::XY& size,
+			const kiwi::RGBA& RGBAx, const kiwi::RGBA& RGBAo) noexcept;
+		void using_texture_quad(const kiwi::texture_2d& texture, const kiwi::XY& origin, const kiwi::XY& size, GLfloat depth) noexcept;
+		void using_texture_quad(const kiwi::texture_2d& texture, const kiwi::XY& origin, const kiwi::XY& size, GLfloat depth,
+			const kiwi::RGBA& RGBAx) noexcept;
+		void using_texture_quad(const kiwi::texture_2d& texture, const kiwi::XY& origin, const kiwi::XY& size, GLfloat depth,
+			const kiwi::RGBA& RGBAx, const kiwi::RGBA& RGBAo) noexcept;
 		kiwi::_draw_basic_proxy using_no_shade(const kiwi::vertex_buffer& vertex_buffer) noexcept;
 
 		kiwi::_draw_instanced_basic_proxy using_solid_color_sprites(const kiwi::vertex_buffer& vertex_buffer,

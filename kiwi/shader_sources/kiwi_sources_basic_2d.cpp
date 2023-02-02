@@ -232,6 +232,53 @@ const char* const kiwi::source::basic_2d_plane_dist_texture::fragment_shader() n
 		;
 }
 
+const char* const kiwi::source::basic_2d_texture_quad::vertex_shader() noexcept
+{
+	return
+		"	#version 330 core									\n"
+		"	out vec2 UV;										\n"
+		"	uniform mat3 u_mvp_M;								\n"
+		"	uniform vec4 u_orig_size;							\n"
+		"	uniform float u_depth;								\n"
+
+		"	const vec2 quad[4] = {								\n"
+		"		vec2(0.0, 0.0),									\n"
+		"		vec2(1.0, 0.0),									\n"
+		"		vec2(1.0, 1.0),									\n"
+		"		vec2(0.0, 1.0)									\n"
+		"	};													\n"
+
+		"	void main()											\n"
+		"	{													\n"
+		"		UV = quad[gl_VertexID];							\n"
+
+		"		vec3 in_XYh = u_mvp_M							\n"
+		"			* vec3(u_orig_size.xy						\n"
+		"			+ u_orig_size.zw * UV, 1.0);				\n"
+
+		"		gl_Position = vec4(in_XYh[0], in_XYh[1],		\n"
+		"			u_depth, 1.0);								\n"
+		"	}													\n"
+		;
+}
+const char* const kiwi::source::basic_2d_texture_quad::fragment_shader() noexcept
+{
+	return
+		"	#version 330 core									\n"
+		"	in vec2 UV;											\n"
+		"	out vec4 out_color;									\n"
+		"	uniform sampler2D Tx;								\n"
+		"	uniform vec4 u_RGBAx;								\n"
+		"	uniform vec4 u_RGBAo;								\n"
+
+		"	void main()											\n"
+		"	{													\n"
+		"		out_color = u_RGBAx * texture(Tx, UV)			\n"
+		"			+ u_RGBAo;									\n"
+		"	}													\n"
+		;
+}
+
 const char* const kiwi::source::basic_2d_no_shade::vertex_shader() noexcept
 {
 	return
